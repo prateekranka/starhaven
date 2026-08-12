@@ -77,7 +77,6 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               environment: "github-pages",
-              ref: context.sha,
               per_page: 10,
             });
             const deployment = response.data.find((candidate) => String(candidate.sha) === context.sha);
