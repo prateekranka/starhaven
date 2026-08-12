@@ -1,0 +1,59 @@
+name: Starhaven
+
+options:
+  bundleIdPrefix: com.prateekranka
+  deploymentTarget:
+    iOS: "26.0"
+  createIntermediateGroups: true
+  developmentLanguage: en
+
+settings:
+  base:
+    SWIFT_VERSION: "6.2"
+    SWIFT_STRICT_CONCURRENCY: complete
+    IPHONEOS_DEPLOYMENT_TARGET: "26.0"
+    ENABLE_USER_SCRIPT_SANDBOXING: YES
+  configs:
+    Debug: {}
+    Release: {}
+
+targets:
+  Starhaven:
+    type: application
+    platform: iOS
+    sources:
+      - path: Starhaven
+        excludes:
+          - Resources/Info.plist
+          - Resources/Starhaven.entitlements
+    resources:
+      - path: Artifacts/GameDist
+        type: folder
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.prateekranka.starhaven
+        INFOPLIST_FILE: Starhaven/Resources/Info.plist
+        CODE_SIGN_ENTITLEMENTS: Starhaven/Resources/Starhaven.entitlements
+        ENABLE_USER_SCRIPT_SANDBOXING: YES
+    preBuildScripts:
+      - name: Verify staged Starhaven artifact
+        script: |
+          "${PROJECT_DIR}/../scripts/release/verify-xcode-dist.sh"
+        inputFileLists:
+          - "$(PROJECT_DIR)/Artifacts/GameDistInputs.xcfilelist"
+        outputFiles:
+          - "$(DERIVED_FILE_DIR)/starhaven-gamedist-verified.stamp"
+        basedOnDependencyAnalysis: true
+
+  StarhavenTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: StarhavenTests
+    dependencies:
+      - target: Starhaven
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.prateekranka.starhaven.tests
+        GENERATE_INFOPLIST_FILE: YES
+        ENABLE_USER_SCRIPT_SANDBOXING: YES

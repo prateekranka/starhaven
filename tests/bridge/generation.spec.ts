@@ -11,4 +11,14 @@ describe("bridge generation", () => {
     execFileSync("node", ["scripts/bridge/generate.mjs"], { cwd: root });
     expect(readFileSync(target, "utf8")).toBe(before);
   });
+
+  it("generates the native protocol mirror", () => {
+    const root = resolve(process.cwd());
+    const target = resolve(root, "ios", "Starhaven", "Bridge", "ProtocolGenerated.swift");
+    const before = readFileSync(target, "utf8");
+    execFileSync("node", ["scripts/bridge/generate.mjs"], { cwd: root });
+    expect(readFileSync(target, "utf8")).toBe(before);
+    expect(before).toContain("public static let version = 1");
+    expect(before).toContain("feedback.haptic");
+  });
 });

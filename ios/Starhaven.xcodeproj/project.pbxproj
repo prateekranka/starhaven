@@ -1,0 +1,507 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		00490B4F7F0124F55CC4274B /* NativeBridgeBootstrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47F59F098FF5B3ECCCC50EA /* NativeBridgeBootstrap.swift */; };
+		0FC4384BC81A91921552D13D /* StarhavenPauseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E195F72B4FA363FB54EDDCE9 /* StarhavenPauseView.swift */; };
+		12691238BE43506E75E38BC9 /* StarhavenResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CFA5A64D09882637F20FF05 /* StarhavenResultsView.swift */; };
+		1CCD13CFB435367E2EF3943A /* StarhavenRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C88CE96201B30D7F10124C05 /* StarhavenRootView.swift */; };
+		2AAE7E2D10C809A08E679F01 /* StarhavenSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A900E97AB1B28A5D0BA44DC /* StarhavenSetupView.swift */; };
+		2FBC6A0B3420B82533249ADA /* StarhavenApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1949682AF3756EF35A7670F3 /* StarhavenApp.swift */; };
+		401D507E53288F0B3BF6F4F6 /* BridgeProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD6D7B2DD4073427B48DA5DE /* BridgeProtocol.swift */; };
+		44A1BA7D922F2C457A535E91 /* StarhavenSchemeHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F1FE3DDAF270D1E860E232 /* StarhavenSchemeHandler.swift */; };
+		4B6B13105F2B137DB8193CBB /* StarhavenMatchControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB6E3B62C847EF99D4C16EA /* StarhavenMatchControlsView.swift */; };
+		533FDF4360102C7EE6F74DB0 /* SchemeRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F2AAD7C0B4C38FFEC4D6E6 /* SchemeRouter.swift */; };
+		61A006A382E85E08DF02F56D /* NativeHostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BFBAA63BCE5B602B47723EC /* NativeHostModel.swift */; };
+		6F113244F4C1797A083BB100 /* NativeWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93080D4320C870B7A9D2F299 /* NativeWebView.swift */; };
+		80ECDEBDC1515DBB31270125 /* ProtocolGenerated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B90440EEAF6BFC3AC080DB /* ProtocolGenerated.swift */; };
+		999764B6E723C5E0F0B85E64 /* StarhavenSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F16D9CB3E10200EEF05B5FA3 /* StarhavenSettingsView.swift */; };
+		99A58B97F9DE8C4419DB2FDD /* SnapshotStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B516C34DE34ADE63B989B3C /* SnapshotStore.swift */; };
+		BF6AC98B16FC43735D741C4F /* StarhavenTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FAAAB0A1A1B6144E554A59A4 /* StarhavenTitleView.swift */; };
+		D2BEB673CA65B3E99B2CFC82 /* BridgeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D4B5D804E30C4E0B5EDEE6 /* BridgeTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		DE9E3724E405CC7837D16BA9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8D6875A67D08F2A47EF5B9E6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 805721A999FF4395B31F9B98;
+			remoteInfo = Starhaven;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0C069A7F565CA7F63A25B742 /* StarhavenTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = StarhavenTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		1949682AF3756EF35A7670F3 /* StarhavenApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarhavenApp.swift; sourceTree = "<group>"; };
+		1CFA5A64D09882637F20FF05 /* StarhavenResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarhavenResultsView.swift; sourceTree = "<group>"; };
+		30B90440EEAF6BFC3AC080DB /* ProtocolGenerated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProtocolGenerated.swift; sourceTree = "<group>"; };
+		4AB6E3B62C847EF99D4C16EA /* StarhavenMatchControlsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarhavenMatchControlsView.swift; sourceTree = "<group>"; };
+		4B516C34DE34ADE63B989B3C /* SnapshotStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapshotStore.swift; sourceTree = "<group>"; };
+		73F2AAD7C0B4C38FFEC4D6E6 /* SchemeRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchemeRouter.swift; sourceTree = "<group>"; };
+		8A900E97AB1B28A5D0BA44DC /* StarhavenSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarhavenSetupView.swift; sourceTree = "<group>"; };
+		93080D4320C870B7A9D2F299 /* NativeWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeWebView.swift; sourceTree = "<group>"; };
+		9BFBAA63BCE5B602B47723EC /* NativeHostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeHostModel.swift; sourceTree = "<group>"; };
+		B3D4B5D804E30C4E0B5EDEE6 /* BridgeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BridgeTests.swift; sourceTree = "<group>"; };
+		C88CE96201B30D7F10124C05 /* StarhavenRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarhavenRootView.swift; sourceTree = "<group>"; };
+		CD6D7B2DD4073427B48DA5DE /* BridgeProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BridgeProtocol.swift; sourceTree = "<group>"; };
+		E195F72B4FA363FB54EDDCE9 /* StarhavenPauseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarhavenPauseView.swift; sourceTree = "<group>"; };
+		E1F1FE3DDAF270D1E860E232 /* StarhavenSchemeHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarhavenSchemeHandler.swift; sourceTree = "<group>"; };
+		EC04953C3ECB55BF371A081B /* Starhaven.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Starhaven.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F16D9CB3E10200EEF05B5FA3 /* StarhavenSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarhavenSettingsView.swift; sourceTree = "<group>"; };
+		F47F59F098FF5B3ECCCC50EA /* NativeBridgeBootstrap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeBridgeBootstrap.swift; sourceTree = "<group>"; };
+		FAAAB0A1A1B6144E554A59A4 /* StarhavenTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarhavenTitleView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		5A6E5CA6B16DF6D499F963DC /* Bridge */ = {
+			isa = PBXGroup;
+			children = (
+				CD6D7B2DD4073427B48DA5DE /* BridgeProtocol.swift */,
+				F47F59F098FF5B3ECCCC50EA /* NativeBridgeBootstrap.swift */,
+				9BFBAA63BCE5B602B47723EC /* NativeHostModel.swift */,
+				93080D4320C870B7A9D2F299 /* NativeWebView.swift */,
+				30B90440EEAF6BFC3AC080DB /* ProtocolGenerated.swift */,
+				73F2AAD7C0B4C38FFEC4D6E6 /* SchemeRouter.swift */,
+				4B516C34DE34ADE63B989B3C /* SnapshotStore.swift */,
+				E1F1FE3DDAF270D1E860E232 /* StarhavenSchemeHandler.swift */,
+			);
+			path = Bridge;
+			sourceTree = "<group>";
+		};
+		6406E01FFB383A7BDED28E5C = {
+			isa = PBXGroup;
+			children = (
+				7547E53688722502C75099F3 /* Starhaven */,
+				95B4174A4A6C79967E7B0CE5 /* StarhavenTests */,
+				869BD5AEB3790FCA5121D7CB /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		74DCA5C33B8BEF1C79079F97 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				1949682AF3756EF35A7670F3 /* StarhavenApp.swift */,
+				C88CE96201B30D7F10124C05 /* StarhavenRootView.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		7547E53688722502C75099F3 /* Starhaven */ = {
+			isa = PBXGroup;
+			children = (
+				74DCA5C33B8BEF1C79079F97 /* App */,
+				5A6E5CA6B16DF6D499F963DC /* Bridge */,
+				DC8434C40A40070709E396E5 /* Match */,
+				AABB158147D57888F38DFCC6 /* Menus */,
+			);
+			path = Starhaven;
+			sourceTree = "<group>";
+		};
+		869BD5AEB3790FCA5121D7CB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				EC04953C3ECB55BF371A081B /* Starhaven.app */,
+				0C069A7F565CA7F63A25B742 /* StarhavenTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		95B4174A4A6C79967E7B0CE5 /* StarhavenTests */ = {
+			isa = PBXGroup;
+			children = (
+				B3D4B5D804E30C4E0B5EDEE6 /* BridgeTests.swift */,
+			);
+			path = StarhavenTests;
+			sourceTree = "<group>";
+		};
+		AABB158147D57888F38DFCC6 /* Menus */ = {
+			isa = PBXGroup;
+			children = (
+				E195F72B4FA363FB54EDDCE9 /* StarhavenPauseView.swift */,
+				1CFA5A64D09882637F20FF05 /* StarhavenResultsView.swift */,
+				F16D9CB3E10200EEF05B5FA3 /* StarhavenSettingsView.swift */,
+				8A900E97AB1B28A5D0BA44DC /* StarhavenSetupView.swift */,
+				FAAAB0A1A1B6144E554A59A4 /* StarhavenTitleView.swift */,
+			);
+			path = Menus;
+			sourceTree = "<group>";
+		};
+		DC8434C40A40070709E396E5 /* Match */ = {
+			isa = PBXGroup;
+			children = (
+				4AB6E3B62C847EF99D4C16EA /* StarhavenMatchControlsView.swift */,
+			);
+			path = Match;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		805721A999FF4395B31F9B98 /* Starhaven */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 94D561706C9F60BD674FF5A9 /* Build configuration list for PBXNativeTarget "Starhaven" */;
+			buildPhases = (
+				196CE7A236CDC6A1D95CCF70 /* Verify staged Starhaven artifact */,
+				3CF2C9410C12694E1F3761D3 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Starhaven;
+			packageProductDependencies = (
+			);
+			productName = Starhaven;
+			productReference = EC04953C3ECB55BF371A081B /* Starhaven.app */;
+			productType = "com.apple.product-type.application";
+		};
+		A2C172BDE83A58E8052509DD /* StarhavenTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7FE54EB6C8731EC7687F63F5 /* Build configuration list for PBXNativeTarget "StarhavenTests" */;
+			buildPhases = (
+				C05C1D44743A9FAE0E508B29 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C81D48D31D14C2CEAA06B45A /* PBXTargetDependency */,
+			);
+			name = StarhavenTests;
+			packageProductDependencies = (
+			);
+			productName = StarhavenTests;
+			productReference = 0C069A7F565CA7F63A25B742 /* StarhavenTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		8D6875A67D08F2A47EF5B9E6 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+				};
+			};
+			buildConfigurationList = 8F8E0099148FA634B8776807 /* Build configuration list for PBXProject "Starhaven" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 6406E01FFB383A7BDED28E5C;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 869BD5AEB3790FCA5121D7CB /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				805721A999FF4395B31F9B98 /* Starhaven */,
+				A2C172BDE83A58E8052509DD /* StarhavenTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		196CE7A236CDC6A1D95CCF70 /* Verify staged Starhaven artifact */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"$(PROJECT_DIR)/Artifacts/GameDistInputs.xcfilelist",
+			);
+			inputPaths = (
+			);
+			name = "Verify staged Starhaven artifact";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/starhaven-gamedist-verified.stamp",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PROJECT_DIR}/../scripts/release/verify-xcode-dist.sh\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		3CF2C9410C12694E1F3761D3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				401D507E53288F0B3BF6F4F6 /* BridgeProtocol.swift in Sources */,
+				00490B4F7F0124F55CC4274B /* NativeBridgeBootstrap.swift in Sources */,
+				61A006A382E85E08DF02F56D /* NativeHostModel.swift in Sources */,
+				6F113244F4C1797A083BB100 /* NativeWebView.swift in Sources */,
+				80ECDEBDC1515DBB31270125 /* ProtocolGenerated.swift in Sources */,
+				533FDF4360102C7EE6F74DB0 /* SchemeRouter.swift in Sources */,
+				99A58B97F9DE8C4419DB2FDD /* SnapshotStore.swift in Sources */,
+				2FBC6A0B3420B82533249ADA /* StarhavenApp.swift in Sources */,
+				4B6B13105F2B137DB8193CBB /* StarhavenMatchControlsView.swift in Sources */,
+				0FC4384BC81A91921552D13D /* StarhavenPauseView.swift in Sources */,
+				12691238BE43506E75E38BC9 /* StarhavenResultsView.swift in Sources */,
+				1CCD13CFB435367E2EF3943A /* StarhavenRootView.swift in Sources */,
+				44A1BA7D922F2C457A535E91 /* StarhavenSchemeHandler.swift in Sources */,
+				999764B6E723C5E0F0B85E64 /* StarhavenSettingsView.swift in Sources */,
+				2AAE7E2D10C809A08E679F01 /* StarhavenSetupView.swift in Sources */,
+				BF6AC98B16FC43735D741C4F /* StarhavenTitleView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C05C1D44743A9FAE0E508B29 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D2BEB673CA65B3E99B2CFC82 /* BridgeTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		C81D48D31D14C2CEAA06B45A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 805721A999FF4395B31F9B98 /* Starhaven */;
+			targetProxy = DE9E3724E405CC7837D16BA9 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		13A089CAF9034600284EF284 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.prateekranka.starhaven.tests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Starhaven.app/Starhaven";
+			};
+			name = Release;
+		};
+		4B5A39E11E234952D06B2501 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Starhaven/Resources/Starhaven.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				INFOPLIST_FILE = Starhaven/Resources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.prateekranka.starhaven;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		8482065099FC7AED333D1844 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.2;
+			};
+			name = Debug;
+		};
+		C07829897A205E19C65A2C13 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.2;
+			};
+			name = Release;
+		};
+		D7E5B7649603D9E11020A039 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.prateekranka.starhaven.tests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Starhaven.app/Starhaven";
+			};
+			name = Debug;
+		};
+		F8D5563D599457C6B2947F4B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Starhaven/Resources/Starhaven.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				INFOPLIST_FILE = Starhaven/Resources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.prateekranka.starhaven;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		7FE54EB6C8731EC7687F63F5 /* Build configuration list for PBXNativeTarget "StarhavenTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D7E5B7649603D9E11020A039 /* Debug */,
+				13A089CAF9034600284EF284 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		8F8E0099148FA634B8776807 /* Build configuration list for PBXProject "Starhaven" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8482065099FC7AED333D1844 /* Debug */,
+				C07829897A205E19C65A2C13 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		94D561706C9F60BD674FF5A9 /* Build configuration list for PBXNativeTarget "Starhaven" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F8D5563D599457C6B2947F4B /* Debug */,
+				4B5A39E11E234952D06B2501 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 8D6875A67D08F2A47EF5B9E6 /* Project object */;
+}
