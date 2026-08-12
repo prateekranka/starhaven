@@ -1,0 +1,19 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Playwright output
+test-results/
+playwright-report/
+blob-report/
+
+# Coverage
+coverage/
+
+# Xcode
+DerivedData/
+xcuserdata/
+*.xcresult
+ios/Artifacts/GameDist/

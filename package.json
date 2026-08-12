@@ -1,0 +1,30 @@
+{
+  "name": "starhaven-bright-frontier",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "npm run typecheck && vite build && node scripts/release/build-info.mjs",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "test": "vitest run",
+    "test:browser": "playwright test tests/browser --workers=1",
+    "verify:offline": "node scripts/verify-offline.mjs",
+    "verify:no-openai": "node scripts/verify-no-openai.mjs",
+    "verify:evidence": "node scripts/verify-evidence.mjs"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.62.1",
+    "@types/node": "24.10.1",
+    "eslint": "10.8.1",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.67.0",
+    "vite": "7.3.6",
+    "vitest": "4.1.10"
+  }
+}
