@@ -26,9 +26,9 @@ targets:
         excludes:
           - Resources/Info.plist
           - Resources/Starhaven.entitlements
-    resources:
       - path: Artifacts/GameDist
         type: folder
+        buildPhase: resources
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.prateekranka.starhaven

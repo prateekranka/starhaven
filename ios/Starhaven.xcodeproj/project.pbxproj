@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		00490B4F7F0124F55CC4274B /* NativeBridgeBootstrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = F47F59F098FF5B3ECCCC50EA /* NativeBridgeBootstrap.swift */; };
+		0254DBCEF34ACE48E8212220 /* GameDist in Resources */ = {isa = PBXBuildFile; fileRef = 8FEAF1B652F05842A3C83DF0 /* GameDist */; };
 		0FC4384BC81A91921552D13D /* StarhavenPauseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E195F72B4FA363FB54EDDCE9 /* StarhavenPauseView.swift */; };
 		12691238BE43506E75E38BC9 /* StarhavenResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CFA5A64D09882637F20FF05 /* StarhavenResultsView.swift */; };
 		1CCD13CFB435367E2EF3943A /* StarhavenRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C88CE96201B30D7F10124C05 /* StarhavenRootView.swift */; };
@@ -45,6 +46,7 @@
 		4B516C34DE34ADE63B989B3C /* SnapshotStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapshotStore.swift; sourceTree = "<group>"; };
 		73F2AAD7C0B4C38FFEC4D6E6 /* SchemeRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchemeRouter.swift; sourceTree = "<group>"; };
 		8A900E97AB1B28A5D0BA44DC /* StarhavenSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarhavenSetupView.swift; sourceTree = "<group>"; };
+		8FEAF1B652F05842A3C83DF0 /* GameDist */ = {isa = PBXFileReference; lastKnownFileType = folder; name = GameDist; path = Artifacts/GameDist; sourceTree = SOURCE_ROOT; };
 		93080D4320C870B7A9D2F299 /* NativeWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeWebView.swift; sourceTree = "<group>"; };
 		9BFBAA63BCE5B602B47723EC /* NativeHostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NativeHostModel.swift; sourceTree = "<group>"; };
 		B3D4B5D804E30C4E0B5EDEE6 /* BridgeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BridgeTests.swift; sourceTree = "<group>"; };
@@ -77,6 +79,7 @@
 		6406E01FFB383A7BDED28E5C = {
 			isa = PBXGroup;
 			children = (
+				88EE31150579B84DD80C9F08 /* Artifacts */,
 				7547E53688722502C75099F3 /* Starhaven */,
 				95B4174A4A6C79967E7B0CE5 /* StarhavenTests */,
 				869BD5AEB3790FCA5121D7CB /* Products */,
@@ -110,6 +113,14 @@
 				0C069A7F565CA7F63A25B742 /* StarhavenTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		88EE31150579B84DD80C9F08 /* Artifacts */ = {
+			isa = PBXGroup;
+			children = (
+				8FEAF1B652F05842A3C83DF0 /* GameDist */,
+			);
+			path = Artifacts;
 			sourceTree = "<group>";
 		};
 		95B4174A4A6C79967E7B0CE5 /* StarhavenTests */ = {
@@ -149,6 +160,7 @@
 			buildPhases = (
 				196CE7A236CDC6A1D95CCF70 /* Verify staged Starhaven artifact */,
 				3CF2C9410C12694E1F3761D3 /* Sources */,
+				9B512925322CE40B939F61AB /* Resources */,
 			);
 			buildRules = (
 			);
@@ -209,6 +221,17 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		9B512925322CE40B939F61AB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0254DBCEF34ACE48E8212220 /* GameDist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
 		196CE7A236CDC6A1D95CCF70 /* Verify staged Starhaven artifact */ = {
