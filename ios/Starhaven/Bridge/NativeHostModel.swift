@@ -309,7 +309,7 @@ extension StarhavenJSONValue {
 }
 
 extension NativeHostModel: WKScriptMessageHandler, WKNavigationDelegate, WKUIDelegate {
-    nonisolated func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
+    func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
         let data: Data?
         if let string = message.body as? String {
             data = string.data(using: .utf8)
@@ -327,21 +327,21 @@ extension NativeHostModel: WKScriptMessageHandler, WKNavigationDelegate, WKUIDel
         }
     }
 
-    nonisolated func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+    func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         Task { @MainActor [weak self] in
             guard let self else { return }
             self.send(type: "host.ready", payload: .object(["build": .string(self.buildIdentity), "bridgeVersion": .number(1)]))
         }
     }
 
-    nonisolated func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping @MainActor (WKNavigationActionPolicy) -> Void) {
+    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping @MainActor (WKNavigationActionPolicy) -> Void) {
         let allowed = StarhavenNavigationPolicy.allows(navigationAction.request.url)
         Task { @MainActor in decisionHandler(allowed ? .allow : .cancel) }
     }
 
-    nonisolated func webViewWebContentProcessDidTerminate(_ webView: WKWebView) {
+    func webViewWebContentProcessDidTerminate(_ webView: WKWebView) {
         Task { @MainActor [weak self] in self?.recoverAfterTermination() }
     }
 
-    nonisolated func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration, for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? { nil }
+    func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration, for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? { nil }
 }
