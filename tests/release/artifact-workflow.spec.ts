@@ -43,7 +43,14 @@ describe("release artifact workflow", () => {
     const temporaryRoot = mkdtempSync(join(repositoryRoot, "release-test-"));
     const stagedRoot = join(temporaryRoot, "staged");
     try {
-      const dirtyResult = spawnSync(process.execPath, ["scripts/release/stage-dist.mjs", "--source", distRoot, "--target", stagedRoot, "--expected-sha", sourceSha], { cwd: repositoryRoot, encoding: "utf8" });
+      const dirtyDist = join(temporaryRoot, "dirty-dist");
+      cpSync(distRoot, dirtyDist, { recursive: true });
+      const dirtyInfoPath = join(dirtyDist, "build-info.json");
+      const dirtyInfo = JSON.parse(readFileSync(dirtyInfoPath, "utf8")) as Record<string, unknown>;
+      dirtyInfo.clean = false;
+      dirtyInfo.displaySha = `${sourceSha.slice(0, 9)}-dirty`;
+      writeFileSync(dirtyInfoPath, `${JSON.stringify(dirtyInfo, null, 2)}\n`);
+      const dirtyResult = spawnSync(process.execPath, ["scripts/release/stage-dist.mjs", "--source", dirtyDist, "--target", stagedRoot, "--expected-sha", sourceSha], { cwd: repositoryRoot, encoding: "utf8" });
       expect(dirtyResult.status).toBe(1);
       expect(`${dirtyResult.stdout}${dirtyResult.stderr}`).toContain("staging requires clean build-info");
 
