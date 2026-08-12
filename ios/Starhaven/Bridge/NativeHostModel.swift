@@ -50,10 +50,13 @@ final class NativeHostModel: NSObject, ObservableObject {
     private(set) var webView: WKWebView?
     private let stagedRootURL: URL
     private let snapshotStore = StarhavenSnapshotStore()
-    private let schemeHandler: StarhavenSchemeHandler
+    private var schemeHandler: StarhavenSchemeHandler
     private var sequence = 0
     private var waitingForFinalSnapshot = false
     private var backgrounded = false
+    private var restoreAfterTermination = false
+    private var pendingMessages: [(type: String, payload: StarhavenJSONValue)] = []
+    private var snapshotTask: Task<Void, Never>?
     private var currentSeed: UInt32 = 0x4d455249
 
     init(stagedRootURL: URL) {
@@ -78,6 +81,7 @@ final class NativeHostModel: NSObject, ObservableObject {
 
     func startMatch(seed: UInt32, faction: String, difficulty: String) {
         currentSeed = seed
+        snapshotStore.clear()
         result = nil
         screen = .match
         send(type: "match.start", payload: .object([
@@ -100,6 +104,7 @@ final class NativeHostModel: NSObject, ObservableObject {
     func rematch() {
         var generator = SystemRandomNumberGenerator()
         currentSeed = UInt32.random(in: .min ... .max, using: &generator)
+        snapshotStore.clear()
         result = nil
         screen = .match
         send(type: "match.rematch", payload: .object(["seed": .number(Double(currentSeed))]))
@@ -135,7 +140,7 @@ final class NativeHostModel: NSObject, ObservableObject {
         case .active:
             backgrounded = false
             send(type: "lifecycle.foreground", payload: .object([:]))
-            if screen == .match { send(type: "match.resume", payload: .object([:])) }
+            if screen == .match && !isRestoring { send(type: "match.resume", payload: .object([:])) }
         case .inactive:
             break
         @unknown default:
@@ -157,6 +162,7 @@ final class NativeHostModel: NSObject, ObservableObject {
     #endif
 
     private func createWebView() {
+        schemeHandler = StarhavenSchemeHandler(rootURL: stagedRootURL)
         let configuration = WKWebViewConfiguration()
         configuration.allowsInlineMediaPlayback = true
         configuration.mediaTypesRequiringUserActionForPlayback = []
@@ -181,6 +187,8 @@ final class NativeHostModel: NSObject, ObservableObject {
     private func releaseWebViewAfterSnapshotAcknowledgement() {
         guard waitingForFinalSnapshot else { return }
         waitingForFinalSnapshot = false
+        snapshotTask?.cancel()
+        snapshotTask = nil
         webView?.navigationDelegate = nil
         webView?.uiDelegate = nil
         webView?.configuration.userContentController.removeScriptMessageHandler(forName: "starhaven")
@@ -191,6 +199,7 @@ final class NativeHostModel: NSObject, ObservableObject {
     }
 
     private func recoverAfterTermination() {
+        restoreAfterTermination = screen == .match || screen == .pause || isRestoring
         webView?.navigationDelegate = nil
         webView?.uiDelegate = nil
         webView = nil
@@ -201,7 +210,16 @@ final class NativeHostModel: NSObject, ObservableObject {
     }
 
     private func send(type: String, payload: StarhavenJSONValue) {
-        guard let webView, StarhavenProtocol.nativeToGameTypes.contains(type) else { return }
+        guard StarhavenProtocol.nativeToGameTypes.contains(type) else { return }
+        guard webView != nil, type == "host.ready" || webReady else {
+            pendingMessages.append((type: type, payload: payload))
+            return
+        }
+        sendImmediately(type: type, payload: payload)
+    }
+
+    private func sendImmediately(type: String, payload: StarhavenJSONValue) {
+        guard let webView else { return }
         let message = StarhavenEnvelope(id: "native-\(sequence)", sequence: sequence, source: "native", type: type, payload: payload)
         sequence += 1
         let arguments: [String: Any] = ["message": [
@@ -221,6 +239,29 @@ final class NativeHostModel: NSObject, ObservableObject {
         }
     }
 
+    private func flushPendingMessages() {
+        let messages = pendingMessages
+        pendingMessages.removeAll(keepingCapacity: true)
+        for message in messages { send(type: message.type, payload: message.payload) }
+    }
+
+    private func startSnapshotPersistence() {
+        guard snapshotTask == nil else { return }
+        snapshotTask = Task { @MainActor [weak self] in
+            while !Task.isCancelled {
+                do {
+                    try await Task.sleep(for: .seconds(5))
+                } catch {
+                    break
+                }
+                guard let self else { break }
+                if self.screen == .match && self.webReady && !self.backgrounded {
+                    self.send(type: "snapshot.request", payload: .object(["reason": .string("periodic")]))
+                }
+            }
+        }
+    }
+
     private func handleGameMessage(_ data: Data) {
         do {
             let message = try StarhavenBridgeCodec.decode(data, expectedSource: "game")
@@ -228,15 +269,26 @@ final class NativeHostModel: NSObject, ObservableObject {
             switch message.type {
             case "runtime.ready":
                 webReady = true
-                if let snapshot = snapshotStore.load() {
+                flushPendingMessages()
+                if restoreAfterTermination, let snapshot = snapshotStore.load() {
+                    restoreAfterTermination = false
                     isRestoring = true
+                    screen = .match
                     send(type: "match.restore", payload: .object([
                         "tick": .number(Double(snapshot.tick)),
                         "checksum": .string(snapshot.checksum),
                         "seed": .number(Double(snapshot.seed)),
                         "paused": .boolean(snapshot.paused),
                     ]))
+                } else {
+                    restoreAfterTermination = false
+                    isRestoring = false
+                    if !backgrounded {
+                        send(type: "lifecycle.foreground", payload: .object([:]))
+                        if screen == .match { send(type: "match.resume", payload: .object([:])) }
+                    }
                 }
+                startSnapshotPersistence()
             case "match.started":
                 screen = .match
             case "match.ended":
@@ -252,7 +304,12 @@ final class NativeHostModel: NSObject, ObservableObject {
                 send(type: "snapshot.ack", payload: .object(["acknowledged": .boolean(true)]))
             case "restore.completed":
                 isRestoring = false
-                send(type: "lifecycle.foreground", payload: .object([:]))
+                if backgrounded {
+                    send(type: "lifecycle.background", payload: .object([:]))
+                } else {
+                    send(type: "lifecycle.foreground", payload: .object([:]))
+                    if screen == .match { send(type: "match.resume", payload: .object([:])) }
+                }
             case "protocol.error":
                 record("protocol error received")
             case "pause.requested", "returnMenu.requested":
@@ -288,6 +345,10 @@ final class NativeHostModel: NSObject, ObservableObject {
 
     private func record(_ message: String) {
         eventLog = Array((eventLog + [message]).suffix(80))
+    }
+
+    deinit {
+        snapshotTask?.cancel()
     }
 
     var buildIdentity: String {

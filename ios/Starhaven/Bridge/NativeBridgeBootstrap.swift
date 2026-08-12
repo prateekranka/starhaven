@@ -55,7 +55,7 @@ public enum StarhavenNativeBridgeBootstrap {
             document.documentElement.dataset.reducedMotion = payload.reducedMotion ? "true" : "false";
           } else if (message.type === "match.start") {
             const nextURL = new URL(window.location.href);
-            nextURL.search = `?demo=vertical-slice&seed=${encodeURIComponent(payload.seed || "")}`;
+            nextURL.search = `?demo=vertical-slice&seed=${encodeURIComponent(payload.seed ?? "")}&faction=${encodeURIComponent(payload.faction || "sunwoven")}&difficulty=${encodeURIComponent(payload.difficulty || "standard")}`;
             window.location.assign(nextURL.toString());
           } else if (message.type === "match.pause") {
             if (!document.querySelector('[data-testid="pause-overlay"]')) click('[data-action="pause"]');
@@ -82,8 +82,32 @@ public enum StarhavenNativeBridgeBootstrap {
           observeState();
         }
       };
-      document.addEventListener("DOMContentLoaded", observeState, { once: true });
-      new MutationObserver(observeState).observe(document.documentElement, { childList: true, subtree: true });
+      const autoLaunchFromQuery = () => {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get("demo") !== "vertical-slice") return;
+        const titleStart = document.querySelector('[data-action="start"]');
+        if (titleStart) {
+          titleStart.click();
+          return;
+        }
+        if (!document.querySelector('[data-testid="setup-screen"]')) return;
+        const faction = params.get("faction");
+        if (faction === "gravemark") document.querySelector('[data-faction="gravemark"]')?.click();
+        const difficulty = params.get("difficulty");
+        const difficultyInput = document.querySelector('[data-setup="difficulty"]');
+        if (difficultyInput && difficulty) difficultyInput.value = difficulty;
+        const seedInput = document.querySelector('[data-setup="seed"]');
+        if (seedInput) seedInput.value = params.get("seed") || "";
+        document.querySelector('[data-action="launch"]')?.click();
+      };
+      const startObserver = () => {
+        autoLaunchFromQuery();
+        observeState();
+        const root = document.documentElement;
+        if (root) new MutationObserver(observeState).observe(root, { childList: true, subtree: true });
+      };
+      if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", startObserver, { once: true });
+      else startObserver();
     })();
     """#
 }
