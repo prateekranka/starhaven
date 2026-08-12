@@ -1,6 +1,15 @@
 import { BALANCE_V1 } from "../content/balance.v1";
 import type { UnitKind } from "../content/schema";
-import { distanceSquared, type FixedPoint2 } from "./fixed";
+import { distanceSquared, fixedDirectionQ15, type FixedPoint2 } from "./fixed";
+
+const LUNGE_MELEE_RANGE_Q10 = 1_331;
+const LUNGE_MAX_RANGE_Q10 = 4_301;
+const LUNGE_STEP_Q10 = 251;
+const LUNGE_MAX_CHARGE_TICKS = 12;
+const ARENA_MIN_X_Q10 = 0;
+const ARENA_MAX_X_Q10 = 48 * 1_024;
+const ARENA_MIN_Y_Q10 = 0;
+const ARENA_MAX_Y_Q10 = 32 * 1_024;
 
 export interface CombatUnit {
   id: number;
@@ -38,6 +47,7 @@ export interface LungeState {
   directionXQ15: number;
   directionYQ15: number;
   cooldownReadyTick: number;
+  contacted: boolean;
 }
 
 export function startAttack(attacker: CombatUnit, target: CombatUnit, currentTick: number): AttackState {
@@ -50,6 +60,7 @@ export function resolveAttackTick(attack: AttackState, attacker: CombatUnit | un
   const target = units.find((unit) => unit.id === attack.targetId);
   if (!target || target.health <= 0 || target.faction === attacker.faction) return null;
   const definition = BALANCE_V1.units[attacker.kind];
+  if (distanceSquared({ x: attacker.xQ10, y: attacker.yQ10 }, { x: target.xQ10, y: target.yQ10 }) > definition.rangeQ10 * definition.rangeQ10) return null;
   const elapsed = currentTick - attack.startedTick;
   const firstHit = elapsed === BALANCE_V1.attack.damageTickOffset;
   const repeatHit = elapsed > BALANCE_V1.attack.damageTickOffset && attack.lastDamageTick >= 0 && currentTick - attack.lastDamageTick >= definition.cadenceTicks;
@@ -73,26 +84,28 @@ export function resolveAttackTick(attack: AttackState, attacker: CombatUnit | un
 export function canStartStoneguardLunge(attacker: CombatUnit, target: CombatUnit, currentTick: number, cooldownReadyTick: number): boolean {
   if (attacker.kind !== "stoneguard" || attacker.faction === target.faction || currentTick < cooldownReadyTick) return false;
   const distance = distanceSquared({ x: attacker.xQ10, y: attacker.yQ10 }, { x: target.xQ10, y: target.yQ10 });
-  return distance >= 1_331 * 1_331 && distance <= 4_301 * 4_301;
+  return distance >= LUNGE_MELEE_RANGE_Q10 * LUNGE_MELEE_RANGE_Q10 && distance <= LUNGE_MAX_RANGE_Q10 * LUNGE_MAX_RANGE_Q10;
 }
 
 export function startStoneguardLunge(attacker: CombatUnit, target: CombatUnit, currentTick: number, cooldownReadyTick: number): LungeState {
   if (!canStartStoneguardLunge(attacker, target, currentTick, cooldownReadyTick)) throw new Error("Stoneguard Lunge is not valid");
-  const deltaX = target.xQ10 - attacker.xQ10;
-  const deltaY = target.yQ10 - attacker.yQ10;
-  const directionXQ15 = deltaX === 0 ? 0 : deltaX > 0 ? 32_768 : -32_768;
-  const directionYQ15 = deltaY === 0 ? 0 : deltaY > 0 ? 32_768 : -32_768;
-  return { attackerId: attacker.id, targetId: target.id, active: true, startedTick: currentTick, chargeTicks: 0, directionXQ15, directionYQ15, cooldownReadyTick: currentTick + 160 };
+  const direction = fixedDirectionQ15(target.xQ10 - attacker.xQ10, target.yQ10 - attacker.yQ10);
+  return { attackerId: attacker.id, targetId: target.id, active: true, startedTick: currentTick, chargeTicks: 0, directionXQ15: direction.x, directionYQ15: direction.y, cooldownReadyTick: currentTick + 160, contacted: false };
 }
 
 export function advanceStoneguardLunge(lunge: LungeState, attacker: CombatUnit | undefined, target: CombatUnit | undefined, currentTick: number): boolean {
   if (!lunge.active || !attacker || !target || attacker.health <= 0 || target.health <= 0) return false;
   lunge.chargeTicks += 1;
-  const stepQ10 = 251;
-  attacker.xQ10 += Math.trunc(lunge.directionXQ15 * stepQ10 / 32_768);
-  attacker.yQ10 += Math.trunc(lunge.directionYQ15 * stepQ10 / 32_768);
-  const reached = distanceSquared({ x: attacker.xQ10, y: attacker.yQ10 }, { x: target.xQ10, y: target.yQ10 }) <= 1_331 * 1_331;
-  if (reached || lunge.chargeTicks >= 12 || currentTick - lunge.startedTick >= 12) lunge.active = false;
+  const nextX = attacker.xQ10 + Math.trunc(lunge.directionXQ15 * LUNGE_STEP_Q10 / 32_768);
+  const nextY = attacker.yQ10 + Math.trunc(lunge.directionYQ15 * LUNGE_STEP_Q10 / 32_768);
+  const boundedX = Math.max(ARENA_MIN_X_Q10, Math.min(ARENA_MAX_X_Q10, nextX));
+  const boundedY = Math.max(ARENA_MIN_Y_Q10, Math.min(ARENA_MAX_Y_Q10, nextY));
+  const blocked = boundedX !== nextX || boundedY !== nextY;
+  attacker.xQ10 = boundedX;
+  attacker.yQ10 = boundedY;
+  const reached = distanceSquared({ x: attacker.xQ10, y: attacker.yQ10 }, { x: target.xQ10, y: target.yQ10 }) <= LUNGE_MELEE_RANGE_Q10 * LUNGE_MELEE_RANGE_Q10;
+  if (reached) lunge.contacted = true;
+  if (reached || blocked || lunge.chargeTicks >= LUNGE_MAX_CHARGE_TICKS || currentTick - lunge.startedTick >= LUNGE_MAX_CHARGE_TICKS) lunge.active = false;
   return !lunge.active;
 }
 

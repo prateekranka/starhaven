@@ -1,5 +1,7 @@
 import * as THREE from "three";
 import { runBaselineAi } from "../game/ai/controller";
+import { createFeedbackController } from "../feedback/feedback";
+import { mountSettingsView, type SettingsViewHandle } from "../browser-shell/settings/settings-view";
 import { BALANCE_V1 } from "../game/content/balance.v1";
 import type { Faction } from "../game/content/schema";
 import { SkirmishMatch, type MatchConfig, type MatchEvent, type SkirmishSnapshot } from "../game/sim/match";
@@ -11,6 +13,8 @@ import { DimetricCamera } from "./camera";
 import { StarhavenRenderer } from "./renderer";
 import { createTerrain } from "./terrain";
 import { UnitSpriteBatch } from "./sprite-batch";
+import { OcclusionSilhouettePass } from "./occlusion-pass";
+import { PERFORMANCE_BUDGET } from "./performance-budget";
 import { q10FromWorld, worldFromQ10 } from "../game/sim/fixed";
 
 const WORLD_OFFSET_X = 24;
@@ -43,7 +47,7 @@ export interface PlayableMatchHandle {
 }
 
 export function mountPlayableMatch(root: HTMLElement, config: MatchConfig, options: PlayableMatchOptions): PlayableMatchHandle {
-  root.innerHTML = `<main class="match-screen playable-match" data-testid="playable-match"><canvas class="match-canvas" aria-label="Meridian Breach game board"></canvas><button class="match-exit" data-action="exit" type="button">← Title</button><div class="match-runtime-label" data-testid="runtime-placeholder">MATCH RUNTIME / 20 HZ</div><section class="playable-panel" aria-label="Match status"><div class="playable-panel__line"><span class="playable-panel__label">FLUX</span><strong data-match="flux">260</strong><span class="playable-panel__label">POP</span><strong data-match="population">3 / 18</strong><span class="playable-panel__label">AI</span><strong data-match="ai">Opening</strong></div><div class="playable-panel__line"><span class="playable-panel__label">NORTH</span><strong data-match="north">NEUTRAL</strong><span class="playable-panel__label">SOUTH</span><strong data-match="south">NEUTRAL</strong><span class="playable-panel__label">ENGINE</span><strong data-match="engine">DORMANT</strong></div></section><section class="playable-events" aria-live="polite"><p class="playable-events__title">EVENT LOG</p><div data-match="events">Awaiting first order.</div></section><section class="playable-actions" aria-label="Match actions"><button data-action="select" type="button">Select force</button><button data-action="move" type="button">Move to Engine</button><button data-action="attack" type="button">Attack</button><button data-action="build" type="button">Build Lattice</button><button data-action="produce" type="button">Produce</button><button class="playable-actions__pause" data-action="pause" type="button">Pause</button></section></main>`;
+  root.innerHTML = `<main class="match-screen playable-match" data-testid="playable-match"><canvas class="match-canvas" aria-label="Meridian Breach game board"></canvas><button class="match-exit" data-action="exit" type="button">← Title</button><div class="match-runtime-label" data-testid="runtime-placeholder">MATCH RUNTIME / 20 HZ</div><section class="playable-panel" aria-label="Match status"><div class="playable-panel__line"><span class="playable-panel__label">FLUX</span><strong data-match="flux">260</strong><span class="playable-panel__label">POP</span><strong data-match="population">3 / 18</strong><span class="playable-panel__label">AI</span><strong data-match="ai">Opening</strong></div><div class="playable-panel__line"><span class="playable-panel__label">NORTH</span><strong data-match="north">NEUTRAL</strong><span class="playable-panel__label">SOUTH</span><strong data-match="south">NEUTRAL</strong><span class="playable-panel__label">ENGINE</span><strong data-match="engine">DORMANT</strong></div></section><section class="playable-events" aria-live="polite"><p class="playable-events__title">EVENT LOG</p><div data-match="events">Awaiting first order.</div></section><section class="playable-actions" aria-label="Match actions"><button data-action="select" type="button">Select force</button><button data-action="move" type="button">Move to Engine</button><button data-action="attack" type="button">Attack</button><button data-action="build" type="button">Build Lattice</button><button data-action="produce" type="button">Produce</button><button data-action="settings" type="button" aria-label="Open match settings">Settings</button><button class="playable-actions__pause" data-action="pause" type="button">Pause</button></section></main>`;
   const surface = root.querySelector<HTMLElement>(".match-screen");
   const canvas = root.querySelector<HTMLCanvasElement>(".match-canvas");
   if (!surface || !canvas) throw new Error("Playable match surface failed to mount");
@@ -52,11 +56,17 @@ export function mountPlayableMatch(root: HTMLElement, config: MatchConfig, optio
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(0x0c1023);
   const camera = new DimetricCamera();
-  const renderer = new StarhavenRenderer({ canvas });
+  const feedback = createFeedbackController();
+  const renderer = new StarhavenRenderer({ canvas, quality: feedback.settings().renderQuality });
+  surface.dataset.maxCombinedUnits = String(PERFORMANCE_BUDGET.maxCombinedUnits);
+  surface.dataset.maxProjectiles = String(PERFORMANCE_BUDGET.maxProjectiles);
+  surface.dataset.renderQuality = feedback.settings().renderQuality;
+  surface.dataset.pixelRatio = String(renderer.pixelRatio());
   const terrain = createTerrain();
   const objectiveLayer = createObjectiveLayer();
   const units = new UnitSpriteBatch();
-  scene.add(terrain, objectiveLayer, units.mesh);
+  const occlusion = new OcclusionSilhouettePass();
+  scene.add(terrain, objectiveLayer, units.mesh, occlusion.group);
   const hud = createMatchHud(surface);
   const selectedFaction = config.playerFaction;
   const aiFaction: Faction = selectedFaction === "sunwoven" ? "gravemark" : "sunwoven";
@@ -68,12 +78,19 @@ export function mountPlayableMatch(root: HTMLElement, config: MatchConfig, optio
   let animationFrame = 0;
   let previous = performance.now();
   let accumulator = 0;
+  let settingsView: SettingsViewHandle | null = null;
 
   const pointer = new PointerController(canvas, (action) => {
-    if (action.type === "move") match.queueMove(selectedFaction, selectedIds(), action.xQ10, action.yQ10);
+    if (action.type === "move") {
+      match.queueMove(selectedFaction, selectedIds(), action.xQ10, action.yQ10);
+      feedback.emit("orderAccepted");
+    }
     if (action.type === "attack") {
       const target = match.snapshot().units.find((unit) => unit.faction !== selectedFaction && unit.health > 0);
-      if (target) match.queueAttack(selectedFaction, selectedIds(), target.id);
+      if (target) {
+        match.queueAttack(selectedFaction, selectedIds(), target.id);
+        feedback.emit("orderAccepted");
+      } else feedback.emit("invalidOrder");
     }
   });
   selectOwnedUnits();
@@ -81,17 +98,36 @@ export function mountPlayableMatch(root: HTMLElement, config: MatchConfig, optio
   root.querySelector<HTMLButtonElement>("[data-action='select']")?.addEventListener("click", selectOwnedUnits);
   root.querySelector<HTMLButtonElement>("[data-action='move']")?.addEventListener("click", () => {
     match.queueMove(selectedFaction, selectedIds(), q10FromWorld(24), q10FromWorld(16));
+    feedback.emit("orderAccepted");
   });
   root.querySelector<HTMLButtonElement>("[data-action='attack']")?.addEventListener("click", () => {
     const target = match.snapshot().units.find((unit) => unit.faction !== selectedFaction && unit.health > 0);
-    if (target) match.queueAttack(selectedFaction, selectedIds(), target.id);
+    if (target) {
+      match.queueAttack(selectedFaction, selectedIds(), target.id);
+      feedback.emit("orderAccepted");
+    } else feedback.emit("invalidOrder");
   });
   root.querySelector<HTMLButtonElement>("[data-action='build']")?.addEventListener("click", () => {
     const builder = match.snapshot().units.find((unit) => unit.faction === selectedFaction && (unit.kind === "loomkeeper" || unit.kind === "prospector") && unit.health > 0);
-    if (builder) match.queueBuild(selectedFaction, [builder.id], "latticeField", q10FromWorld(22), q10FromWorld(selectedFaction === "sunwoven" ? 8 : 24));
+    if (builder) {
+      match.queueBuild(selectedFaction, [builder.id], "latticeField", q10FromWorld(22), q10FromWorld(selectedFaction === "sunwoven" ? 8 : 24));
+      feedback.emit("orderAccepted");
+    } else feedback.emit("invalidOrder");
   });
   root.querySelector<HTMLButtonElement>("[data-action='produce']")?.addEventListener("click", () => {
     match.queueProduction(selectedFaction, selectedFaction === "sunwoven" ? "gleamrunner" : "stoneguard");
+    feedback.emit("orderAccepted");
+  });
+  root.querySelector<HTMLButtonElement>("[data-action='settings']")?.addEventListener("click", () => {
+    settingsView?.dispose();
+    settingsView = mountSettingsView(surface, feedback, () => {
+      settingsView?.dispose();
+      settingsView = null;
+    }, (settings) => {
+      renderer.setQuality(settings.renderQuality);
+      surface.dataset.renderQuality = settings.renderQuality;
+      surface.dataset.pixelRatio = String(renderer.pixelRatio());
+    });
   });
   root.querySelector<HTMLButtonElement>("[data-action='pause']")?.addEventListener("click", options.callbacks.onPause);
   root.querySelector<HTMLButtonElement>("[data-action='exit']")?.addEventListener("click", options.callbacks.onExit);
@@ -124,6 +160,7 @@ export function mountPlayableMatch(root: HTMLElement, config: MatchConfig, optio
   const advanceOneTick = (): void => {
     const events = match.step();
     latestEvents = [...events, ...latestEvents].slice(0, 5);
+    if (events.some((event) => event.type === "fractureOpened")) feedback.emit("fracture");
     applyDemoTimeline();
     const decision = options.demoMode ? null : runBaselineAi(match, aiFaction, config.difficulty);
     if (decision) latestAi = decision.state;
@@ -148,11 +185,13 @@ export function mountPlayableMatch(root: HTMLElement, config: MatchConfig, optio
     updateObjectiveLayer(objectiveLayer, snapshot);
     const selected = new Set(pointer.getState().selectedIds);
     units.update({ units: snapshot.units.map((unit) => ({ ...unit, selected: selected.has(unit.id) })) }, camera.camera);
+    occlusion.update(snapshot, selectedFaction, selected);
     hud.update(snapshot, pointer.getState());
     updatePanel(root, snapshot, latestAi, latestEvents, config);
     renderer.render(scene, camera.camera);
     if (match.ended && !resultReported) {
       resultReported = true;
+      feedback.emit("matchEnded");
       options.callbacks.onResults(match.ended);
       return;
     }
@@ -170,8 +209,12 @@ export function mountPlayableMatch(root: HTMLElement, config: MatchConfig, optio
       disposed = true;
       cancelAnimationFrame(animationFrame);
       pointer.dispose();
+      settingsView?.dispose();
+      settingsView = null;
+      feedback.dispose();
       hud.dispose();
       units.dispose();
+      occlusion.dispose();
       objectiveLayer.traverse((object) => {
         if (!(object instanceof THREE.Mesh)) return;
         object.geometry.dispose();

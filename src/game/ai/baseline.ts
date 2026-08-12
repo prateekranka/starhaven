@@ -22,6 +22,15 @@ export const OPENINGS: Readonly<Record<AiOpening, readonly UnitKind[]>> = {
   objective: ["loomkeeper", "gleamrunner", "prismLancer", "gleamrunner"],
 };
 
+const FACTION_OPENINGS: Readonly<Record<Faction, Readonly<Record<AiOpening, readonly UnitKind[]>>>> = {
+  sunwoven: OPENINGS,
+  gravemark: {
+    balanced: ["stoneguard", "prospector", "stoneguard", "riftCannon"],
+    pressure: ["stoneguard", "stoneguard", "stoneguard", "prospector"],
+    objective: ["prospector", "stoneguard", "riftCannon", "stoneguard"],
+  },
+};
+
 export const AI_DIFFICULTY = {
   explorer: { intervalTicks: 20, delayTicks: 10, populationCap: 12 },
   standard: { intervalTicks: 10, delayTicks: 4, populationCap: 18 },
@@ -76,4 +85,8 @@ export function shouldEvaluateAi(tick: number, difficulty: keyof typeof AI_DIFFI
 
 export function openingUnit(opening: AiOpening, index: number): UnitKind | null {
   return OPENINGS[opening][index] ?? null;
+}
+
+export function openingUnitForFaction(faction: Faction, opening: AiOpening, index: number): UnitKind | null {
+  return FACTION_OPENINGS[faction][opening][index] ?? null;
 }

@@ -1,6 +1,6 @@
 import { BALANCE_V1 } from "../content/balance.v1";
 import type { Faction, UnitKind } from "../content/schema";
-import { resolveAttackTick, startAttack, type AttackState, type CombatUnit, startStoneguardLunge, advanceStoneguardLunge, type DamageEvent, type LungeState } from "./combat";
+import { canStartStoneguardLunge, resolveAttackTick, startAttack, type AttackState, type CombatUnit, startStoneguardLunge, advanceStoneguardLunge, type DamageEvent, type LungeState } from "./combat";
 import { createCaptureObjective, resolveCaptureTick, type CaptureContributor, type CaptureObjectiveState, type ObjectiveKind } from "./capture";
 import { distanceSquared, fixedMovementStep, clampToTarget, Q10, q10FromWorld, type MovementRemainder } from "./fixed";
 import { MatchPrng, type PrngStreamsSnapshot } from "./prng";
@@ -207,6 +207,14 @@ export class SkirmishMatch {
     return this.queueCommand({ type: "lunge", faction, entityIds, targetEntityId });
   }
 
+  canQueueLunge(faction: Faction, entityId: number, targetEntityId: number): boolean {
+    const attacker = this.state.units.find((unit) => unit.id === entityId && unit.faction === faction && unit.health > 0);
+    const target = this.state.units.find((unit) => unit.id === targetEntityId && unit.health > 0);
+    if (!attacker || !target || attacker.busyBuilding || target.faction === faction) return false;
+    const cooldownReadyTick = this.state.lunges.find((lunge) => lunge.attackerId === attacker.id)?.cooldownReadyTick ?? 0;
+    return canStartStoneguardLunge(attacker, target, this.state.tick + 1, cooldownReadyTick);
+  }
+
   step(): MatchEvent[] {
     if (this.state.ended) return [];
     const nextTick = this.state.tick + 1;
@@ -219,7 +227,7 @@ export class SkirmishMatch {
     this.advanceProduction(nextTick, events);
     this.advanceLunges(nextTick, events);
     this.advanceAttacks(nextTick, events);
-    this.moveUnits();
+    this.moveUnits(nextTick);
     this.awardIncome(nextTick);
     this.resolveObjectives(nextTick, events);
     this.resolveFracture(nextTick, events);
@@ -308,19 +316,21 @@ export class SkirmishMatch {
       const target = this.state.units.find((unit) => unit.id === command.targetEntityId);
       if (target) {
         for (const unit of this.ownedUnits(command.faction, command.entityIds)) {
-          if (!unit.busyBuilding && target.faction !== unit.faction) this.state.attacks.push(startAttack(unit, target, tick));
+          const rangeQ10 = BALANCE_V1.units[unit.kind].rangeQ10;
+          if (!unit.busyBuilding && target.faction !== unit.faction && distanceSquared({ x: unit.xQ10, y: unit.yQ10 }, { x: target.xQ10, y: target.yQ10 }) <= rangeQ10 * rangeQ10) this.state.attacks.push(startAttack(unit, target, tick));
         }
       }
     } else if (command.type === "lunge" && command.targetEntityId !== undefined) {
       const target = this.state.units.find((unit) => unit.id === command.targetEntityId);
       if (target) for (const unit of this.ownedUnits(command.faction, command.entityIds)) {
         const ready = this.state.lunges.find((lunge) => lunge.attackerId === unit.id)?.cooldownReadyTick ?? 0;
-        if (!unit.busyBuilding && target.faction !== unit.faction && unit.kind === "stoneguard") this.state.lunges.push(startStoneguardLunge(unit, target, tick, ready));
+        if (!unit.busyBuilding && target.faction !== unit.faction && unit.kind === "stoneguard" && canStartStoneguardLunge(unit, target, tick, ready)) this.state.lunges.push(startStoneguardLunge(unit, target, tick, ready));
       }
     } else if (command.type === "produce" && command.unitKind !== undefined) {
       const faction = this.state.factions[command.faction];
       const definition = BALANCE_V1.units[command.unitKind];
-      if (faction.production.length < 5 && faction.population + definition.population <= BALANCE_V1.populationCap && faction.fluxMilli >= definition.costMilliFlux) {
+      const queuedPopulation = faction.production.reduce((population, item) => population + BALANCE_V1.units[item.kind].population, 0);
+      if (faction.production.length < 5 && faction.population + queuedPopulation + definition.population <= BALANCE_V1.populationCap && faction.fluxMilli >= definition.costMilliFlux) {
         faction.fluxMilli -= definition.costMilliFlux;
         faction.production.push({ kind: command.unitKind, readyTick: tick + definition.buildTicks });
         events.push({ tick, type: "production", faction: command.faction, detail: `${command.unitKind} queued` });
@@ -383,19 +393,25 @@ export class SkirmishMatch {
       const attacker = this.state.units.find((unit) => unit.id === lunge.attackerId);
       const target = this.state.units.find((unit) => unit.id === lunge.targetId);
       if (advanceStoneguardLunge(lunge, attacker, target, tick)) {
-        if (attacker && target && target.health > 0) target.health = Math.max(0, target.health - BALANCE_V1.units.stoneguard.damage);
-        events.push({ tick, type: "damage", detail: "Stoneguard Gravimetric Lunge contact" });
+        if (attacker) { attacker.targetXQ10 = attacker.xQ10; attacker.targetYQ10 = attacker.yQ10; attacker.remainderX = 0; attacker.remainderY = 0; }
+        if (lunge.contacted && attacker && target && target.health > 0) {
+          target.health = Math.max(0, target.health - BALANCE_V1.units.stoneguard.damage);
+          target.slowUntilTick = Math.max(target.slowUntilTick, tick + 30);
+          events.push({ tick, type: "damage", detail: "Stoneguard Gravimetric Lunge contact" });
+        }
       }
     }
     this.state.lunges = this.state.lunges.filter((lunge) => lunge.active || tick < lunge.cooldownReadyTick);
   }
 
-  private moveUnits(): void {
+  private moveUnits(tick: number): void {
     for (const unit of this.state.units) {
       if (unit.health <= 0 || unit.busyBuilding) continue;
       const remainder: MovementRemainder = { x: unit.remainderX, y: unit.remainderY };
       if (unit.targetXQ10 === unit.xQ10 && unit.targetYQ10 === unit.yQ10) continue;
-      const step = fixedMovementStep(unit.targetXQ10 - unit.xQ10, unit.targetYQ10 - unit.yQ10, BALANCE_V1.units[unit.kind].speedQ10PerTick, remainder);
+      const baseSpeed = BALANCE_V1.units[unit.kind].speedQ10PerTick;
+      const speed = unit.slowUntilTick > tick ? Math.trunc(baseSpeed * 65 / 100) : baseSpeed;
+      const step = fixedMovementStep(unit.targetXQ10 - unit.xQ10, unit.targetYQ10 - unit.yQ10, speed, remainder);
       const next = clampToTarget({ x: unit.xQ10, y: unit.yQ10 }, { x: unit.targetXQ10, y: unit.targetYQ10 }, step);
       unit.xQ10 = next.x;
       unit.yQ10 = next.y;
@@ -526,7 +542,7 @@ export class SkirmishMatch {
     let hash = 0x811c9dc5;
     const append = (value: string | number | boolean | null): void => { const text = String(value); for (let index = 0; index < text.length; index += 1) { hash ^= text.charCodeAt(index); hash = Math.imul(hash, 0x01000193) >>> 0; } hash ^= 0xff; hash = Math.imul(hash, 0x01000193) >>> 0; };
     append(this.state.seed); append(this.state.tick); append(this.state.fractureOpen); append(this.state.suddenDeath); append(this.state.surgedOutpost); append(this.state.commandHistoryBoundary);
-    for (const unit of [...this.state.units].sort((left, right) => left.id - right.id)) { append(unit.id); append(unit.faction); append(unit.kind); append(unit.xQ10); append(unit.yQ10); append(unit.targetXQ10); append(unit.targetYQ10); append(unit.health); append(unit.busyBuilding); }
+    for (const unit of [...this.state.units].sort((left, right) => left.id - right.id)) { append(unit.id); append(unit.faction); append(unit.kind); append(unit.xQ10); append(unit.yQ10); append(unit.targetXQ10); append(unit.targetYQ10); append(unit.health); append(unit.busyBuilding); append(unit.slowUntilTick); }
     for (const faction of ["sunwoven", "gravemark"] as const) { const runtime = this.state.factions[faction]; append(faction); append(runtime.fluxMilli); append(runtime.population); append(runtime.resonanceMilli); append(runtime.calibrationTicks); append(runtime.headquarters.health); for (const item of runtime.production) { append(item.kind); append(item.readyTick); } }
     for (const objective of [this.state.outposts.northOutpost, this.state.outposts.southOutpost, this.state.engine]) { append(objective.kind); append(objective.owner); append(objective.progressMicro.sunwoven); append(objective.progressMicro.gravemark); }
     const prng = new MatchPrng(this.state.seed); prng.restore(this.state.prng); for (const stream of [prng.snapshot().event, prng.snapshot().ai, prng.snapshot().finalPriority]) { append(stream.algorithm); append(stream.seed); append(stream.state); append(stream.cursor); }

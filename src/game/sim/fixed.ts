@@ -42,6 +42,12 @@ export function octantFor(deltaX: number, deltaY: number): number {
   if (absX === 0 && absY === 0) return 0;
   if (absX >= absY * 3) return deltaX >= 0 ? 0 : 8;
   if (absY >= absX * 3) return deltaY >= 0 ? 4 : 12;
+  if (absX === absY) {
+    if (deltaX >= 0 && deltaY >= 0) return 2;
+    if (deltaX < 0 && deltaY >= 0) return 6;
+    if (deltaX < 0 && deltaY < 0) return 10;
+    return 14;
+  }
   if (absX >= absY) {
     if (deltaX >= 0) return deltaY >= 0 ? 1 : 15;
     return deltaY >= 0 ? 7 : 9;
@@ -50,8 +56,12 @@ export function octantFor(deltaX: number, deltaY: number): number {
   return deltaX >= 0 ? 13 : 11;
 }
 
+export function fixedDirectionQ15(deltaX: number, deltaY: number): FixedPoint2 {
+  return { ...(OCTANT_Q15[octantFor(deltaX, deltaY)] ?? OCTANT_Q15[0]) };
+}
+
 export function fixedMovementStep(deltaX: number, deltaY: number, speedQ10PerTick: number, remainder: MovementRemainder): FixedPoint2 {
-  const direction = OCTANT_Q15[octantFor(deltaX, deltaY)] ?? OCTANT_Q15[0];
+  const direction = fixedDirectionQ15(deltaX, deltaY);
   const numeratorX = direction.x * speedQ10PerTick + remainder.x;
   const numeratorY = direction.y * speedQ10PerTick + remainder.y;
   const stepX = Math.trunc(numeratorX / Q15);

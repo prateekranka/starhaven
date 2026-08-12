@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { worldFromQ10 } from "../game/sim/fixed";
+import { PERFORMANCE_BUDGET } from "./performance-budget";
 
 export interface UnitSpriteSnapshot {
   units: ReadonlyArray<{
@@ -16,11 +17,11 @@ export class UnitSpriteBatch {
   private readonly dummy = new THREE.Object3D();
   private readonly maxInstances: number;
 
-  constructor(maxInstances = 500) {
-    this.maxInstances = maxInstances;
+  constructor(maxInstances = PERFORMANCE_BUDGET.maxCombinedUnits) {
+    this.maxInstances = Math.min(maxInstances, PERFORMANCE_BUDGET.maxCombinedUnits);
     const geometry = new THREE.PlaneGeometry(0.9, 1.2);
     const material = new THREE.MeshBasicMaterial({ color: 0xf8d66d, vertexColors: false, alphaTest: 0.5, depthTest: true, depthWrite: true, transparent: false });
-    this.mesh = new THREE.InstancedMesh(geometry, material, maxInstances);
+    this.mesh = new THREE.InstancedMesh(geometry, material, this.maxInstances);
     this.mesh.instanceMatrix.setUsage(THREE.DynamicDrawUsage);
     this.mesh.count = 0;
   }

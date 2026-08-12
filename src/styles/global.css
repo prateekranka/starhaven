@@ -16,11 +16,15 @@
 
 * { box-sizing: border-box; }
 
+html[data-reduced-motion="true"] *, html[data-reduced-motion="true"] *::before, html[data-reduced-motion="true"] *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: 0.001ms !important; }
+
 html, body, #app { min-height: 100%; margin: 0; }
 
 body { min-width: 320px; overflow-x: hidden; background: var(--navy); }
 
 button { font: inherit; }
+
+button, select, input { min-height: 44px; }
 
 button:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
 
