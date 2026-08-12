@@ -82,6 +82,11 @@ jobs:
             const deployment = response.data.find((candidate) => String(candidate.sha) === context.sha);
             if (!deployment) core.setFailed("No numeric Pages deployment matched the source SHA.");
             else core.setOutput("deployment-id", String(deployment.id));
+      - name: Checkout metadata verifier
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
       - name: Record numeric run, artifact, and deployment IDs
         env:
           GITHUB_RUN_ID: ${{ github.run_id }}
