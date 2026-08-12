@@ -1,0 +1,5750 @@
+{
+  "version": "provenance.v1",
+  "generatedAt": "2026-08-12T00:00:00Z",
+  "generator": "starhaven-authored-pixel-pipeline-v1",
+  "sourceHashAlgorithm": "sha256",
+  "sharp": "0.34.3",
+  "transformation": "inbetweening.v1 + Offset-Cosine-32 v1",
+  "review": {
+    "status": "provisional",
+    "humanApprovalRequired": true,
+    "conceptSheetsShipped": false
+  },
+  "sourceCount": 330,
+  "sources": [
+    {
+      "path": "assets/source/units/sunwoven/gleamrunner/idle/N/A.png",
+      "bytes": 576,
+      "sha256": "b1c04e08bea4987b6e248a4a006c8d116fff5db4e96ce8743b4048355b578d20",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "gleamrunner",
+      "faction": "sunwoven",
+      "action": "idle",
+      "direction": "N",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like gleamrunner N idle key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/gleamrunner/idle/N/B.png",
+      "bytes": 576,
+      "sha256": "5c0ad197883ea2b2b5cec258c78b0b51518fd2d0ac581e1b84cfe5bb9a7af678",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "gleamrunner",
+      "faction": "sunwoven",
+      "action": "idle",
+      "direction": "N",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like gleamrunner N idle key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/gleamrunner/idle/NE/A.png",
+      "bytes": 576,
+      "sha256": "b1c04e08bea4987b6e248a4a006c8d116fff5db4e96ce8743b4048355b578d20",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "gleamrunner",
+      "faction": "sunwoven",
+      "action": "idle",
+      "direction": "NE",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like gleamrunner NE idle key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/gleamrunner/idle/NE/B.png",
+      "bytes": 576,
+      "sha256": "5c0ad197883ea2b2b5cec258c78b0b51518fd2d0ac581e1b84cfe5bb9a7af678",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "gleamrunner",
+      "faction": "sunwoven",
+      "action": "idle",
+      "direction": "NE",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like gleamrunner NE idle key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/gleamrunner/idle/E/A.png",
+      "bytes": 576,
+      "sha256": "b1c04e08bea4987b6e248a4a006c8d116fff5db4e96ce8743b4048355b578d20",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "gleamrunner",
+      "faction": "sunwoven",
+      "action": "idle",
+      "direction": "E",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like gleamrunner E idle key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/gleamrunner/idle/E/B.png",
+      "bytes": 576,
+      "sha256": "5c0ad197883ea2b2b5cec258c78b0b51518fd2d0ac581e1b84cfe5bb9a7af678",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "gleamrunner",
+      "faction": "sunwoven",
+      "action": "idle",
+      "direction": "E",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like gleamrunner E idle key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/gleamrunner/idle/SE/A.png",
+      "bytes": 576,
+      "sha256": "b1c04e08bea4987b6e248a4a006c8d116fff5db4e96ce8743b4048355b578d20",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "gleamrunner",
+      "faction": "sunwoven",
+      "action": "idle",
+      "direction": "SE",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like gleamrunner SE idle key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/gleamrunner/idle/SE/B.png",
+      "bytes": 576,
+      "sha256": "5c0ad197883ea2b2b5cec258c78b0b51518fd2d0ac581e1b84cfe5bb9a7af678",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "gleamrunner",
+      "faction": "sunwoven",
+      "action": "idle",
+      "direction": "SE",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like gleamrunner SE idle key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/gleamrunner/idle/S/A.png",
+      "bytes": 576,
+      "sha256": "b1c04e08bea4987b6e248a4a006c8d116fff5db4e96ce8743b4048355b578d20",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "gleamrunner",
+      "faction": "sunwoven",
+      "action": "idle",
+      "direction": "S",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like gleamrunner S idle key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/gleamrunner/idle/S/B.png",
+      "bytes": 576,
+      "sha256": "5c0ad197883ea2b2b5cec258c78b0b51518fd2d0ac581e1b84cfe5bb9a7af678",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "gleamrunner",
+      "faction": "sunwoven",
+      "action": "idle",
+      "direction": "S",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like gleamrunner S idle key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/gleamrunner/move/N/A.png",
+      "bytes": 576,
+      "sha256": "b1c04e08bea4987b6e248a4a006c8d116fff5db4e96ce8743b4048355b578d20",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "gleamrunner",
+      "faction": "sunwoven",
+      "action": "move",
+      "direction": "N",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like gleamrunner N move key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/gleamrunner/move/N/B.png",
+      "bytes": 576,
+      "sha256": "5c0ad197883ea2b2b5cec258c78b0b51518fd2d0ac581e1b84cfe5bb9a7af678",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "gleamrunner",
+      "faction": "sunwoven",
+      "action": "move",
+      "direction": "N",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like gleamrunner N move key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/gleamrunner/move/NE/A.png",
+      "bytes": 576,
+      "sha256": "b1c04e08bea4987b6e248a4a006c8d116fff5db4e96ce8743b4048355b578d20",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "gleamrunner",
+      "faction": "sunwoven",
+      "action": "move",
+      "direction": "NE",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like gleamrunner NE move key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/gleamrunner/move/NE/B.png",
+      "bytes": 576,
+      "sha256": "5c0ad197883ea2b2b5cec258c78b0b51518fd2d0ac581e1b84cfe5bb9a7af678",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "gleamrunner",
+      "faction": "sunwoven",
+      "action": "move",
+      "direction": "NE",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like gleamrunner NE move key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/gleamrunner/move/E/A.png",
+      "bytes": 576,
+      "sha256": "b1c04e08bea4987b6e248a4a006c8d116fff5db4e96ce8743b4048355b578d20",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "gleamrunner",
+      "faction": "sunwoven",
+      "action": "move",
+      "direction": "E",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like gleamrunner E move key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/gleamrunner/move/E/B.png",
+      "bytes": 576,
+      "sha256": "5c0ad197883ea2b2b5cec258c78b0b51518fd2d0ac581e1b84cfe5bb9a7af678",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "gleamrunner",
+      "faction": "sunwoven",
+      "action": "move",
+      "direction": "E",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like gleamrunner E move key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/gleamrunner/move/SE/A.png",
+      "bytes": 576,
+      "sha256": "b1c04e08bea4987b6e248a4a006c8d116fff5db4e96ce8743b4048355b578d20",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "gleamrunner",
+      "faction": "sunwoven",
+      "action": "move",
+      "direction": "SE",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like gleamrunner SE move key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/gleamrunner/move/SE/B.png",
+      "bytes": 576,
+      "sha256": "5c0ad197883ea2b2b5cec258c78b0b51518fd2d0ac581e1b84cfe5bb9a7af678",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "gleamrunner",
+      "faction": "sunwoven",
+      "action": "move",
+      "direction": "SE",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like gleamrunner SE move key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/gleamrunner/move/S/A.png",
+      "bytes": 576,
+      "sha256": "b1c04e08bea4987b6e248a4a006c8d116fff5db4e96ce8743b4048355b578d20",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "gleamrunner",
+      "faction": "sunwoven",
+      "action": "move",
+      "direction": "S",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like gleamrunner S move key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/gleamrunner/move/S/B.png",
+      "bytes": 576,
+      "sha256": "5c0ad197883ea2b2b5cec258c78b0b51518fd2d0ac581e1b84cfe5bb9a7af678",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "gleamrunner",
+      "faction": "sunwoven",
+      "action": "move",
+      "direction": "S",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like gleamrunner S move key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/gleamrunner/attack/N/A.png",
+      "bytes": 598,
+      "sha256": "0541d5ae10523079131b740cf01099f3a10d5e824576a44704917cdcbe16f0ba",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "gleamrunner",
+      "faction": "sunwoven",
+      "action": "attack",
+      "direction": "N",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like gleamrunner N attack key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/gleamrunner/attack/N/B.png",
+      "bytes": 598,
+      "sha256": "2caabb828658dd79ff307e05278fb2da6a9bac6a984ae7cb86e533f337db288c",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "gleamrunner",
+      "faction": "sunwoven",
+      "action": "attack",
+      "direction": "N",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like gleamrunner N attack key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/gleamrunner/attack/NE/A.png",
+      "bytes": 598,
+      "sha256": "0541d5ae10523079131b740cf01099f3a10d5e824576a44704917cdcbe16f0ba",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "gleamrunner",
+      "faction": "sunwoven",
+      "action": "attack",
+      "direction": "NE",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like gleamrunner NE attack key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/gleamrunner/attack/NE/B.png",
+      "bytes": 598,
+      "sha256": "2caabb828658dd79ff307e05278fb2da6a9bac6a984ae7cb86e533f337db288c",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "gleamrunner",
+      "faction": "sunwoven",
+      "action": "attack",
+      "direction": "NE",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like gleamrunner NE attack key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/gleamrunner/attack/E/A.png",
+      "bytes": 598,
+      "sha256": "0541d5ae10523079131b740cf01099f3a10d5e824576a44704917cdcbe16f0ba",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "gleamrunner",
+      "faction": "sunwoven",
+      "action": "attack",
+      "direction": "E",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like gleamrunner E attack key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/gleamrunner/attack/E/B.png",
+      "bytes": 598,
+      "sha256": "2caabb828658dd79ff307e05278fb2da6a9bac6a984ae7cb86e533f337db288c",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "gleamrunner",
+      "faction": "sunwoven",
+      "action": "attack",
+      "direction": "E",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like gleamrunner E attack key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/gleamrunner/attack/SE/A.png",
+      "bytes": 598,
+      "sha256": "0541d5ae10523079131b740cf01099f3a10d5e824576a44704917cdcbe16f0ba",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "gleamrunner",
+      "faction": "sunwoven",
+      "action": "attack",
+      "direction": "SE",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like gleamrunner SE attack key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/gleamrunner/attack/SE/B.png",
+      "bytes": 598,
+      "sha256": "2caabb828658dd79ff307e05278fb2da6a9bac6a984ae7cb86e533f337db288c",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "gleamrunner",
+      "faction": "sunwoven",
+      "action": "attack",
+      "direction": "SE",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like gleamrunner SE attack key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/gleamrunner/attack/S/A.png",
+      "bytes": 598,
+      "sha256": "0541d5ae10523079131b740cf01099f3a10d5e824576a44704917cdcbe16f0ba",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "gleamrunner",
+      "faction": "sunwoven",
+      "action": "attack",
+      "direction": "S",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like gleamrunner S attack key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/gleamrunner/attack/S/B.png",
+      "bytes": 598,
+      "sha256": "2caabb828658dd79ff307e05278fb2da6a9bac6a984ae7cb86e533f337db288c",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "gleamrunner",
+      "faction": "sunwoven",
+      "action": "attack",
+      "direction": "S",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like gleamrunner S attack key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/gleamrunner/hit/N/A.png",
+      "bytes": 576,
+      "sha256": "b1c04e08bea4987b6e248a4a006c8d116fff5db4e96ce8743b4048355b578d20",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "gleamrunner",
+      "faction": "sunwoven",
+      "action": "hit",
+      "direction": "N",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like gleamrunner N hit key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/gleamrunner/hit/N/B.png",
+      "bytes": 576,
+      "sha256": "5c0ad197883ea2b2b5cec258c78b0b51518fd2d0ac581e1b84cfe5bb9a7af678",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "gleamrunner",
+      "faction": "sunwoven",
+      "action": "hit",
+      "direction": "N",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like gleamrunner N hit key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/gleamrunner/hit/NE/A.png",
+      "bytes": 576,
+      "sha256": "b1c04e08bea4987b6e248a4a006c8d116fff5db4e96ce8743b4048355b578d20",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "gleamrunner",
+      "faction": "sunwoven",
+      "action": "hit",
+      "direction": "NE",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like gleamrunner NE hit key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/gleamrunner/hit/NE/B.png",
+      "bytes": 576,
+      "sha256": "5c0ad197883ea2b2b5cec258c78b0b51518fd2d0ac581e1b84cfe5bb9a7af678",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "gleamrunner",
+      "faction": "sunwoven",
+      "action": "hit",
+      "direction": "NE",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like gleamrunner NE hit key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/gleamrunner/hit/E/A.png",
+      "bytes": 576,
+      "sha256": "b1c04e08bea4987b6e248a4a006c8d116fff5db4e96ce8743b4048355b578d20",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "gleamrunner",
+      "faction": "sunwoven",
+      "action": "hit",
+      "direction": "E",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like gleamrunner E hit key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/gleamrunner/hit/E/B.png",
+      "bytes": 576,
+      "sha256": "5c0ad197883ea2b2b5cec258c78b0b51518fd2d0ac581e1b84cfe5bb9a7af678",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "gleamrunner",
+      "faction": "sunwoven",
+      "action": "hit",
+      "direction": "E",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like gleamrunner E hit key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/gleamrunner/hit/SE/A.png",
+      "bytes": 576,
+      "sha256": "b1c04e08bea4987b6e248a4a006c8d116fff5db4e96ce8743b4048355b578d20",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "gleamrunner",
+      "faction": "sunwoven",
+      "action": "hit",
+      "direction": "SE",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like gleamrunner SE hit key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/gleamrunner/hit/SE/B.png",
+      "bytes": 576,
+      "sha256": "5c0ad197883ea2b2b5cec258c78b0b51518fd2d0ac581e1b84cfe5bb9a7af678",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "gleamrunner",
+      "faction": "sunwoven",
+      "action": "hit",
+      "direction": "SE",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like gleamrunner SE hit key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/gleamrunner/hit/S/A.png",
+      "bytes": 576,
+      "sha256": "b1c04e08bea4987b6e248a4a006c8d116fff5db4e96ce8743b4048355b578d20",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "gleamrunner",
+      "faction": "sunwoven",
+      "action": "hit",
+      "direction": "S",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like gleamrunner S hit key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/gleamrunner/hit/S/B.png",
+      "bytes": 576,
+      "sha256": "5c0ad197883ea2b2b5cec258c78b0b51518fd2d0ac581e1b84cfe5bb9a7af678",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "gleamrunner",
+      "faction": "sunwoven",
+      "action": "hit",
+      "direction": "S",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like gleamrunner S hit key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/gleamrunner/death/N/A.png",
+      "bytes": 576,
+      "sha256": "b1c04e08bea4987b6e248a4a006c8d116fff5db4e96ce8743b4048355b578d20",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "gleamrunner",
+      "faction": "sunwoven",
+      "action": "death",
+      "direction": "N",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like gleamrunner N death key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/gleamrunner/death/N/B.png",
+      "bytes": 576,
+      "sha256": "5c0ad197883ea2b2b5cec258c78b0b51518fd2d0ac581e1b84cfe5bb9a7af678",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "gleamrunner",
+      "faction": "sunwoven",
+      "action": "death",
+      "direction": "N",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like gleamrunner N death key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/gleamrunner/death/NE/A.png",
+      "bytes": 576,
+      "sha256": "b1c04e08bea4987b6e248a4a006c8d116fff5db4e96ce8743b4048355b578d20",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "gleamrunner",
+      "faction": "sunwoven",
+      "action": "death",
+      "direction": "NE",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like gleamrunner NE death key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/gleamrunner/death/NE/B.png",
+      "bytes": 576,
+      "sha256": "5c0ad197883ea2b2b5cec258c78b0b51518fd2d0ac581e1b84cfe5bb9a7af678",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "gleamrunner",
+      "faction": "sunwoven",
+      "action": "death",
+      "direction": "NE",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like gleamrunner NE death key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/gleamrunner/death/E/A.png",
+      "bytes": 576,
+      "sha256": "b1c04e08bea4987b6e248a4a006c8d116fff5db4e96ce8743b4048355b578d20",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "gleamrunner",
+      "faction": "sunwoven",
+      "action": "death",
+      "direction": "E",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like gleamrunner E death key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/gleamrunner/death/E/B.png",
+      "bytes": 576,
+      "sha256": "5c0ad197883ea2b2b5cec258c78b0b51518fd2d0ac581e1b84cfe5bb9a7af678",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "gleamrunner",
+      "faction": "sunwoven",
+      "action": "death",
+      "direction": "E",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like gleamrunner E death key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/gleamrunner/death/SE/A.png",
+      "bytes": 576,
+      "sha256": "b1c04e08bea4987b6e248a4a006c8d116fff5db4e96ce8743b4048355b578d20",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "gleamrunner",
+      "faction": "sunwoven",
+      "action": "death",
+      "direction": "SE",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like gleamrunner SE death key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/gleamrunner/death/SE/B.png",
+      "bytes": 576,
+      "sha256": "5c0ad197883ea2b2b5cec258c78b0b51518fd2d0ac581e1b84cfe5bb9a7af678",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "gleamrunner",
+      "faction": "sunwoven",
+      "action": "death",
+      "direction": "SE",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like gleamrunner SE death key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/gleamrunner/death/S/A.png",
+      "bytes": 576,
+      "sha256": "b1c04e08bea4987b6e248a4a006c8d116fff5db4e96ce8743b4048355b578d20",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "gleamrunner",
+      "faction": "sunwoven",
+      "action": "death",
+      "direction": "S",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like gleamrunner S death key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/gleamrunner/death/S/B.png",
+      "bytes": 576,
+      "sha256": "5c0ad197883ea2b2b5cec258c78b0b51518fd2d0ac581e1b84cfe5bb9a7af678",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "gleamrunner",
+      "faction": "sunwoven",
+      "action": "death",
+      "direction": "S",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like gleamrunner S death key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/loomkeeper/idle/N/A.png",
+      "bytes": 576,
+      "sha256": "b1c04e08bea4987b6e248a4a006c8d116fff5db4e96ce8743b4048355b578d20",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "loomkeeper",
+      "faction": "sunwoven",
+      "action": "idle",
+      "direction": "N",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like loomkeeper N idle key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/loomkeeper/idle/N/B.png",
+      "bytes": 576,
+      "sha256": "5c0ad197883ea2b2b5cec258c78b0b51518fd2d0ac581e1b84cfe5bb9a7af678",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "loomkeeper",
+      "faction": "sunwoven",
+      "action": "idle",
+      "direction": "N",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like loomkeeper N idle key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/loomkeeper/idle/NE/A.png",
+      "bytes": 576,
+      "sha256": "b1c04e08bea4987b6e248a4a006c8d116fff5db4e96ce8743b4048355b578d20",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "loomkeeper",
+      "faction": "sunwoven",
+      "action": "idle",
+      "direction": "NE",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like loomkeeper NE idle key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/loomkeeper/idle/NE/B.png",
+      "bytes": 576,
+      "sha256": "5c0ad197883ea2b2b5cec258c78b0b51518fd2d0ac581e1b84cfe5bb9a7af678",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "loomkeeper",
+      "faction": "sunwoven",
+      "action": "idle",
+      "direction": "NE",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like loomkeeper NE idle key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/loomkeeper/idle/E/A.png",
+      "bytes": 576,
+      "sha256": "b1c04e08bea4987b6e248a4a006c8d116fff5db4e96ce8743b4048355b578d20",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "loomkeeper",
+      "faction": "sunwoven",
+      "action": "idle",
+      "direction": "E",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like loomkeeper E idle key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/loomkeeper/idle/E/B.png",
+      "bytes": 576,
+      "sha256": "5c0ad197883ea2b2b5cec258c78b0b51518fd2d0ac581e1b84cfe5bb9a7af678",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "loomkeeper",
+      "faction": "sunwoven",
+      "action": "idle",
+      "direction": "E",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like loomkeeper E idle key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/loomkeeper/idle/SE/A.png",
+      "bytes": 576,
+      "sha256": "b1c04e08bea4987b6e248a4a006c8d116fff5db4e96ce8743b4048355b578d20",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "loomkeeper",
+      "faction": "sunwoven",
+      "action": "idle",
+      "direction": "SE",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like loomkeeper SE idle key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/loomkeeper/idle/SE/B.png",
+      "bytes": 576,
+      "sha256": "5c0ad197883ea2b2b5cec258c78b0b51518fd2d0ac581e1b84cfe5bb9a7af678",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "loomkeeper",
+      "faction": "sunwoven",
+      "action": "idle",
+      "direction": "SE",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like loomkeeper SE idle key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/loomkeeper/idle/S/A.png",
+      "bytes": 576,
+      "sha256": "b1c04e08bea4987b6e248a4a006c8d116fff5db4e96ce8743b4048355b578d20",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "loomkeeper",
+      "faction": "sunwoven",
+      "action": "idle",
+      "direction": "S",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like loomkeeper S idle key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/loomkeeper/idle/S/B.png",
+      "bytes": 576,
+      "sha256": "5c0ad197883ea2b2b5cec258c78b0b51518fd2d0ac581e1b84cfe5bb9a7af678",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "loomkeeper",
+      "faction": "sunwoven",
+      "action": "idle",
+      "direction": "S",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like loomkeeper S idle key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/loomkeeper/move/N/A.png",
+      "bytes": 576,
+      "sha256": "b1c04e08bea4987b6e248a4a006c8d116fff5db4e96ce8743b4048355b578d20",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "loomkeeper",
+      "faction": "sunwoven",
+      "action": "move",
+      "direction": "N",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like loomkeeper N move key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/loomkeeper/move/N/B.png",
+      "bytes": 576,
+      "sha256": "5c0ad197883ea2b2b5cec258c78b0b51518fd2d0ac581e1b84cfe5bb9a7af678",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "loomkeeper",
+      "faction": "sunwoven",
+      "action": "move",
+      "direction": "N",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like loomkeeper N move key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/loomkeeper/move/NE/A.png",
+      "bytes": 576,
+      "sha256": "b1c04e08bea4987b6e248a4a006c8d116fff5db4e96ce8743b4048355b578d20",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "loomkeeper",
+      "faction": "sunwoven",
+      "action": "move",
+      "direction": "NE",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like loomkeeper NE move key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/loomkeeper/move/NE/B.png",
+      "bytes": 576,
+      "sha256": "5c0ad197883ea2b2b5cec258c78b0b51518fd2d0ac581e1b84cfe5bb9a7af678",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "loomkeeper",
+      "faction": "sunwoven",
+      "action": "move",
+      "direction": "NE",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like loomkeeper NE move key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/loomkeeper/move/E/A.png",
+      "bytes": 576,
+      "sha256": "b1c04e08bea4987b6e248a4a006c8d116fff5db4e96ce8743b4048355b578d20",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "loomkeeper",
+      "faction": "sunwoven",
+      "action": "move",
+      "direction": "E",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like loomkeeper E move key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/loomkeeper/move/E/B.png",
+      "bytes": 576,
+      "sha256": "5c0ad197883ea2b2b5cec258c78b0b51518fd2d0ac581e1b84cfe5bb9a7af678",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "loomkeeper",
+      "faction": "sunwoven",
+      "action": "move",
+      "direction": "E",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like loomkeeper E move key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/loomkeeper/move/SE/A.png",
+      "bytes": 576,
+      "sha256": "b1c04e08bea4987b6e248a4a006c8d116fff5db4e96ce8743b4048355b578d20",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "loomkeeper",
+      "faction": "sunwoven",
+      "action": "move",
+      "direction": "SE",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like loomkeeper SE move key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/loomkeeper/move/SE/B.png",
+      "bytes": 576,
+      "sha256": "5c0ad197883ea2b2b5cec258c78b0b51518fd2d0ac581e1b84cfe5bb9a7af678",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "loomkeeper",
+      "faction": "sunwoven",
+      "action": "move",
+      "direction": "SE",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like loomkeeper SE move key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/loomkeeper/move/S/A.png",
+      "bytes": 576,
+      "sha256": "b1c04e08bea4987b6e248a4a006c8d116fff5db4e96ce8743b4048355b578d20",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "loomkeeper",
+      "faction": "sunwoven",
+      "action": "move",
+      "direction": "S",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like loomkeeper S move key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/loomkeeper/move/S/B.png",
+      "bytes": 576,
+      "sha256": "5c0ad197883ea2b2b5cec258c78b0b51518fd2d0ac581e1b84cfe5bb9a7af678",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "loomkeeper",
+      "faction": "sunwoven",
+      "action": "move",
+      "direction": "S",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like loomkeeper S move key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/loomkeeper/attack/N/A.png",
+      "bytes": 598,
+      "sha256": "0541d5ae10523079131b740cf01099f3a10d5e824576a44704917cdcbe16f0ba",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "loomkeeper",
+      "faction": "sunwoven",
+      "action": "attack",
+      "direction": "N",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like loomkeeper N attack key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/loomkeeper/attack/N/B.png",
+      "bytes": 598,
+      "sha256": "2caabb828658dd79ff307e05278fb2da6a9bac6a984ae7cb86e533f337db288c",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "loomkeeper",
+      "faction": "sunwoven",
+      "action": "attack",
+      "direction": "N",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like loomkeeper N attack key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/loomkeeper/attack/NE/A.png",
+      "bytes": 598,
+      "sha256": "0541d5ae10523079131b740cf01099f3a10d5e824576a44704917cdcbe16f0ba",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "loomkeeper",
+      "faction": "sunwoven",
+      "action": "attack",
+      "direction": "NE",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like loomkeeper NE attack key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/loomkeeper/attack/NE/B.png",
+      "bytes": 598,
+      "sha256": "2caabb828658dd79ff307e05278fb2da6a9bac6a984ae7cb86e533f337db288c",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "loomkeeper",
+      "faction": "sunwoven",
+      "action": "attack",
+      "direction": "NE",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like loomkeeper NE attack key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/loomkeeper/attack/E/A.png",
+      "bytes": 598,
+      "sha256": "0541d5ae10523079131b740cf01099f3a10d5e824576a44704917cdcbe16f0ba",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "loomkeeper",
+      "faction": "sunwoven",
+      "action": "attack",
+      "direction": "E",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like loomkeeper E attack key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/loomkeeper/attack/E/B.png",
+      "bytes": 598,
+      "sha256": "2caabb828658dd79ff307e05278fb2da6a9bac6a984ae7cb86e533f337db288c",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "loomkeeper",
+      "faction": "sunwoven",
+      "action": "attack",
+      "direction": "E",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like loomkeeper E attack key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/loomkeeper/attack/SE/A.png",
+      "bytes": 598,
+      "sha256": "0541d5ae10523079131b740cf01099f3a10d5e824576a44704917cdcbe16f0ba",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "loomkeeper",
+      "faction": "sunwoven",
+      "action": "attack",
+      "direction": "SE",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like loomkeeper SE attack key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/loomkeeper/attack/SE/B.png",
+      "bytes": 598,
+      "sha256": "2caabb828658dd79ff307e05278fb2da6a9bac6a984ae7cb86e533f337db288c",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "loomkeeper",
+      "faction": "sunwoven",
+      "action": "attack",
+      "direction": "SE",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like loomkeeper SE attack key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/loomkeeper/attack/S/A.png",
+      "bytes": 598,
+      "sha256": "0541d5ae10523079131b740cf01099f3a10d5e824576a44704917cdcbe16f0ba",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "loomkeeper",
+      "faction": "sunwoven",
+      "action": "attack",
+      "direction": "S",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like loomkeeper S attack key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/loomkeeper/attack/S/B.png",
+      "bytes": 598,
+      "sha256": "2caabb828658dd79ff307e05278fb2da6a9bac6a984ae7cb86e533f337db288c",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "loomkeeper",
+      "faction": "sunwoven",
+      "action": "attack",
+      "direction": "S",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like loomkeeper S attack key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/loomkeeper/hit/N/A.png",
+      "bytes": 576,
+      "sha256": "b1c04e08bea4987b6e248a4a006c8d116fff5db4e96ce8743b4048355b578d20",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "loomkeeper",
+      "faction": "sunwoven",
+      "action": "hit",
+      "direction": "N",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like loomkeeper N hit key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/loomkeeper/hit/N/B.png",
+      "bytes": 576,
+      "sha256": "5c0ad197883ea2b2b5cec258c78b0b51518fd2d0ac581e1b84cfe5bb9a7af678",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "loomkeeper",
+      "faction": "sunwoven",
+      "action": "hit",
+      "direction": "N",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like loomkeeper N hit key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/loomkeeper/hit/NE/A.png",
+      "bytes": 576,
+      "sha256": "b1c04e08bea4987b6e248a4a006c8d116fff5db4e96ce8743b4048355b578d20",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "loomkeeper",
+      "faction": "sunwoven",
+      "action": "hit",
+      "direction": "NE",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like loomkeeper NE hit key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/loomkeeper/hit/NE/B.png",
+      "bytes": 576,
+      "sha256": "5c0ad197883ea2b2b5cec258c78b0b51518fd2d0ac581e1b84cfe5bb9a7af678",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "loomkeeper",
+      "faction": "sunwoven",
+      "action": "hit",
+      "direction": "NE",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like loomkeeper NE hit key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/loomkeeper/hit/E/A.png",
+      "bytes": 576,
+      "sha256": "b1c04e08bea4987b6e248a4a006c8d116fff5db4e96ce8743b4048355b578d20",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "loomkeeper",
+      "faction": "sunwoven",
+      "action": "hit",
+      "direction": "E",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like loomkeeper E hit key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/loomkeeper/hit/E/B.png",
+      "bytes": 576,
+      "sha256": "5c0ad197883ea2b2b5cec258c78b0b51518fd2d0ac581e1b84cfe5bb9a7af678",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "loomkeeper",
+      "faction": "sunwoven",
+      "action": "hit",
+      "direction": "E",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like loomkeeper E hit key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/loomkeeper/hit/SE/A.png",
+      "bytes": 576,
+      "sha256": "b1c04e08bea4987b6e248a4a006c8d116fff5db4e96ce8743b4048355b578d20",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "loomkeeper",
+      "faction": "sunwoven",
+      "action": "hit",
+      "direction": "SE",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like loomkeeper SE hit key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/loomkeeper/hit/SE/B.png",
+      "bytes": 576,
+      "sha256": "5c0ad197883ea2b2b5cec258c78b0b51518fd2d0ac581e1b84cfe5bb9a7af678",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "loomkeeper",
+      "faction": "sunwoven",
+      "action": "hit",
+      "direction": "SE",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like loomkeeper SE hit key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/loomkeeper/hit/S/A.png",
+      "bytes": 576,
+      "sha256": "b1c04e08bea4987b6e248a4a006c8d116fff5db4e96ce8743b4048355b578d20",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "loomkeeper",
+      "faction": "sunwoven",
+      "action": "hit",
+      "direction": "S",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like loomkeeper S hit key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/loomkeeper/hit/S/B.png",
+      "bytes": 576,
+      "sha256": "5c0ad197883ea2b2b5cec258c78b0b51518fd2d0ac581e1b84cfe5bb9a7af678",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "loomkeeper",
+      "faction": "sunwoven",
+      "action": "hit",
+      "direction": "S",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like loomkeeper S hit key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/loomkeeper/death/N/A.png",
+      "bytes": 576,
+      "sha256": "b1c04e08bea4987b6e248a4a006c8d116fff5db4e96ce8743b4048355b578d20",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "loomkeeper",
+      "faction": "sunwoven",
+      "action": "death",
+      "direction": "N",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like loomkeeper N death key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/loomkeeper/death/N/B.png",
+      "bytes": 576,
+      "sha256": "5c0ad197883ea2b2b5cec258c78b0b51518fd2d0ac581e1b84cfe5bb9a7af678",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "loomkeeper",
+      "faction": "sunwoven",
+      "action": "death",
+      "direction": "N",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like loomkeeper N death key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/loomkeeper/death/NE/A.png",
+      "bytes": 576,
+      "sha256": "b1c04e08bea4987b6e248a4a006c8d116fff5db4e96ce8743b4048355b578d20",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "loomkeeper",
+      "faction": "sunwoven",
+      "action": "death",
+      "direction": "NE",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like loomkeeper NE death key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/loomkeeper/death/NE/B.png",
+      "bytes": 576,
+      "sha256": "5c0ad197883ea2b2b5cec258c78b0b51518fd2d0ac581e1b84cfe5bb9a7af678",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "loomkeeper",
+      "faction": "sunwoven",
+      "action": "death",
+      "direction": "NE",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like loomkeeper NE death key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/loomkeeper/death/E/A.png",
+      "bytes": 576,
+      "sha256": "b1c04e08bea4987b6e248a4a006c8d116fff5db4e96ce8743b4048355b578d20",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "loomkeeper",
+      "faction": "sunwoven",
+      "action": "death",
+      "direction": "E",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like loomkeeper E death key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/loomkeeper/death/E/B.png",
+      "bytes": 576,
+      "sha256": "5c0ad197883ea2b2b5cec258c78b0b51518fd2d0ac581e1b84cfe5bb9a7af678",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "loomkeeper",
+      "faction": "sunwoven",
+      "action": "death",
+      "direction": "E",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like loomkeeper E death key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/loomkeeper/death/SE/A.png",
+      "bytes": 576,
+      "sha256": "b1c04e08bea4987b6e248a4a006c8d116fff5db4e96ce8743b4048355b578d20",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "loomkeeper",
+      "faction": "sunwoven",
+      "action": "death",
+      "direction": "SE",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like loomkeeper SE death key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/loomkeeper/death/SE/B.png",
+      "bytes": 576,
+      "sha256": "5c0ad197883ea2b2b5cec258c78b0b51518fd2d0ac581e1b84cfe5bb9a7af678",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "loomkeeper",
+      "faction": "sunwoven",
+      "action": "death",
+      "direction": "SE",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like loomkeeper SE death key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/loomkeeper/death/S/A.png",
+      "bytes": 576,
+      "sha256": "b1c04e08bea4987b6e248a4a006c8d116fff5db4e96ce8743b4048355b578d20",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "loomkeeper",
+      "faction": "sunwoven",
+      "action": "death",
+      "direction": "S",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like loomkeeper S death key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/loomkeeper/death/S/B.png",
+      "bytes": 576,
+      "sha256": "5c0ad197883ea2b2b5cec258c78b0b51518fd2d0ac581e1b84cfe5bb9a7af678",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "loomkeeper",
+      "faction": "sunwoven",
+      "action": "death",
+      "direction": "S",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like loomkeeper S death key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/loomkeeper/build/N/A.png",
+      "bytes": 576,
+      "sha256": "b1c04e08bea4987b6e248a4a006c8d116fff5db4e96ce8743b4048355b578d20",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "loomkeeper",
+      "faction": "sunwoven",
+      "action": "build",
+      "direction": "N",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like loomkeeper N build key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/loomkeeper/build/N/B.png",
+      "bytes": 576,
+      "sha256": "5c0ad197883ea2b2b5cec258c78b0b51518fd2d0ac581e1b84cfe5bb9a7af678",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "loomkeeper",
+      "faction": "sunwoven",
+      "action": "build",
+      "direction": "N",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like loomkeeper N build key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/loomkeeper/build/NE/A.png",
+      "bytes": 576,
+      "sha256": "b1c04e08bea4987b6e248a4a006c8d116fff5db4e96ce8743b4048355b578d20",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "loomkeeper",
+      "faction": "sunwoven",
+      "action": "build",
+      "direction": "NE",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like loomkeeper NE build key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/loomkeeper/build/NE/B.png",
+      "bytes": 576,
+      "sha256": "5c0ad197883ea2b2b5cec258c78b0b51518fd2d0ac581e1b84cfe5bb9a7af678",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "loomkeeper",
+      "faction": "sunwoven",
+      "action": "build",
+      "direction": "NE",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like loomkeeper NE build key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/loomkeeper/build/E/A.png",
+      "bytes": 576,
+      "sha256": "b1c04e08bea4987b6e248a4a006c8d116fff5db4e96ce8743b4048355b578d20",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "loomkeeper",
+      "faction": "sunwoven",
+      "action": "build",
+      "direction": "E",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like loomkeeper E build key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/loomkeeper/build/E/B.png",
+      "bytes": 576,
+      "sha256": "5c0ad197883ea2b2b5cec258c78b0b51518fd2d0ac581e1b84cfe5bb9a7af678",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "loomkeeper",
+      "faction": "sunwoven",
+      "action": "build",
+      "direction": "E",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like loomkeeper E build key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/loomkeeper/build/SE/A.png",
+      "bytes": 576,
+      "sha256": "b1c04e08bea4987b6e248a4a006c8d116fff5db4e96ce8743b4048355b578d20",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "loomkeeper",
+      "faction": "sunwoven",
+      "action": "build",
+      "direction": "SE",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like loomkeeper SE build key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/loomkeeper/build/SE/B.png",
+      "bytes": 576,
+      "sha256": "5c0ad197883ea2b2b5cec258c78b0b51518fd2d0ac581e1b84cfe5bb9a7af678",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "loomkeeper",
+      "faction": "sunwoven",
+      "action": "build",
+      "direction": "SE",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like loomkeeper SE build key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/loomkeeper/build/S/A.png",
+      "bytes": 576,
+      "sha256": "b1c04e08bea4987b6e248a4a006c8d116fff5db4e96ce8743b4048355b578d20",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "loomkeeper",
+      "faction": "sunwoven",
+      "action": "build",
+      "direction": "S",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like loomkeeper S build key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/loomkeeper/build/S/B.png",
+      "bytes": 576,
+      "sha256": "5c0ad197883ea2b2b5cec258c78b0b51518fd2d0ac581e1b84cfe5bb9a7af678",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "loomkeeper",
+      "faction": "sunwoven",
+      "action": "build",
+      "direction": "S",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like loomkeeper S build key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/prism-lancer/idle/N/A.png",
+      "bytes": 576,
+      "sha256": "b1c04e08bea4987b6e248a4a006c8d116fff5db4e96ce8743b4048355b578d20",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prism-lancer",
+      "faction": "sunwoven",
+      "action": "idle",
+      "direction": "N",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prism-lancer N idle key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/prism-lancer/idle/N/B.png",
+      "bytes": 576,
+      "sha256": "5c0ad197883ea2b2b5cec258c78b0b51518fd2d0ac581e1b84cfe5bb9a7af678",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prism-lancer",
+      "faction": "sunwoven",
+      "action": "idle",
+      "direction": "N",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prism-lancer N idle key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/prism-lancer/idle/NE/A.png",
+      "bytes": 576,
+      "sha256": "b1c04e08bea4987b6e248a4a006c8d116fff5db4e96ce8743b4048355b578d20",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prism-lancer",
+      "faction": "sunwoven",
+      "action": "idle",
+      "direction": "NE",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prism-lancer NE idle key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/prism-lancer/idle/NE/B.png",
+      "bytes": 576,
+      "sha256": "5c0ad197883ea2b2b5cec258c78b0b51518fd2d0ac581e1b84cfe5bb9a7af678",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prism-lancer",
+      "faction": "sunwoven",
+      "action": "idle",
+      "direction": "NE",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prism-lancer NE idle key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/prism-lancer/idle/E/A.png",
+      "bytes": 576,
+      "sha256": "b1c04e08bea4987b6e248a4a006c8d116fff5db4e96ce8743b4048355b578d20",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prism-lancer",
+      "faction": "sunwoven",
+      "action": "idle",
+      "direction": "E",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prism-lancer E idle key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/prism-lancer/idle/E/B.png",
+      "bytes": 576,
+      "sha256": "5c0ad197883ea2b2b5cec258c78b0b51518fd2d0ac581e1b84cfe5bb9a7af678",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prism-lancer",
+      "faction": "sunwoven",
+      "action": "idle",
+      "direction": "E",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prism-lancer E idle key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/prism-lancer/idle/SE/A.png",
+      "bytes": 576,
+      "sha256": "b1c04e08bea4987b6e248a4a006c8d116fff5db4e96ce8743b4048355b578d20",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prism-lancer",
+      "faction": "sunwoven",
+      "action": "idle",
+      "direction": "SE",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prism-lancer SE idle key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/prism-lancer/idle/SE/B.png",
+      "bytes": 576,
+      "sha256": "5c0ad197883ea2b2b5cec258c78b0b51518fd2d0ac581e1b84cfe5bb9a7af678",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prism-lancer",
+      "faction": "sunwoven",
+      "action": "idle",
+      "direction": "SE",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prism-lancer SE idle key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/prism-lancer/idle/S/A.png",
+      "bytes": 576,
+      "sha256": "b1c04e08bea4987b6e248a4a006c8d116fff5db4e96ce8743b4048355b578d20",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prism-lancer",
+      "faction": "sunwoven",
+      "action": "idle",
+      "direction": "S",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prism-lancer S idle key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/prism-lancer/idle/S/B.png",
+      "bytes": 576,
+      "sha256": "5c0ad197883ea2b2b5cec258c78b0b51518fd2d0ac581e1b84cfe5bb9a7af678",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prism-lancer",
+      "faction": "sunwoven",
+      "action": "idle",
+      "direction": "S",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prism-lancer S idle key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/prism-lancer/move/N/A.png",
+      "bytes": 576,
+      "sha256": "b1c04e08bea4987b6e248a4a006c8d116fff5db4e96ce8743b4048355b578d20",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prism-lancer",
+      "faction": "sunwoven",
+      "action": "move",
+      "direction": "N",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prism-lancer N move key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/prism-lancer/move/N/B.png",
+      "bytes": 576,
+      "sha256": "5c0ad197883ea2b2b5cec258c78b0b51518fd2d0ac581e1b84cfe5bb9a7af678",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prism-lancer",
+      "faction": "sunwoven",
+      "action": "move",
+      "direction": "N",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prism-lancer N move key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/prism-lancer/move/NE/A.png",
+      "bytes": 576,
+      "sha256": "b1c04e08bea4987b6e248a4a006c8d116fff5db4e96ce8743b4048355b578d20",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prism-lancer",
+      "faction": "sunwoven",
+      "action": "move",
+      "direction": "NE",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prism-lancer NE move key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/prism-lancer/move/NE/B.png",
+      "bytes": 576,
+      "sha256": "5c0ad197883ea2b2b5cec258c78b0b51518fd2d0ac581e1b84cfe5bb9a7af678",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prism-lancer",
+      "faction": "sunwoven",
+      "action": "move",
+      "direction": "NE",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prism-lancer NE move key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/prism-lancer/move/E/A.png",
+      "bytes": 576,
+      "sha256": "b1c04e08bea4987b6e248a4a006c8d116fff5db4e96ce8743b4048355b578d20",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prism-lancer",
+      "faction": "sunwoven",
+      "action": "move",
+      "direction": "E",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prism-lancer E move key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/prism-lancer/move/E/B.png",
+      "bytes": 576,
+      "sha256": "5c0ad197883ea2b2b5cec258c78b0b51518fd2d0ac581e1b84cfe5bb9a7af678",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prism-lancer",
+      "faction": "sunwoven",
+      "action": "move",
+      "direction": "E",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prism-lancer E move key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/prism-lancer/move/SE/A.png",
+      "bytes": 576,
+      "sha256": "b1c04e08bea4987b6e248a4a006c8d116fff5db4e96ce8743b4048355b578d20",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prism-lancer",
+      "faction": "sunwoven",
+      "action": "move",
+      "direction": "SE",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prism-lancer SE move key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/prism-lancer/move/SE/B.png",
+      "bytes": 576,
+      "sha256": "5c0ad197883ea2b2b5cec258c78b0b51518fd2d0ac581e1b84cfe5bb9a7af678",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prism-lancer",
+      "faction": "sunwoven",
+      "action": "move",
+      "direction": "SE",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prism-lancer SE move key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/prism-lancer/move/S/A.png",
+      "bytes": 576,
+      "sha256": "b1c04e08bea4987b6e248a4a006c8d116fff5db4e96ce8743b4048355b578d20",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prism-lancer",
+      "faction": "sunwoven",
+      "action": "move",
+      "direction": "S",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prism-lancer S move key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/prism-lancer/move/S/B.png",
+      "bytes": 576,
+      "sha256": "5c0ad197883ea2b2b5cec258c78b0b51518fd2d0ac581e1b84cfe5bb9a7af678",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prism-lancer",
+      "faction": "sunwoven",
+      "action": "move",
+      "direction": "S",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prism-lancer S move key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/prism-lancer/attack/N/A.png",
+      "bytes": 598,
+      "sha256": "0541d5ae10523079131b740cf01099f3a10d5e824576a44704917cdcbe16f0ba",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prism-lancer",
+      "faction": "sunwoven",
+      "action": "attack",
+      "direction": "N",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prism-lancer N attack key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/prism-lancer/attack/N/B.png",
+      "bytes": 598,
+      "sha256": "2caabb828658dd79ff307e05278fb2da6a9bac6a984ae7cb86e533f337db288c",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prism-lancer",
+      "faction": "sunwoven",
+      "action": "attack",
+      "direction": "N",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prism-lancer N attack key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/prism-lancer/attack/NE/A.png",
+      "bytes": 598,
+      "sha256": "0541d5ae10523079131b740cf01099f3a10d5e824576a44704917cdcbe16f0ba",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prism-lancer",
+      "faction": "sunwoven",
+      "action": "attack",
+      "direction": "NE",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prism-lancer NE attack key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/prism-lancer/attack/NE/B.png",
+      "bytes": 598,
+      "sha256": "2caabb828658dd79ff307e05278fb2da6a9bac6a984ae7cb86e533f337db288c",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prism-lancer",
+      "faction": "sunwoven",
+      "action": "attack",
+      "direction": "NE",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prism-lancer NE attack key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/prism-lancer/attack/E/A.png",
+      "bytes": 598,
+      "sha256": "0541d5ae10523079131b740cf01099f3a10d5e824576a44704917cdcbe16f0ba",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prism-lancer",
+      "faction": "sunwoven",
+      "action": "attack",
+      "direction": "E",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prism-lancer E attack key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/prism-lancer/attack/E/B.png",
+      "bytes": 598,
+      "sha256": "2caabb828658dd79ff307e05278fb2da6a9bac6a984ae7cb86e533f337db288c",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prism-lancer",
+      "faction": "sunwoven",
+      "action": "attack",
+      "direction": "E",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prism-lancer E attack key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/prism-lancer/attack/SE/A.png",
+      "bytes": 598,
+      "sha256": "0541d5ae10523079131b740cf01099f3a10d5e824576a44704917cdcbe16f0ba",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prism-lancer",
+      "faction": "sunwoven",
+      "action": "attack",
+      "direction": "SE",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prism-lancer SE attack key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/prism-lancer/attack/SE/B.png",
+      "bytes": 598,
+      "sha256": "2caabb828658dd79ff307e05278fb2da6a9bac6a984ae7cb86e533f337db288c",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prism-lancer",
+      "faction": "sunwoven",
+      "action": "attack",
+      "direction": "SE",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prism-lancer SE attack key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/prism-lancer/attack/S/A.png",
+      "bytes": 598,
+      "sha256": "0541d5ae10523079131b740cf01099f3a10d5e824576a44704917cdcbe16f0ba",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prism-lancer",
+      "faction": "sunwoven",
+      "action": "attack",
+      "direction": "S",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prism-lancer S attack key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/prism-lancer/attack/S/B.png",
+      "bytes": 598,
+      "sha256": "2caabb828658dd79ff307e05278fb2da6a9bac6a984ae7cb86e533f337db288c",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prism-lancer",
+      "faction": "sunwoven",
+      "action": "attack",
+      "direction": "S",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prism-lancer S attack key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/prism-lancer/hit/N/A.png",
+      "bytes": 576,
+      "sha256": "b1c04e08bea4987b6e248a4a006c8d116fff5db4e96ce8743b4048355b578d20",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prism-lancer",
+      "faction": "sunwoven",
+      "action": "hit",
+      "direction": "N",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prism-lancer N hit key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/prism-lancer/hit/N/B.png",
+      "bytes": 576,
+      "sha256": "5c0ad197883ea2b2b5cec258c78b0b51518fd2d0ac581e1b84cfe5bb9a7af678",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prism-lancer",
+      "faction": "sunwoven",
+      "action": "hit",
+      "direction": "N",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prism-lancer N hit key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/prism-lancer/hit/NE/A.png",
+      "bytes": 576,
+      "sha256": "b1c04e08bea4987b6e248a4a006c8d116fff5db4e96ce8743b4048355b578d20",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prism-lancer",
+      "faction": "sunwoven",
+      "action": "hit",
+      "direction": "NE",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prism-lancer NE hit key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/prism-lancer/hit/NE/B.png",
+      "bytes": 576,
+      "sha256": "5c0ad197883ea2b2b5cec258c78b0b51518fd2d0ac581e1b84cfe5bb9a7af678",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prism-lancer",
+      "faction": "sunwoven",
+      "action": "hit",
+      "direction": "NE",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prism-lancer NE hit key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/prism-lancer/hit/E/A.png",
+      "bytes": 576,
+      "sha256": "b1c04e08bea4987b6e248a4a006c8d116fff5db4e96ce8743b4048355b578d20",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prism-lancer",
+      "faction": "sunwoven",
+      "action": "hit",
+      "direction": "E",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prism-lancer E hit key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/prism-lancer/hit/E/B.png",
+      "bytes": 576,
+      "sha256": "5c0ad197883ea2b2b5cec258c78b0b51518fd2d0ac581e1b84cfe5bb9a7af678",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prism-lancer",
+      "faction": "sunwoven",
+      "action": "hit",
+      "direction": "E",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prism-lancer E hit key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/prism-lancer/hit/SE/A.png",
+      "bytes": 576,
+      "sha256": "b1c04e08bea4987b6e248a4a006c8d116fff5db4e96ce8743b4048355b578d20",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prism-lancer",
+      "faction": "sunwoven",
+      "action": "hit",
+      "direction": "SE",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prism-lancer SE hit key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/prism-lancer/hit/SE/B.png",
+      "bytes": 576,
+      "sha256": "5c0ad197883ea2b2b5cec258c78b0b51518fd2d0ac581e1b84cfe5bb9a7af678",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prism-lancer",
+      "faction": "sunwoven",
+      "action": "hit",
+      "direction": "SE",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prism-lancer SE hit key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/prism-lancer/hit/S/A.png",
+      "bytes": 576,
+      "sha256": "b1c04e08bea4987b6e248a4a006c8d116fff5db4e96ce8743b4048355b578d20",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prism-lancer",
+      "faction": "sunwoven",
+      "action": "hit",
+      "direction": "S",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prism-lancer S hit key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/prism-lancer/hit/S/B.png",
+      "bytes": 576,
+      "sha256": "5c0ad197883ea2b2b5cec258c78b0b51518fd2d0ac581e1b84cfe5bb9a7af678",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prism-lancer",
+      "faction": "sunwoven",
+      "action": "hit",
+      "direction": "S",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prism-lancer S hit key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/prism-lancer/death/N/A.png",
+      "bytes": 576,
+      "sha256": "b1c04e08bea4987b6e248a4a006c8d116fff5db4e96ce8743b4048355b578d20",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prism-lancer",
+      "faction": "sunwoven",
+      "action": "death",
+      "direction": "N",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prism-lancer N death key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/prism-lancer/death/N/B.png",
+      "bytes": 576,
+      "sha256": "5c0ad197883ea2b2b5cec258c78b0b51518fd2d0ac581e1b84cfe5bb9a7af678",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prism-lancer",
+      "faction": "sunwoven",
+      "action": "death",
+      "direction": "N",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prism-lancer N death key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/prism-lancer/death/NE/A.png",
+      "bytes": 576,
+      "sha256": "b1c04e08bea4987b6e248a4a006c8d116fff5db4e96ce8743b4048355b578d20",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prism-lancer",
+      "faction": "sunwoven",
+      "action": "death",
+      "direction": "NE",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prism-lancer NE death key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/prism-lancer/death/NE/B.png",
+      "bytes": 576,
+      "sha256": "5c0ad197883ea2b2b5cec258c78b0b51518fd2d0ac581e1b84cfe5bb9a7af678",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prism-lancer",
+      "faction": "sunwoven",
+      "action": "death",
+      "direction": "NE",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prism-lancer NE death key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/prism-lancer/death/E/A.png",
+      "bytes": 576,
+      "sha256": "b1c04e08bea4987b6e248a4a006c8d116fff5db4e96ce8743b4048355b578d20",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prism-lancer",
+      "faction": "sunwoven",
+      "action": "death",
+      "direction": "E",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prism-lancer E death key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/prism-lancer/death/E/B.png",
+      "bytes": 576,
+      "sha256": "5c0ad197883ea2b2b5cec258c78b0b51518fd2d0ac581e1b84cfe5bb9a7af678",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prism-lancer",
+      "faction": "sunwoven",
+      "action": "death",
+      "direction": "E",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prism-lancer E death key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/prism-lancer/death/SE/A.png",
+      "bytes": 576,
+      "sha256": "b1c04e08bea4987b6e248a4a006c8d116fff5db4e96ce8743b4048355b578d20",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prism-lancer",
+      "faction": "sunwoven",
+      "action": "death",
+      "direction": "SE",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prism-lancer SE death key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/prism-lancer/death/SE/B.png",
+      "bytes": 576,
+      "sha256": "5c0ad197883ea2b2b5cec258c78b0b51518fd2d0ac581e1b84cfe5bb9a7af678",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prism-lancer",
+      "faction": "sunwoven",
+      "action": "death",
+      "direction": "SE",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prism-lancer SE death key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/prism-lancer/death/S/A.png",
+      "bytes": 576,
+      "sha256": "b1c04e08bea4987b6e248a4a006c8d116fff5db4e96ce8743b4048355b578d20",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prism-lancer",
+      "faction": "sunwoven",
+      "action": "death",
+      "direction": "S",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prism-lancer S death key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/sunwoven/prism-lancer/death/S/B.png",
+      "bytes": 576,
+      "sha256": "5c0ad197883ea2b2b5cec258c78b0b51518fd2d0ac581e1b84cfe5bb9a7af678",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prism-lancer",
+      "faction": "sunwoven",
+      "action": "death",
+      "direction": "S",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prism-lancer S death key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/stoneguard/idle/N/A.png",
+      "bytes": 628,
+      "sha256": "96f14c777822501cf4931f268ce0060921b7662b41aad3647da01bcc46c2cf69",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "stoneguard",
+      "faction": "gravemark",
+      "action": "idle",
+      "direction": "N",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like stoneguard N idle key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/stoneguard/idle/N/B.png",
+      "bytes": 628,
+      "sha256": "d6a2ea701910cc459b92c450a7696e39aa3ad7db5347ac392e6cbd126358353a",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "stoneguard",
+      "faction": "gravemark",
+      "action": "idle",
+      "direction": "N",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like stoneguard N idle key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/stoneguard/idle/NE/A.png",
+      "bytes": 628,
+      "sha256": "96f14c777822501cf4931f268ce0060921b7662b41aad3647da01bcc46c2cf69",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "stoneguard",
+      "faction": "gravemark",
+      "action": "idle",
+      "direction": "NE",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like stoneguard NE idle key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/stoneguard/idle/NE/B.png",
+      "bytes": 628,
+      "sha256": "d6a2ea701910cc459b92c450a7696e39aa3ad7db5347ac392e6cbd126358353a",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "stoneguard",
+      "faction": "gravemark",
+      "action": "idle",
+      "direction": "NE",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like stoneguard NE idle key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/stoneguard/idle/E/A.png",
+      "bytes": 628,
+      "sha256": "96f14c777822501cf4931f268ce0060921b7662b41aad3647da01bcc46c2cf69",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "stoneguard",
+      "faction": "gravemark",
+      "action": "idle",
+      "direction": "E",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like stoneguard E idle key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/stoneguard/idle/E/B.png",
+      "bytes": 628,
+      "sha256": "d6a2ea701910cc459b92c450a7696e39aa3ad7db5347ac392e6cbd126358353a",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "stoneguard",
+      "faction": "gravemark",
+      "action": "idle",
+      "direction": "E",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like stoneguard E idle key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/stoneguard/idle/SE/A.png",
+      "bytes": 628,
+      "sha256": "96f14c777822501cf4931f268ce0060921b7662b41aad3647da01bcc46c2cf69",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "stoneguard",
+      "faction": "gravemark",
+      "action": "idle",
+      "direction": "SE",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like stoneguard SE idle key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/stoneguard/idle/SE/B.png",
+      "bytes": 628,
+      "sha256": "d6a2ea701910cc459b92c450a7696e39aa3ad7db5347ac392e6cbd126358353a",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "stoneguard",
+      "faction": "gravemark",
+      "action": "idle",
+      "direction": "SE",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like stoneguard SE idle key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/stoneguard/idle/S/A.png",
+      "bytes": 628,
+      "sha256": "96f14c777822501cf4931f268ce0060921b7662b41aad3647da01bcc46c2cf69",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "stoneguard",
+      "faction": "gravemark",
+      "action": "idle",
+      "direction": "S",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like stoneguard S idle key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/stoneguard/idle/S/B.png",
+      "bytes": 628,
+      "sha256": "d6a2ea701910cc459b92c450a7696e39aa3ad7db5347ac392e6cbd126358353a",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "stoneguard",
+      "faction": "gravemark",
+      "action": "idle",
+      "direction": "S",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like stoneguard S idle key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/stoneguard/move/N/A.png",
+      "bytes": 628,
+      "sha256": "96f14c777822501cf4931f268ce0060921b7662b41aad3647da01bcc46c2cf69",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "stoneguard",
+      "faction": "gravemark",
+      "action": "move",
+      "direction": "N",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like stoneguard N move key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/stoneguard/move/N/B.png",
+      "bytes": 628,
+      "sha256": "d6a2ea701910cc459b92c450a7696e39aa3ad7db5347ac392e6cbd126358353a",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "stoneguard",
+      "faction": "gravemark",
+      "action": "move",
+      "direction": "N",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like stoneguard N move key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/stoneguard/move/NE/A.png",
+      "bytes": 628,
+      "sha256": "96f14c777822501cf4931f268ce0060921b7662b41aad3647da01bcc46c2cf69",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "stoneguard",
+      "faction": "gravemark",
+      "action": "move",
+      "direction": "NE",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like stoneguard NE move key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/stoneguard/move/NE/B.png",
+      "bytes": 628,
+      "sha256": "d6a2ea701910cc459b92c450a7696e39aa3ad7db5347ac392e6cbd126358353a",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "stoneguard",
+      "faction": "gravemark",
+      "action": "move",
+      "direction": "NE",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like stoneguard NE move key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/stoneguard/move/E/A.png",
+      "bytes": 628,
+      "sha256": "96f14c777822501cf4931f268ce0060921b7662b41aad3647da01bcc46c2cf69",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "stoneguard",
+      "faction": "gravemark",
+      "action": "move",
+      "direction": "E",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like stoneguard E move key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/stoneguard/move/E/B.png",
+      "bytes": 628,
+      "sha256": "d6a2ea701910cc459b92c450a7696e39aa3ad7db5347ac392e6cbd126358353a",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "stoneguard",
+      "faction": "gravemark",
+      "action": "move",
+      "direction": "E",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like stoneguard E move key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/stoneguard/move/SE/A.png",
+      "bytes": 628,
+      "sha256": "96f14c777822501cf4931f268ce0060921b7662b41aad3647da01bcc46c2cf69",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "stoneguard",
+      "faction": "gravemark",
+      "action": "move",
+      "direction": "SE",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like stoneguard SE move key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/stoneguard/move/SE/B.png",
+      "bytes": 628,
+      "sha256": "d6a2ea701910cc459b92c450a7696e39aa3ad7db5347ac392e6cbd126358353a",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "stoneguard",
+      "faction": "gravemark",
+      "action": "move",
+      "direction": "SE",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like stoneguard SE move key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/stoneguard/move/S/A.png",
+      "bytes": 628,
+      "sha256": "96f14c777822501cf4931f268ce0060921b7662b41aad3647da01bcc46c2cf69",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "stoneguard",
+      "faction": "gravemark",
+      "action": "move",
+      "direction": "S",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like stoneguard S move key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/stoneguard/move/S/B.png",
+      "bytes": 628,
+      "sha256": "d6a2ea701910cc459b92c450a7696e39aa3ad7db5347ac392e6cbd126358353a",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "stoneguard",
+      "faction": "gravemark",
+      "action": "move",
+      "direction": "S",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like stoneguard S move key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/stoneguard/attack/N/A.png",
+      "bytes": 679,
+      "sha256": "0856138f87aea10c973823d94c5923c74c428ae21a5b9227f20556210f66e3c8",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "stoneguard",
+      "faction": "gravemark",
+      "action": "attack",
+      "direction": "N",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like stoneguard N attack key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/stoneguard/attack/N/B.png",
+      "bytes": 679,
+      "sha256": "89f1b608723fd568ba6aa967c8d68f307413382ba328bbe6b5881657f0bd46b0",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "stoneguard",
+      "faction": "gravemark",
+      "action": "attack",
+      "direction": "N",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like stoneguard N attack key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/stoneguard/attack/NE/A.png",
+      "bytes": 679,
+      "sha256": "0856138f87aea10c973823d94c5923c74c428ae21a5b9227f20556210f66e3c8",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "stoneguard",
+      "faction": "gravemark",
+      "action": "attack",
+      "direction": "NE",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like stoneguard NE attack key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/stoneguard/attack/NE/B.png",
+      "bytes": 679,
+      "sha256": "89f1b608723fd568ba6aa967c8d68f307413382ba328bbe6b5881657f0bd46b0",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "stoneguard",
+      "faction": "gravemark",
+      "action": "attack",
+      "direction": "NE",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like stoneguard NE attack key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/stoneguard/attack/E/A.png",
+      "bytes": 679,
+      "sha256": "0856138f87aea10c973823d94c5923c74c428ae21a5b9227f20556210f66e3c8",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "stoneguard",
+      "faction": "gravemark",
+      "action": "attack",
+      "direction": "E",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like stoneguard E attack key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/stoneguard/attack/E/B.png",
+      "bytes": 679,
+      "sha256": "89f1b608723fd568ba6aa967c8d68f307413382ba328bbe6b5881657f0bd46b0",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "stoneguard",
+      "faction": "gravemark",
+      "action": "attack",
+      "direction": "E",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like stoneguard E attack key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/stoneguard/attack/SE/A.png",
+      "bytes": 679,
+      "sha256": "0856138f87aea10c973823d94c5923c74c428ae21a5b9227f20556210f66e3c8",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "stoneguard",
+      "faction": "gravemark",
+      "action": "attack",
+      "direction": "SE",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like stoneguard SE attack key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/stoneguard/attack/SE/B.png",
+      "bytes": 679,
+      "sha256": "89f1b608723fd568ba6aa967c8d68f307413382ba328bbe6b5881657f0bd46b0",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "stoneguard",
+      "faction": "gravemark",
+      "action": "attack",
+      "direction": "SE",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like stoneguard SE attack key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/stoneguard/attack/S/A.png",
+      "bytes": 679,
+      "sha256": "0856138f87aea10c973823d94c5923c74c428ae21a5b9227f20556210f66e3c8",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "stoneguard",
+      "faction": "gravemark",
+      "action": "attack",
+      "direction": "S",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like stoneguard S attack key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/stoneguard/attack/S/B.png",
+      "bytes": 679,
+      "sha256": "89f1b608723fd568ba6aa967c8d68f307413382ba328bbe6b5881657f0bd46b0",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "stoneguard",
+      "faction": "gravemark",
+      "action": "attack",
+      "direction": "S",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like stoneguard S attack key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/stoneguard/hit/N/A.png",
+      "bytes": 628,
+      "sha256": "96f14c777822501cf4931f268ce0060921b7662b41aad3647da01bcc46c2cf69",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "stoneguard",
+      "faction": "gravemark",
+      "action": "hit",
+      "direction": "N",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like stoneguard N hit key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/stoneguard/hit/N/B.png",
+      "bytes": 628,
+      "sha256": "d6a2ea701910cc459b92c450a7696e39aa3ad7db5347ac392e6cbd126358353a",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "stoneguard",
+      "faction": "gravemark",
+      "action": "hit",
+      "direction": "N",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like stoneguard N hit key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/stoneguard/hit/NE/A.png",
+      "bytes": 628,
+      "sha256": "96f14c777822501cf4931f268ce0060921b7662b41aad3647da01bcc46c2cf69",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "stoneguard",
+      "faction": "gravemark",
+      "action": "hit",
+      "direction": "NE",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like stoneguard NE hit key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/stoneguard/hit/NE/B.png",
+      "bytes": 628,
+      "sha256": "d6a2ea701910cc459b92c450a7696e39aa3ad7db5347ac392e6cbd126358353a",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "stoneguard",
+      "faction": "gravemark",
+      "action": "hit",
+      "direction": "NE",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like stoneguard NE hit key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/stoneguard/hit/E/A.png",
+      "bytes": 628,
+      "sha256": "96f14c777822501cf4931f268ce0060921b7662b41aad3647da01bcc46c2cf69",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "stoneguard",
+      "faction": "gravemark",
+      "action": "hit",
+      "direction": "E",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like stoneguard E hit key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/stoneguard/hit/E/B.png",
+      "bytes": 628,
+      "sha256": "d6a2ea701910cc459b92c450a7696e39aa3ad7db5347ac392e6cbd126358353a",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "stoneguard",
+      "faction": "gravemark",
+      "action": "hit",
+      "direction": "E",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like stoneguard E hit key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/stoneguard/hit/SE/A.png",
+      "bytes": 628,
+      "sha256": "96f14c777822501cf4931f268ce0060921b7662b41aad3647da01bcc46c2cf69",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "stoneguard",
+      "faction": "gravemark",
+      "action": "hit",
+      "direction": "SE",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like stoneguard SE hit key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/stoneguard/hit/SE/B.png",
+      "bytes": 628,
+      "sha256": "d6a2ea701910cc459b92c450a7696e39aa3ad7db5347ac392e6cbd126358353a",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "stoneguard",
+      "faction": "gravemark",
+      "action": "hit",
+      "direction": "SE",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like stoneguard SE hit key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/stoneguard/hit/S/A.png",
+      "bytes": 628,
+      "sha256": "96f14c777822501cf4931f268ce0060921b7662b41aad3647da01bcc46c2cf69",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "stoneguard",
+      "faction": "gravemark",
+      "action": "hit",
+      "direction": "S",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like stoneguard S hit key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/stoneguard/hit/S/B.png",
+      "bytes": 628,
+      "sha256": "d6a2ea701910cc459b92c450a7696e39aa3ad7db5347ac392e6cbd126358353a",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "stoneguard",
+      "faction": "gravemark",
+      "action": "hit",
+      "direction": "S",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like stoneguard S hit key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/stoneguard/death/N/A.png",
+      "bytes": 628,
+      "sha256": "96f14c777822501cf4931f268ce0060921b7662b41aad3647da01bcc46c2cf69",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "stoneguard",
+      "faction": "gravemark",
+      "action": "death",
+      "direction": "N",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like stoneguard N death key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/stoneguard/death/N/B.png",
+      "bytes": 628,
+      "sha256": "d6a2ea701910cc459b92c450a7696e39aa3ad7db5347ac392e6cbd126358353a",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "stoneguard",
+      "faction": "gravemark",
+      "action": "death",
+      "direction": "N",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like stoneguard N death key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/stoneguard/death/NE/A.png",
+      "bytes": 628,
+      "sha256": "96f14c777822501cf4931f268ce0060921b7662b41aad3647da01bcc46c2cf69",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "stoneguard",
+      "faction": "gravemark",
+      "action": "death",
+      "direction": "NE",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like stoneguard NE death key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/stoneguard/death/NE/B.png",
+      "bytes": 628,
+      "sha256": "d6a2ea701910cc459b92c450a7696e39aa3ad7db5347ac392e6cbd126358353a",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "stoneguard",
+      "faction": "gravemark",
+      "action": "death",
+      "direction": "NE",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like stoneguard NE death key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/stoneguard/death/E/A.png",
+      "bytes": 628,
+      "sha256": "96f14c777822501cf4931f268ce0060921b7662b41aad3647da01bcc46c2cf69",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "stoneguard",
+      "faction": "gravemark",
+      "action": "death",
+      "direction": "E",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like stoneguard E death key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/stoneguard/death/E/B.png",
+      "bytes": 628,
+      "sha256": "d6a2ea701910cc459b92c450a7696e39aa3ad7db5347ac392e6cbd126358353a",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "stoneguard",
+      "faction": "gravemark",
+      "action": "death",
+      "direction": "E",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like stoneguard E death key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/stoneguard/death/SE/A.png",
+      "bytes": 628,
+      "sha256": "96f14c777822501cf4931f268ce0060921b7662b41aad3647da01bcc46c2cf69",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "stoneguard",
+      "faction": "gravemark",
+      "action": "death",
+      "direction": "SE",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like stoneguard SE death key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/stoneguard/death/SE/B.png",
+      "bytes": 628,
+      "sha256": "d6a2ea701910cc459b92c450a7696e39aa3ad7db5347ac392e6cbd126358353a",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "stoneguard",
+      "faction": "gravemark",
+      "action": "death",
+      "direction": "SE",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like stoneguard SE death key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/stoneguard/death/S/A.png",
+      "bytes": 628,
+      "sha256": "96f14c777822501cf4931f268ce0060921b7662b41aad3647da01bcc46c2cf69",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "stoneguard",
+      "faction": "gravemark",
+      "action": "death",
+      "direction": "S",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like stoneguard S death key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/stoneguard/death/S/B.png",
+      "bytes": 628,
+      "sha256": "d6a2ea701910cc459b92c450a7696e39aa3ad7db5347ac392e6cbd126358353a",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "stoneguard",
+      "faction": "gravemark",
+      "action": "death",
+      "direction": "S",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like stoneguard S death key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/prospector/idle/N/A.png",
+      "bytes": 635,
+      "sha256": "6a1d8c3a4d03859c1e0619c14daf03f3f1f7c2207842353c1d11a634771e9159",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prospector",
+      "faction": "gravemark",
+      "action": "idle",
+      "direction": "N",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prospector N idle key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/prospector/idle/N/B.png",
+      "bytes": 635,
+      "sha256": "6f337289af2f4a75a90b237c5ccaa83ab4ced647400d258961e38cadda153b3b",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prospector",
+      "faction": "gravemark",
+      "action": "idle",
+      "direction": "N",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prospector N idle key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/prospector/idle/NE/A.png",
+      "bytes": 635,
+      "sha256": "6a1d8c3a4d03859c1e0619c14daf03f3f1f7c2207842353c1d11a634771e9159",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prospector",
+      "faction": "gravemark",
+      "action": "idle",
+      "direction": "NE",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prospector NE idle key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/prospector/idle/NE/B.png",
+      "bytes": 635,
+      "sha256": "6f337289af2f4a75a90b237c5ccaa83ab4ced647400d258961e38cadda153b3b",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prospector",
+      "faction": "gravemark",
+      "action": "idle",
+      "direction": "NE",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prospector NE idle key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/prospector/idle/E/A.png",
+      "bytes": 635,
+      "sha256": "6a1d8c3a4d03859c1e0619c14daf03f3f1f7c2207842353c1d11a634771e9159",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prospector",
+      "faction": "gravemark",
+      "action": "idle",
+      "direction": "E",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prospector E idle key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/prospector/idle/E/B.png",
+      "bytes": 635,
+      "sha256": "6f337289af2f4a75a90b237c5ccaa83ab4ced647400d258961e38cadda153b3b",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prospector",
+      "faction": "gravemark",
+      "action": "idle",
+      "direction": "E",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prospector E idle key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/prospector/idle/SE/A.png",
+      "bytes": 635,
+      "sha256": "6a1d8c3a4d03859c1e0619c14daf03f3f1f7c2207842353c1d11a634771e9159",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prospector",
+      "faction": "gravemark",
+      "action": "idle",
+      "direction": "SE",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prospector SE idle key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/prospector/idle/SE/B.png",
+      "bytes": 635,
+      "sha256": "6f337289af2f4a75a90b237c5ccaa83ab4ced647400d258961e38cadda153b3b",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prospector",
+      "faction": "gravemark",
+      "action": "idle",
+      "direction": "SE",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prospector SE idle key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/prospector/idle/S/A.png",
+      "bytes": 635,
+      "sha256": "6a1d8c3a4d03859c1e0619c14daf03f3f1f7c2207842353c1d11a634771e9159",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prospector",
+      "faction": "gravemark",
+      "action": "idle",
+      "direction": "S",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prospector S idle key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/prospector/idle/S/B.png",
+      "bytes": 635,
+      "sha256": "6f337289af2f4a75a90b237c5ccaa83ab4ced647400d258961e38cadda153b3b",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prospector",
+      "faction": "gravemark",
+      "action": "idle",
+      "direction": "S",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prospector S idle key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/prospector/move/N/A.png",
+      "bytes": 635,
+      "sha256": "6a1d8c3a4d03859c1e0619c14daf03f3f1f7c2207842353c1d11a634771e9159",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prospector",
+      "faction": "gravemark",
+      "action": "move",
+      "direction": "N",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prospector N move key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/prospector/move/N/B.png",
+      "bytes": 635,
+      "sha256": "6f337289af2f4a75a90b237c5ccaa83ab4ced647400d258961e38cadda153b3b",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prospector",
+      "faction": "gravemark",
+      "action": "move",
+      "direction": "N",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prospector N move key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/prospector/move/NE/A.png",
+      "bytes": 635,
+      "sha256": "6a1d8c3a4d03859c1e0619c14daf03f3f1f7c2207842353c1d11a634771e9159",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prospector",
+      "faction": "gravemark",
+      "action": "move",
+      "direction": "NE",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prospector NE move key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/prospector/move/NE/B.png",
+      "bytes": 635,
+      "sha256": "6f337289af2f4a75a90b237c5ccaa83ab4ced647400d258961e38cadda153b3b",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prospector",
+      "faction": "gravemark",
+      "action": "move",
+      "direction": "NE",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prospector NE move key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/prospector/move/E/A.png",
+      "bytes": 635,
+      "sha256": "6a1d8c3a4d03859c1e0619c14daf03f3f1f7c2207842353c1d11a634771e9159",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prospector",
+      "faction": "gravemark",
+      "action": "move",
+      "direction": "E",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prospector E move key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/prospector/move/E/B.png",
+      "bytes": 635,
+      "sha256": "6f337289af2f4a75a90b237c5ccaa83ab4ced647400d258961e38cadda153b3b",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prospector",
+      "faction": "gravemark",
+      "action": "move",
+      "direction": "E",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prospector E move key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/prospector/move/SE/A.png",
+      "bytes": 635,
+      "sha256": "6a1d8c3a4d03859c1e0619c14daf03f3f1f7c2207842353c1d11a634771e9159",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prospector",
+      "faction": "gravemark",
+      "action": "move",
+      "direction": "SE",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prospector SE move key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/prospector/move/SE/B.png",
+      "bytes": 635,
+      "sha256": "6f337289af2f4a75a90b237c5ccaa83ab4ced647400d258961e38cadda153b3b",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prospector",
+      "faction": "gravemark",
+      "action": "move",
+      "direction": "SE",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prospector SE move key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/prospector/move/S/A.png",
+      "bytes": 635,
+      "sha256": "6a1d8c3a4d03859c1e0619c14daf03f3f1f7c2207842353c1d11a634771e9159",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prospector",
+      "faction": "gravemark",
+      "action": "move",
+      "direction": "S",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prospector S move key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/prospector/move/S/B.png",
+      "bytes": 635,
+      "sha256": "6f337289af2f4a75a90b237c5ccaa83ab4ced647400d258961e38cadda153b3b",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prospector",
+      "faction": "gravemark",
+      "action": "move",
+      "direction": "S",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prospector S move key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/prospector/attack/N/A.png",
+      "bytes": 680,
+      "sha256": "dece0d9d55f81ccd537b4d923e30a97659062b6dab53c180b9b288dbcda3260e",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prospector",
+      "faction": "gravemark",
+      "action": "attack",
+      "direction": "N",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prospector N attack key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/prospector/attack/N/B.png",
+      "bytes": 680,
+      "sha256": "ec100001696208ed1bbd506f621c92f0df1b83fbd24c40e3ebf7d0d22a2e76a7",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prospector",
+      "faction": "gravemark",
+      "action": "attack",
+      "direction": "N",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prospector N attack key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/prospector/attack/NE/A.png",
+      "bytes": 680,
+      "sha256": "dece0d9d55f81ccd537b4d923e30a97659062b6dab53c180b9b288dbcda3260e",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prospector",
+      "faction": "gravemark",
+      "action": "attack",
+      "direction": "NE",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prospector NE attack key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/prospector/attack/NE/B.png",
+      "bytes": 680,
+      "sha256": "ec100001696208ed1bbd506f621c92f0df1b83fbd24c40e3ebf7d0d22a2e76a7",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prospector",
+      "faction": "gravemark",
+      "action": "attack",
+      "direction": "NE",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prospector NE attack key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/prospector/attack/E/A.png",
+      "bytes": 680,
+      "sha256": "dece0d9d55f81ccd537b4d923e30a97659062b6dab53c180b9b288dbcda3260e",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prospector",
+      "faction": "gravemark",
+      "action": "attack",
+      "direction": "E",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prospector E attack key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/prospector/attack/E/B.png",
+      "bytes": 680,
+      "sha256": "ec100001696208ed1bbd506f621c92f0df1b83fbd24c40e3ebf7d0d22a2e76a7",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prospector",
+      "faction": "gravemark",
+      "action": "attack",
+      "direction": "E",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prospector E attack key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/prospector/attack/SE/A.png",
+      "bytes": 680,
+      "sha256": "dece0d9d55f81ccd537b4d923e30a97659062b6dab53c180b9b288dbcda3260e",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prospector",
+      "faction": "gravemark",
+      "action": "attack",
+      "direction": "SE",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prospector SE attack key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/prospector/attack/SE/B.png",
+      "bytes": 680,
+      "sha256": "ec100001696208ed1bbd506f621c92f0df1b83fbd24c40e3ebf7d0d22a2e76a7",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prospector",
+      "faction": "gravemark",
+      "action": "attack",
+      "direction": "SE",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prospector SE attack key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/prospector/attack/S/A.png",
+      "bytes": 680,
+      "sha256": "dece0d9d55f81ccd537b4d923e30a97659062b6dab53c180b9b288dbcda3260e",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prospector",
+      "faction": "gravemark",
+      "action": "attack",
+      "direction": "S",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prospector S attack key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/prospector/attack/S/B.png",
+      "bytes": 680,
+      "sha256": "ec100001696208ed1bbd506f621c92f0df1b83fbd24c40e3ebf7d0d22a2e76a7",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prospector",
+      "faction": "gravemark",
+      "action": "attack",
+      "direction": "S",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prospector S attack key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/prospector/hit/N/A.png",
+      "bytes": 635,
+      "sha256": "6a1d8c3a4d03859c1e0619c14daf03f3f1f7c2207842353c1d11a634771e9159",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prospector",
+      "faction": "gravemark",
+      "action": "hit",
+      "direction": "N",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prospector N hit key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/prospector/hit/N/B.png",
+      "bytes": 635,
+      "sha256": "6f337289af2f4a75a90b237c5ccaa83ab4ced647400d258961e38cadda153b3b",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prospector",
+      "faction": "gravemark",
+      "action": "hit",
+      "direction": "N",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prospector N hit key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/prospector/hit/NE/A.png",
+      "bytes": 635,
+      "sha256": "6a1d8c3a4d03859c1e0619c14daf03f3f1f7c2207842353c1d11a634771e9159",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prospector",
+      "faction": "gravemark",
+      "action": "hit",
+      "direction": "NE",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prospector NE hit key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/prospector/hit/NE/B.png",
+      "bytes": 635,
+      "sha256": "6f337289af2f4a75a90b237c5ccaa83ab4ced647400d258961e38cadda153b3b",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prospector",
+      "faction": "gravemark",
+      "action": "hit",
+      "direction": "NE",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prospector NE hit key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/prospector/hit/E/A.png",
+      "bytes": 635,
+      "sha256": "6a1d8c3a4d03859c1e0619c14daf03f3f1f7c2207842353c1d11a634771e9159",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prospector",
+      "faction": "gravemark",
+      "action": "hit",
+      "direction": "E",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prospector E hit key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/prospector/hit/E/B.png",
+      "bytes": 635,
+      "sha256": "6f337289af2f4a75a90b237c5ccaa83ab4ced647400d258961e38cadda153b3b",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prospector",
+      "faction": "gravemark",
+      "action": "hit",
+      "direction": "E",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prospector E hit key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/prospector/hit/SE/A.png",
+      "bytes": 635,
+      "sha256": "6a1d8c3a4d03859c1e0619c14daf03f3f1f7c2207842353c1d11a634771e9159",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prospector",
+      "faction": "gravemark",
+      "action": "hit",
+      "direction": "SE",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prospector SE hit key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/prospector/hit/SE/B.png",
+      "bytes": 635,
+      "sha256": "6f337289af2f4a75a90b237c5ccaa83ab4ced647400d258961e38cadda153b3b",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prospector",
+      "faction": "gravemark",
+      "action": "hit",
+      "direction": "SE",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prospector SE hit key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/prospector/hit/S/A.png",
+      "bytes": 635,
+      "sha256": "6a1d8c3a4d03859c1e0619c14daf03f3f1f7c2207842353c1d11a634771e9159",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prospector",
+      "faction": "gravemark",
+      "action": "hit",
+      "direction": "S",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prospector S hit key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/prospector/hit/S/B.png",
+      "bytes": 635,
+      "sha256": "6f337289af2f4a75a90b237c5ccaa83ab4ced647400d258961e38cadda153b3b",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prospector",
+      "faction": "gravemark",
+      "action": "hit",
+      "direction": "S",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prospector S hit key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/prospector/death/N/A.png",
+      "bytes": 635,
+      "sha256": "6a1d8c3a4d03859c1e0619c14daf03f3f1f7c2207842353c1d11a634771e9159",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prospector",
+      "faction": "gravemark",
+      "action": "death",
+      "direction": "N",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prospector N death key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/prospector/death/N/B.png",
+      "bytes": 635,
+      "sha256": "6f337289af2f4a75a90b237c5ccaa83ab4ced647400d258961e38cadda153b3b",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prospector",
+      "faction": "gravemark",
+      "action": "death",
+      "direction": "N",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prospector N death key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/prospector/death/NE/A.png",
+      "bytes": 635,
+      "sha256": "6a1d8c3a4d03859c1e0619c14daf03f3f1f7c2207842353c1d11a634771e9159",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prospector",
+      "faction": "gravemark",
+      "action": "death",
+      "direction": "NE",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prospector NE death key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/prospector/death/NE/B.png",
+      "bytes": 635,
+      "sha256": "6f337289af2f4a75a90b237c5ccaa83ab4ced647400d258961e38cadda153b3b",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prospector",
+      "faction": "gravemark",
+      "action": "death",
+      "direction": "NE",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prospector NE death key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/prospector/death/E/A.png",
+      "bytes": 635,
+      "sha256": "6a1d8c3a4d03859c1e0619c14daf03f3f1f7c2207842353c1d11a634771e9159",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prospector",
+      "faction": "gravemark",
+      "action": "death",
+      "direction": "E",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prospector E death key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/prospector/death/E/B.png",
+      "bytes": 635,
+      "sha256": "6f337289af2f4a75a90b237c5ccaa83ab4ced647400d258961e38cadda153b3b",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prospector",
+      "faction": "gravemark",
+      "action": "death",
+      "direction": "E",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prospector E death key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/prospector/death/SE/A.png",
+      "bytes": 635,
+      "sha256": "6a1d8c3a4d03859c1e0619c14daf03f3f1f7c2207842353c1d11a634771e9159",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prospector",
+      "faction": "gravemark",
+      "action": "death",
+      "direction": "SE",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prospector SE death key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/prospector/death/SE/B.png",
+      "bytes": 635,
+      "sha256": "6f337289af2f4a75a90b237c5ccaa83ab4ced647400d258961e38cadda153b3b",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prospector",
+      "faction": "gravemark",
+      "action": "death",
+      "direction": "SE",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prospector SE death key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/prospector/death/S/A.png",
+      "bytes": 635,
+      "sha256": "6a1d8c3a4d03859c1e0619c14daf03f3f1f7c2207842353c1d11a634771e9159",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prospector",
+      "faction": "gravemark",
+      "action": "death",
+      "direction": "S",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prospector S death key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/prospector/death/S/B.png",
+      "bytes": 635,
+      "sha256": "6f337289af2f4a75a90b237c5ccaa83ab4ced647400d258961e38cadda153b3b",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prospector",
+      "faction": "gravemark",
+      "action": "death",
+      "direction": "S",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prospector S death key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/prospector/build/N/A.png",
+      "bytes": 635,
+      "sha256": "6a1d8c3a4d03859c1e0619c14daf03f3f1f7c2207842353c1d11a634771e9159",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prospector",
+      "faction": "gravemark",
+      "action": "build",
+      "direction": "N",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prospector N build key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/prospector/build/N/B.png",
+      "bytes": 635,
+      "sha256": "6f337289af2f4a75a90b237c5ccaa83ab4ced647400d258961e38cadda153b3b",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prospector",
+      "faction": "gravemark",
+      "action": "build",
+      "direction": "N",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prospector N build key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/prospector/build/NE/A.png",
+      "bytes": 635,
+      "sha256": "6a1d8c3a4d03859c1e0619c14daf03f3f1f7c2207842353c1d11a634771e9159",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prospector",
+      "faction": "gravemark",
+      "action": "build",
+      "direction": "NE",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prospector NE build key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/prospector/build/NE/B.png",
+      "bytes": 635,
+      "sha256": "6f337289af2f4a75a90b237c5ccaa83ab4ced647400d258961e38cadda153b3b",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prospector",
+      "faction": "gravemark",
+      "action": "build",
+      "direction": "NE",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prospector NE build key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/prospector/build/E/A.png",
+      "bytes": 635,
+      "sha256": "6a1d8c3a4d03859c1e0619c14daf03f3f1f7c2207842353c1d11a634771e9159",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prospector",
+      "faction": "gravemark",
+      "action": "build",
+      "direction": "E",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prospector E build key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/prospector/build/E/B.png",
+      "bytes": 635,
+      "sha256": "6f337289af2f4a75a90b237c5ccaa83ab4ced647400d258961e38cadda153b3b",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prospector",
+      "faction": "gravemark",
+      "action": "build",
+      "direction": "E",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prospector E build key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/prospector/build/SE/A.png",
+      "bytes": 635,
+      "sha256": "6a1d8c3a4d03859c1e0619c14daf03f3f1f7c2207842353c1d11a634771e9159",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prospector",
+      "faction": "gravemark",
+      "action": "build",
+      "direction": "SE",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prospector SE build key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/prospector/build/SE/B.png",
+      "bytes": 635,
+      "sha256": "6f337289af2f4a75a90b237c5ccaa83ab4ced647400d258961e38cadda153b3b",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prospector",
+      "faction": "gravemark",
+      "action": "build",
+      "direction": "SE",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prospector SE build key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/prospector/build/S/A.png",
+      "bytes": 635,
+      "sha256": "6a1d8c3a4d03859c1e0619c14daf03f3f1f7c2207842353c1d11a634771e9159",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prospector",
+      "faction": "gravemark",
+      "action": "build",
+      "direction": "S",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prospector S build key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/prospector/build/S/B.png",
+      "bytes": 635,
+      "sha256": "6f337289af2f4a75a90b237c5ccaa83ab4ced647400d258961e38cadda153b3b",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "prospector",
+      "faction": "gravemark",
+      "action": "build",
+      "direction": "S",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like prospector S build key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/rift-cannon/idle/N/A.png",
+      "bytes": 628,
+      "sha256": "96f14c777822501cf4931f268ce0060921b7662b41aad3647da01bcc46c2cf69",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "rift-cannon",
+      "faction": "gravemark",
+      "action": "idle",
+      "direction": "N",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like rift-cannon N idle key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/rift-cannon/idle/N/B.png",
+      "bytes": 628,
+      "sha256": "d6a2ea701910cc459b92c450a7696e39aa3ad7db5347ac392e6cbd126358353a",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "rift-cannon",
+      "faction": "gravemark",
+      "action": "idle",
+      "direction": "N",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like rift-cannon N idle key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/rift-cannon/idle/NE/A.png",
+      "bytes": 628,
+      "sha256": "96f14c777822501cf4931f268ce0060921b7662b41aad3647da01bcc46c2cf69",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "rift-cannon",
+      "faction": "gravemark",
+      "action": "idle",
+      "direction": "NE",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like rift-cannon NE idle key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/rift-cannon/idle/NE/B.png",
+      "bytes": 628,
+      "sha256": "d6a2ea701910cc459b92c450a7696e39aa3ad7db5347ac392e6cbd126358353a",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "rift-cannon",
+      "faction": "gravemark",
+      "action": "idle",
+      "direction": "NE",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like rift-cannon NE idle key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/rift-cannon/idle/E/A.png",
+      "bytes": 628,
+      "sha256": "96f14c777822501cf4931f268ce0060921b7662b41aad3647da01bcc46c2cf69",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "rift-cannon",
+      "faction": "gravemark",
+      "action": "idle",
+      "direction": "E",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like rift-cannon E idle key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/rift-cannon/idle/E/B.png",
+      "bytes": 628,
+      "sha256": "d6a2ea701910cc459b92c450a7696e39aa3ad7db5347ac392e6cbd126358353a",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "rift-cannon",
+      "faction": "gravemark",
+      "action": "idle",
+      "direction": "E",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like rift-cannon E idle key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/rift-cannon/idle/SE/A.png",
+      "bytes": 628,
+      "sha256": "96f14c777822501cf4931f268ce0060921b7662b41aad3647da01bcc46c2cf69",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "rift-cannon",
+      "faction": "gravemark",
+      "action": "idle",
+      "direction": "SE",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like rift-cannon SE idle key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/rift-cannon/idle/SE/B.png",
+      "bytes": 628,
+      "sha256": "d6a2ea701910cc459b92c450a7696e39aa3ad7db5347ac392e6cbd126358353a",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "rift-cannon",
+      "faction": "gravemark",
+      "action": "idle",
+      "direction": "SE",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like rift-cannon SE idle key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/rift-cannon/idle/S/A.png",
+      "bytes": 628,
+      "sha256": "96f14c777822501cf4931f268ce0060921b7662b41aad3647da01bcc46c2cf69",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "rift-cannon",
+      "faction": "gravemark",
+      "action": "idle",
+      "direction": "S",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like rift-cannon S idle key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/rift-cannon/idle/S/B.png",
+      "bytes": 628,
+      "sha256": "d6a2ea701910cc459b92c450a7696e39aa3ad7db5347ac392e6cbd126358353a",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "rift-cannon",
+      "faction": "gravemark",
+      "action": "idle",
+      "direction": "S",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like rift-cannon S idle key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/rift-cannon/move/N/A.png",
+      "bytes": 628,
+      "sha256": "96f14c777822501cf4931f268ce0060921b7662b41aad3647da01bcc46c2cf69",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "rift-cannon",
+      "faction": "gravemark",
+      "action": "move",
+      "direction": "N",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like rift-cannon N move key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/rift-cannon/move/N/B.png",
+      "bytes": 628,
+      "sha256": "d6a2ea701910cc459b92c450a7696e39aa3ad7db5347ac392e6cbd126358353a",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "rift-cannon",
+      "faction": "gravemark",
+      "action": "move",
+      "direction": "N",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like rift-cannon N move key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/rift-cannon/move/NE/A.png",
+      "bytes": 628,
+      "sha256": "96f14c777822501cf4931f268ce0060921b7662b41aad3647da01bcc46c2cf69",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "rift-cannon",
+      "faction": "gravemark",
+      "action": "move",
+      "direction": "NE",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like rift-cannon NE move key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/rift-cannon/move/NE/B.png",
+      "bytes": 628,
+      "sha256": "d6a2ea701910cc459b92c450a7696e39aa3ad7db5347ac392e6cbd126358353a",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "rift-cannon",
+      "faction": "gravemark",
+      "action": "move",
+      "direction": "NE",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like rift-cannon NE move key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/rift-cannon/move/E/A.png",
+      "bytes": 628,
+      "sha256": "96f14c777822501cf4931f268ce0060921b7662b41aad3647da01bcc46c2cf69",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "rift-cannon",
+      "faction": "gravemark",
+      "action": "move",
+      "direction": "E",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like rift-cannon E move key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/rift-cannon/move/E/B.png",
+      "bytes": 628,
+      "sha256": "d6a2ea701910cc459b92c450a7696e39aa3ad7db5347ac392e6cbd126358353a",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "rift-cannon",
+      "faction": "gravemark",
+      "action": "move",
+      "direction": "E",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like rift-cannon E move key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/rift-cannon/move/SE/A.png",
+      "bytes": 628,
+      "sha256": "96f14c777822501cf4931f268ce0060921b7662b41aad3647da01bcc46c2cf69",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "rift-cannon",
+      "faction": "gravemark",
+      "action": "move",
+      "direction": "SE",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like rift-cannon SE move key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/rift-cannon/move/SE/B.png",
+      "bytes": 628,
+      "sha256": "d6a2ea701910cc459b92c450a7696e39aa3ad7db5347ac392e6cbd126358353a",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "rift-cannon",
+      "faction": "gravemark",
+      "action": "move",
+      "direction": "SE",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like rift-cannon SE move key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/rift-cannon/move/S/A.png",
+      "bytes": 628,
+      "sha256": "96f14c777822501cf4931f268ce0060921b7662b41aad3647da01bcc46c2cf69",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "rift-cannon",
+      "faction": "gravemark",
+      "action": "move",
+      "direction": "S",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like rift-cannon S move key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/rift-cannon/move/S/B.png",
+      "bytes": 628,
+      "sha256": "d6a2ea701910cc459b92c450a7696e39aa3ad7db5347ac392e6cbd126358353a",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "rift-cannon",
+      "faction": "gravemark",
+      "action": "move",
+      "direction": "S",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like rift-cannon S move key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/rift-cannon/attack/N/A.png",
+      "bytes": 679,
+      "sha256": "0856138f87aea10c973823d94c5923c74c428ae21a5b9227f20556210f66e3c8",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "rift-cannon",
+      "faction": "gravemark",
+      "action": "attack",
+      "direction": "N",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like rift-cannon N attack key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/rift-cannon/attack/N/B.png",
+      "bytes": 679,
+      "sha256": "89f1b608723fd568ba6aa967c8d68f307413382ba328bbe6b5881657f0bd46b0",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "rift-cannon",
+      "faction": "gravemark",
+      "action": "attack",
+      "direction": "N",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like rift-cannon N attack key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/rift-cannon/attack/NE/A.png",
+      "bytes": 679,
+      "sha256": "0856138f87aea10c973823d94c5923c74c428ae21a5b9227f20556210f66e3c8",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "rift-cannon",
+      "faction": "gravemark",
+      "action": "attack",
+      "direction": "NE",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like rift-cannon NE attack key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/rift-cannon/attack/NE/B.png",
+      "bytes": 679,
+      "sha256": "89f1b608723fd568ba6aa967c8d68f307413382ba328bbe6b5881657f0bd46b0",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "rift-cannon",
+      "faction": "gravemark",
+      "action": "attack",
+      "direction": "NE",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like rift-cannon NE attack key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/rift-cannon/attack/E/A.png",
+      "bytes": 679,
+      "sha256": "0856138f87aea10c973823d94c5923c74c428ae21a5b9227f20556210f66e3c8",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "rift-cannon",
+      "faction": "gravemark",
+      "action": "attack",
+      "direction": "E",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like rift-cannon E attack key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/rift-cannon/attack/E/B.png",
+      "bytes": 679,
+      "sha256": "89f1b608723fd568ba6aa967c8d68f307413382ba328bbe6b5881657f0bd46b0",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "rift-cannon",
+      "faction": "gravemark",
+      "action": "attack",
+      "direction": "E",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like rift-cannon E attack key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/rift-cannon/attack/SE/A.png",
+      "bytes": 679,
+      "sha256": "0856138f87aea10c973823d94c5923c74c428ae21a5b9227f20556210f66e3c8",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "rift-cannon",
+      "faction": "gravemark",
+      "action": "attack",
+      "direction": "SE",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like rift-cannon SE attack key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/rift-cannon/attack/SE/B.png",
+      "bytes": 679,
+      "sha256": "89f1b608723fd568ba6aa967c8d68f307413382ba328bbe6b5881657f0bd46b0",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "rift-cannon",
+      "faction": "gravemark",
+      "action": "attack",
+      "direction": "SE",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like rift-cannon SE attack key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/rift-cannon/attack/S/A.png",
+      "bytes": 679,
+      "sha256": "0856138f87aea10c973823d94c5923c74c428ae21a5b9227f20556210f66e3c8",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "rift-cannon",
+      "faction": "gravemark",
+      "action": "attack",
+      "direction": "S",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like rift-cannon S attack key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/rift-cannon/attack/S/B.png",
+      "bytes": 679,
+      "sha256": "89f1b608723fd568ba6aa967c8d68f307413382ba328bbe6b5881657f0bd46b0",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "rift-cannon",
+      "faction": "gravemark",
+      "action": "attack",
+      "direction": "S",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like rift-cannon S attack key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/rift-cannon/hit/N/A.png",
+      "bytes": 628,
+      "sha256": "96f14c777822501cf4931f268ce0060921b7662b41aad3647da01bcc46c2cf69",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "rift-cannon",
+      "faction": "gravemark",
+      "action": "hit",
+      "direction": "N",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like rift-cannon N hit key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/rift-cannon/hit/N/B.png",
+      "bytes": 628,
+      "sha256": "d6a2ea701910cc459b92c450a7696e39aa3ad7db5347ac392e6cbd126358353a",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "rift-cannon",
+      "faction": "gravemark",
+      "action": "hit",
+      "direction": "N",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like rift-cannon N hit key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/rift-cannon/hit/NE/A.png",
+      "bytes": 628,
+      "sha256": "96f14c777822501cf4931f268ce0060921b7662b41aad3647da01bcc46c2cf69",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "rift-cannon",
+      "faction": "gravemark",
+      "action": "hit",
+      "direction": "NE",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like rift-cannon NE hit key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/rift-cannon/hit/NE/B.png",
+      "bytes": 628,
+      "sha256": "d6a2ea701910cc459b92c450a7696e39aa3ad7db5347ac392e6cbd126358353a",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "rift-cannon",
+      "faction": "gravemark",
+      "action": "hit",
+      "direction": "NE",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like rift-cannon NE hit key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/rift-cannon/hit/E/A.png",
+      "bytes": 628,
+      "sha256": "96f14c777822501cf4931f268ce0060921b7662b41aad3647da01bcc46c2cf69",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "rift-cannon",
+      "faction": "gravemark",
+      "action": "hit",
+      "direction": "E",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like rift-cannon E hit key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/rift-cannon/hit/E/B.png",
+      "bytes": 628,
+      "sha256": "d6a2ea701910cc459b92c450a7696e39aa3ad7db5347ac392e6cbd126358353a",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "rift-cannon",
+      "faction": "gravemark",
+      "action": "hit",
+      "direction": "E",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like rift-cannon E hit key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/rift-cannon/hit/SE/A.png",
+      "bytes": 628,
+      "sha256": "96f14c777822501cf4931f268ce0060921b7662b41aad3647da01bcc46c2cf69",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "rift-cannon",
+      "faction": "gravemark",
+      "action": "hit",
+      "direction": "SE",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like rift-cannon SE hit key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/rift-cannon/hit/SE/B.png",
+      "bytes": 628,
+      "sha256": "d6a2ea701910cc459b92c450a7696e39aa3ad7db5347ac392e6cbd126358353a",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "rift-cannon",
+      "faction": "gravemark",
+      "action": "hit",
+      "direction": "SE",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like rift-cannon SE hit key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/rift-cannon/hit/S/A.png",
+      "bytes": 628,
+      "sha256": "96f14c777822501cf4931f268ce0060921b7662b41aad3647da01bcc46c2cf69",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "rift-cannon",
+      "faction": "gravemark",
+      "action": "hit",
+      "direction": "S",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like rift-cannon S hit key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/rift-cannon/hit/S/B.png",
+      "bytes": 628,
+      "sha256": "d6a2ea701910cc459b92c450a7696e39aa3ad7db5347ac392e6cbd126358353a",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "rift-cannon",
+      "faction": "gravemark",
+      "action": "hit",
+      "direction": "S",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like rift-cannon S hit key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/rift-cannon/death/N/A.png",
+      "bytes": 628,
+      "sha256": "96f14c777822501cf4931f268ce0060921b7662b41aad3647da01bcc46c2cf69",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "rift-cannon",
+      "faction": "gravemark",
+      "action": "death",
+      "direction": "N",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like rift-cannon N death key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/rift-cannon/death/N/B.png",
+      "bytes": 628,
+      "sha256": "d6a2ea701910cc459b92c450a7696e39aa3ad7db5347ac392e6cbd126358353a",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "rift-cannon",
+      "faction": "gravemark",
+      "action": "death",
+      "direction": "N",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like rift-cannon N death key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/rift-cannon/death/NE/A.png",
+      "bytes": 628,
+      "sha256": "96f14c777822501cf4931f268ce0060921b7662b41aad3647da01bcc46c2cf69",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "rift-cannon",
+      "faction": "gravemark",
+      "action": "death",
+      "direction": "NE",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like rift-cannon NE death key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/rift-cannon/death/NE/B.png",
+      "bytes": 628,
+      "sha256": "d6a2ea701910cc459b92c450a7696e39aa3ad7db5347ac392e6cbd126358353a",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "rift-cannon",
+      "faction": "gravemark",
+      "action": "death",
+      "direction": "NE",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like rift-cannon NE death key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/rift-cannon/death/E/A.png",
+      "bytes": 628,
+      "sha256": "96f14c777822501cf4931f268ce0060921b7662b41aad3647da01bcc46c2cf69",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "rift-cannon",
+      "faction": "gravemark",
+      "action": "death",
+      "direction": "E",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like rift-cannon E death key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/rift-cannon/death/E/B.png",
+      "bytes": 628,
+      "sha256": "d6a2ea701910cc459b92c450a7696e39aa3ad7db5347ac392e6cbd126358353a",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "rift-cannon",
+      "faction": "gravemark",
+      "action": "death",
+      "direction": "E",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like rift-cannon E death key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/rift-cannon/death/SE/A.png",
+      "bytes": 628,
+      "sha256": "96f14c777822501cf4931f268ce0060921b7662b41aad3647da01bcc46c2cf69",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "rift-cannon",
+      "faction": "gravemark",
+      "action": "death",
+      "direction": "SE",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like rift-cannon SE death key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/rift-cannon/death/SE/B.png",
+      "bytes": 628,
+      "sha256": "d6a2ea701910cc459b92c450a7696e39aa3ad7db5347ac392e6cbd126358353a",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "rift-cannon",
+      "faction": "gravemark",
+      "action": "death",
+      "direction": "SE",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like rift-cannon SE death key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/rift-cannon/death/S/A.png",
+      "bytes": 628,
+      "sha256": "96f14c777822501cf4931f268ce0060921b7662b41aad3647da01bcc46c2cf69",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "rift-cannon",
+      "faction": "gravemark",
+      "action": "death",
+      "direction": "S",
+      "pose": "A",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like rift-cannon S death key pose A; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/units/gravemark/rift-cannon/death/S/B.png",
+      "bytes": 628,
+      "sha256": "d6a2ea701910cc459b92c450a7696e39aa3ad7db5347ac392e6cbd126358353a",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "unit-source",
+      "unit": "rift-cannon",
+      "faction": "gravemark",
+      "action": "death",
+      "direction": "S",
+      "pose": "B",
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "prompt": "Bilateral symmetric pixel-like rift-cannon S death key pose B; centered faction token; no text."
+    },
+    {
+      "path": "assets/source/title/title-art.png",
+      "bytes": 14956,
+      "sha256": "32fdf03b8ea3004f811644803070954c401519292261ebcae964cc2def389e10",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "environment-source",
+      "prompt": "Clean low-poly oblique frontier art, no text, no logos, no photorealism."
+    },
+    {
+      "path": "assets/source/textures/terrain-grass.png",
+      "bytes": 11033,
+      "sha256": "c28801485a94e315d299e51aa4661354b9f9183c7f9d3f5b050adbaec57811f8",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "environment-source",
+      "prompt": "Clean low-poly oblique frontier art, no text, no logos, no photorealism."
+    },
+    {
+      "path": "assets/source/textures/terrain-rock.png",
+      "bytes": 11032,
+      "sha256": "af1a1a5483d01cfb5734da64122ad788d9964e4396f718ea5d0920f2568957a9",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "environment-source",
+      "prompt": "Clean low-poly oblique frontier art, no text, no logos, no photorealism."
+    },
+    {
+      "path": "assets/source/textures/terrain-crystal.png",
+      "bytes": 11034,
+      "sha256": "c61b577099326879126e319616d96f4e1e6cc644f721c238c0f2506942fdc03e",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "environment-source",
+      "prompt": "Clean low-poly oblique frontier art, no text, no logos, no photorealism."
+    },
+    {
+      "path": "assets/source/textures/luminous-bridge.png",
+      "bytes": 11037,
+      "sha256": "4f8c8334db678813be8c938a21bad1c9f93bd42653c78eb70847142cbfd37420",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "environment-source",
+      "prompt": "Clean low-poly oblique frontier art, no text, no logos, no photorealism."
+    },
+    {
+      "path": "assets/source/decals/sunwoven-emblem.png",
+      "bytes": 3530,
+      "sha256": "cca7f3770a2c18c8cf8ed0d80d897212167c73154957b40d58237e7d6395fe8f",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "environment-source",
+      "prompt": "Clean low-poly oblique frontier art, no text, no logos, no photorealism."
+    },
+    {
+      "path": "assets/source/decals/gravemark-emblem.png",
+      "bytes": 2149,
+      "sha256": "71298e4520097eac8790003825c2f0f40158b5c7935e24cacad82f3dd6af3779",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "environment-source",
+      "prompt": "Clean low-poly oblique frontier art, no text, no logos, no photorealism."
+    },
+    {
+      "path": "assets/source/decals/meridian-core.png",
+      "bytes": 1113,
+      "sha256": "50ec58aa15f3afa98c38bb6b44a7a19bcc0b3a8ac58df1dc8ed32f97671e1b2a",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "environment-source",
+      "prompt": "Clean low-poly oblique frontier art, no text, no logos, no photorealism."
+    },
+    {
+      "path": "assets/source/decals/sunwoven-token.png",
+      "bytes": 3532,
+      "sha256": "fab9a6a6509cb62f493277005d41d39f4c5b4323f8d4d35062bffcc4b7e9ba81",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "environment-source",
+      "prompt": "Clean low-poly oblique frontier art, no text, no logos, no photorealism."
+    },
+    {
+      "path": "assets/source/decals/gravemark-token.png",
+      "bytes": 2148,
+      "sha256": "a67f0d26703181039303d542aac297e908289c4378c327cd53767ebc77016e6a",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "environment-source",
+      "prompt": "Clean low-poly oblique frontier art, no text, no logos, no photorealism."
+    }
+  ],
+  "runtimeOutputs": [
+    {
+      "path": "assets/runtime/title/title-art.png",
+      "bytes": 14956,
+      "sha256": "32fdf03b8ea3004f811644803070954c401519292261ebcae964cc2def389e10",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "runtime-environment",
+      "publicPath": "game-assets/title/title-art.png"
+    },
+    {
+      "path": "assets/runtime/textures/terrain-grass.png",
+      "bytes": 11033,
+      "sha256": "c28801485a94e315d299e51aa4661354b9f9183c7f9d3f5b050adbaec57811f8",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "runtime-environment",
+      "publicPath": "game-assets/textures/terrain-grass.png"
+    },
+    {
+      "path": "assets/runtime/textures/terrain-rock.png",
+      "bytes": 11032,
+      "sha256": "af1a1a5483d01cfb5734da64122ad788d9964e4396f718ea5d0920f2568957a9",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "runtime-environment",
+      "publicPath": "game-assets/textures/terrain-rock.png"
+    },
+    {
+      "path": "assets/runtime/textures/terrain-crystal.png",
+      "bytes": 11034,
+      "sha256": "c61b577099326879126e319616d96f4e1e6cc644f721c238c0f2506942fdc03e",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "runtime-environment",
+      "publicPath": "game-assets/textures/terrain-crystal.png"
+    },
+    {
+      "path": "assets/runtime/textures/luminous-bridge.png",
+      "bytes": 11037,
+      "sha256": "4f8c8334db678813be8c938a21bad1c9f93bd42653c78eb70847142cbfd37420",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "runtime-environment",
+      "publicPath": "game-assets/textures/luminous-bridge.png"
+    },
+    {
+      "path": "assets/runtime/decals/sunwoven-emblem.png",
+      "bytes": 3530,
+      "sha256": "cca7f3770a2c18c8cf8ed0d80d897212167c73154957b40d58237e7d6395fe8f",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "runtime-environment",
+      "publicPath": "game-assets/decals/sunwoven-emblem.png"
+    },
+    {
+      "path": "assets/runtime/decals/gravemark-emblem.png",
+      "bytes": 2149,
+      "sha256": "71298e4520097eac8790003825c2f0f40158b5c7935e24cacad82f3dd6af3779",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "runtime-environment",
+      "publicPath": "game-assets/decals/gravemark-emblem.png"
+    },
+    {
+      "path": "assets/runtime/decals/meridian-core.png",
+      "bytes": 1113,
+      "sha256": "50ec58aa15f3afa98c38bb6b44a7a19bcc0b3a8ac58df1dc8ed32f97671e1b2a",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "runtime-environment",
+      "publicPath": "game-assets/decals/meridian-core.png"
+    },
+    {
+      "path": "assets/runtime/decals/sunwoven-token.png",
+      "bytes": 3532,
+      "sha256": "fab9a6a6509cb62f493277005d41d39f4c5b4323f8d4d35062bffcc4b7e9ba81",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "runtime-environment",
+      "publicPath": "game-assets/decals/sunwoven-token.png"
+    },
+    {
+      "path": "assets/runtime/decals/gravemark-token.png",
+      "bytes": 2148,
+      "sha256": "a67f0d26703181039303d542aac297e908289c4378c327cd53767ebc77016e6a",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "runtime-environment",
+      "publicPath": "game-assets/decals/gravemark-token.png"
+    },
+    {
+      "path": "assets/runtime/sprites/gleamrunner.atlas.png",
+      "bytes": 32836,
+      "sha256": "74d211ece44972403d34fdcf6d77c4fbf45a2031bcf683a062f097c6a8794fa4",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "runtime-atlas",
+      "unit": "gleamrunner",
+      "width": 2048,
+      "height": 1280,
+      "maxTextureSize": 2048
+    },
+    {
+      "path": "assets/runtime/sprites/gleamrunner.atlas.half.png",
+      "bytes": 10583,
+      "sha256": "2ad741143ea6803c6753ac1f9e3b9eb0659848bbd428e80a8c5110f9b0e29daa",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "runtime-half-atlas",
+      "unit": "gleamrunner",
+      "width": 1024,
+      "height": 640,
+      "maxTextureSize": 2048
+    },
+    {
+      "path": "assets/runtime/sprites/loomkeeper.atlas.png",
+      "bytes": 39374,
+      "sha256": "266b1ae6bcc4b973d7901527a224ac21898cfd3a6ea2359d25e71ded0600581b",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "runtime-atlas",
+      "unit": "loomkeeper",
+      "width": 2048,
+      "height": 1536,
+      "maxTextureSize": 2048
+    },
+    {
+      "path": "assets/runtime/sprites/loomkeeper.atlas.half.png",
+      "bytes": 12664,
+      "sha256": "35df4c26909233bba08e0a2778e58c864c1b6867261aeea62d9269e413522c27",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "runtime-half-atlas",
+      "unit": "loomkeeper",
+      "width": 1024,
+      "height": 768,
+      "maxTextureSize": 2048
+    },
+    {
+      "path": "assets/runtime/sprites/prism-lancer.atlas.png",
+      "bytes": 32836,
+      "sha256": "74d211ece44972403d34fdcf6d77c4fbf45a2031bcf683a062f097c6a8794fa4",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "runtime-atlas",
+      "unit": "prism-lancer",
+      "width": 2048,
+      "height": 1280,
+      "maxTextureSize": 2048
+    },
+    {
+      "path": "assets/runtime/sprites/prism-lancer.atlas.half.png",
+      "bytes": 10583,
+      "sha256": "2ad741143ea6803c6753ac1f9e3b9eb0659848bbd428e80a8c5110f9b0e29daa",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "runtime-half-atlas",
+      "unit": "prism-lancer",
+      "width": 1024,
+      "height": 640,
+      "maxTextureSize": 2048
+    },
+    {
+      "path": "assets/runtime/sprites/stoneguard.atlas.png",
+      "bytes": 33838,
+      "sha256": "c94a3bd87b2202e9f51c8bc81e0a9b64d48ae0899fb7f54d45470ffa2f3764a2",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "runtime-atlas",
+      "unit": "stoneguard",
+      "width": 2048,
+      "height": 1280,
+      "maxTextureSize": 2048
+    },
+    {
+      "path": "assets/runtime/sprites/stoneguard.atlas.half.png",
+      "bytes": 10935,
+      "sha256": "5f2c72d5e4a9542cba245c9ef9459a4df06a003416a83bc2476e3c02cbba6919",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "runtime-half-atlas",
+      "unit": "stoneguard",
+      "width": 1024,
+      "height": 640,
+      "maxTextureSize": 2048
+    },
+    {
+      "path": "assets/runtime/sprites/prospector.atlas.png",
+      "bytes": 39356,
+      "sha256": "bac23beac5593bb3c6555af8c955047bf1122f7f8bbd9922ef6d9d35dd9a37e0",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "runtime-atlas",
+      "unit": "prospector",
+      "width": 2048,
+      "height": 1536,
+      "maxTextureSize": 2048
+    },
+    {
+      "path": "assets/runtime/sprites/prospector.atlas.half.png",
+      "bytes": 13092,
+      "sha256": "5351ff9eeb0aede682d98a2601695fbe4eee5e5dce51e93ce43fbc02ad2a7c03",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "runtime-half-atlas",
+      "unit": "prospector",
+      "width": 1024,
+      "height": 768,
+      "maxTextureSize": 2048
+    },
+    {
+      "path": "assets/runtime/sprites/rift-cannon.atlas.png",
+      "bytes": 33838,
+      "sha256": "c94a3bd87b2202e9f51c8bc81e0a9b64d48ae0899fb7f54d45470ffa2f3764a2",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "runtime-atlas",
+      "unit": "rift-cannon",
+      "width": 2048,
+      "height": 1280,
+      "maxTextureSize": 2048
+    },
+    {
+      "path": "assets/runtime/sprites/rift-cannon.atlas.half.png",
+      "bytes": 10935,
+      "sha256": "5f2c72d5e4a9542cba245c9ef9459a4df06a003416a83bc2476e3c02cbba6919",
+      "generatedAt": "2026-08-12T00:00:00Z",
+      "type": "runtime-half-atlas",
+      "unit": "rift-cannon",
+      "width": 1024,
+      "height": 640,
+      "maxTextureSize": 2048
+    }
+  ]
+}
