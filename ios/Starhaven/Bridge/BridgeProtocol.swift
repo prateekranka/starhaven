@@ -60,9 +60,6 @@ public enum StarhavenJSONValue: Codable, Equatable, Sendable {
         }
     }
 
-    public static func object(_ values: [String: String]) -> StarhavenJSONValue {
-        .object(values.mapValues(StarhavenJSONValue.string))
-    }
 }
 
 public struct StarhavenEnvelope: Codable, Equatable, Sendable {
