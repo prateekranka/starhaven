@@ -67,3 +67,15 @@ GitHub-Artifact-ID: 9153972660
 GitHub-Deployment-ID: 5875106757
 
 - Limitation: hosted gameplay and exact simulator/native proof remain C7/C8 work. GitHub Pages emitted the expected Node 20 deprecation annotation for third-party actions; it did not fail the run.
+
+## 2026-08-12 — Checkpoint C07 — SwiftUI shell and native bridge
+
+- Scope: shipped the iPad-first SwiftUI title/setup/settings/pause/results shell, one retained WKWebView host, private `starhaven://app/` scheme handler, generated Swift/TypeScript bridge protocol, safe-area forwarding, audio and reduced-motion settings, snapshot lifecycle, termination recovery contract, XcodeGen project, ignored `GameDist` folder reference, sandboxed Xcode verification phase, and byte-checked staged game artifact.
+- Acceptance: read-only Xcode capability preflight passed; `xcodebuild build-for-testing` passed with `ENABLE_USER_SCRIPT_SANDBOXING=YES` on Xcode 26.6; web typecheck, lint, tests, offline scan, and no-runtime-model scan passed; native bridge/scheme/navigation smoke checks passed; staged and app-bundled bytes matched all 29 files; the input file list matched all 33 declared inputs and the build stamp recorded the source SHA.
+- Artifact attestation:
+
+Artifact-Source-SHA: df12691b6e0d270124e78a40014463246d7ea359
+Dist-Manifest-SHA256: 4866e72c7790b4c14197ed8936622b2c5f12ea7f5257a56e9adcda58af21e095
+Evidence: /Users/prateekranka/.codex/evidence/starhaven-c07/20260812T190557Z.lYjSeN; the committed index is `evidence/checkpoints/C07.json`.
+
+- Limitation: the required iPad Pro 13-inch (M4) simulator was not installed, and no simulator was booted. Simulator flow, process restore, safe-area image, and JavaScriptCore equality proof remain unavailable. The evidence index records these limitations and separates portable contract checks from live simulator proof.
