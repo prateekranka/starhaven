@@ -1,0 +1,13 @@
+.match-screen { position: fixed; inset: 0; overflow: hidden; background: #0c1023; touch-action: none; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
+.match-canvas { display: block; width: 100%; height: 100%; touch-action: none; }
+.match-exit { position: absolute; top: calc(var(--safe-area-top, 0px) + 1rem); left: calc(var(--safe-area-left, 0px) + 1rem); z-index: 4; border: 1px solid rgba(220,231,255,0.2); background: rgba(12,16,35,0.8); color: #f7f3e9; padding: 0.6rem 0.8rem; font-size: 0.65rem; font-weight: 800; letter-spacing: 0.08em; }
+.match-hud { position: absolute; inset: 0; z-index: 3; pointer-events: none; padding: calc(var(--safe-area-top, 0px) + 1.2rem) calc(var(--safe-area-right, 0px) + 1.2rem) calc(var(--safe-area-bottom, 0px) + 1.2rem) calc(var(--safe-area-left, 0px) + 1.2rem); }
+.match-hud__top, .match-hud__bottom { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.match-hud__top { margin-left: 11rem; }
+.match-hud__brand, .match-hud__status, .match-hud__seed, .safe-area-debug { border: 1px solid rgba(220,231,255,0.16); background: rgba(12,16,35,0.72); padding: 0.6rem 0.75rem; color: #f7f3e9; font-size: 0.58rem; font-weight: 800; letter-spacing: 0.12em; }
+.match-hud__brand span { margin-left: 0.6rem; color: #43c6b8; }
+.match-hud__bottom { position: absolute; right: calc(var(--safe-area-right, 0px) + 1.2rem); bottom: calc(var(--safe-area-bottom, 0px) + 1.2rem); left: calc(var(--safe-area-left, 0px) + 1.2rem); justify-content: flex-start; }
+.mode-chip { border: 1px solid rgba(248,214,109,0.72); background: rgba(21,24,42,0.88); padding: 0.7rem 0.85rem; color: #f8d66d; font-size: 0.65rem; font-weight: 900; letter-spacing: 0.1em; }
+.hud-cancel { pointer-events: auto; border: 1px solid rgba(220,231,255,0.2); background: rgba(12,16,35,0.8); padding: 0.7rem 0.85rem; color: #dce7ff; font-size: 0.65rem; font-weight: 800; }
+.safe-area-debug { position: absolute; right: calc(var(--safe-area-right, 0px) + 1.2rem); top: calc(var(--safe-area-top, 0px) + 5rem); color: rgba(163,171,197,0.7); font-size: 0.5rem; }
+@media (max-width: 680px) { .match-hud__top { margin-left: 0; margin-top: 3.3rem; } .match-hud__brand span { display: none; } }

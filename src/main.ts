@@ -5,6 +5,8 @@ import "./styles/title.css";
 import "./styles/setup.css";
 import { startBrowserShell } from "./browser-shell/shell";
 import { mountNativeLoadingSurface } from "./browser-shell/native-loading";
+import "./styles/match.css";
+import { mountFoundationMatch } from "./render/foundation-view";
 
 const app = document.getElementById("app");
 if (app === null) {
@@ -14,6 +16,8 @@ if (app === null) {
 const params = new URLSearchParams(window.location.search);
 if (params.get("host") === "native") {
   mountNativeLoadingSurface(app);
+} else if (params.get("match") === "foundation") {
+  mountFoundationMatch(app);
 } else {
   startBrowserShell(app);
 }

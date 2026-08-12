@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "envelope": ["version", "id", "sequence", "source", "type", "matchId", "payload"],
+  "nativeToGame": [
+    "host.ready",
+    "safeArea.changed",
+    "settings.changed",
+    "match.start",
+    "match.pause",
+    "match.resume",
+    "match.rematch",
+    "lifecycle.background",
+    "lifecycle.foreground",
+    "snapshot.request",
+    "snapshot.ack",
+    "match.restore"
+  ],
+  "gameToNative": [
+    "runtime.ready",
+    "ack",
+    "feedback.haptic",
+    "pause.requested",
+    "match.started",
+    "match.snapshot",
+    "match.ended",
+    "returnMenu.requested",
+    "restore.completed",
+    "protocol.error"
+  ]
+}

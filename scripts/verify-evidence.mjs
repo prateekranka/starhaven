@@ -1,10 +1,10 @@
 import { createHash } from "node:crypto";
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { resolve } from "node:path";
 
 const repositoryRoot = resolve(import.meta.dirname, "..");
 const checkpointRoot = resolve(repositoryRoot, "evidence", "checkpoints");
-const files = ["C01.json"];
+const files = readdirSync(checkpointRoot).filter((file) => /^C\d+\.json$/.test(file)).sort();
 const failures = [];
 
 for (const file of files) {
