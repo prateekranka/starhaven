@@ -17,3 +17,5 @@ DerivedData/
 xcuserdata/
 *.xcresult
 ios/Artifacts/GameDist/
+ios/Artifacts/GameDistInputs.xcfilelist
+release-metadata/

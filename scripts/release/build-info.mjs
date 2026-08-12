@@ -25,7 +25,7 @@ const commitTimestamp = git(["show", "-s", "--format=%cI", "HEAD"]);
 const buildInfo = {
   artifactSchema: 1,
   bridgeVersion: 1,
-  balanceVersion: 0,
+  balanceVersion: 1,
   sourceSha,
   displaySha: clean ? shortSha : `${shortSha}-dirty`,
   clean,

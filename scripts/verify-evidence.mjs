@@ -31,7 +31,9 @@ for (const file of files) {
     if (typeof entry.path !== "string" || !entry.path.startsWith("/")) failures.push(`${file}: entry path is not absolute`);
     if (!Number.isInteger(entry.bytes) || entry.bytes < 0) failures.push(`${file}: invalid byte count`);
     if (typeof entry.sha256 !== "string" || !/^[a-f0-9]{64}$/.test(entry.sha256)) failures.push(`${file}: invalid SHA-256`);
-    if (entry.path && existsSync(entry.path)) {
+    if (entry.path && !existsSync(entry.path)) {
+      failures.push(`${file}: missing evidence file ${entry.path}`);
+    } else if (entry.path) {
       const actual = readFileSync(entry.path);
       const actualHash = createHash("sha256").update(actual).digest("hex");
       if (actual.length !== entry.bytes || actualHash !== entry.sha256) failures.push(`${file}: hash mismatch for ${entry.path}`);

@@ -1,0 +1,101 @@
+name: Starhaven Pages
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - "notes.md"
+      - "evidence/**"
+      - ".DS_Store"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      artifact-id: ${{ steps.product-artifact.outputs.artifact-id }}
+    steps:
+      - name: Checkout exact source SHA
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+      - name: Use pinned Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.13.0
+          cache: npm
+      - name: Install locked dependencies
+        run: npm ci
+      - name: Build one release artifact
+        run: npm run build
+      - name: Verify offline runtime and dependency surface
+        run: npm run verify:offline
+      - name: Verify no forbidden model integration
+        run: npm run verify:no-openai
+      - name: Verify clean source and artifact identity
+        run: node scripts/release/verify-release.mjs --dist dist --source-sha "${GITHUB_SHA}" --require-clean --origin starhaven-bright-frontier
+      - name: Upload downloadable artifact
+        id: product-artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: starhaven-dist-${{ github.sha }}
+          path: dist
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 90
+      - name: Prepare Pages artifact from the same dist directory
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy-pages.outputs.page_url }}
+    steps:
+      - name: Deploy exact build artifact to Pages
+        id: deploy-pages
+        uses: actions/deploy-pages@v4
+      - name: Resolve numeric Pages deployment ID
+        id: deployment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const response = await github.rest.repos.listDeployments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              environment: "github-pages",
+              ref: context.sha,
+              per_page: 10,
+            });
+            const deployment = response.data.find((candidate) => String(candidate.sha) === context.sha);
+            if (!deployment) core.setFailed("No numeric Pages deployment matched the source SHA.");
+            else core.setOutput("deployment-id", String(deployment.id));
+      - name: Record numeric run, artifact, and deployment IDs
+        env:
+          GITHUB_RUN_ID: ${{ github.run_id }}
+          GITHUB_ARTIFACT_ID: ${{ needs.build.outputs.artifact-id }}
+          GITHUB_DEPLOYMENT_ID: ${{ steps.deployment.outputs.deployment-id }}
+          GITHUB_SHA: ${{ github.sha }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          STARHAVEN_PAGE_URL: https://prateekranka.github.io/starhaven-bright-frontier/
+        run: node scripts/release/write-ci-metadata.mjs --output release-metadata
+      - name: Upload release metadata
+        uses: actions/upload-artifact@v4
+        with:
+          name: starhaven-release-metadata-${{ github.sha }}
+          path: release-metadata
+          if-no-files-found: error
+          retention-days: 90

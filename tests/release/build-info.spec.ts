@@ -11,5 +11,7 @@ describe("release build identity", () => {
     expect(info.displaySha).toMatch(/^[a-f0-9]{9}(-dirty)?$/);
     expect(typeof info.clean).toBe("boolean");
     expect(info.bridgeVersion).toBe(1);
+    expect(info.balanceVersion).toBe(1);
+    expect(info.distManifestSha256).toMatch(/^[a-f0-9]{64}$/);
   });
 });

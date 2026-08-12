@@ -4,16 +4,16 @@ import { readSetupValues, setupMarkup } from "./setup/setup-view";
 import { mountPlayableMatch, type PlayableMatchHandle } from "../render/playable-view";
 import type { MatchConfig } from "../game/sim/match";
 import type { MatchEndResult } from "../game/sim/victory";
+import { BUILD_LABEL, installBuildLabels } from "./build-label/build-label";
 
 type Screen = "title" | "setup" | "match" | "results";
-
-const BUILD_LABEL = "C4 / GAMEPLAY VERTICAL SLICE";
 
 export interface BrowserShellOptions {
   demoMode?: boolean;
 }
 
 export function startBrowserShell(root: HTMLElement, options: BrowserShellOptions = {}): void {
+  installBuildLabels();
   let screen: Screen = "title";
   let config: MatchConfig | null = null;
   let result: MatchEndResult | null = null;

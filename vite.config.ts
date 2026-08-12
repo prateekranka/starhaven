@@ -1,4 +1,5 @@
 /// <reference types="vitest/config" />
+import { execFileSync } from "node:child_process";
 import { defineConfig, type Plugin } from "vite";
 
 const RELEASE_CSP = [
@@ -16,11 +17,30 @@ const RELEASE_CSP = [
   "form-action 'none'",
 ].join("; ");
 
-// Development adds only the local Vite HMR socket.
+// Development adds only the local Vite HMR socket and Vite's inline style injection.
 const DEV_CSP = RELEASE_CSP.replace(
   "connect-src 'self'",
   "connect-src 'self' ws://localhost:* ws://127.0.0.1:*",
+).replace(
+  "style-src 'self'",
+  "style-src 'self' 'unsafe-inline'",
 );
+
+function releaseDisplaySha(): string {
+  try {
+    const sourceSha = execFileSync("git", ["rev-parse", "HEAD"], { encoding: "utf8" }).trim();
+    const dirtyPaths = execFileSync("git", ["status", "--porcelain=v1", "--untracked-files=all"], { encoding: "utf8" })
+      .split("\n")
+      .map((line) => line.slice(3).trim())
+      .filter(Boolean)
+      .filter((file) => file !== ".DS_Store");
+    return `${sourceSha.slice(0, 9)}${dirtyPaths.length > 0 ? "-dirty" : ""}`;
+  } catch {
+    return "local";
+  }
+}
+
+const DISPLAY_SHA = releaseDisplaySha();
 
 function cspPlugin(): Plugin {
   return {
@@ -46,6 +66,9 @@ function cspPlugin(): Plugin {
 
 export default defineConfig({
   base: "./",
+  define: {
+    __STARHAVEN_DISPLAY_SHA__: JSON.stringify(DISPLAY_SHA),
+  },
   plugins: [cspPlugin()],
   build: {
     // Release source maps are disabled.

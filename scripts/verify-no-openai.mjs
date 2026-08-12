@@ -2,7 +2,7 @@ import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { resolve } from "node:path";
 
 const repositoryRoot = resolve(import.meta.dirname, "..");
-const roots = ["index.html", "package.json", "vite.config.ts", "src", "scripts"];
+const roots = ["index.html", "package.json", "vite.config.ts", "src", "scripts", "dist"];
 const files = roots.flatMap((root) => collect(resolve(repositoryRoot, root))).filter((file) => !file.endsWith("verify-no-openai.mjs"));
 const findings = [];
 const forbiddenPattern = /openai|api\.openai|gpt-image-2/i;

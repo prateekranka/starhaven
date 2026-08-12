@@ -8,7 +8,7 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "npm run typecheck && vite build && node scripts/release/build-info.mjs",
+    "build": "npm run typecheck && vite build && node scripts/release/dist-hashes.mjs && node scripts/release/build-info.mjs",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
@@ -16,7 +16,10 @@
     "test:browser": "playwright test tests/browser --workers=1",
     "verify:offline": "node scripts/verify-offline.mjs",
     "verify:no-openai": "node scripts/verify-no-openai.mjs",
-    "verify:evidence": "node scripts/verify-evidence.mjs"
+    "verify:evidence": "node scripts/verify-evidence.mjs",
+    "release:verify": "node scripts/release/verify-release.mjs",
+    "release:stage": "node scripts/release/stage-dist.mjs",
+    "release:verify-stage": "node scripts/release/verify-staged-dist.mjs"
   },
   "devDependencies": {
     "@playwright/test": "1.62.1",
