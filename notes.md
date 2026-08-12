@@ -79,3 +79,10 @@ Dist-Manifest-SHA256: 4866e72c7790b4c14197ed8936622b2c5f12ea7f5257a56e9adcda58af
 Evidence: /Users/prateekranka/.codex/evidence/starhaven-c07/20260812T190557Z.lYjSeN; the committed index is `evidence/checkpoints/C07.json`.
 
 - Limitation: the required iPad Pro 13-inch (M4) simulator was not installed, and no simulator was booted. Simulator flow, process restore, safe-area image, and JavaScriptCore equality proof remain unavailable. The evidence index records these limitations and separates portable contract checks from live simulator proof.
+
+## 2026-08-12 — Checkpoint C08 — final proof and audit
+
+- Scope: shipped the final evidence collector, one-window local-to-Pages browser proof, four-way artifact hash audit, final completion audit, and fresh review for source SHA `df12691b6e0d270124e78a40014463246d7ea359`.
+- Acceptance: local and Pages matches completed with results and different-seed rematches; both build-info responses reported balance v1 and the exact source SHA; Pages, staged, and app-bundled bytes were checked against the release manifest; no page errors or cross-origin requests were observed.
+- Evidence: `/Users/prateekranka/.codex/evidence/starhaven-c08/20260812T193808Z.ONRSC0`; the committed index is `evidence/checkpoints/C08.json`.
+- Limitation: the exact iPad Pro 13-inch (M4) simulator was unavailable. The final audit therefore remains conditional for exact native flow, JavaScriptCore replay equality, safe-area images, process-restore recording, and full simulation-state restoration.
