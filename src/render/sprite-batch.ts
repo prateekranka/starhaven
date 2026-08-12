@@ -1,6 +1,15 @@
 import * as THREE from "three";
-import type { MatchSnapshot } from "../game/sim/state";
 import { worldFromQ10 } from "../game/sim/fixed";
+
+export interface UnitSpriteSnapshot {
+  units: ReadonlyArray<{
+    id: number;
+    faction: "sunwoven" | "gravemark";
+    xQ10: number;
+    yQ10: number;
+    selected: boolean;
+  }>;
+}
 
 export class UnitSpriteBatch {
   readonly mesh: THREE.InstancedMesh<THREE.PlaneGeometry, THREE.MeshBasicMaterial>;
@@ -16,7 +25,7 @@ export class UnitSpriteBatch {
     this.mesh.count = 0;
   }
 
-  update(snapshot: MatchSnapshot, camera: THREE.Camera): void {
+  update(snapshot: UnitSpriteSnapshot, camera: THREE.Camera): void {
     const units = [...snapshot.units].sort((left, right) => left.id - right.id).slice(0, this.maxInstances);
     this.mesh.count = units.length;
     units.forEach((unit, index) => {

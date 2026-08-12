@@ -1,10 +1,15 @@
-import type { MatchSnapshot } from "../game/sim/state";
 import { applySafeArea, type SafeAreaInsets } from "./safe-area";
 import { modeLabel, type InputState } from "../input/input-state";
 
+export interface MatchHudSnapshot {
+  tick: number;
+  checksum: string;
+  seed: number;
+}
+
 export interface MatchHud {
   root: HTMLElement;
-  update(snapshot: MatchSnapshot, input: InputState): void;
+  update(snapshot: MatchHudSnapshot, input: InputState): void;
   setSafeArea(insets: SafeAreaInsets): void;
   dispose(): void;
 }

@@ -1,44 +1,178 @@
-type Screen = "title" | "setup" | "placeholder";
+import { mountPauseView, type PauseViewHandle } from "./pause/pause-view";
+import { mountResultsView, type ResultsViewHandle } from "./results/results-view";
+import { readSetupValues, setupMarkup } from "./setup/setup-view";
+import { mountPlayableMatch, type PlayableMatchHandle } from "../render/playable-view";
+import type { MatchConfig } from "../game/sim/match";
+import type { MatchEndResult } from "../game/sim/victory";
 
-const BUILD_LABEL = "C1 / RUNTIME FOUNDATION PENDING";
+type Screen = "title" | "setup" | "match" | "results";
 
-export function startBrowserShell(root: HTMLElement): void {
+const BUILD_LABEL = "C4 / GAMEPLAY VERTICAL SLICE";
+
+export interface BrowserShellOptions {
+  demoMode?: boolean;
+}
+
+export function startBrowserShell(root: HTMLElement, options: BrowserShellOptions = {}): void {
   let screen: Screen = "title";
+  let config: MatchConfig | null = null;
+  let result: MatchEndResult | null = null;
+  let activeMatch: PlayableMatchHandle | null = null;
+  let pauseView: PauseViewHandle | null = null;
+  let resultsView: ResultsViewHandle | null = null;
 
   const render = (): void => {
     if (screen === "title") {
+      disposeTransientViews();
       root.innerHTML = titleMarkup();
       root.querySelector<HTMLButtonElement>("[data-action='start']")?.addEventListener("click", () => {
         screen = "setup";
         render();
       });
       root.querySelector<HTMLButtonElement>("[data-action='factions']")?.addEventListener("click", () => {
-        window.alert("Faction encyclopedia arrives with the native shell checkpoint.");
+        window.alert("Sunwoven favors light, range, and momentum. Gravemark favors weight, armor, and control.");
       });
       return;
     }
 
     if (screen === "setup") {
+      disposeTransientViews();
       root.innerHTML = setupMarkup();
-      root.querySelector<HTMLButtonElement>("[data-action='launch']")?.addEventListener("click", () => {
-        screen = "placeholder";
+      wireSetup();
+      return;
+    }
+
+    if (screen === "match") {
+      if (config === null) {
+        screen = "setup";
         render();
-      });
-      root.querySelector<HTMLButtonElement>("[data-action='back']")?.addEventListener("click", () => {
-        screen = "title";
-        render();
+        return;
+      }
+      activeMatch = mountPlayableMatch(root, config, {
+        demoMode: options.demoMode,
+        callbacks: {
+          onPause: () => {
+            activeMatch?.pause();
+            pauseView?.dispose();
+            pauseView = mountPauseView(root, {
+              onResume: () => {
+                pauseView?.dispose();
+                pauseView = null;
+                activeMatch?.resume();
+              },
+              onRestart: () => {
+                pauseView?.dispose();
+                pauseView = null;
+                activeMatch?.dispose();
+                activeMatch = null;
+                render();
+              },
+              onMenu: () => {
+                pauseView?.dispose();
+                pauseView = null;
+                activeMatch?.dispose();
+                activeMatch = null;
+                screen = "title";
+                render();
+              },
+            });
+          },
+          onExit: () => {
+            activeMatch?.dispose();
+            activeMatch = null;
+            screen = "title";
+            render();
+          },
+          onRestart: () => {
+            activeMatch?.dispose();
+            activeMatch = null;
+            render();
+          },
+          onResults: (matchResult) => {
+            activeMatch?.dispose();
+            activeMatch = null;
+            result = matchResult;
+            screen = "results";
+            render();
+          },
+        },
       });
       return;
     }
 
-    root.innerHTML = placeholderMarkup();
+    if (result === null) {
+      screen = "title";
+      render();
+      return;
+    }
+    disposeTransientViews();
+    root.innerHTML = "";
+    resultsView = mountResultsView(root, result, {
+      onRematch: () => {
+        const previousSeed = result?.seed ?? 0;
+        let nextSeed = secureSeed();
+        while (nextSeed === previousSeed) nextSeed = secureSeed();
+        config = config ? { ...config, seed: nextSeed } : null;
+        result = null;
+        resultsView?.dispose();
+        resultsView = null;
+        screen = "match";
+        render();
+      },
+      onMenu: () => {
+        resultsView?.dispose();
+        resultsView = null;
+        result = null;
+        screen = "title";
+        render();
+      },
+    });
+  };
+
+  const wireSetup = (): void => {
+    const choices = [...root.querySelectorAll<HTMLButtonElement>("[data-faction]")];
+    choices.forEach((choice) => choice.addEventListener("click", () => {
+      choices.forEach((candidate) => {
+        const active = candidate === choice;
+        candidate.classList.toggle("setup-choice--active", active);
+        const check = candidate.querySelector<HTMLElement>(".setup-choice__check");
+        if (check) check.textContent = active ? "✓" : "";
+      });
+    }));
     root.querySelector<HTMLButtonElement>("[data-action='back']")?.addEventListener("click", () => {
       screen = "title";
       render();
     });
+    root.querySelector<HTMLButtonElement>("[data-action='launch']")?.addEventListener("click", () => {
+      const values = readSetupValues(root, secureSeed);
+      if ("error" in values) {
+        const error = root.querySelector<HTMLElement>("[data-setup='error']");
+        if (error) {
+          error.hidden = false;
+          error.textContent = values.error;
+        }
+        return;
+      }
+      config = { seed: values.seed, playerFaction: values.faction, difficulty: values.difficulty, buildIdentity: BUILD_LABEL } satisfies MatchConfig;
+      screen = "match";
+      render();
+    });
+  };
+
+  const disposeTransientViews = (): void => {
+    pauseView?.dispose();
+    pauseView = null;
+    resultsView?.dispose();
+    resultsView = null;
   };
 
   render();
+}
+
+function secureSeed(): number {
+  const values = new Uint32Array(1);
+  globalThis.crypto.getRandomValues(values);
+  return values[0] ?? 0;
 }
 
 function titleMarkup(): string {
@@ -77,7 +211,7 @@ function titleMarkup(): string {
           <div class="hero-card__ridge hero-card__ridge--front"></div>
           <div class="hero-card__token hero-card__token--sun">✦</div>
           <div class="hero-card__token hero-card__token--gravemark">◇</div>
-          <div class="hero-card__label"><span>MERIDIAN ENGINE</span><small>UNCLAIMED / 00:00</small></div>
+          <div class="hero-card__label"><span>MERIDIAN ENGINE</span><small>READY / 20 HZ</small></div>
         </div>
       </section>
       <section class="faction-strip" aria-label="Factions">
@@ -88,42 +222,7 @@ function titleMarkup(): string {
           <span class="faction-card__token">◇</span><div><p>GRAVEMARK</p><small>Weight, armor, control</small></div><span class="faction-card__arrow">↗</span>
         </article>
       </section>
-      <footer class="title-footer"><span>OFFLINE SKIRMISH</span><span>•</span><span>WEBGL2 GRAPHICS</span><span>•</span><span>BUILD LABEL ${BUILD_LABEL}</span></footer>
-    </main>
-  `;
-}
-
-function setupMarkup(): string {
-  return `
-    <main class="setup-screen" data-testid="setup-screen">
-      <header class="topbar"><div class="brand-lockup"><span class="brand-lockup__sigil" aria-hidden="true">✦</span><span><strong>STARHAVEN</strong><small>BRIGHT FRONTIER</small></span></div><span class="build-pill">MATCH SETUP</span></header>
-      <section class="setup-panel">
-        <p class="eyebrow">SKIRMISH / FIRST LIGHT</p>
-        <h1>Choose your opening.</h1>
-        <p class="lede">The match runtime is staged in the next checkpoint. This bounded setup preserves the final control surface.</p>
-        <div class="setup-grid">
-          <button class="setup-choice setup-choice--active" type="button"><span class="setup-choice__icon">✦</span><span><strong>Sunwoven</strong><small>Agile frontier builders</small></span><span class="setup-choice__check">✓</span></button>
-          <button class="setup-choice" type="button"><span class="setup-choice__icon setup-choice__icon--dark">◇</span><span><strong>Gravemark</strong><small>Fortified breach keepers</small></span></button>
-        </div>
-        <div class="setup-meta"><span><small>MAP</small><strong>MERIDIAN BREACH</strong></span><span><small>DIFFICULTY</small><strong>STANDARD</strong></span><span><small>SEED</small><strong>AUTO</strong></span></div>
-        <div class="setup-actions"><button class="button button--quiet" data-action="back" type="button">← Back</button><button class="button button--primary" data-action="launch" type="button"><span>Enter staging view</span><span aria-hidden="true">↗</span></button></div>
-      </section>
-    </main>
-  `;
-}
-
-function placeholderMarkup(): string {
-  return `
-    <main class="setup-screen" data-testid="runtime-placeholder">
-      <header class="topbar"><div class="brand-lockup"><span class="brand-lockup__sigil" aria-hidden="true">✦</span><span><strong>STARHAVEN</strong><small>BRIGHT FRONTIER</small></span></div><span class="build-pill">${BUILD_LABEL}</span></header>
-      <section class="placeholder-card">
-        <div class="placeholder-card__mark" aria-hidden="true">✦</div>
-        <p class="eyebrow">STAGING COMPLETE</p>
-        <h1>The frontier is warming.</h1>
-        <p class="lede">The Three.js match runtime, fixed-step simulation, and touch command layer arrive in checkpoint 2.</p>
-        <div class="placeholder-status"><span class="status-dot"></span><span>Title shell ready</span><span class="status-rule"></span><span>Runtime pending</span></div>
-        <button class="button button--quiet" data-action="back" type="button">← Return to title</button>
-      </section>
+      <footer class="title-footer"><span>OFFLINE SKIRMISH</span><span>•</span><span>WEBGL2 GRAPHICS</span><span>•</span><span>BUILD ${BUILD_LABEL}</span></footer>
     </main>
   `;
 }

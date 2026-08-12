@@ -11,6 +11,12 @@
 .setup-choice strong { font-size: 0.83rem; }
 .setup-choice small { margin-top: 0.35rem; color: var(--ink-muted); font-size: 0.7rem; }
 .setup-choice__check { margin-left: auto; color: var(--gold); }
+.setup-options { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.8rem; margin-top: 1.2rem; }
+.setup-options label { display: grid; gap: 0.4rem; color: var(--ink-muted); font-size: 0.58rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; }
+.setup-options select, .setup-options input { width: 100%; border: 1px solid var(--line); border-radius: 0; background: rgba(12, 16, 35, 0.8); padding: 0.85rem; color: #f7f3e9; font: inherit; font-size: 0.75rem; letter-spacing: 0.04em; }
+.setup-options input::placeholder { color: #77819f; }
+.setup-help { margin: 0.7rem 0 0; color: var(--ink-muted); font-size: 0.65rem; line-height: 1.5; }
+.setup-error { margin: 0.7rem 0 0; color: #ffae8d; font-size: 0.7rem; }
 .setup-meta { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin-top: 2rem; padding: 1.2rem 0; }
 .setup-meta small, .setup-meta strong { display: block; }
 .setup-meta small { color: var(--ink-muted); font-size: 0.57rem; letter-spacing: 0.14em; }
@@ -22,4 +28,4 @@
 .placeholder-status { display: flex; flex-wrap: wrap; align-items: center; gap: 0.55rem; width: 100%; margin: 2rem 0; border-block: 1px solid var(--line); padding: 1rem 0; color: var(--ink-muted); font-size: 0.7rem; letter-spacing: 0.08em; }
 .status-dot { width: 0.45rem; height: 0.45rem; border-radius: 50%; background: var(--teal); box-shadow: 0 0 0.7rem var(--teal); }
 .status-rule { width: 2rem; height: 1px; background: var(--line); }
-@media (max-width: 600px) { .setup-grid, .setup-meta { grid-template-columns: 1fr; } .setup-actions { align-items: stretch; flex-direction: column-reverse; } .setup-actions .button { width: 100%; } }
+@media (max-width: 600px) { .setup-grid, .setup-meta, .setup-options { grid-template-columns: 1fr; } .setup-actions { align-items: stretch; flex-direction: column-reverse; } .setup-actions .button { width: 100%; } }

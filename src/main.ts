@@ -3,6 +3,7 @@
 import "./styles/global.css";
 import "./styles/title.css";
 import "./styles/setup.css";
+import "./styles/results.css";
 import { startBrowserShell } from "./browser-shell/shell";
 import { mountNativeLoadingSurface } from "./browser-shell/native-loading";
 import "./styles/match.css";
@@ -19,5 +20,5 @@ if (params.get("host") === "native") {
 } else if (params.get("match") === "foundation") {
   mountFoundationMatch(app);
 } else {
-  startBrowserShell(app);
+  startBrowserShell(app, { demoMode: params.get("demo") === "vertical-slice" });
 }

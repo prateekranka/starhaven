@@ -35,3 +35,11 @@ This file records each pushed build checkpoint.
 - Available hashes: asset validator `7ac585c83b3af9c3c7bc4ab571c3d1d592595b1c22642fb982412bc2366ec027`; motion video `2424390b777c8264d9053365d2cb560108f4ae0d12a9b51765322a9f8ddb458f`; build info `dba34a3e8c8e09028d36d66d9863d3af0a988ce2abf2287397846e9306b09aac`.
 - Balance changes: none. The balance version remains `0` until C4.
 - Limitation: art is deterministic provisional pixel-like art. It is not final human-approved production art. Full runtime use and physical-device motion proof remain incomplete.
+
+## 2026-08-12 — Checkpoint C04 — gameplay vertical slice
+
+- Scope: shipped `balance.v1`, milli-Flux economy, five-slot production, construction and refunds, fixed-point combat and tick-4 damage, capture micro-points, supplied Engine gating, fracture telegraph/opening, Resonance calibration, sudden death, baseline AI decisions, playable setup, pause, results, victory, and immediate rematch.
+- Acceptance: typecheck, ESLint, 19 simulation/AI/bridge/asset test files with 34 tests, production build, 5 headed browser checks, exact 12:00 resolution, equal replay checksums, asset validation, offline scan, and no-OpenAI scan passed.
+- Observed production preview: `vertical-slice-observation.json` records a Sunwoven Resonance victory at 10:30 after fracture and sudden death, with balance v1, build identity, seed, checksum, and a different rematch seed. `before-fracture.png`, `after-fracture.png`, `vertical-slice.mp4`, and `results-rematch.mp4` are indexed externally.
+- Evidence: `/Users/prateekranka/.codex/evidence/starhaven-c04/20260812T162251Z.KjGP5s`; the committed index is `evidence/checkpoints/C04.json`. The external evidence index records absolute paths, byte sizes, and SHA-256 hashes.
+- Limitation: the C4 results surface reports balance v1. The C1-owned release metadata script still emits `balanceVersion: 0` until the later build-label ownership checkpoint. SwiftUI/WKWebView, JavaScriptCore comparison, device proof, deployment, and final production art remain incomplete.
