@@ -2,7 +2,7 @@ import Combine
 import Foundation
 import SwiftUI
 import UIKit
-import WebKit
+@preconcurrency import WebKit
 
 enum StarhavenNativeScreen: Equatable {
     case title
