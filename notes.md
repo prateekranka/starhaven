@@ -51,3 +51,19 @@ This file records each pushed build checkpoint.
 - Evidence: `/Users/prateekranka/.codex/evidence/starhaven-c05/20260812T173952Z.QW1jq4`; the committed index is `evidence/checkpoints/C05.json`. Required C5 files include `ai-batch.json`, `ai-openings.json`, `ai-state-transitions.ndjson`, `balance-diff.json`, `prior-scenario-suite.json`, `standard-match.mp4`, `occlusion-selection.png`, `performance-browser.json`, and `input-accessibility-checklist.json`.
 - Balance changes: none. `balance.v1.ts` remains unchanged. The C5 AI changes only select faction-specific opening rosters and command behavior.
 - Limitation: browser style assertions use the production preview. The existing development CSP blocks Vite's inline development style injection, so the dev server does not render the CSS used by the production proof. Vite configuration remains in the later artifact-workflow ownership checkpoint.
+
+## 2026-08-12 — Checkpoint C06 — artifact workflow, Pages, and staging
+
+- Scope: shipped the exact-SHA Pages workflow, `.nojekyll`, deterministic `dist-hashes.json`, anchored `build-info.json`, build-label integration, downloadable artifact, 90-day artifact retention, release metadata, staging and decoded-byte verification, evidence-presence validation, offline/no-model scans, and five-check Pages propagation verification.
+- Acceptance: product source SHA `7fbb1131bde9bea2f4e5fd47d3b0cdbda56e8ce1`; Actions run `31628206152` passed; downloadable artifact ID `9153972660` and Pages deployment ID `5875106757` are numeric; Pages and artifact decoded bytes match for all `29` files; all five propagation checks returned HTTP 200 and matching SHA-256; staging rejected dirty, wrong-SHA, and hash-mismatched inputs; release tests passed `4/4`; browser tests passed `6/6`; offline and no-runtime-model scans passed.
+- Evidence: `/Users/prateekranka/.codex/evidence/starhaven-c06/20260812T181201Z.cYBo8G`; the committed index is `evidence/checkpoints/C06.json`. The external evidence index records absolute paths, byte sizes, and SHA-256 hashes.
+- Artifact attestation:
+
+Artifact-Source-SHA: 7fbb1131bde9bea2f4e5fd47d3b0cdbda56e8ce1
+Dist-Manifest-SHA256: 1096313c88d7be3957ea8d3cbea79a27add2ca09486e0d2e4d0c4b2acfca8c49
+Build-Info-SHA256: 4804a75aa9ec31b6313fce2db0e2a510e78365b23998b4bb42738a44ed51c236
+GitHub-Run-ID: 31628206152
+GitHub-Artifact-ID: 9153972660
+GitHub-Deployment-ID: 5875106757
+
+- Limitation: hosted gameplay and exact simulator/native proof remain C7/C8 work. GitHub Pages emitted the expected Node 20 deprecation annotation for third-party actions; it did not fail the run.
