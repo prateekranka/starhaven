@@ -11,7 +11,6 @@ export const defaultSave = () => ({
     reduceMotion: false,
     haptics: true,
   },
-  daily: { lastClaim: "", streak: 0 },
   crateBonus: { food: 0, wood: 0, crystal: 0, ore: 0 },
 });
 
@@ -25,10 +24,6 @@ export function loadSave() {
 
 export function writeSave(save) {
   localStorage.setItem(SAVE_KEY, JSON.stringify(save));
-}
-
-export function todayStamp() {
-  return new Date().toISOString().slice(0, 10);
 }
 
 export const native = typeof window !== "undefined" && new URLSearchParams(location.search).has("native");

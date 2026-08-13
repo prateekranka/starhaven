@@ -198,29 +198,6 @@ html, body {
 .whats-new span { color: var(--gold); letter-spacing: 0.16em; font-size: 10px; }
 .whats-new p { margin-top: 4px; color: #c9d6e8; }
 
-.daily {
-  position: absolute;
-  right: 28px;
-  bottom: 28px;
-  width: 320px;
-  background: rgba(7, 20, 34, 0.92);
-  border: 1px solid var(--gold);
-  padding: 14px;
-  z-index: 2;
-}
-.daily h2 { font-size: 13px; letter-spacing: 0.2em; color: var(--gold); margin-bottom: 10px; }
-.track { display: flex; gap: 6px; list-style: none; margin-bottom: 12px; }
-.track li {
-  flex: 1;
-  background: #0a1a30;
-  border: 1px solid #355;
-  text-align: center;
-  padding: 8px 2px;
-  font-size: 11px;
-}
-.track li.claimed { border-color: var(--ok); opacity: 0.7; }
-.track li.today { border-color: var(--gold); box-shadow: 0 0 8px rgba(224, 195, 106, 0.35); }
-.track i { display: block; font-style: normal; font-size: 16px; }
 .gold-btn {
   background: linear-gradient(180deg, #f0d78a, #c9a24a);
   color: #1a1408;
@@ -318,14 +295,6 @@ select, input[type="range"] { width: 100%; margin-top: 4px; background: #081428;
 }
 .brand-mini { display: flex; align-items: center; gap: 8px; min-width: 210px; }
 .brand-mini em { display: block; font-style: normal; font-size: 10px; color: var(--gold); letter-spacing: 0.12em; }
-.track li img {
-  width: 28px;
-  height: 28px;
-  object-fit: contain;
-  image-rendering: pixelated;
-  display: block;
-  margin: 0 auto 4px;
-}
 .resources {
   display: flex;
   gap: 14px;
@@ -541,7 +510,6 @@ select, input[type="range"] { width: 100%; margin-top: 4px; background: #081428;
 
 @media (max-width: 900px) {
   .sidebar { width: min(300px, 46vw); }
-  .daily { width: 240px; }
   .setup-grid, .lore-grid { grid-template-columns: 1fr; }
   .selection { right: 16px; }
   #minimap-wrap { display: none; }

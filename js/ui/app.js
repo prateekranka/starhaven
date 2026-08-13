@@ -1,14 +1,6 @@
-import { loadSave, writeSave, todayStamp, showScreen, beep, haptic, native, postNative } from "../boot.js";
+import { loadSave, writeSave, showScreen, beep, haptic, native, postNative } from "../boot.js";
 import { detectDefaultQuality } from "../perf.js";
 import { startBackgroundWarm, ensureMatchAssets, matchAssetsReady } from "../cache/assets.js";
-
-const DAILY = [
-  { food: 50 },
-  { crystal: 100 },
-  { wood: 150 },
-  { ore: 40 },
-  { food: 80, wood: 80, crystal: 80, ore: 40 },
-];
 
 let gameMod = null;
 function loadGame() {
@@ -23,7 +15,6 @@ export function initUi() {
     writeSave(save);
   }
   applySettingsForm(save);
-  paintDaily(save);
   if (native) document.body.classList.add("native");
   watchCacheWarm();
 
@@ -68,21 +59,6 @@ export function initUi() {
       save.faction = el.dataset.faction;
       writeSave(save);
     });
-  });
-
-  document.getElementById("claim-btn").addEventListener("click", () => {
-    const s = loadSave();
-    const today = todayStamp();
-    if (s.daily.lastClaim === today) return;
-    const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
-    s.daily.streak = s.daily.lastClaim === yesterday ? Math.min(5, s.daily.streak + 1) : 1;
-    s.daily.lastClaim = today;
-    const reward = DAILY[s.daily.streak - 1];
-    s.crateBonus = { ...s.crateBonus, ...Object.fromEntries(Object.entries(reward).map(([k, v]) => [k, (s.crateBonus[k] || 0) + v])) };
-    writeSave(s);
-    paintDaily(s);
-    beep(520, 0.12);
-    postNative("claim", { streak: s.daily.streak, reward });
   });
 
   document.getElementById("settings-form").addEventListener("change", () => {
@@ -172,19 +148,6 @@ function applySettingsForm(save) {
   f.quality.value = save.settings.quality;
   f.reduceMotion.checked = save.settings.reduceMotion;
   f.haptics.checked = save.settings.haptics;
-}
-
-function paintDaily(save) {
-  const today = todayStamp();
-  const claimed = save.daily.lastClaim === today;
-  document.querySelectorAll(".track li").forEach((li) => {
-    const day = Number(li.dataset.day);
-    li.classList.toggle("claimed", day < save.daily.streak || (claimed && day === save.daily.streak));
-    li.classList.toggle("today", day === Math.min(5, (save.daily.lastClaim === today ? save.daily.streak : save.daily.streak + 1) || 1));
-  });
-  const btn = document.getElementById("claim-btn");
-  btn.disabled = claimed;
-  btn.textContent = claimed ? "CLAIMED" : "CLAIM";
 }
 
 initUi();
