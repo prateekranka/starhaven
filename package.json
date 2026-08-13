@@ -21,6 +21,7 @@
     "release:stage": "node scripts/release/stage-dist.mjs",
     "release:verify-stage": "node scripts/release/verify-staged-dist.mjs",
     "deploy:cloudflare": "npx --yes wrangler@4 pages deploy dist --project-name starhaven --branch main",
+    "deploy:cloudflare:dev": "npx --yes wrangler@4 pages deploy dist --project-name starhaven-dev --branch dev",
     "ship:ipad": "bash scripts/ship-ipad.sh"
   },
   "devDependencies": {

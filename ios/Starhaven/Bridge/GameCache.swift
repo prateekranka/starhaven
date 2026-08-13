@@ -1,8 +1,43 @@
 import CryptoKit
 import Foundation
 
+public enum StarhavenPackChannel: String, CaseIterable, Identifiable, Sendable {
+    case production
+    case development
+
+    public var id: String { rawValue }
+
+    public var origin: URL {
+        switch self {
+        case .production: StarhavenRemoteOrigin.production
+        case .development: StarhavenRemoteOrigin.development
+        }
+    }
+
+    public var hostLabel: String {
+        origin.host ?? rawValue
+    }
+
+    public var title: String {
+        switch self {
+        case .production: "Production"
+        case .development: "Dev"
+        }
+    }
+
+    public static var defaultChannel: StarhavenPackChannel {
+        #if DEBUG
+        .development
+        #else
+        .production
+        #endif
+    }
+}
+
 public enum StarhavenRemoteOrigin {
-    public static let origin = URL(string: "https://starhaven.contenthelper.in")!
+    public static let production = URL(string: "https://starhaven.contenthelper.in")!
+    public static let development = URL(string: "https://dev.starhaven.contenthelper.in")!
+    public static let origin = StarhavenPackChannel.defaultChannel.origin
 }
 
 public struct StarhavenCacheProgress: Equatable, Sendable {
@@ -54,10 +89,10 @@ public enum StarhavenPackVerifier {
 public actor StarhavenGameCache {
     public static let shared = StarhavenGameCache()
 
-    private let origin: URL
+    private var origin: URL
     private let fileManager: FileManager
     private let session: URLSession
-    private let cacheRoot: URL
+    private let cacheBase: URL
 
     public init(
         origin: URL = StarhavenRemoteOrigin.origin,
@@ -69,12 +104,21 @@ public actor StarhavenGameCache {
         self.fileManager = fileManager
         self.session = session
         if let cacheRoot {
-            self.cacheRoot = cacheRoot
+            self.cacheBase = cacheRoot
         } else {
             let support = fileManager.urls(for: .applicationSupportDirectory, in: .userDomainMask).first
                 ?? fileManager.temporaryDirectory
-            self.cacheRoot = support.appending(path: "Starhaven/GameCache", directoryHint: .isDirectory)
+            self.cacheBase = support.appending(path: "Starhaven/GameCache", directoryHint: .isDirectory)
         }
+    }
+
+    public func setOrigin(_ origin: URL) {
+        self.origin = origin
+    }
+
+    private var cacheRoot: URL {
+        let host = origin.host?.replacingOccurrences(of: ":", with: "_") ?? "default"
+        return cacheBase.appending(path: host, directoryHint: .isDirectory)
     }
 
     public func remoteBuildInfo() async throws -> StarhavenBuildInfo {

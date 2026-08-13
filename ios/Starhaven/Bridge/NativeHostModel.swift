@@ -47,6 +47,7 @@ final class NativeHostModel: NSObject, ObservableObject {
     @Published private(set) var webViewIdentity: ObjectIdentifier?
     @Published var settings = StarhavenNativeSettings()
 
+    @Published private(set) var packChannel = StarhavenPackChannel.defaultChannel
     @Published private(set) var cacheReady = false
     @Published private(set) var isRefreshingPack = false
     @Published private(set) var cacheProgress = StarhavenCacheProgress(fraction: 0, detail: "Preparing the frontier pack…")
@@ -65,11 +66,24 @@ final class NativeHostModel: NSObject, ObservableObject {
     private var snapshotTask: Task<Void, Never>?
     private var currentSeed: UInt32 = 0x4d455249
 
+    private static let packChannelKey = "starhaven.packChannel"
+
     init(bundledRootURL: URL) {
         self.bundledRootURL = bundledRootURL
         self.stagedRootURL = bundledRootURL
         schemeHandler = StarhavenSchemeHandler(rootURL: bundledRootURL)
         super.init()
+        if let stored = UserDefaults.standard.string(forKey: Self.packChannelKey),
+           let channel = StarhavenPackChannel(rawValue: stored) {
+            packChannel = channel
+        }
+    }
+
+    func setPackChannel(_ channel: StarhavenPackChannel) async {
+        guard channel != packChannel else { return }
+        packChannel = channel
+        UserDefaults.standard.set(channel.rawValue, forKey: Self.packChannelKey)
+        await reloadFrontierPack()
     }
 
     func reloadFrontierPack() async {
@@ -98,6 +112,7 @@ final class NativeHostModel: NSObject, ObservableObject {
         cacheReady = false
         cacheError = nil
         cacheProgress = StarhavenCacheProgress(fraction: 0.01, detail: "Checking the frontier pack…")
+        await StarhavenGameCache.shared.setOrigin(packChannel.origin)
         do {
             let packURL = try await StarhavenGameCache.shared.prepare(bundledRoot: bundledRootURL) { progress in
                 Task { @MainActor in

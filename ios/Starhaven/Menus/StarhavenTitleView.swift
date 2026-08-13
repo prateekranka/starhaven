@@ -36,13 +36,24 @@ struct StarhavenTitleView: View {
             }
             .buttonStyle(.bordered)
             .disabled(model.isRefreshingPack)
-            .accessibilityHint("Download the latest Starhaven pack from contenthelper.in without force-quitting")
+            .accessibilityHint("Download the latest Starhaven pack without force-quitting")
+            Picker("Pack source", selection: packChannelBinding) {
+                ForEach(StarhavenPackChannel.allCases) { channel in
+                    Text(channel.title).tag(channel)
+                }
+            }
+            .pickerStyle(.segmented)
+            .frame(maxWidth: 300)
+            .disabled(model.isRefreshingPack)
+            .accessibilityLabel("Pack source")
             cacheStatus
             Spacer()
             HStack {
                 Text("OFFLINE SKIRMISH")
                 Text("•")
                 Text("CACHED PRIVATE RUNTIME")
+                Text("•")
+                Text(model.packChannel.title.uppercased())
                 Spacer()
                 Text("BUILD \(model.buildIdentity)")
             }
@@ -55,6 +66,15 @@ struct StarhavenTitleView: View {
         .accessibilityElement(children: .contain)
     }
 
+    private var packChannelBinding: Binding<StarhavenPackChannel> {
+        Binding(
+            get: { model.packChannel },
+            set: { channel in
+                Task { await model.setPackChannel(channel) }
+            }
+        )
+    }
+
     @ViewBuilder
     private var cacheStatus: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -65,7 +85,7 @@ struct StarhavenTitleView: View {
                 .font(.caption.weight(.semibold))
                 .foregroundStyle(model.cacheError == nil ? Color.secondary : Color.orange)
             if model.cacheReady {
-                Text("60 FPS native runtime · cached from starhaven.contenthelper.in")
+                Text("60 FPS native runtime · cached from \(model.packChannel.hostLabel)")
                     .font(.caption2.weight(.bold))
                     .foregroundStyle(.teal)
             }

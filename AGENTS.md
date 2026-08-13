@@ -6,32 +6,39 @@ Do not use Flowdeck.
 
 ## Live surfaces
 
-- Gameplay pack (what the TestFlight app downloads): https://starhaven.contenthelper.in/
+- Production gameplay pack: https://starhaven.contenthelper.in/ (branch `main`, Pages project `starhaven`)
+- Dev gameplay pack: https://dev.starhaven.contenthelper.in/ (branch `dev`, Pages project `starhaven-dev`)
 - GitHub (push here): `prateekranka/starhaven`
-- Cloudflare Pages project: `starhaven` (account `920d78e6c05a8e15380d6205aa3f38b4`)
+- Cloudflare account: `920d78e6c05a8e15380d6205aa3f38b4`
 - TestFlight app: Starhaven Bright Frontier, App Store id `6800975731`, bundle `com.prateekranka.starhaven`, team `4JRB53LG5C`
 - iOS host: `ios/Starhaven/`, XcodeGen `ios/project.yml`, scheme `Starhaven`
 
+`CLOUDFLARE_API_TOKEN` deploys web packs only. It cannot archive, sign, or upload a TestFlight or Sqim IPA. Those need macOS, Xcode, and Apple signing (`./scripts/ship-ipad.sh`).
+
 ## Classify the feedback
 
-- **Web / sim / art / UI in `src/` or `public/`:** ship a Cloudflare pack. The installed TestFlight shell already fetches `build-info.json` on launch (and on title foreground / Reload pack in newer shells). No new IPA.
+- **Web / sim / art / UI in `src/` or `public/`:** ship a Cloudflare pack. Default playtest target is **dev**. The TestFlight shell fetches `build-info.json` on launch (and on title foreground / Reload pack in newer shells). Native 4+ can switch Production/Dev on the title screen. No new IPA for web-only fixes.
 - **Swift / Info.plist / WKWebView / `GameCache`:** needs a new device IPA (Sqim install link or TestFlight). Linux cloud VMs cannot sign iOS apps.
 
-Never put `https://starhaven.contenthelper.in` in web `src/` (`verify:offline` forbids it). Keep the origin in Swift only.
+Never put `https://starhaven.contenthelper.in` or `https://dev.starhaven.contenthelper.in` in web `src/` (`verify:offline` forbids it). Keep origins in Swift only.
 
 ## Ship a web pack (default for gameplay feedback)
 
 1. Implement the change.
 2. `npm run typecheck` and `npm test` when the change is in TS.
-3. Commit. Push to **`prateekranka/starhaven` `main`**:
-   - Cloud clone of that repo: `git push origin HEAD:main`
-   - This workstation also has remote `starhaven`: `git push starhaven HEAD:main`
+3. Commit. Push to **`prateekranka/starhaven`**:
+   - Playtest / iteration: push **`dev`**
+   - Production: push **`main`** only when asked to ship prod
+   - Cloud clone: `git push origin HEAD:dev` (or `main`)
+   - This workstation also has remote `starhaven`: `git push starhaven HEAD:dev`
    - Do not force-push. Do not commit `.asc/`, `dist/`, secrets, or `.p8` keys.
 4. Deploy the pack:
    - Prefer waiting for GitHub Action **Cloudflare Pages**.
-   - If `CLOUDFLARE_API_TOKEN` is in the environment: `npm run build && npx wrangler pages deploy dist --project-name starhaven --branch main`
+   - If `CLOUDFLARE_API_TOKEN` is in the environment:
+     - Dev: `npm run build && npm run deploy:cloudflare:dev`
+     - Prod: `npm run build && npm run deploy:cloudflare`
    - Do not claim the live pack updated unless the deploy step succeeded.
-5. Tell the tester: return to the title screen (or force-quit and reopen Starhaven), wait for the pack to cache, confirm the BUILD sha in the footer matches the commit you shipped.
+5. Tell the tester: title screen → **Dev** (or Production) → Reload pack (or force-quit and reopen). Confirm the BUILD sha in the footer.
 
 ## Ship a native IPA (Swift / host)
 
