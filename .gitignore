@@ -19,3 +19,4 @@ xcuserdata/
 ios/Artifacts/GameDist/
 ios/Artifacts/GameDistInputs.xcfilelist
 release-metadata/
+.asc/
