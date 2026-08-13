@@ -34,6 +34,9 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: com.prateekranka.starhaven
         INFOPLIST_FILE: Starhaven/Resources/Info.plist
         CODE_SIGN_ENTITLEMENTS: Starhaven/Resources/Starhaven.entitlements
+        CODE_SIGN_STYLE: Automatic
+        DEVELOPMENT_TEAM: 4JRB53LG5C
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         ENABLE_USER_SCRIPT_SANDBOXING: YES
     scheme:
       testTargets:

@@ -20,6 +20,7 @@
 		533FDF4360102C7EE6F74DB0 /* SchemeRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73F2AAD7C0B4C38FFEC4D6E6 /* SchemeRouter.swift */; };
 		61A006A382E85E08DF02F56D /* NativeHostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BFBAA63BCE5B602B47723EC /* NativeHostModel.swift */; };
 		6F113244F4C1797A083BB100 /* NativeWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93080D4320C870B7A9D2F299 /* NativeWebView.swift */; };
+		7AA2ADAC06B5D50C47D1141A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 60C69B9FAE22A8E63A1F44A2 /* Assets.xcassets */; };
 		80ECDEBDC1515DBB31270125 /* ProtocolGenerated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30B90440EEAF6BFC3AC080DB /* ProtocolGenerated.swift */; };
 		999764B6E723C5E0F0B85E64 /* StarhavenSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F16D9CB3E10200EEF05B5FA3 /* StarhavenSettingsView.swift */; };
 		99A58B97F9DE8C4419DB2FDD /* SnapshotStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B516C34DE34ADE63B989B3C /* SnapshotStore.swift */; };
@@ -44,6 +45,7 @@
 		30B90440EEAF6BFC3AC080DB /* ProtocolGenerated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProtocolGenerated.swift; sourceTree = "<group>"; };
 		4AB6E3B62C847EF99D4C16EA /* StarhavenMatchControlsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarhavenMatchControlsView.swift; sourceTree = "<group>"; };
 		4B516C34DE34ADE63B989B3C /* SnapshotStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapshotStore.swift; sourceTree = "<group>"; };
+		60C69B9FAE22A8E63A1F44A2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		73F2AAD7C0B4C38FFEC4D6E6 /* SchemeRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchemeRouter.swift; sourceTree = "<group>"; };
 		8A900E97AB1B28A5D0BA44DC /* StarhavenSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarhavenSetupView.swift; sourceTree = "<group>"; };
 		8FEAF1B652F05842A3C83DF0 /* GameDist */ = {isa = PBXFileReference; lastKnownFileType = folder; name = GameDist; path = Artifacts/GameDist; sourceTree = SOURCE_ROOT; };
@@ -61,6 +63,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
+		487AB835B3886A523D3AA6CB /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				60C69B9FAE22A8E63A1F44A2 /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		5A6E5CA6B16DF6D499F963DC /* Bridge */ = {
 			isa = PBXGroup;
 			children = (
@@ -102,6 +112,7 @@
 				5A6E5CA6B16DF6D499F963DC /* Bridge */,
 				DC8434C40A40070709E396E5 /* Match */,
 				AABB158147D57888F38DFCC6 /* Menus */,
+				487AB835B3886A523D3AA6CB /* Resources */,
 			);
 			path = Starhaven;
 			sourceTree = "<group>";
@@ -200,6 +211,10 @@
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
+					805721A999FF4395B31F9B98 = {
+						DevelopmentTeam = 4JRB53LG5C;
+						ProvisioningStyle = Automatic;
+					};
 				};
 			};
 			buildConfigurationList = 8F8E0099148FA634B8776807 /* Build configuration list for PBXProject "Starhaven" */;
@@ -227,6 +242,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7AA2ADAC06B5D50C47D1141A /* Assets.xcassets in Resources */,
 				0254DBCEF34ACE48E8212220 /* GameDist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -323,6 +339,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Starhaven/Resources/Starhaven.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 4JRB53LG5C;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				INFOPLIST_FILE = Starhaven/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -482,6 +500,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Starhaven/Resources/Starhaven.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 4JRB53LG5C;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				INFOPLIST_FILE = Starhaven/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
