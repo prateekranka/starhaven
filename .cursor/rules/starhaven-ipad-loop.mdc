@@ -1,0 +1,12 @@
+---
+description: iPad playtest loop — apply Cursor iOS feedback and ship a Cloudflare pack or device IPA
+alwaysApply: true
+---
+
+# iPad playtest loop
+
+When the user reports Starhaven gameplay or host bugs from an iPad (especially via the Cursor iOS app), follow `AGENTS.md` and `.cursor/skills/starhaven-ipad-loop/SKILL.md`.
+
+- Gameplay/`src`/`public` changes: commit, push `prateekranka/starhaven` `main`, deploy Cloudflare Pages, tell them to Reload pack or reopen the app.
+- Swift/native changes: Linux cannot produce Sqim or TestFlight; commit/push and require `./scripts/ship-ipad.sh` on a Mac.
+- Never invent Sqim or TestFlight URLs. Never use Flowdeck.

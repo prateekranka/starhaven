@@ -8,15 +8,15 @@
   X-Content-Type-Options: nosniff
 
 /index.html
-  Cache-Control: public, max-age=60, must-revalidate
+  Cache-Control: no-store
   X-Content-Type-Options: nosniff
 
 /dist-hashes.json
-  Cache-Control: public, max-age=30, must-revalidate
+  Cache-Control: no-store
   X-Content-Type-Options: nosniff
 
 /build-info.json
-  Cache-Control: public, max-age=30, must-revalidate
+  Cache-Control: no-store
   X-Content-Type-Options: nosniff
 
 /*

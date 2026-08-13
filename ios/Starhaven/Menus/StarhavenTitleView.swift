@@ -26,8 +26,17 @@ struct StarhavenTitleView: View {
             .buttonStyle(.borderedProminent)
             .tint(Color(red: 0.973, green: 0.839, blue: 0.427))
             .foregroundStyle(.black)
-            .disabled(!model.cacheReady)
+            .disabled(!model.cacheReady || model.isRefreshingPack)
             .accessibilityHint("Choose a faction and enter a local match")
+            Button {
+                Task { await model.reloadFrontierPack() }
+            } label: {
+                Label("Reload pack", systemImage: "arrow.clockwise")
+                    .frame(maxWidth: 300)
+            }
+            .buttonStyle(.bordered)
+            .disabled(model.isRefreshingPack)
+            .accessibilityHint("Download the latest Starhaven pack from contenthelper.in without force-quitting")
             cacheStatus
             Spacer()
             HStack {

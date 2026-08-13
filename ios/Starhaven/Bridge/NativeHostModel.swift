@@ -48,6 +48,7 @@ final class NativeHostModel: NSObject, ObservableObject {
     @Published var settings = StarhavenNativeSettings()
 
     @Published private(set) var cacheReady = false
+    @Published private(set) var isRefreshingPack = false
     @Published private(set) var cacheProgress = StarhavenCacheProgress(fraction: 0, detail: "Preparing the frontier pack…")
     @Published private(set) var cacheError: String?
 
@@ -69,6 +70,28 @@ final class NativeHostModel: NSObject, ObservableObject {
         self.stagedRootURL = bundledRootURL
         schemeHandler = StarhavenSchemeHandler(rootURL: bundledRootURL)
         super.init()
+    }
+
+    func reloadFrontierPack() async {
+        guard !isRefreshingPack else { return }
+        isRefreshingPack = true
+        defer { isRefreshingPack = false }
+        detachWebView()
+        await prepareAndLoad()
+    }
+
+    func refreshPackIfRemoteChanged() async {
+        guard screen == .title || screen == .results else { return }
+        guard !isRefreshingPack, cacheReady else { return }
+        do {
+            let remote = try await StarhavenGameCache.shared.remoteBuildInfo()
+            let installed = await StarhavenGameCache.shared.installedSourceSha()
+            guard installed != remote.sourceSha else { return }
+            record("remote pack \(remote.displaySha) differs from cache; reloading")
+            await reloadFrontierPack()
+        } catch {
+            record("remote pack check failed: \(error.localizedDescription)")
+        }
     }
 
     func prepareAndLoad() async {
@@ -173,6 +196,9 @@ final class NativeHostModel: NSObject, ObservableObject {
             backgrounded = false
             send(type: "lifecycle.foreground", payload: .object([:]))
             if screen == .match && !isRestoring { send(type: "match.resume", payload: .object([:])) }
+            if screen == .title || screen == .results {
+                Task { await refreshPackIfRemoteChanged() }
+            }
         case .inactive:
             break
         @unknown default:
@@ -192,6 +218,18 @@ final class NativeHostModel: NSObject, ObservableObject {
         recoverAfterTermination()
     }
     #endif
+
+    private func detachWebView() {
+        waitingForFinalSnapshot = false
+        snapshotTask?.cancel()
+        snapshotTask = nil
+        webView?.navigationDelegate = nil
+        webView?.uiDelegate = nil
+        webView?.configuration.userContentController.removeScriptMessageHandler(forName: "starhaven")
+        webView = nil
+        webViewIdentity = nil
+        webReady = false
+    }
 
     private func createWebView() {
         schemeHandler = StarhavenSchemeHandler(rootURL: stagedRootURL)

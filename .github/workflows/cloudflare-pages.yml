@@ -1,0 +1,41 @@
+name: Cloudflare Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: cloudflare-pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    if: github.repository == 'prateekranka/starhaven'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.13.0
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - run: npm run verify:offline
+      - run: npm run verify:no-openai
+      - name: Verify release identity
+        run: node scripts/release/verify-release.mjs --dist dist --source-sha "${GITHUB_SHA}" --require-clean --origin starhaven
+      - name: Deploy to starhaven.contenthelper.in
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: 920d78e6c05a8e15380d6205aa3f38b4
+        run: |
+          if [ -z "${CLOUDFLARE_API_TOKEN}" ]; then
+            echo "CLOUDFLARE_API_TOKEN is not set. Add a Cloudflare Pages Edit API token as a GitHub Actions secret named CLOUDFLARE_API_TOKEN so iPad playtest packs deploy on every push."
+            exit 1
+          fi
+          npx --yes wrangler@4 pages deploy dist --project-name starhaven --branch main --commit-hash "${GITHUB_SHA}"

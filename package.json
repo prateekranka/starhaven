@@ -19,7 +19,9 @@
     "verify:evidence": "node scripts/verify-evidence.mjs",
     "release:verify": "node scripts/release/verify-release.mjs",
     "release:stage": "node scripts/release/stage-dist.mjs",
-    "release:verify-stage": "node scripts/release/verify-staged-dist.mjs"
+    "release:verify-stage": "node scripts/release/verify-staged-dist.mjs",
+    "deploy:cloudflare": "npx --yes wrangler@4 pages deploy dist --project-name starhaven --branch main",
+    "ship:ipad": "bash scripts/ship-ipad.sh"
   },
   "devDependencies": {
     "@playwright/test": "1.62.1",

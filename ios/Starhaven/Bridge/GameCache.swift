@@ -77,6 +77,14 @@ public actor StarhavenGameCache {
         }
     }
 
+    public func remoteBuildInfo() async throws -> StarhavenBuildInfo {
+        try await fetchBuildInfo()
+    }
+
+    public func installedSourceSha() -> String? {
+        currentSourceSha()
+    }
+
     public func prepare(
         bundledRoot: URL?,
         progress: @escaping @Sendable (StarhavenCacheProgress) -> Void
@@ -104,19 +112,23 @@ public actor StarhavenGameCache {
         throw StarhavenCacheError.unavailable
     }
 
-    private func fetchBuildInfo() async throws -> StarhavenBuildInfo {
-        let (data, response) = try await session.data(from: origin.appending(path: "build-info.json"))
+    private func fetch(_ path: String) async throws -> Data {
+        var request = URLRequest(url: origin.appending(path: path))
+        request.cachePolicy = .reloadIgnoringLocalCacheData
+        request.timeoutInterval = 60
+        let (data, response) = try await session.data(for: request)
         guard let http = response as? HTTPURLResponse, (200 ... 299).contains(http.statusCode) else {
             throw StarhavenCacheError.unavailable
         }
-        return try JSONDecoder().decode(StarhavenBuildInfo.self, from: data)
+        return data
+    }
+
+    private func fetchBuildInfo() async throws -> StarhavenBuildInfo {
+        try JSONDecoder().decode(StarhavenBuildInfo.self, from: try await fetch("build-info.json"))
     }
 
     private func downloadPack(build: StarhavenBuildInfo, progress: @escaping @Sendable (StarhavenCacheProgress) -> Void) async throws -> URL {
-        let (manifestData, manifestResponse) = try await session.data(from: origin.appending(path: "dist-hashes.json"))
-        guard let http = manifestResponse as? HTTPURLResponse, (200 ... 299).contains(http.statusCode) else {
-            throw StarhavenCacheError.unavailable
-        }
+        let manifestData = try await fetch("dist-hashes.json")
         guard StarhavenPackVerifier.sha256Hex(manifestData) == build.distManifestSha256.lowercased() else {
             throw StarhavenCacheError.hashMismatch
         }
@@ -124,7 +136,7 @@ public actor StarhavenGameCache {
         let incoming = cacheRoot.appending(path: "incoming-\(UUID().uuidString)", directoryHint: .isDirectory)
         try fileManager.createDirectory(at: incoming, withIntermediateDirectories: true)
         try manifestData.write(to: incoming.appending(path: "dist-hashes.json"), options: .atomic)
-        let (buildData, _) = try await session.data(from: origin.appending(path: "build-info.json"))
+        let buildData = try await fetch("build-info.json")
         try buildData.write(to: incoming.appending(path: "build-info.json"), options: .atomic)
 
         let extra = 2
