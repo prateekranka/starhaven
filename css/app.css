@@ -271,18 +271,112 @@ html, body {
   border: 1px solid rgba(224, 195, 106, 0.35);
   padding: 16px;
 }
-.lore img, .faction-pick img { width: 100%; height: 140px; object-fit: cover; margin-bottom: 10px; border: 1px solid var(--gold-dim); }
-.faction-picks { display: grid; gap: 10px; }
+.lore img {
+  display: block;
+  width: 100%;
+  height: min(42vh, 280px);
+  object-fit: contain;
+  object-position: center;
+  margin-bottom: 10px;
+  background: #050d18;
+  border: 1px solid var(--gold-dim);
+}
+.faction-picks {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
 .faction-pick {
+  --portrait-glow: rgba(240, 210, 90, 0.42);
+  --portrait-glow-2: rgba(62, 199, 201, 0.28);
+  display: flex;
+  flex-direction: column;
   background: #081428;
   color: inherit;
   border: 1px solid #456;
-  padding: 10px;
+  padding: 8px;
   cursor: pointer;
   text-align: left;
 }
-.faction-pick.selected { border-color: var(--gold); box-shadow: 0 0 0 1px var(--gold); }
+.faction-pick[data-faction="gravemark"] {
+  --portrait-glow: rgba(90, 170, 255, 0.48);
+  --portrait-glow-2: rgba(40, 80, 170, 0.38);
+}
+.faction-pick.selected {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 1px var(--gold), 0 0 18px rgba(212, 175, 55, 0.22);
+}
+.faction-portrait {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  margin-bottom: 8px;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 50% 78%, var(--portrait-glow-2), transparent 64%),
+    #050d18;
+  border: 1px solid var(--gold-dim);
+}
+.faction-portrait::before {
+  content: "";
+  position: absolute;
+  inset: 16% 12% 8%;
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(circle at 50% 42%, var(--portrait-glow), transparent 58%);
+  animation: faction-idle-glow 3.4s ease-in-out infinite;
+}
+.faction-portrait img {
+  position: absolute;
+  inset: 14px;
+  z-index: 1;
+  display: block;
+  width: calc(100% - 28px);
+  height: calc(100% - 28px);
+  object-fit: contain;
+  object-position: center;
+  transform-origin: 50% 80%;
+  animation: faction-idle-breathe 3.6s ease-in-out infinite;
+}
+.faction-pick[data-faction="gravemark"] .faction-portrait img {
+  animation-duration: 4.1s;
+  animation-delay: -1.3s;
+}
+.faction-pick[data-faction="gravemark"] .faction-portrait::before {
+  animation-duration: 3.9s;
+  animation-delay: -0.8s;
+}
+.faction-pick.selected .faction-portrait {
+  border-color: var(--gold);
+}
+.faction-pick strong {
+  font-family: var(--display);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
 .faction-pick em { display: block; color: #9ab; font-size: 12px; font-style: normal; margin-top: 4px; }
+@keyframes faction-idle-breathe {
+  0%, 100% {
+    transform: translateY(0);
+    filter: brightness(1) drop-shadow(0 0 0 transparent);
+  }
+  50% {
+    transform: translateY(-4px);
+    filter: brightness(1.09) drop-shadow(0 0 10px var(--portrait-glow));
+  }
+}
+@keyframes faction-idle-glow {
+  0%, 100% { opacity: 0.32; }
+  50% { opacity: 0.72; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .faction-portrait img,
+  .faction-portrait::before {
+    animation: none;
+  }
+}
 label { display: block; margin: 10px 0; color: #cde; }
 select, input[type="range"] { width: 100%; margin-top: 4px; background: #081428; color: var(--ivory); border: 1px solid #567; padding: 8px; }
 .hint { color: #b9c8da; font-size: 14px; line-height: 1.45; margin-top: 10px; }
@@ -538,8 +632,12 @@ select, input[type="range"] { width: 100%; margin-top: 4px; background: #081428;
 @media (max-width: 900px) {
   .sidebar { width: min(300px, 46vw); }
   .setup-grid, .lore-grid { grid-template-columns: 1fr; }
+  .faction-picks { grid-template-columns: 1fr 1fr; }
   .selection { right: 16px; }
   #minimap-wrap { display: none; }
+}
+@media (max-width: 560px) {
+  .faction-picks { grid-template-columns: 1fr; }
 }
 
 .cache-hud {
