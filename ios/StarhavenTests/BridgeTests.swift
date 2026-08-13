@@ -17,6 +17,17 @@ final class StarhavenBridgeTests: XCTestCase {
         XCTAssertFalse(StarhavenNavigationPolicy.allows(URL(string: "file:///index.html")))
     }
 
+    func testPackVerifierAcceptsMatchingBytesAndRejectsTraversal() {
+        let payload = Data("starhaven".utf8)
+        XCTAssertEqual(StarhavenPackVerifier.sha256Hex(payload).count, 64)
+        XCTAssertTrue(StarhavenPackVerifier.verify(data: payload, expectedBytes: payload.count, expectedSHA256: StarhavenPackVerifier.sha256Hex(payload)))
+        XCTAssertFalse(StarhavenPackVerifier.verify(data: payload, expectedBytes: 1, expectedSHA256: StarhavenPackVerifier.sha256Hex(payload)))
+        XCTAssertTrue(StarhavenPackVerifier.isSafeRelativePath("assets/index.js"))
+        XCTAssertFalse(StarhavenPackVerifier.isSafeRelativePath("../secret"))
+        XCTAssertFalse(StarhavenPackVerifier.isSafeRelativePath("/index.html"))
+        XCTAssertFalse(StarhavenPackVerifier.isSafeRelativePath("game-assets/foo/../x.png"))
+    }
+
     func testSnapshotStoreRoundTrip() throws {
         let suite = "starhaven.tests.\(UUID().uuidString)"
         let defaults = try XCTUnwrap(UserDefaults(suiteName: suite))

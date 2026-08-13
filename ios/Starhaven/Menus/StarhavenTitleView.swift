@@ -26,12 +26,14 @@ struct StarhavenTitleView: View {
             .buttonStyle(.borderedProminent)
             .tint(Color(red: 0.973, green: 0.839, blue: 0.427))
             .foregroundStyle(.black)
+            .disabled(!model.cacheReady)
             .accessibilityHint("Choose a faction and enter a local match")
+            cacheStatus
             Spacer()
             HStack {
                 Text("OFFLINE SKIRMISH")
                 Text("•")
-                Text("PRIVATE LOCAL RUNTIME")
+                Text("CACHED PRIVATE RUNTIME")
                 Spacer()
                 Text("BUILD \(model.buildIdentity)")
             }
@@ -42,5 +44,24 @@ struct StarhavenTitleView: View {
         .padding(.vertical, 32)
         .frame(maxWidth: 1100, alignment: .leading)
         .accessibilityElement(children: .contain)
+    }
+
+    @ViewBuilder
+    private var cacheStatus: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            ProgressView(value: model.cacheProgress.fraction)
+                .tint(Color(red: 0.973, green: 0.839, blue: 0.427))
+                .frame(maxWidth: 360)
+            Text(model.cacheError ?? model.cacheProgress.detail)
+                .font(.caption.weight(.semibold))
+                .foregroundStyle(model.cacheError == nil ? Color.secondary : Color.orange)
+            if model.cacheReady {
+                Text("60 FPS native runtime · cached from starhaven.contenthelper.in")
+                    .font(.caption2.weight(.bold))
+                    .foregroundStyle(.teal)
+            }
+        }
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel(model.cacheReady ? "Frontier pack cached" : "Downloading frontier pack")
     }
 }

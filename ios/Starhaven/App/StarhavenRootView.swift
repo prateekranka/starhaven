@@ -17,7 +17,7 @@ struct StarhavenRootView: View {
             .onAppear { model.updateSafeArea(proxy.safeAreaInsets) }
             .onChange(of: proxy.safeAreaInsets) { _, insets in model.updateSafeArea(insets) }
         }
-        .task { model.load() }
+        .task { await model.prepareAndLoad() }
         .onChange(of: scenePhase) { _, phase in model.handleScenePhase(phase) }
         .preferredColorScheme(.dark)
     }

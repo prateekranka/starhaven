@@ -17,10 +17,35 @@ public struct StarhavenSchemeResponse: Equatable, Sendable {
 public final class StarhavenSchemeRouter: @unchecked Sendable {
     private let rootURL: URL
     private let fileManager: FileManager
+    private var memoryFiles: [String: Data] = [:]
 
     public init(rootURL: URL, fileManager: FileManager = .default) {
         self.rootURL = rootURL.standardizedFileURL.resolvingSymlinksInPath()
         self.fileManager = fileManager
+        preloadMemory()
+    }
+
+    public func preloadMemory() {
+        var files: [String: Data] = [:]
+        let manifestURL = rootURL.appending(path: "dist-hashes.json")
+        if let manifestData = try? Data(contentsOf: manifestURL),
+           let object = try? JSONSerialization.jsonObject(with: manifestData) as? [String: Any],
+           let entries = object["files"] as? [[String: Any]] {
+            files["dist-hashes.json"] = manifestData
+            for entry in entries {
+                guard let path = entry["path"] as? String, StarhavenPackVerifier.isSafeRelativePath(path) else { continue }
+                if let data = try? Data(contentsOf: rootURL.appending(path: path)) {
+                    files[path] = data
+                }
+            }
+        }
+        if let build = try? Data(contentsOf: rootURL.appending(path: "build-info.json")) {
+            files["build-info.json"] = build
+        }
+        if files["index.html"] == nil, let index = try? Data(contentsOf: rootURL.appending(path: "index.html")) {
+            files["index.html"] = index
+        }
+        memoryFiles = files
     }
 
     public func response(for url: URL?, method: String) -> StarhavenSchemeResponse {
@@ -44,14 +69,21 @@ public final class StarhavenSchemeRouter: @unchecked Sendable {
         guard !containsSymbolicLink(relativePath) else {
             return response(statusCode: 403, mimeType: "text/plain; charset=utf-8", body: Data("Forbidden".utf8))
         }
-        guard fileManager.fileExists(atPath: fileURL.path), let attributes = try? fileManager.attributesOfItem(atPath: fileURL.path), let type = attributes[FileAttributeKey.type] as? FileAttributeType, type == .typeRegular else {
-            return response(statusCode: 404, mimeType: "text/plain; charset=utf-8", body: Data("Not Found".utf8))
-        }
-        guard let mimeType = Self.mimeTypes[fileURL.pathExtension.lowercased()] else {
+        let extensionName = fileURL.pathExtension.lowercased()
+        guard let mimeType = Self.mimeTypes[extensionName] else {
             return response(statusCode: 415, mimeType: "text/plain; charset=utf-8", body: Data("Unsupported Media Type".utf8))
         }
-        guard let body = try? Data(contentsOf: fileURL) else {
-            return response(statusCode: 404, mimeType: "text/plain; charset=utf-8", body: Data("Not Found".utf8))
+        let body: Data
+        if let cached = memoryFiles[relativePath] {
+            body = cached
+        } else {
+            guard fileManager.fileExists(atPath: fileURL.path), let attributes = try? fileManager.attributesOfItem(atPath: fileURL.path), let type = attributes[FileAttributeKey.type] as? FileAttributeType, type == .typeRegular else {
+                return response(statusCode: 404, mimeType: "text/plain; charset=utf-8", body: Data("Not Found".utf8))
+            }
+            guard let fileBody = try? Data(contentsOf: fileURL) else {
+                return response(statusCode: 404, mimeType: "text/plain; charset=utf-8", body: Data("Not Found".utf8))
+            }
+            body = fileBody
         }
         let headers = [
             "Content-Type": mimeType,

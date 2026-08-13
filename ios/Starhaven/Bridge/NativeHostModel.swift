@@ -47,8 +47,13 @@ final class NativeHostModel: NSObject, ObservableObject {
     @Published private(set) var webViewIdentity: ObjectIdentifier?
     @Published var settings = StarhavenNativeSettings()
 
+    @Published private(set) var cacheReady = false
+    @Published private(set) var cacheProgress = StarhavenCacheProgress(fraction: 0, detail: "Preparing the frontier pack…")
+    @Published private(set) var cacheError: String?
+
     private(set) var webView: WKWebView?
-    private let stagedRootURL: URL
+    private var stagedRootURL: URL
+    private let bundledRootURL: URL
     private let snapshotStore = StarhavenSnapshotStore()
     private var schemeHandler: StarhavenSchemeHandler
     private var sequence = 0
@@ -59,11 +64,38 @@ final class NativeHostModel: NSObject, ObservableObject {
     private var snapshotTask: Task<Void, Never>?
     private var currentSeed: UInt32 = 0x4d455249
 
-    init(stagedRootURL: URL) {
-        self.stagedRootURL = stagedRootURL
-        schemeHandler = StarhavenSchemeHandler(rootURL: stagedRootURL)
+    init(bundledRootURL: URL) {
+        self.bundledRootURL = bundledRootURL
+        self.stagedRootURL = bundledRootURL
+        schemeHandler = StarhavenSchemeHandler(rootURL: bundledRootURL)
         super.init()
-        createWebView()
+    }
+
+    func prepareAndLoad() async {
+        cacheReady = false
+        cacheError = nil
+        cacheProgress = StarhavenCacheProgress(fraction: 0.01, detail: "Checking the frontier pack…")
+        do {
+            let packURL = try await StarhavenGameCache.shared.prepare(bundledRoot: bundledRootURL) { progress in
+                Task { @MainActor in
+                    self.cacheProgress = progress
+                }
+            }
+            stagedRootURL = packURL
+            createWebView()
+            cacheReady = true
+            load()
+        } catch {
+            if FileManager.default.fileExists(atPath: bundledRootURL.appending(path: "index.html").path) {
+                stagedRootURL = bundledRootURL
+                createWebView()
+                cacheReady = true
+                cacheError = "Using bundled pack. Remote cache unavailable."
+                load()
+            } else {
+                cacheError = "Could not download the Starhaven pack. Check the network and retry."
+            }
+        }
     }
 
     func load() {
@@ -175,6 +207,16 @@ final class NativeHostModel: NSObject, ObservableObject {
         view.navigationDelegate = self
         view.uiDelegate = self
         view.allowsBackForwardNavigationGestures = false
+        view.isOpaque = true
+        view.backgroundColor = UIColor(red: 0.047, green: 0.063, blue: 0.137, alpha: 1)
+        view.scrollView.backgroundColor = UIColor(red: 0.047, green: 0.063, blue: 0.137, alpha: 1)
+        view.scrollView.isScrollEnabled = false
+        view.scrollView.bounces = false
+        view.scrollView.contentInsetAdjustmentBehavior = .never
+        view.scrollView.delaysContentTouches = false
+        #if DEBUG
+        view.isInspectable = true
+        #endif
         webView = view
         webViewIdentity = ObjectIdentifier(view)
         record("webview.created id=\(String(describing: webViewIdentity))")
