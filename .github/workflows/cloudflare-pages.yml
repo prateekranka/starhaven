@@ -10,14 +10,46 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  deploy:
-    if: github.repository == 'prateekranka/starhaven'
+  deploy-dev:
+    if: github.repository == 'prateekranka/starhaven' && github.ref_name == 'dev'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Stage static pixel pack
+        run: |
+          set -euo pipefail
+          mkdir -p _pack
+          cp index.html sw.js _headers build-info.json dist-hashes.json cache-manifest.json _pack/
+          if [ -f .nojekyll ]; then cp .nojekyll _pack/; fi
+          cp -R js css media vendor _pack/
+          test -f _pack/index.html
+          test -f _pack/js/ui/app.js
+          grep -q "CONTINUE CAMPAIGN" _pack/index.html
+          grep -q "SKIRMISH VS AI" _pack/index.html
+      - name: Deploy Cloudflare Pages
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: 920d78e6c05a8e15380d6205aa3f38b4
+        run: |
+          if [ -z "${CLOUDFLARE_API_TOKEN}" ]; then
+            echo "CLOUDFLARE_API_TOKEN is not set. Add a Cloudflare Pages Edit API token as a GitHub Actions secret named CLOUDFLARE_API_TOKEN so iPad playtest packs deploy on every push."
+            exit 1
+          fi
+          echo "Deploying static pixel pack ${GITHUB_SHA} to starhaven-dev (dev)"
+          npx --yes wrangler@4 pages deploy _pack --project-name starhaven-dev --branch dev --commit-hash "${GITHUB_SHA}"
+
+  deploy-main:
+    if: github.repository == 'prateekranka/starhaven' && github.ref_name == 'main'
     runs-on: ubuntu-latest
     permissions:
       contents: read
     env:
-      PAGES_PROJECT: ${{ github.ref_name == 'main' && 'starhaven' || 'starhaven-dev' }}
-      PAGES_BRANCH: ${{ github.ref_name == 'main' && 'main' || 'dev' }}
+      PAGES_PROJECT: starhaven
+      PAGES_BRANCH: main
     steps:
       - uses: actions/checkout@v4
         with:
@@ -41,5 +73,5 @@ jobs:
             echo "CLOUDFLARE_API_TOKEN is not set. Add a Cloudflare Pages Edit API token as a GitHub Actions secret named CLOUDFLARE_API_TOKEN so iPad playtest packs deploy on every push."
             exit 1
           fi
-          echo "Deploying ${GITHUB_SHA} to ${PAGES_PROJECT} (${PAGES_BRANCH})"
+          echo "Deploying Vite greybox ${GITHUB_SHA} to ${PAGES_PROJECT} (${PAGES_BRANCH})"
           npx --yes wrangler@4 pages deploy dist --project-name "${PAGES_PROJECT}" --branch "${PAGES_BRANCH}" --commit-hash "${GITHUB_SHA}"

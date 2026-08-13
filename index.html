@@ -1,20 +1,292 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover"
-    />
-    <meta name="theme-color" content="#0d1024" />
-    <meta
-      name="description"
-      content="Starhaven: Bright Frontier — a stylized arena strategy game."
-    />
-    <title>Starhaven: Bright Frontier</title>
-  </head>
-  <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.ts"></script>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="theme-color" content="#071422" />
+  <meta name="format-detection" content="telephone=no" />
+  <link rel="icon" href="media/sprites/portrait-sunwoven.png" />
+  <link rel="preload" href="media/textures/title-sky.jpg" as="image" />
+  <link rel="preload" href="css/app.css" as="style" />
+  <link rel="preload" href="media/fonts/orbitron-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="media/fonts/rajdhani-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="modulepreload" href="js/ui/app.js" />
+  <link rel="modulepreload" href="js/boot.js" />
+  <link rel="modulepreload" href="js/perf.js" />
+  <link rel="modulepreload" href="js/cache/assets.js" />
+  <link rel="stylesheet" href="css/app.css" />
+  <script type="importmap">
+    { "imports": { "three": "./vendor/three.module.js" } }
+  </script>
+  <script>
+    (() => {
+      if (!("serviceWorker" in navigator)) return;
+      const host = location.hostname;
+      const ok = location.protocol === "https:" || host === "localhost" || host === "127.0.0.1" || host === "[::1]";
+      if (ok) navigator.serviceWorker.register("./sw.js", { updateViaCache: "none" });
+    })();
+  </script>
+</head>
+<body>
+  <div id="ornate-frame" aria-hidden="true"></div>
+
+  <section id="screen-title" class="screen active" data-screen="title">
+    <div class="title-art" style="background-image:url('media/textures/title-sky.jpg')"></div>
+    <aside class="sidebar">
+      <header class="brand">
+        <div class="star-sigil" aria-hidden="true"></div>
+        <h1>STARHAVEN</h1>
+        <p class="subtitle"><span>◆</span> BRIGHT FRONTIER <span>◆</span></p>
+      </header>
+      <nav class="menu">
+        <button class="menu-btn" data-action="campaign">
+          <img src="media/sprites/menu-campaign.png" alt="" />
+          <span>
+            <strong>CONTINUE CAMPAIGN</strong>
+            <em>CHAPTER 4: NEW HORIZONS</em>
+          </span>
+        </button>
+        <button class="menu-btn" data-action="skirmish">
+          <img src="media/sprites/menu-skirmish.png" alt="" />
+          <span>
+            <strong>SKIRMISH VS AI</strong>
+            <em>CUSTOM BATTLES</em>
+          </span>
+        </button>
+        <button class="menu-btn" data-action="tutorial">
+          <img src="media/sprites/menu-tutorial.png" alt="" />
+          <span>
+            <strong>TUTORIAL</strong>
+            <em>LEARN THE BASICS</em>
+          </span>
+        </button>
+        <button class="menu-btn" data-action="factions">
+          <img src="media/sprites/portrait-gravemark.png" alt="" />
+          <span>
+            <strong>FACTIONS</strong>
+            <em>DISCOVER CIVILIZATIONS</em>
+          </span>
+        </button>
+        <button class="menu-btn" data-action="settings">
+          <img src="media/sprites/icon-hold.png" alt="" />
+          <span>
+            <strong>SETTINGS</strong>
+            <em>AUDIO, VIDEO &amp; MORE</em>
+          </span>
+        </button>
+      </nav>
+      <footer class="whats-new">
+        <span>WHAT'S NEW</span>
+        <p>v1.1.1 — Mesa pack caches locally so matches start without re-buffering.</p>
+      </footer>
+    </aside>
+    <aside id="daily-rewards" class="daily">
+      <h2>DAILY REWARDS</h2>
+      <ol class="track">
+        <li data-day="1"><img src="media/sprites/icon-food.png" alt="" /><b>+50</b><small>DAY 1</small></li>
+        <li data-day="2"><img src="media/sprites/icon-crystal.png" alt="" /><b>+100</b><small>DAY 2</small></li>
+        <li data-day="3"><img src="media/sprites/icon-ore.png" alt="" /><b>+150</b><small>DAY 3</small></li>
+        <li data-day="4"><img src="media/sprites/icon-wood.png" alt="" /><b>+1</b><small>DAY 4</small></li>
+        <li data-day="5"><img src="media/sprites/icon-hold.png" alt="" /><b>CHEST</b><small>DAY 5</small></li>
+      </ol>
+      <button id="claim-btn" class="gold-btn">CLAIM</button>
+    </aside>
+  </section>
+
+  <section id="screen-skirmish" class="screen" data-screen="skirmish">
+    <div class="panel-page">
+      <header class="page-head">
+        <button class="back-btn" data-action="title">←</button>
+        <h2>SKIRMISH VS AI</h2>
+      </header>
+      <div class="setup-grid">
+        <div class="setup-card">
+          <h3>Your civilization</h3>
+          <div class="faction-picks">
+            <button class="faction-pick selected" data-faction="sunwoven">
+              <img src="media/sprites/portrait-sunwoven.png" alt="Sunwoven" />
+              <strong>Sunwoven</strong>
+              <em>Solar sails, beam infantry, faster in daylight</em>
+            </button>
+            <button class="faction-pick" data-faction="gravemark">
+              <img src="media/sprites/portrait-gravemark.png" alt="Gravemark" />
+              <strong>Gravemark</strong>
+              <em>Stonebound walkers, tougher in shadow</em>
+            </button>
+          </div>
+        </div>
+        <div class="setup-card">
+          <h3>Battle</h3>
+          <label>Map
+            <select id="map-select">
+              <option value="mesa">Bright Mesa</option>
+            </select>
+          </label>
+          <label>Difficulty
+            <select id="diff-select">
+              <option value="settler">Settler</option>
+              <option value="chieftain" selected>Chieftain</option>
+              <option value="emperor">Emperor</option>
+            </select>
+          </label>
+          <p class="hint">Destroy the rival Town Center. Villagers gather, buildings produce, ages unlock siege. Watch the Bright Line — and do not poke the titan.</p>
+          <button class="gold-btn wide" data-action="start-skirmish">START MATCH</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="screen-factions" class="screen" data-screen="factions">
+    <div class="panel-page">
+      <header class="page-head">
+        <button class="back-btn" data-action="title">←</button>
+        <h2>CIVILIZATIONS</h2>
+      </header>
+      <div class="lore-grid">
+        <article class="lore">
+          <img src="media/sprites/portrait-sunwoven.png" alt="" />
+          <h3>Sunwoven</h3>
+          <p>Weavers of light who stitch cities from brass, calcite, and solar crystal. Villagers unfold golden arms to raise palaces. In the Bright Line's day-side their skiffs and lumen guards surge.</p>
+          <ul>
+            <li>Age I — Weaver, Pathfinder, Lumen Guard, Solar Strider</li>
+            <li>Age II — Threadwright backpacks, Sunrunners, Radiant Phalanx</li>
+            <li>Age III — Helio Manta gunships, Dawn Ark wonder</li>
+          </ul>
+        </article>
+        <article class="lore">
+          <img src="media/sprites/portrait-gravemark.png" alt="" />
+          <h3>Gravemark</h3>
+          <p>Necrolith masons who bind basalt to void crystal. Their gravesmiths raise crypt-fortresses. Night on the Bright Line hardens their phalanxes and wakes rift-cutter barges.</p>
+          <ul>
+            <li>Age I — Stonemason, Faultseer, Basalt Guard, Tomb Strider</li>
+            <li>Age II — Gravesmith rigs, Dustrunners, Crypt Phalanx</li>
+            <li>Age III — Obsidian Ray, Mausoleum Engine wonder</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="screen-settings" class="screen" data-screen="settings">
+    <div class="panel-page narrow">
+      <header class="page-head">
+        <button class="back-btn" data-action="title">←</button>
+        <h2>SETTINGS</h2>
+      </header>
+      <form id="settings-form" class="settings">
+        <label>Music <input type="range" name="music" min="0" max="1" step="0.05" value="0.35" /></label>
+        <label>Effects <input type="range" name="sfx" min="0" max="1" step="0.05" value="0.7" /></label>
+        <label>Quality
+          <select name="quality">
+            <option value="low">Low — 720p</option>
+            <option value="medium">Medium — 1080p</option>
+            <option value="high">High — 1440p</option>
+            <option value="ultra" selected>Ultra — 4K / 60 FPS</option>
+          </select>
+        </label>
+        <label class="check"><input type="checkbox" name="reduceMotion" /> Reduce camera motion</label>
+        <label class="check"><input type="checkbox" name="haptics" checked /> Haptics (iPad)</label>
+        <p class="hint">Settings store on this device and pass into the Swift wrapper when running natively.</p>
+      </form>
+    </div>
+  </section>
+
+  <section id="screen-tutorial" class="screen" data-screen="tutorial">
+    <div class="panel-page narrow">
+      <header class="page-head">
+        <button class="back-btn" data-action="title">←</button>
+        <h2>TUTORIAL</h2>
+      </header>
+      <p class="hint big">A quiet mesa. No rival army — only your first Town Center, a patch of lumenfruit, and the Bright Line sliding across the stone.</p>
+      <ol class="steps">
+        <li>Drag-select your weavers (villagers).</li>
+        <li>Tap a glowing fruit cluster to gather food.</li>
+        <li>Select a villager, choose House, tap the ground to place it.</li>
+        <li>Select the Town Center and queue more villagers.</li>
+        <li>Raise a Barracks, train guards, and learn attack-move.</li>
+      </ol>
+      <button class="gold-btn wide" data-action="start-tutorial">BEGIN LESSON</button>
+    </div>
+  </section>
+
+  <section id="screen-game" class="screen" data-screen="game">
+    <div id="viewport"></div>
+    <div id="hud">
+      <header class="topbar">
+        <div class="brand-mini">
+          <span class="star-sigil tiny"></span>
+          <strong>STARHAVEN</strong>
+          <em id="age-label">AGE I · FOUNDATION</em>
+        </div>
+        <ul class="resources">
+          <li title="Lumenfruit"><img src="media/sprites/icon-food.png" alt="" /><b id="res-food">200</b><small id="rate-food"></small></li>
+          <li title="Timber"><img src="media/sprites/icon-wood.png" alt="" /><b id="res-wood">200</b><small id="rate-wood"></small></li>
+          <li title="Solarite"><img src="media/sprites/icon-crystal.png" alt="" /><b id="res-crystal">80</b><small id="rate-crystal"></small></li>
+          <li title="Iridium"><img src="media/sprites/icon-ore.png" alt="" /><b id="res-ore">50</b><small id="rate-ore"></small></li>
+          <li title="Population"><img src="media/sprites/icon-pop.png" alt="" /><b id="res-pop">5/15</b></li>
+        </ul>
+        <div class="top-actions">
+          <button id="btn-idle" title="Idle villager">IDLE</button>
+          <button id="btn-atk" title="Attack-move">ATK</button>
+          <button id="btn-speed">1x</button>
+          <button id="btn-menu">MENU</button>
+        </div>
+      </header>
+      <div id="objective" class="objective">
+        <span>PRIMARY OBJECTIVE</span>
+        <strong id="objective-text">Destroy the rival Town Center</strong>
+      </div>
+      <div id="selection" class="selection hidden">
+        <div class="portrait">
+          <img id="sel-portrait" src="media/sprites/portrait-sunwoven.png" alt="" />
+          <div class="portrait-copy">
+            <h3 id="sel-name">WEAVER</h3>
+            <p id="sel-meta">Gatherer &amp; builder</p>
+            <div class="hp"><span id="sel-hp-bar"></span></div>
+            <small id="sel-hp-text">25/25</small>
+          </div>
+        </div>
+        <div id="commands" class="commands"></div>
+        <div id="queue" class="queue"></div>
+      </div>
+      <aside id="minimap-wrap">
+        <canvas id="minimap" width="220" height="220"></canvas>
+        <small>DRAG OR TAP TO MOVE</small>
+      </aside>
+      <div id="tip" class="tipbar">TIP: Scout early and control key resources to outpace your opponent.</div>
+      <div id="perf-chip" class="perf-chip" aria-live="off">60 FPS · 4K</div>
+      <div id="end-banner" class="end-banner hidden">
+        <h2 id="end-title">VICTORY</h2>
+        <p id="end-sub">The mesa is yours.</p>
+        <button class="gold-btn" data-action="title">Return to Starhaven</button>
+      </div>
+    </div>
+  </section>
+
+  <div id="cache-hud" class="cache-hud" hidden>
+    <span id="cache-hud-label">Caching mesa…</span>
+    <span id="cache-hud-bar"></span>
+  </div>
+
+  <div id="boot-veil" class="boot-veil hidden">
+    <div class="boot-card">
+      <h2>STARHAVEN</h2>
+      <p id="boot-veil-copy">Loading Bright Mesa</p>
+      <div class="boot-track"><span id="boot-veil-bar"></span></div>
+    </div>
+  </div>
+
+  <div id="pause-modal" class="modal hidden">
+    <div class="modal-card">
+      <h2>PAUSED</h2>
+      <button class="gold-btn wide" id="resume-btn">Resume</button>
+      <button class="menu-btn" data-action="title">Abandon Match</button>
+    </div>
+  </div>
+
+  <script type="module" src="js/ui/app.js"></script>
+</body>
 </html>

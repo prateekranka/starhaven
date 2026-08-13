@@ -1,8 +1,9 @@
 # Dependencies
 node_modules/
 
-# Build output
+# Vite greybox build output (main). Pixel pack on this branch lives at repo root.
 dist/
+_pack/
 
 # Playwright output
 test-results/
@@ -20,3 +21,12 @@ ios/Artifacts/GameDist/
 ios/Artifacts/GameDistInputs.xcfilelist
 release-metadata/
 .asc/
+
+# Secrets / signing
+*.p8
+*.p12
+.env
+.env.*
+
+# OS
+.DS_Store

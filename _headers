@@ -1,0 +1,25 @@
+# Manifests stay short-lived so the iPad pack updater sees new builds.
+# Asset paths in this pack are not content-hashed, so they must not be immutable.
+/index.html
+  Cache-Control: no-store
+  X-Content-Type-Options: nosniff
+
+/dist-hashes.json
+  Cache-Control: no-store
+  X-Content-Type-Options: nosniff
+
+/build-info.json
+  Cache-Control: no-store
+  X-Content-Type-Options: nosniff
+
+/sw.js
+  Cache-Control: no-store
+  X-Content-Type-Options: nosniff
+
+/cache-manifest.json
+  Cache-Control: no-store
+  X-Content-Type-Options: nosniff
+
+/*
+  Cache-Control: public, max-age=300
+  X-Content-Type-Options: nosniff

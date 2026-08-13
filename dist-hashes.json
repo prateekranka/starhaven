@@ -1,0 +1,387 @@
+{
+  "schema": 1,
+  "files": [
+    {
+      "path": "cache-manifest.json",
+      "bytes": 5070,
+      "sha256": "c7bf0f39ede74be72763f9f7d22dfff889e6a4d57284de82a9146ae4c9a6bb08"
+    },
+    {
+      "path": "css/app.css",
+      "bytes": 16596,
+      "sha256": "c0a5a84f18c38553f3ae2eb087e891d458dcd4df18c736d036518ee2e92b40e8"
+    },
+    {
+      "path": "index.html",
+      "bytes": 13133,
+      "sha256": "098aa96f8b0b29b4a3dbcd8b7fb7442f9440ba875d00b62c0cdc38ce3bf0dcc4"
+    },
+    {
+      "path": "js/boot.js",
+      "bytes": 1828,
+      "sha256": "109c26fec85474be4e06475b60eac4e5a7d29e1577897b2f43850fb3849e980a"
+    },
+    {
+      "path": "js/cache/assets.js",
+      "bytes": 5923,
+      "sha256": "8e6928b28752e336d7d92aad8e7c7de83f7b2d9252fd49e21e2c5b837f478512"
+    },
+    {
+      "path": "js/data/catalog.js",
+      "bytes": 4529,
+      "sha256": "fba2defae81591de0059faf54c61872ae1820afe6e0629924b336ae04ddfa6b1"
+    },
+    {
+      "path": "js/game/main.js",
+      "bytes": 19461,
+      "sha256": "6e51f713a035d09dd6de1c763a25bfe261f5c28cf567ab5c814ac06e1758e82f"
+    },
+    {
+      "path": "js/game/render.js",
+      "bytes": 28379,
+      "sha256": "40efac8df973d7557cf334b98d022f4da3662c948f299b180896bce0bba00007"
+    },
+    {
+      "path": "js/perf.js",
+      "bytes": 3648,
+      "sha256": "3d8e7c083cdaef4d34d828a9faa2522a75f435d9d39de20a7b9085d08d6f8a4e"
+    },
+    {
+      "path": "js/sim/ai.js",
+      "bytes": 4497,
+      "sha256": "2fdb6c6b96ec65c038aaf8eb183c575c99350b7e17fd62c4d41e18b7ec9bc2cb"
+    },
+    {
+      "path": "js/sim/engine.js",
+      "bytes": 25706,
+      "sha256": "31c2507e758a4124b503857216ee9ea8df13224664dd3e884c61159958e95c53"
+    },
+    {
+      "path": "js/sim/path.js",
+      "bytes": 2686,
+      "sha256": "12e605d78df29be49700b0f02566f083e7ff2304358f7597f0471cb8dd289c08"
+    },
+    {
+      "path": "js/ui/app.js",
+      "bytes": 6825,
+      "sha256": "c1b24e66558b50c98a71c24a6e890c7e8cd0fef94adc1800f04951ab671a9b6c"
+    },
+    {
+      "path": "media/fonts/orbitron-latin-700-normal.woff2",
+      "bytes": 6536,
+      "sha256": "73a21741caf44223c193937df3dccc7e4eed6ff676e8729ae553603ffe193687"
+    },
+    {
+      "path": "media/fonts/orbitron-latin-800-normal.woff2",
+      "bytes": 6716,
+      "sha256": "90423db4185eeab03301ed16d0f0f30557540ff89b0b0c8562515db7024186d3"
+    },
+    {
+      "path": "media/fonts/rajdhani-latin-500-normal.woff2",
+      "bytes": 15084,
+      "sha256": "23afdb9b5b89b878fab04d80cc30bf41bb4f3f7e8be88e5f16a7cc7671cdb2dc"
+    },
+    {
+      "path": "media/fonts/rajdhani-latin-600-normal.woff2",
+      "bytes": 15732,
+      "sha256": "433a7007e4747a02a790167a6efa2625855f013970ba49b9b739a5d3db8b2601"
+    },
+    {
+      "path": "media/fonts/rajdhani-latin-700-normal.woff2",
+      "bytes": 15688,
+      "sha256": "5b7e4a6f97163c2636724d4de90304fc895653dcfe64c67a7a22f26331ca5c5f"
+    },
+    {
+      "path": "media/sprites/bldg-grave-house.png",
+      "bytes": 1123354,
+      "sha256": "f70fe58482565815082d665e34eda9e11bd035ac8b90a6fa879e22ba50326fa0"
+    },
+    {
+      "path": "media/sprites/bldg-grave-mill.png",
+      "bytes": 988381,
+      "sha256": "75387f34be1fb20c0d1a3177605970f39e9d0001b35107e3de522b48b25a4039"
+    },
+    {
+      "path": "media/sprites/bldg-grave-rax.png",
+      "bytes": 1145127,
+      "sha256": "a565cd5834e6902737f1147f678b27173ca312dfd401216ae6efba86c690f582"
+    },
+    {
+      "path": "media/sprites/bldg-grave-tc.png",
+      "bytes": 1274198,
+      "sha256": "58646a30abec17ec265fe63f1b6c747bcbc6959a9a3ed2c4a18571e3c3027f38"
+    },
+    {
+      "path": "media/sprites/bldg-grave-wonder.png",
+      "bytes": 1241422,
+      "sha256": "9b9be4f0b75d0b189c13197006821fcfebbd100285d67c16d862e6d358b795e8"
+    },
+    {
+      "path": "media/sprites/bldg-sun-house.png",
+      "bytes": 911030,
+      "sha256": "62f9d84940be6dc8350945d42f878578cb78c99bf5d01623f0af88cfe47f85d9"
+    },
+    {
+      "path": "media/sprites/bldg-sun-mill.png",
+      "bytes": 1309364,
+      "sha256": "5fa09338adb3b2c7f921aa1bc9dab1777329b01acb825305bc6d80d0dd263a26"
+    },
+    {
+      "path": "media/sprites/bldg-sun-rax.png",
+      "bytes": 1205622,
+      "sha256": "620d31107e0a3ce0e300f2509c3ad02fa31d35a820d3356e282f605bce70745e"
+    },
+    {
+      "path": "media/sprites/bldg-sun-tc.png",
+      "bytes": 1119143,
+      "sha256": "4fa719ffcfffe2c2d16e3d3665648ce833fe61027cfcc9d6c65f3538bdac4be5"
+    },
+    {
+      "path": "media/sprites/bldg-sun-wonder.png",
+      "bytes": 1350094,
+      "sha256": "38e97c65a3aa1f07ff5d9dc41a0ed11537f1f6f4e044403f2ada8cd6c338dad5"
+    },
+    {
+      "path": "media/sprites/icon-commands.png",
+      "bytes": 612768,
+      "sha256": "8a3602c6cac5edf45eabb23bf998b36d1a86501596cb6c41323d21524cb26812"
+    },
+    {
+      "path": "media/sprites/icon-crystal.png",
+      "bytes": 289925,
+      "sha256": "1921a337d4b4ca8fe9e17f950b9b7846b95e0167c34207e57ca05efae9cdacb3"
+    },
+    {
+      "path": "media/sprites/icon-food.png",
+      "bytes": 296564,
+      "sha256": "20df9888cfdc57736c1ceeb786ef8df4d94d1ce72c4da6fbe2cc3eb96758554e"
+    },
+    {
+      "path": "media/sprites/icon-hold.png",
+      "bytes": 145272,
+      "sha256": "2a09a5cd4a83ee329b95743d944485940be3280e3c463b8e1e2305eb421cd357"
+    },
+    {
+      "path": "media/sprites/icon-move.png",
+      "bytes": 143324,
+      "sha256": "401e933a74b85bac7f0ef322538c4eb40250e6bdd4bf909a912fb843b66d2014"
+    },
+    {
+      "path": "media/sprites/icon-ore.png",
+      "bytes": 300782,
+      "sha256": "e2d13c056a3ce89a65bab785af2f9ad04e9ccb97bf47d42068bc2660699cf135"
+    },
+    {
+      "path": "media/sprites/icon-patrol.png",
+      "bytes": 147309,
+      "sha256": "e83ee05aa38e1aac6a061b2277d2f78c88b8d51fcf31e7c178f01c7006e30073"
+    },
+    {
+      "path": "media/sprites/icon-pop.png",
+      "bytes": 292305,
+      "sha256": "152ea0d2bb26c9c56ec613cf16eaf33d2d3355e6b5ec794d7c0bcef4d36284e2"
+    },
+    {
+      "path": "media/sprites/icon-resources.png",
+      "bytes": 1445935,
+      "sha256": "59307672ebdf4c7cbca980387759e8c6b5a981b08bba4f6bd6c7a1e7bce83c0e"
+    },
+    {
+      "path": "media/sprites/icon-scan.png",
+      "bytes": 164529,
+      "sha256": "a438b23663f81b87bf99f1509a5c5b5cad5fdb03d59610bd193277f86c1e5ed3"
+    },
+    {
+      "path": "media/sprites/icon-wood.png",
+      "bytes": 303979,
+      "sha256": "5046ecaaac0f3ef90f4c04d005a4e6cbc618c9e29adde50011aa936604722acc"
+    },
+    {
+      "path": "media/sprites/menu-campaign.png",
+      "bytes": 1643015,
+      "sha256": "8a60df60938d47a08df67be63985f773635a970dd78241c8515fd6183c3b1a41"
+    },
+    {
+      "path": "media/sprites/menu-skirmish.png",
+      "bytes": 1437216,
+      "sha256": "85882e4098db1c11ac10e88786702465524bcf0205a215c430c52c5f44ca9f0f"
+    },
+    {
+      "path": "media/sprites/menu-tutorial.png",
+      "bytes": 1347518,
+      "sha256": "f5916ed49abf052e9f2f27e30a45fda16b66db64c624f6672d9617a025226668"
+    },
+    {
+      "path": "media/sprites/node-crystal.png",
+      "bytes": 503398,
+      "sha256": "4622aa668fdf8818eb833ae08e01b9aaef61d9d6b1ffe2e38ee800b6d3941e3a"
+    },
+    {
+      "path": "media/sprites/node-food.png",
+      "bytes": 825436,
+      "sha256": "266f0564109a1bfc6cfbfa6611829ce141c63464e179c3dde0f6557db596c38e"
+    },
+    {
+      "path": "media/sprites/node-ore.png",
+      "bytes": 570343,
+      "sha256": "a1b187299e95d64b494bd3cb029c3ac7c2eb29f9aff6493f14d8aebac999547e"
+    },
+    {
+      "path": "media/sprites/node-trees.png",
+      "bytes": 734427,
+      "sha256": "10f0d23927bbfa52a00b992987e4069d4027a28a420bf9e84ec1b8f205d8fc68"
+    },
+    {
+      "path": "media/sprites/node-void.png",
+      "bytes": 629780,
+      "sha256": "7315b56440214958206bc3ffdc2f395c210992af1443cb00890e0067422e2de6"
+    },
+    {
+      "path": "media/sprites/node-wood.png",
+      "bytes": 895694,
+      "sha256": "c0007bee886d293654031f70e537827c52d37d0e25efb2114c549bd6603dc1a0"
+    },
+    {
+      "path": "media/sprites/pixel-grass.png",
+      "bytes": 516251,
+      "sha256": "081b5b89463ceb3d741d034dc44370d727679be4b7f1e535ab505a22f8e6a749"
+    },
+    {
+      "path": "media/sprites/pixel-sand.png",
+      "bytes": 621919,
+      "sha256": "9cec4ad63edb0b8fdd900e15dd9327ede3507dcfe9475a0f44bc1e75823f0075"
+    },
+    {
+      "path": "media/sprites/portrait-gravemark.png",
+      "bytes": 1085082,
+      "sha256": "394839dc169a06d7e54138f6b5344930c29c39e2b5d29ba7875516fa26a774c1"
+    },
+    {
+      "path": "media/sprites/portrait-sunwoven.png",
+      "bytes": 1235431,
+      "sha256": "a78b7eb916eb15021ee107a388c13896b3eead51359297b2fef240424275d449"
+    },
+    {
+      "path": "media/sprites/sheet-grave-guard.png",
+      "bytes": 856182,
+      "sha256": "3d468b6ac49b10ccdd04330418449ae9bd9e624e55e18988883de0a91e86f01b"
+    },
+    {
+      "path": "media/sprites/sheet-gravemark-walk.png",
+      "bytes": 1247337,
+      "sha256": "e25fddd922c709695eb61a3190b878c54a620e89d06adc864f5fbd803ca03922"
+    },
+    {
+      "path": "media/sprites/sheet-sun-guard.png",
+      "bytes": 1047603,
+      "sha256": "83a08afe25140267d9a5f304d87ccf3bd47e99632e883cbd4e8d21ec707d95a2"
+    },
+    {
+      "path": "media/sprites/sheet-sunwoven-walk.png",
+      "bytes": 1119231,
+      "sha256": "21a10c8c22e086a9a19946a21d97139bf02bf4d1a75d3c91f729e499c2a62f3b"
+    },
+    {
+      "path": "media/sprites/unit-grave-siege.png",
+      "bytes": 733638,
+      "sha256": "bdeb75c24de4b6ffb6cb775b357579d20ebf0923d8b5581b6d22c527c94a5131"
+    },
+    {
+      "path": "media/sprites/unit-grave-strider.png",
+      "bytes": 590145,
+      "sha256": "d69e740683c3b4de782248bb56da30792578e4f1aef51f2cd8bdd08d41cff3d1"
+    },
+    {
+      "path": "media/sprites/unit-sun-siege.png",
+      "bytes": 842179,
+      "sha256": "e0cf9eefae6a3359c8ce0abafcac5a18f6b855a37472eae47b9323881626bc9a"
+    },
+    {
+      "path": "media/sprites/unit-sun-strider.png",
+      "bytes": 827785,
+      "sha256": "03717b2a10c21338d3a1439482dabe4c85b786167e4f88c58e9bda1bd3191eeb"
+    },
+    {
+      "path": "media/textures/biomass.jpg",
+      "bytes": 91373,
+      "sha256": "a56f658f94abf464d791bb0a4b11f149671290b08d63ba409dd466626759d16f"
+    },
+    {
+      "path": "media/textures/crystal-blue.jpg",
+      "bytes": 87984,
+      "sha256": "9c35fa2e724fca7212a065878aee7953647ebf39348c8d67dbbe89ac43095f51"
+    },
+    {
+      "path": "media/textures/crystal-gold.jpg",
+      "bytes": 105089,
+      "sha256": "231ae139a51f5b4604630d4a800acf27584a35ac7a4a5e076599e0033a7c4c1f"
+    },
+    {
+      "path": "media/textures/crystal-purple.jpg",
+      "bytes": 95799,
+      "sha256": "f0123d25e0966cee89ab4d18868dd710ab70acb826ee3ee3cf3a7dff80821b59"
+    },
+    {
+      "path": "media/textures/gravemark-banner.jpg",
+      "bytes": 67415,
+      "sha256": "07515d7357e8ac71a2327081856a5d398c3feadf06397b0c3cb7d0cc84d677c5"
+    },
+    {
+      "path": "media/textures/pixel-mesa.png",
+      "bytes": 1616660,
+      "sha256": "89097fb5100bdd41122470522caeea6637e0249ee87344d2aae97c3822bed47e"
+    },
+    {
+      "path": "media/textures/pixel-water.png",
+      "bytes": 1314131,
+      "sha256": "ffc5f419d27221585056662478f006d32974ccda5588a8d69d62b6cffff0743a"
+    },
+    {
+      "path": "media/textures/rock-albedo.jpg",
+      "bytes": 261203,
+      "sha256": "d76a1767c516434915673f1b1ff04c4f830fbeb4dd8dea2f9433431b80d3a0e5"
+    },
+    {
+      "path": "media/textures/sunwoven-banner.jpg",
+      "bytes": 85647,
+      "sha256": "6a83f9b806011419e22e7c73b29b72c0c264a085efe0006e9c01c4a6dd7fc4ca"
+    },
+    {
+      "path": "media/textures/terrain-grass.jpg",
+      "bytes": 276837,
+      "sha256": "7c0958726899f4980e1e9fc6be6cfc12d130cdba0e57126bd6defc719f70b69f"
+    },
+    {
+      "path": "media/textures/terrain-rock.jpg",
+      "bytes": 230699,
+      "sha256": "c24c2a24411b9bf3468078950de454f2a235e5f795d8b9bef4a679ca2094249b"
+    },
+    {
+      "path": "media/textures/terrain-sand.jpg",
+      "bytes": 220197,
+      "sha256": "f12550331b7317af0e995194be84a5e560a9008ee4d8a07a68e3cd692e8da703"
+    },
+    {
+      "path": "media/textures/title-sky.jpg",
+      "bytes": 378631,
+      "sha256": "a36bbb57c0b0e95b81c6578527c7390aaa739c25221aa1757bca083512e8c68a"
+    },
+    {
+      "path": "media/textures/ui-panel.jpg",
+      "bytes": 141923,
+      "sha256": "6a15c37be35b3922fd59797c1bdfc17236d9d20afbee9ff56623f720e3c020bc"
+    },
+    {
+      "path": "sw.js",
+      "bytes": 3754,
+      "sha256": "b86b8915fd9cae49c62c97b64cc47221a0ff8848c2b22b8b63d29aef1470146d"
+    },
+    {
+      "path": "vendor/three.module.js",
+      "bytes": 1314681,
+      "sha256": "ce1fa418de16a19495a9f72495580e3015d7745c296d3ce0485897f902ddedfb"
+    }
+  ],
+  "fileCount": 76,
+  "totalBytes": 41610097
+}

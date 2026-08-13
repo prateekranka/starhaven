@@ -1,5 +1,7 @@
 # Starhaven build notes
 
+**`dev` is the pixel-mesa pack** (static `index.html` / `js/` / `media/`). Checkpoint notes below are historical Vite greybox work that now lives on **`main`**.
+
 This file records each pushed build checkpoint.
 
 ## 2026-08-12 — Source baseline

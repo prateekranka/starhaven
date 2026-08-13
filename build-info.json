@@ -1,0 +1,11 @@
+{
+  "artifactSchema": 1,
+  "bridgeVersion": 1,
+  "balanceVersion": 1,
+  "sourceSha": "166458d9800b1f4e5175553e07e7942ede3d6b16",
+  "displaySha": "166458d98",
+  "clean": true,
+  "generatedAt": "2026-08-13T13:11:44Z",
+  "distManifestSha256": "278ee0d7fe15a4de7ebfc5869dc2ddc9cf4dbf4e6a7415d1ad2476ebe5e7cf00",
+  "pack": "pixel-mesa"
+}
