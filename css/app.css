@@ -576,6 +576,18 @@ select, input[type="range"] { width: 100%; margin-top: 4px; background: #081428;
   background: transparent;
 }
 .top-actions button.active, .commands button.active { border-color: var(--gold); background: #1c3a62; }
+.zoom-pair { display: inline-flex; gap: 6px; }
+.top-actions .zoom-btn {
+  min-width: 40px;
+  padding: 8px 0;
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 1;
+}
+.top-actions .zoom-btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
 .queue { display: flex; gap: 6px; align-items: center; }
 
 .tipbar {

@@ -27,6 +27,11 @@ const heldKeys = new Set();
 let pacer = null;
 let qualityName = "ultra";
 const SIM_DT = 1 / 60;
+const ZOOM_STEP = 4;
+const DBL_MS = 400;
+const DBL_PX = 36;
+let emptyTap = null;
+let emptyTapTimer = 0;
 
 export async function startMatch(opts) {
   await ensureMatchAssets();
@@ -58,10 +63,11 @@ export async function startMatch(opts) {
   raf = requestAnimationFrame(loop);
   const tc = world.buildings.find((b) => b.owner === "player" && b.type === "towncenter");
   if (tc) view.lookAt(tc.x, tc.z, true);
-  world.selection = world.units.filter((u) => u.owner === "player").map((u) => u.id);
+  world.selection = [];
   renderSelection();
   drawHud(world, true);
   drawMinimap(world, view);
+  paintDebugState();
 }
 
 export function stopMatch() {
@@ -79,6 +85,7 @@ export function stopMatch() {
   view = null;
   pointers.clear();
   hideBox();
+  clearEmptyTap(false);
 }
 
 export function togglePause(on) {
@@ -117,6 +124,7 @@ function loop(now) {
     hudAcc = 0;
     drawHud(world, false);
     paintPerf();
+    paintDebugState();
   }
   const selKey = world.selection.join(",");
   if (selKey !== lastSelKey) {
@@ -172,6 +180,63 @@ function paintPerf() {
   };
 }
 
+function paintDebugState() {
+  if (!world || !view) return;
+  const cam = view.cameraInfo();
+  const units = [];
+  for (const u of world.units) {
+    if (u.owner !== "player") continue;
+    const p = view.project(u.x, u.z);
+    units.push({ id: u.id, type: u.type, x: u.x, z: u.z, state: u.state, sx: p.x, sy: p.y });
+  }
+  const buildings = [];
+  for (const b of world.buildings) {
+    if (b.owner !== "player") continue;
+    const p = view.project(b.x, b.z);
+    buildings.push({ id: b.id, type: b.type, x: b.x, z: b.z, sx: p.x, sy: p.y });
+  }
+  window.__starhavenState = {
+    sel: world.selection.slice(),
+    frustum: cam.frustumDesired ?? cam.frustum,
+    frustumLive: cam.frustum,
+    zoomMin: cam.min,
+    zoomMax: cam.max,
+    units,
+    buildings,
+    placing: world.placing,
+  };
+  syncZoomButtons(cam);
+}
+
+function syncZoomButtons(cam) {
+  const info = cam || view?.cameraInfo?.();
+  if (!info) return;
+  const inn = document.getElementById("btn-zoom-in");
+  const out = document.getElementById("btn-zoom-out");
+  const f = info.frustumDesired ?? info.frustum;
+  if (inn) inn.disabled = f <= (info.min ?? 14) + 0.05;
+  if (out) out.disabled = f >= (info.max ?? 48) - 0.05;
+}
+
+function nudgeZoom(dir) {
+  if (!view) return;
+  view.zoom(dir * ZOOM_STEP);
+  paintDebugState();
+}
+
+function clearEmptyTap(deselect) {
+  if (emptyTapTimer) {
+    clearTimeout(emptyTapTimer);
+    emptyTapTimer = 0;
+  }
+  const snap = emptyTap;
+  emptyTap = null;
+  if (deselect && world && snap?.selection?.length) {
+    world.selection = [];
+    renderSelection();
+  }
+}
+
 function applyCameraRig(dt) {
   if (!view) return;
   let dx = 0;
@@ -209,6 +274,7 @@ function bindInput(viewport) {
       if (g) {
         commandGround(world, g.x, g.z, true);
         beep(220, 0.05);
+        clearEmptyTap(false);
       }
     },
     sig
@@ -223,6 +289,7 @@ function bindInput(viewport) {
   );
 
   document.getElementById("btn-idle").onclick = () => {
+    clearEmptyTap(false);
     const u = idleVillager(world);
     if (u) {
       view.lookAt(u.x, u.z);
@@ -235,7 +302,7 @@ function bindInput(viewport) {
     atkBtn.onclick = () => {
       attackMove = !attackMove;
       atkBtn.classList.toggle("active", attackMove);
-      world.tip = attackMove ? "Attack-move: tap the ground." : "Move: tap the ground.";
+      world.tip = attackMove ? "Attack-move: double-tap the ground." : "Move: double-tap the ground.";
     };
   }
   document.getElementById("btn-speed").onclick = (e) => {
@@ -244,6 +311,11 @@ function bindInput(viewport) {
   };
   document.getElementById("btn-menu").onclick = () => togglePause(true);
   document.getElementById("resume-btn").onclick = () => togglePause(false);
+  const zoomIn = document.getElementById("btn-zoom-in");
+  const zoomOut = document.getElementById("btn-zoom-out");
+  if (zoomIn) zoomIn.onclick = () => nudgeZoom(-1);
+  if (zoomOut) zoomOut.onclick = () => nudgeZoom(1);
+  syncZoomButtons();
 
   window.addEventListener(
     "keydown",
@@ -368,24 +440,60 @@ function onUp(e) {
   }
   if (dist < 14 && g) {
     const hit = pickEntity(world, g.x, g.z);
-    if (hit && (hit.owner === "player" || e.shiftKey === false)) {
-      if (hit.owner === "player") {
-        world.selection = e.shiftKey ? [...new Set([...world.selection, hit.id])] : [hit.id];
-        beep(490, 0.05);
-      } else {
+    if (hit && hit.owner === "player") {
+      clearEmptyTap(false);
+      world.selection = e.shiftKey ? [...new Set([...world.selection, hit.id])] : [hit.id];
+      beep(490, 0.05);
+    } else if (hit && hit.owner !== "player") {
+      clearEmptyTap(false);
+      if (world.selection.length) {
         commandGround(world, g.x, g.z);
         beep(200, 0.06);
       }
-    } else if (world.selection.length) {
-      commandGround(world, g.x, g.z, attackMove || e.shiftKey);
-      beep(240, 0.05);
-      haptic(8);
+    } else {
+      onEmptyGround(e, g);
     }
   } else if (boxEl && dist >= 14) {
+    clearEmptyTap(false);
     boxSelect(p.sx, p.sy, e.clientX, e.clientY);
   }
   hideBox();
   renderSelection();
+  paintDebugState();
+}
+
+function onEmptyGround(e, g) {
+  const now = performance.now();
+  const prior = emptyTap;
+  const pair =
+    prior &&
+    prior.selection.length &&
+    now - prior.t <= DBL_MS &&
+    Math.hypot(e.clientX - prior.cx, e.clientY - prior.cy) <= DBL_PX;
+  if (pair) {
+    const ids = prior.selection;
+    clearEmptyTap(false);
+    world.selection = ids;
+    commandGround(world, g.x, g.z, attackMove || e.shiftKey);
+    beep(240, 0.05);
+    haptic(8);
+    return;
+  }
+  const snap = world.selection.slice();
+  if (emptyTapTimer) {
+    clearTimeout(emptyTapTimer);
+    emptyTapTimer = 0;
+  }
+  emptyTap = { t: now, cx: e.clientX, cy: e.clientY, selection: snap };
+  if (!snap.length) return;
+  emptyTapTimer = setTimeout(() => {
+    emptyTapTimer = 0;
+    emptyTap = null;
+    if (!world) return;
+    world.selection = [];
+    renderSelection();
+    paintDebugState();
+  }, DBL_MS);
 }
 
 function ensureBox(x, y) {
@@ -490,7 +598,7 @@ function renderSelection() {
 
   if (e.kind === "unit" && e.owner === "player") {
     cmds.appendChild(iconBtn("MOVE", "media/sprites/icon-move.png", () => {
-      world.tip = "Move: tap the ground.";
+      world.tip = "Move: double-tap the ground.";
     }));
     cmds.appendChild(iconBtn("STOP", "media/sprites/icon-hold.png", () => {
       for (const u of sel) {

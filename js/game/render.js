@@ -178,6 +178,8 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
 
   const aspect = container.clientWidth / Math.max(1, container.clientHeight);
   const frustum = 22;
+  const FRUSTUM_MIN = 14;
+  const FRUSTUM_MAX = 48;
   const camera = new THREE.OrthographicCamera(
     (-frustum * aspect) / 2,
     (frustum * aspect) / 2,
@@ -392,7 +394,7 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
   }
 
   function setZoom(delta) {
-    frustumDesired = THREE.MathUtils.clamp(frustumDesired + delta, 14, 48);
+    frustumDesired = THREE.MathUtils.clamp(frustumDesired + delta, FRUSTUM_MIN, FRUSTUM_MAX);
     if (reduceMotion) {
       frustumLive = frustumDesired;
       resize();
@@ -569,7 +571,14 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
   }
 
   function cameraInfo() {
-    return { x: camTarget.x, z: camTarget.z, frustum: frustumLive };
+    return {
+      x: camTarget.x,
+      z: camTarget.z,
+      frustum: frustumLive,
+      frustumDesired,
+      min: FRUSTUM_MIN,
+      max: FRUSTUM_MAX,
+    };
   }
 
   return {
