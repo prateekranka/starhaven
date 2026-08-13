@@ -479,6 +479,7 @@ function followPath(world, u, speed, dt) {
   const [tx, tz] = worldOf(cx, cz);
   const d = Math.hypot(tx - u.x, tz - u.z);
   const step = speed * dt;
+  if (d > 1e-4) u.facing = Math.atan2(tx - u.x, tz - u.z);
   if (d <= step + 0.12) {
     u.x = tx;
     u.z = tz;
@@ -486,7 +487,6 @@ function followPath(world, u, speed, dt) {
   } else {
     u.x += ((tx - u.x) / d) * step;
     u.z += ((tz - u.z) / d) * step;
-    u.facing = Math.atan2(tx - u.x, tz - u.z);
   }
 }
 

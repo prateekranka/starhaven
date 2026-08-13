@@ -111,17 +111,23 @@ export function sampleH(x, z) {
   return a + (b - a) * tx + (c - a) * tz + (a - b - c + d) * tx * tz;
 }
 
-function dirRow(facing) {
+const WALK_STATES = new Set(["walk", "gatherwalk", "return", "buildwalk", "attackmove"]);
+
+function dirRow(facing, southFirst = false) {
   const two = Math.PI * 2;
   let a = facing % two;
   if (a < 0) a += two;
   const oct = Math.round(a / (Math.PI / 4)) % 8;
-  return [4, 3, 2, 1, 0, 7, 6, 5][oct];
+  let row = [4, 3, 2, 1, 0, 7, 6, 5][oct];
+  if (southFirst) row = (row + 4) % 8;
+  return row;
 }
 
 function setFrame(tex, col, row, cols = 8, rows = 8) {
-  tex.repeat.set(1 / cols, 1 / rows);
-  tex.offset.set(col / cols, 1 - (row + 1) / rows);
+  const pad = 0.5 / 1024;
+  tex.repeat.set(1 / cols - pad * 2, 1 / rows - pad * 2);
+  tex.offset.set(col / cols + pad, 1 - (row + 1) / rows + pad);
+  if (tex.matrixAutoUpdate) tex.updateMatrix();
 }
 
 function cloneSheet(base) {
@@ -475,7 +481,7 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
       }
       const y = sampleH(u.x, u.z);
       m.position.set(u.x, y, u.z);
-      animateUnit(m, u, world);
+      animateUnit(m, u, world, dt);
       m.visible = u.owner === "player" || vis(world, u.x, u.z);
       keep.add("sh" + u.id);
       let sh = meshes.get("sh" + u.id);
@@ -661,9 +667,9 @@ function unitSheet(u, sheets, stills) {
   if (u.type === "siege") return { map: grave ? stills.graveSiege : stills.sunSiege, sheet: false, scale: 5.2 };
   if (u.type === "titan") return { map: stills.graveStrider, sheet: false, scale: 7.0 };
   if (u.type === "guard" || u.type === "archer") {
-    return { map: grave ? sheets.graveGuard : sheets.sunGuard, sheet: true, scale: 4.15 };
+    return { map: grave ? sheets.graveGuard : sheets.sunGuard, sheet: true, scale: 4.15, southFirst: false };
   }
-  return { map: grave ? sheets.graveWalk : sheets.sunWalk, sheet: true, scale: 4.05 };
+  return { map: grave ? sheets.graveWalk : sheets.sunWalk, sheet: true, scale: 4.05, southFirst: grave };
 }
 
 function makeUnitSprite(u, sheets, stills) {
@@ -672,25 +678,37 @@ function makeUnitSprite(u, sheets, stills) {
   const s = new THREE.Sprite(spriteMat(map));
   s.center.set(0.5, 0.05);
   s.userData.sheet = spec.sheet;
+  s.userData.southFirst = !!spec.southFirst;
   s.userData.baseScale = spec.scale;
   s.userData.aspect = spec.sheet ? 1 : 1;
+  s.userData.walkT = 0;
   if (!spec.sheet) fitWhenReady(s, map, spec.scale);
-  else s.scale.set(spec.scale, spec.scale, 1);
+  else {
+    setFrame(map, 0, spec.southFirst ? 0 : 4);
+    s.scale.set(spec.scale, spec.scale, 1);
+  }
   return s;
 }
 
-function animateUnit(sprite, u, world) {
-  const moving = u.state && u.state !== "idle" && u.state !== "gather" && u.state !== "build";
+function animateUnit(sprite, u, world, dt = 0.016) {
+  const onPath = WALK_STATES.has(u.state) && Array.isArray(u.path) && u.path.length > 0;
+  const dx = u.x - (sprite.userData.px ?? u.x);
+  const dz = u.z - (sprite.userData.pz ?? u.z);
+  sprite.userData.px = u.x;
+  sprite.userData.pz = u.z;
+  const moving = onPath || Math.hypot(dx, dz) > 0.0008;
   if (sprite.userData.sheet && sprite.material.map) {
-    const col = moving ? Math.floor(world.t * 10) % 8 : 0;
-    const row = dirRow(u.facing || 0);
+    if (moving) sprite.userData.walkT = (sprite.userData.walkT || 0) + dt;
+    else sprite.userData.walkT = 0;
+    const col = moving ? Math.floor(sprite.userData.walkT * 12) % 8 : 0;
+    const row = dirRow(u.facing || 0, sprite.userData.southFirst);
     if (sprite.userData.col !== col || sprite.userData.row !== row) {
       sprite.userData.col = col;
       sprite.userData.row = row;
       setFrame(sprite.material.map, col, row);
     }
   }
-  const bob = moving ? 1 + Math.sin(world.t * 14) * 0.03 : 1;
+  const bob = moving ? 1 + Math.sin((sprite.userData.walkT || 0) * 14) * 0.03 : 1;
   const s = (sprite.userData.baseScale || 2.4) * bob;
   const a = sprite.userData.aspect || 1;
   sprite.scale.set(s * a, s, 1);
