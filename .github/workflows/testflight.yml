@@ -1,0 +1,151 @@
+name: TestFlight
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "ios/**"
+      - "ios/project.yml"
+      - ".github/workflows/testflight.yml"
+      - "scripts/release/stage-ios-dist.mjs"
+      - "scripts/release/verify-xcode-dist.sh"
+
+concurrency:
+  group: testflight
+  cancel-in-progress: false
+
+jobs:
+  testflight:
+    if: github.repository == 'prateekranka/starhaven'
+    runs-on: macos-15
+    timeout-minutes: 90
+    permissions:
+      contents: read
+    env:
+      APP_STORE_CONNECT_KEY_ID: ${{ secrets.APP_STORE_CONNECT_KEY_ID }}
+      APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
+      APP_STORE_CONNECT_API_KEY: ${{ secrets.APP_STORE_CONNECT_API_KEY }}
+      BUILD_CERTIFICATE_BASE64: ${{ secrets.BUILD_CERTIFICATE_BASE64 }}
+      P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
+      ASC_APP_ID: "6800975731"
+      ASC_GROUP_ID: "b48e1493-7677-4e35-9ca2-5b162072fb75"
+      DEVELOPMENT_TEAM: "4JRB53LG5C"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Require Apple secrets
+        run: |
+          missing=0
+          for name in APP_STORE_CONNECT_KEY_ID APP_STORE_CONNECT_ISSUER_ID APP_STORE_CONNECT_API_KEY BUILD_CERTIFICATE_BASE64 P12_PASSWORD; do
+            if [ -z "${!name}" ]; then
+              echo "::error::Missing GitHub secret ${name}. Cloudflare tokens cannot upload TestFlight; add the Apple secrets listed in AGENTS.md."
+              missing=1
+            fi
+          done
+          exit "$missing"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.13.0
+          cache: npm
+
+      - name: Select latest Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+
+      - run: npm ci
+      - run: npm run build
+      - run: npm run verify:offline
+      - run: npm run verify:no-openai
+
+      - name: Stage iOS GameDist
+        run: |
+          SHA="$(git rev-parse HEAD)"
+          node scripts/release/stage-ios-dist.mjs \
+            --source dist \
+            --target ios/Artifacts/GameDist \
+            --expected-sha "${SHA}" \
+            --input-list ios/Artifacts/GameDistInputs.xcfilelist
+
+      - name: Bump unique TestFlight build number
+        run: |
+          BUILD="4.${GITHUB_RUN_NUMBER}"
+          /usr/libexec/PlistBuddy -c "Set :CFBundleVersion ${BUILD}" ios/Starhaven/Resources/Info.plist
+          echo "CFBundleVersion=${BUILD}" >> "$GITHUB_STEP_SUMMARY"
+          echo "BUILD_NUMBER=${BUILD}" >> "$GITHUB_ENV"
+
+      - name: Generate Xcode project
+        run: |
+          brew install xcodegen
+          (cd ios && xcodegen generate)
+
+      - name: Import Distribution certificate
+        uses: apple-actions/import-codesign-certs@v3
+        with:
+          p12-file-base64: ${{ secrets.BUILD_CERTIFICATE_BASE64 }}
+          p12-password: ${{ secrets.P12_PASSWORD }}
+
+      - name: Install App Store Connect API key
+        run: |
+          KEY_DIR="${RUNNER_TEMP}/private_keys"
+          mkdir -p "${KEY_DIR}" "${HOME}/.appstoreconnect/private_keys"
+          KEY_PATH="${KEY_DIR}/AuthKey_${APP_STORE_CONNECT_KEY_ID}.p8"
+          printf '%s' "${APP_STORE_CONNECT_API_KEY}" > "${KEY_PATH}"
+          chmod 600 "${KEY_PATH}"
+          cp "${KEY_PATH}" "${HOME}/.appstoreconnect/private_keys/"
+          echo "APP_STORE_CONNECT_API_KEY_PATH=${KEY_PATH}" >> "$GITHUB_ENV"
+
+      - name: Archive Starhaven
+        run: |
+          xcodebuild archive \
+            -project ios/Starhaven.xcodeproj \
+            -scheme Starhaven \
+            -configuration Release \
+            -destination "generic/platform=iOS" \
+            -archivePath "${RUNNER_TEMP}/Starhaven.xcarchive" \
+            -allowProvisioningUpdates \
+            -authenticationKeyPath "${APP_STORE_CONNECT_API_KEY_PATH}" \
+            -authenticationKeyID "${APP_STORE_CONNECT_KEY_ID}" \
+            -authenticationKeyIssuerID "${APP_STORE_CONNECT_ISSUER_ID}" \
+            DEVELOPMENT_TEAM="${DEVELOPMENT_TEAM}" \
+            CODE_SIGN_STYLE=Automatic \
+            COMPILER_INDEX_STORE_ENABLE=NO
+
+      - name: Export App Store IPA
+        run: |
+          xcodebuild -exportArchive \
+            -archivePath "${RUNNER_TEMP}/Starhaven.xcarchive" \
+            -exportPath "${RUNNER_TEMP}/export" \
+            -exportOptionsPlist ios/ci/ExportOptions-TestFlight.plist \
+            -allowProvisioningUpdates \
+            -authenticationKeyPath "${APP_STORE_CONNECT_API_KEY_PATH}" \
+            -authenticationKeyID "${APP_STORE_CONNECT_KEY_ID}" \
+            -authenticationKeyIssuerID "${APP_STORE_CONNECT_ISSUER_ID}"
+
+      - name: Upload to TestFlight
+        uses: apple-actions/upload-testflight-build@v4
+        with:
+          app-path: ${{ runner.temp }}/export/Starhaven.ipa
+          issuer-id: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
+          api-key-id: ${{ secrets.APP_STORE_CONNECT_KEY_ID }}
+          api-private-key: ${{ secrets.APP_STORE_CONNECT_API_KEY }}
+          uses-non-exempt-encryption: "false"
+          wait-for-processing: "true"
+
+      - name: Summary
+        if: success()
+        run: |
+          {
+            echo "## TestFlight"
+            echo "- Version 0.1 (${BUILD_NUMBER})"
+            echo "- Commit \`${GITHUB_SHA}\`"
+            echo "- Internal testers: https://appstoreconnect.apple.com/apps/${ASC_APP_ID}/testflight/ios"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Remove API key
+        if: always()
+        run: rm -rf "${RUNNER_TEMP}/private_keys" "${HOME}/.appstoreconnect/private_keys"

@@ -8,5 +8,5 @@ alwaysApply: true
 When the user reports Starhaven gameplay or host bugs from an iPad (especially via the Cursor iOS app), follow `AGENTS.md` and `.cursor/skills/starhaven-ipad-loop/SKILL.md`.
 
 - Gameplay/`src`/`public` changes: commit, push `prateekranka/starhaven` **`dev`** for playtest (or **`main`** for production), deploy Cloudflare Pages, tell them to pick Dev/Production on the title screen and Reload pack.
-- Swift/native changes: Linux cannot produce Sqim or TestFlight; commit/push and require `./scripts/ship-ipad.sh` on a Mac. `CLOUDFLARE_API_TOKEN` does not upload TestFlight.
+- Swift/native changes: push, then `gh workflow run testflight.yml`. `CLOUDFLARE_API_TOKEN` does not upload TestFlight. Sqim still needs a Mac.
 - Never invent Sqim or TestFlight URLs. Never use Flowdeck.

@@ -13,12 +13,12 @@ Do not use Flowdeck.
 - TestFlight app: Starhaven Bright Frontier, App Store id `6800975731`, bundle `com.prateekranka.starhaven`, team `4JRB53LG5C`
 - iOS host: `ios/Starhaven/`, XcodeGen `ios/project.yml`, scheme `Starhaven`
 
-`CLOUDFLARE_API_TOKEN` deploys web packs only. It cannot archive, sign, or upload a TestFlight or Sqim IPA. Those need macOS, Xcode, and Apple signing (`./scripts/ship-ipad.sh`).
+`CLOUDFLARE_API_TOKEN` deploys web packs only. TestFlight from a cloud agent uses GitHub Action **TestFlight** (`macos-15`) with Apple secrets, not the Cloudflare token.
 
 ## Classify the feedback
 
 - **Web / sim / art / UI in `src/` or `public/`:** ship a Cloudflare pack. Default playtest target is **dev**. The TestFlight shell fetches `build-info.json` on launch (and on title foreground / Reload pack in newer shells). Native 4+ can switch Production/Dev on the title screen. No new IPA for web-only fixes.
-- **Swift / Info.plist / WKWebView / `GameCache`:** needs a new device IPA (Sqim install link or TestFlight). Linux cloud VMs cannot sign iOS apps.
+- **Swift / Info.plist / WKWebView / `GameCache`:** needs a new TestFlight or Sqim IPA. Cloud Linux cannot sign locally; trigger GitHub Action **TestFlight** after push (`gh workflow run testflight.yml --ref <branch>`).
 
 Never put `https://starhaven.contenthelper.in` or `https://dev.starhaven.contenthelper.in` in web `src/` (`verify:offline` forbids it). Keep origins in Swift only.
 
@@ -42,17 +42,31 @@ Never put `https://starhaven.contenthelper.in` or `https://dev.starhaven.content
 
 ## Ship a native IPA (Swift / host)
 
-Only on macOS with Xcode and signing:
+Prefer GitHub Action **TestFlight** so a cloud agent can ship without this Mac:
+
+```sh
+gh workflow run testflight.yml --repo prateekranka/starhaven --ref main
+gh run watch --repo prateekranka/starhaven
+```
+
+Required GitHub secrets (not `CLOUDFLARE_API_TOKEN`):
+
+- `APP_STORE_CONNECT_KEY_ID`
+- `APP_STORE_CONNECT_ISSUER_ID`
+- `APP_STORE_CONNECT_API_KEY` (`.p8` body)
+- `BUILD_CERTIFICATE_BASE64` (Apple Distribution `.p12`, base64)
+- `P12_PASSWORD`
+
+The workflow archives on `macos-15`, uploads 0.1 (`4.<run_number>`), and waits for processing. Internal testers: App Store Connect app `6800975731`.
+
+On a Mac, Sqim/TestFlight can still be local:
 
 ```sh
 ./scripts/ship-ipad.sh sqim
 ./scripts/ship-ipad.sh testflight
 ```
 
-- **Sqim** (`squim`/`sqim`): development-signed HTTPS install link. Refresh `sqim login` if `sqim status --json` shows an expired token. Never invent a Sqim URL.
-- **TestFlight**: bump `CFBundleVersion` in `ios/Starhaven/Resources/Info.plist` before uploading. Internal testers: App Store Connect app `6800975731`.
-
-If you are on Linux, commit and push the native fix, then say a Mac must run `./scripts/ship-ipad.sh`. Do not pretend TestFlight or Sqim shipped.
+- **Sqim** (`squim`/`sqim`): development-signed HTTPS install link. Refresh `sqim login` if the token expired. Never invent a Sqim URL.
 
 ## Constraints
 
