@@ -89,8 +89,8 @@
         <button class="back-btn" data-action="title">←</button>
         <h2>SKIRMISH VS AI</h2>
       </header>
-      <div class="setup-grid">
-        <div class="setup-card">
+      <div class="setup-grid setup-stack">
+        <div class="setup-card setup-civ">
           <h3>Your civilization</h3>
           <div class="faction-picks">
             <button class="faction-pick selected" data-faction="sunwoven">
@@ -109,7 +109,7 @@
             </button>
           </div>
         </div>
-        <div class="setup-card">
+        <div class="setup-card setup-battle">
           <h3>Battle</h3>
           <label>Map
             <select id="map-select">
@@ -123,7 +123,6 @@
               <option value="emperor">Emperor</option>
             </select>
           </label>
-          <p class="hint">Destroy the rival Town Center. Villagers gather, buildings produce, ages unlock siege. Watch the Bright Line — and do not poke the titan.</p>
           <button class="gold-btn wide" data-action="start-skirmish">START MATCH</button>
         </div>
       </div>

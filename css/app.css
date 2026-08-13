@@ -266,6 +266,19 @@ html, body {
 }
 
 .setup-grid, .lore-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.setup-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+.setup-civ {
+  width: min(100%, 560px);
+}
+.setup-battle {
+  width: min(100%, 240px);
+}
+.setup-battle h3 { text-align: center; }
 .setup-card, .lore {
   background: rgba(6, 16, 30, 0.82);
   border: 1px solid rgba(224, 195, 106, 0.35);
