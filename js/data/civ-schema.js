@@ -70,6 +70,7 @@ export function civSelectionPortrait(civId, entity) {
   const unitSpec = civ.sprites.units[entity.type] || civ.sprites.units.default;
   if (unitSpec.kind === "strider") return civ.sprites.strider;
   if (unitSpec.kind === "siege") return civ.sprites.siege;
+  if (unitSpec.kind === "wagon") return civ.sprites.wagon || civ.sprites.strider;
   return civ.sprites.portrait;
 }
 

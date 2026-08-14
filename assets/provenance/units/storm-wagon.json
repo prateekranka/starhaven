@@ -1,0 +1,17 @@
+{
+  "unitId": "storm-wagon",
+  "faction": "stormveil",
+  "clips": [
+    "walk",
+    "attack",
+    "gather",
+    "build",
+    "death"
+  ],
+  "atlas": "media/sprites/storm-wagon.atlas.png",
+  "sha256": "c2705ee3674e151b5ad558539d1725e5cedc6caa7db8248f6ea1e252eb7d259b",
+  "bytes": 29190,
+  "sourceCount": 50,
+  "generator": "starhaven-pixel-pipeline-v1",
+  "libvips": "8.17.1"
+}

@@ -1,0 +1,17 @@
+{
+  "unitId": "storm-strider",
+  "faction": "stormveil",
+  "clips": [
+    "walk",
+    "attack",
+    "gather",
+    "build",
+    "death"
+  ],
+  "atlas": "media/sprites/storm-strider.atlas.png",
+  "sha256": "357a7e1e3bdff23d47ef79df3a6819067ad1eed4d8286e379dcc2951add96c71",
+  "bytes": 39524,
+  "sourceCount": 50,
+  "generator": "starhaven-pixel-pipeline-v1",
+  "libvips": "8.17.1"
+}

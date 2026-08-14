@@ -7,6 +7,23 @@ import {
   resolveBuildingCost,
   resolveUnitCost,
 } from "./civs/index.js";
+import {
+  initStormveil,
+  tickStormveil,
+  effectiveInLight,
+  windLaneSpeedPermille,
+  getUnitSpec,
+} from "./civs/stormveil.js";
+import "./civs/stormveil.js";
+import {
+  initAshveinWorld,
+  tickAshvein,
+  skipSurfaceVision,
+  ashveinResolvePath,
+  ashveinPlanSurfacePath,
+  onUnitStep,
+  isAshveinUnit,
+} from "./civs/ashvein.js";
 import { astar } from "./path.js";
 import { runAI } from "./ai.js";
 import { MatchPrng } from "./prng.js";
@@ -87,7 +104,7 @@ export function payStock(stock, cost) {
 function effectiveBuff(world, unit) {
   const mech = civMechanics(unit.faction);
   if (mech.brightLineImmune) return { speed: 1000, dmg: 1000, armor: 1000 };
-  return civBuff(unit.faction, inLight(world, unit.xQ10));
+  return civBuff(unit.faction, effectiveInLight(world, unit.xQ10, unit.zQ10));
 }
 
 function refund(stock, cost) {
@@ -131,6 +148,8 @@ export function createMatch(opts = {}) {
     tutorial,
     campaign,
     difficulty,
+    aiVsAi: Boolean(opts.aiVsAi),
+    batchSim: Boolean(opts.batchSim || opts.aiVsAi),
     speed: 1,
     winner: null,
     brightQ10: brightQ10(0),
@@ -173,6 +192,8 @@ export function createMatch(opts = {}) {
     if (!tutorial) revealAround(world, "enemy", 40, 7, 12);
   }
   recomputeVision(world);
+  initStormveil(world);
+  initAshveinWorld(world);
   return world;
 }
 
@@ -387,7 +408,7 @@ function collectVisionEntities(world) {
   const list = [];
   for (const owner of ["player", "enemy"]) {
     for (const u of world.units) {
-      if (u.owner === owner) list.push({ owner, e: u, kind: "unit" });
+      if (u.owner === owner && !skipSurfaceVision(u)) list.push({ owner, e: u, kind: "unit" });
     }
     for (const b of world.buildings) {
       if (b.owner === owner && isBuilt(b)) list.push({ owner, e: b, kind: "building" });
@@ -459,7 +480,10 @@ function popOf(world, owner) {
   let used = 0;
   let cap = 0;
   const faction = world.players[owner].faction;
-  for (const u of world.units) if (u.owner === owner) used += UNITS[u.type].pop || 0;
+  for (const u of world.units) {
+    if (u.owner !== owner) continue;
+    used += (UNITS[u.type] || getUnitSpec(u.type))?.pop || 0;
+  }
   for (const b of world.buildings) {
     if (b.owner === owner && isBuilt(b)) cap += BUILDINGS[b.type].pop || 0;
   }
@@ -494,6 +518,8 @@ function simTick(world) {
   }
   tickAging(world);
   tickCivMechanics(world);
+  tickStormveil(world);
+  tickAshvein(world);
   tickBuildings(world);
   tickUnits(world);
   tickProjectiles(world);
@@ -576,7 +602,7 @@ function tickBuildings(world) {
     if (!isBuilt(b)) continue;
     if (!civMechanics(b.faction).isBuildingActive(world, b)) continue;
     const spec = BUILDINGS[b.type];
-    if (spec.attacks && b.hp > 0) {
+    if (spec.attacks && b.hp > 0 && !world.batchSim) {
       if (b.attackCdTicks > 0) b.attackCdTicks -= 1;
       if (b.attackCdTicks <= 0) {
         const foe = closestFoe(world, b, spec.attacks.range);
@@ -601,18 +627,29 @@ function tickBuildings(world) {
 function tickUnits(world) {
   for (const u of world.units) {
     if (u.hp <= 0) continue;
-    const spec = UNITS[u.type];
+    const spec = UNITS[u.type] || getUnitSpec(u.type);
+    if (!spec) continue;
     const buff = effectiveBuff(world, u);
+    const speedMul = permilleMul(buff.speed, windLaneSpeedPermille(world, u));
     civMechanics(u.faction).tickUnit(world, u);
     if (u.attackCdTicks > 0) u.attackCdTicks -= 1;
+    if (u.state === "build" || u.state === "buildwalk") {
+      const site = world.buildings.find((x) => x.id === u.build);
+      if (!site || site.hp <= 0) {
+        u.state = "idle";
+        u.build = null;
+        u.path = [];
+      }
+    }
     if (u.state === "walk" || u.state === "return" || u.state === "gatherwalk" || u.state === "buildwalk" || u.state === "attackmove" || u.state === "assemblewalk") {
-      followPath(world, u, spec.speed, buff.speed);
+      followPath(world, u, spec.speed, speedMul);
     }
     if (u.state === "gather") gatherTick(world, u, spec);
     if (u.state === "build") buildTick(world, u);
     if (u.state === "assemble" || u.state === "assemblewalk") assembleWalkTick(world, u);
     if (u.state === "attack" || u.state === "attackmove") attackTick(world, u, spec, buff);
-    if (u.type !== "villager" && u.state === "idle") {
+    if (u.type !== "villager" && u.type !== "wagon" && u.state === "idle") {
+      if (world.batchSim && u.type === "scout") continue;
       const foe = closestFoe(world, u, spec.range + 1.5);
       if (foe) {
         u.state = "attack";
@@ -650,6 +687,14 @@ function followPath(world, u, speed, speedPermille) {
       u.state = "build";
       return;
     }
+    if (b && !u.path.length) {
+      if (u.repathTicks > 0) u.repathTicks -= 1;
+      if (u.repathTicks <= 0) {
+        setPath(world, u, b.xQ10, b.zQ10);
+        u.repathTicks = REPATH_BUILD_TICKS;
+      }
+      return;
+    }
   }
   if (!u.path.length) {
     if (u.state === "gatherwalk") u.state = "gather";
@@ -681,6 +726,7 @@ function followPath(world, u, speed, speedPermille) {
       u.zQ10 = tzQ10;
       u.remainderX = 0;
       u.remainderZ = 0;
+      onUnitStep(world, u, cx, cz);
       u.path.shift();
     }
     return;
@@ -929,6 +975,12 @@ function findById(world, fid) {
 function setPath(world, u, xQ10, zQ10) {
   const [sx, sz] = cellOfQ10(u.xQ10, u.zQ10, world.CELL);
   const [gx, gz] = cellOfQ10(xQ10, zQ10, world.CELL);
+  if (isAshveinUnit(u)) {
+    u.path = u.layer === "tunnel"
+      ? ashveinResolvePath(world, u, xQ10, zQ10) || []
+      : ashveinPlanSurfacePath(world, u, xQ10, zQ10) || astar(world.walk, world.N, sx, sz, gx, gz);
+    return;
+  }
   u.path = astar(world.walk, world.N, sx, sz, gx, gz);
 }
 

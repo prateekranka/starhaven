@@ -1,15 +1,17 @@
 import * as THREE from "three";
 import { N, CELL, inLight, q10FromWorld, lineX, buildRatio } from "../sim/engine.js";
-import { worldFromQ10, Q10, FACING_MILLIRAD, TICKS_PER_SEC } from "../sim/fixed.js";
+import { worldFromQ10, Q10, FACING_MILLIRAD, TICKS_PER_SEC, secToTicks } from "../sim/fixed.js";
 import { pixelRatioFor, resolveQuality, backingLabel, isSoftwareGL, glRendererName } from "../perf.js";
 import { cachedImage } from "../cache/assets.js";
 
 const wx = (e) => worldFromQ10(e.xQ10);
 const wz = (e) => worldFromQ10(e.zQ10);
 import { BIOME_HEX } from "../data/map-biomes.js";
+import { effectiveBiome, unitInTunnelLayer } from "../sim/civs/ashvein.js";
 import { civUnitSpriteSpec, listPlayableCivs, DEFAULT_CIV_ID } from "../data/civ-schema.js";
 import { isQaMode } from "../perf.js";
 import "../data/civs.js";
+import { windLaneCells } from "../sim/civs/stormveil.js";
 
 const MAP = N * CELL;
 THREE.Cache.enabled = true;
@@ -303,6 +305,38 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
   brightLine.position.y = 1.15;
   scene.add(brightLine);
 
+  const windLaneGroup = new THREE.Group();
+  scene.add(windLaneGroup);
+  let windLanesDrawn = false;
+  const darknessFx = [];
+  function ensureWindLanes(world) {
+    if (windLanesDrawn || !world.stormveil?.windLanes) return;
+    windLanesDrawn = true;
+    const cell = world.CELL || CELL;
+    for (const { cx, cz } of windLaneCells(world)) {
+      const lane = new THREE.Mesh(new THREE.PlaneGeometry(cell * 0.9, cell * 0.9), new THREE.MeshBasicMaterial({ color: 0x8ed4ff, transparent: true, opacity: 0.2, depthWrite: false, toneMapped: false }));
+      lane.rotation.x = -Math.PI / 2;
+      lane.position.set(cx * cell + cell * 0.5, 0.14, cz * cell + cell * 0.5);
+      windLaneGroup.add(lane);
+    }
+  }
+  function syncDarkness(world) {
+    const zones = world.stormveil?.darkness || [];
+    while (darknessFx.length < zones.length) {
+      const disc = new THREE.Mesh(new THREE.CircleGeometry(1, 28), new THREE.MeshBasicMaterial({ color: 0x1a1038, transparent: true, opacity: 0.42, depthWrite: false, toneMapped: false }));
+      disc.rotation.x = -Math.PI / 2; scene.add(disc); darknessFx.push(disc);
+    }
+    for (let i = 0; i < darknessFx.length; i += 1) {
+      const disc = darknessFx[i]; const zone = zones[i];
+      if (!zone) { disc.visible = false; continue; }
+      disc.visible = true;
+      const r = worldFromQ10(zone.radiusQ10);
+      disc.scale.set(r, r, 1);
+      disc.position.set(worldFromQ10(zone.xQ10), 0.22, worldFromQ10(zone.zQ10));
+      disc.material.opacity = 0.28 + 0.22 * Math.min(1, zone.leftTicks / secToTicks(12));
+    }
+  }
+
   const meshes = new Map();
   const ringMat = new THREE.MeshBasicMaterial({ color: 0xd4af37, side: THREE.DoubleSide, transparent: true, opacity: 0.95, toneMapped: false });
   const ringGeo = new THREE.RingGeometry(0.5, 0.72, 32);
@@ -462,7 +496,7 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
       const y = sampleH(wx(u), wz(u));
       m.position.set(wx(u), y, wz(u));
       animateUnit(m, u, world, dt);
-      m.visible = u.owner === "player" || vis(world, wx(u), wz(u));
+      m.visible = u.owner === "player" || (!unitInTunnelLayer(u) && vis(world, wx(u), wz(u)));
       keep.add("sh" + u.id);
       let sh = meshes.get("sh" + u.id);
       if (!sh) {
@@ -536,11 +570,17 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
     const brightNorm = world.brightQ10 / Q10;
     brightLine.position.set(lx, 1.1, MAP / 2);
     brightLine.material.opacity = 0.22 + Math.sin((world.t / TICKS_PER_SEC) * 2.2) * 0.08;
+    ensureWindLanes(world);
+    syncDarkness(world);
     sun.position.set(20 + brightNorm * 50, 50, 20);
     sun.color.set(inLight(world, q10FromWorld(camTarget.x)) ? 0xfff3d0 : 0xb8c8ff);
     hemi.color.set(inLight(world, q10FromWorld(camTarget.x)) ? 0xd8ecff : 0x9aa8d8);
     scene.background.set(inLight(world, q10FromWorld(camTarget.x)) ? "#6eb4e8" : "#3a4a78");
     paintFog(fogCtx, fogTex, fogImg, world);
+    if (world.ashvein?.terrainDirty && world.map?.terrain) {
+      patchTerrainColors(terrain, world, mapWorld);
+      world.ashvein.terrainDirty = false;
+    }
     vfx.tick(world);
 
     if (world.placing) {
@@ -641,6 +681,7 @@ function buildRendererAssets(pix) {
     stills[civ.id] = {
       strider: pix(civ.sprites.strider),
       siege: pix(civ.sprites.siege),
+      ...(civ.sprites.wagon ? { wagon: pix(civ.sprites.wagon) } : {}),
     };
     bldg[civ.id] = Object.fromEntries(
       Object.entries(civ.sprites.buildings).map(([type, path]) => [type, pix(path)])
@@ -681,7 +722,9 @@ function unitSheet(u, sheets, stills) {
         ? still.strider
         : spec.kind === "siege"
           ? still.siege
-          : bucket.walk;
+          : spec.kind === "wagon"
+            ? still.wagon || still.strider
+            : bucket.walk;
   return { map, sheet: spec.sheet, scale: spec.scale, southFirst: spec.southFirst };
 }
 
@@ -762,6 +805,40 @@ function paintFog(ctx, tex, img, world) {
   tex.needsUpdate = true;
   world.fogDirty = false;
   world._fogPainted = true;
+}
+
+function patchTerrainColors(mesh, world, mapWorld) {
+  const geo = mesh.geometry;
+  const pos = geo.attributes.position;
+  const colors = geo.attributes.color;
+  if (!colors || !world.map?.terrain) return;
+  const map = world.map;
+  const cell = world.CELL || 2;
+  const palette = {
+    sand: new THREE.Color(BIOME_HEX.sand),
+    dirt: new THREE.Color(BIOME_HEX.dirt),
+    grass: new THREE.Color(BIOME_HEX.grass),
+    rock: new THREE.Color(BIOME_HEX.rock),
+    cliff: new THREE.Color(BIOME_HEX.cliff),
+    void: new THREE.Color(BIOME_HEX.void),
+  };
+  const biomeKeys = ["sand", "dirt", "grass", "rock", "cliff", "void"];
+  const lava = new THREE.Color("#dc4018");
+  const cool = new THREE.Color("#783020");
+  for (let i = 0; i < pos.count; i++) {
+    const x = pos.getX(i) + mapWorld / 2;
+    const z = pos.getZ(i) + mapWorld / 2;
+    const cx = Math.max(0, Math.min(map.size - 1, (x / cell) | 0));
+    const cz = Math.max(0, Math.min(map.size - 1, (z / cell) | 0));
+    const idx = cz * map.size + cx;
+    const mut = world.ashvein?.cellMutation?.[idx] ?? 0;
+    let c;
+    if (mut === 1) c = lava.clone();
+    else if (mut === 2) c = cool.clone();
+    else c = palette[biomeKeys[effectiveBiome(world, idx)] || "sand"].clone();
+    colors.setXYZ(i, c.r, c.g, c.b);
+  }
+  colors.needsUpdate = true;
 }
 
 function buildMesa(sandMap, seg = 64, lit = true, map = null, mapWorld = N * CELL) {

@@ -1,4 +1,5 @@
-import { createMatch, updateWorld, commandGround, tryPlace, queueUnit, tryAgeUp, idleVillager, selectedEntities, villagerBuildOptions, BUILDINGS, UNITS, worldFromQ10, q10FromWorld, isBuilt } from "../sim/engine.js";
+import { createMatch, updateWorld, commandGround, tryPlace, queueUnit, tryAgeUp, idleVillager, selectedEntities, villagerBuildOptions, BUILDINGS, UNITS, worldFromQ10, q10FromWorld, isBuilt, tryPackBuilding, trySummonDarkness } from "../sim/engine.js";
+import { canPackBuilding, isStormveilFaction } from "../sim/civs/stormveil.js";
 import { distanceSquaredQ10, q10RangeSq, ticksToSec } from "../sim/fixed.js";
 
 const wx = (e) => worldFromQ10(e.xQ10);
@@ -12,6 +13,7 @@ import { createFramePacer, isQaMode, setText, resolveQuality } from "../perf.js"
 import { ensureMatchAssets } from "../cache/assets.js";
 import { loadMap } from "../data/maps.js";
 import { biomeRgb } from "../data/map-biomes.js";
+import { minimapCellColor } from "../sim/civs/ashvein.js";
 import { checksumWorld, mapLayoutFingerprint } from "../sim/checksum.js";
 
 let world = null;
@@ -514,6 +516,15 @@ function onUp(e) {
     renderSelection();
     return;
   }
+  if (world.placingDarkness && g && dist < 12) {
+    const res = trySummonDarkness(world, "player", g.x, g.z);
+    world.tip = res.ok ? "Dark veil summoned." : res.why;
+    beep(res.ok ? 220 : 140, res.ok ? 0.12 : 0.06);
+    world.placingDarkness = false;
+    hideBox();
+    renderSelection();
+    return;
+  }
   if (dist < 14 && g) {
     const hit = pickEntity(world, g.x, g.z);
     if (hit && hit.owner === "player") {
@@ -691,6 +702,15 @@ function renderSelection() {
       );
     }
   }
+  if (e.kind === "unit" && e.type === "wagon" && e.owner === "player") {
+    cmds.appendChild(btn("Deploy", () => { world.tip = "Tap ground to deploy packed structure (20 wood)."; }));
+  }
+  if (isStormveilFaction(world.players.player.faction) && e.owner === "player") {
+    cmds.appendChild(btn("Dark Veil", () => { world.placingDarkness = true; world.placing = null; world.tip = "Tap ground to summon darkness (60 crystal)."; beep(220, 0.08); }));
+  }
+  if (e.kind === "building" && e.owner === "player" && isBuilt(e) && isStormveilFaction(faction) && canPackBuilding(world, "player", e).ok) {
+    cmds.appendChild(btn("Pack", () => { const r = tryPackBuilding(world, "player", e.id); world.tip = r.ok ? `Packing ${BUILDINGS[e.type].name}… (4s, 30 wood).` : r.why; beep(r.ok ? 360 : 140); renderSelection(); }));
+  }
   if (e.kind === "building" && e.owner === "player" && isBuilt(e)) {
     const mech = civMechanics(faction);
     if (e.powered === false) cmds.appendChild(btn("UNPOWERED", () => { world.tip = "Relay this structure to your Foundry Core grid."; }));
@@ -773,7 +793,9 @@ function drawMinimap(world, view) {
         ctx.fillStyle = "#071422";
         ctx.fillRect(x * s, z * s, s + 0.5, s + 0.5);
       } else {
-        if (terrain) {
+        const mutColor = minimapCellColor(world, idx, true);
+        if (mutColor) ctx.fillStyle = `rgb(${mutColor[0]},${mutColor[1]},${mutColor[2]})`;
+        else if (terrain) {
           const [r, g, b] = biomeRgb(terrain[idx]);
           ctx.fillStyle = `rgb(${r},${g},${b})`;
         } else {
@@ -802,7 +824,7 @@ function drawMinimap(world, view) {
   }
   for (const u of world.units) {
     const [cx, cz] = [(wx(u) / world.CELL) | 0, (wz(u) / world.CELL) | 0];
-    if (u.owner !== "player" && !world.visible.player[cz * n + cx]) continue;
+    if (u.owner !== "player" && (u.layer === "tunnel" || !world.visible.player[cz * n + cx])) continue;
     ctx.fillStyle = u.owner === "player" ? "#9df" : u.owner === "enemy" ? "#f88" : "#8ff";
     ctx.fillRect(wx(u) * s * (1 / world.CELL) - 1, wz(u) * s * (1 / world.CELL) - 1, 2, 2);
   }

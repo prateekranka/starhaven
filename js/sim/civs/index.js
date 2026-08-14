@@ -34,6 +34,7 @@ const DEFAULT_MECHANICS = {
   villagerBuildList(list) {
     return list;
   },
+  runAI(_world, _player) {},
 };
 
 /** @type {Record<string, typeof DEFAULT_MECHANICS>} */
