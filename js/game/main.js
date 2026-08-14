@@ -4,6 +4,8 @@ import { createRenderer } from "./render.js";
 import { beep, haptic, loadSave, showScreen } from "../boot.js";
 import { createFramePacer, isQaMode, setText, resolveQuality } from "../perf.js";
 import { ensureMatchAssets } from "../cache/assets.js";
+import { loadMap } from "../data/maps.js";
+import { biomeRgb } from "../data/map-biomes.js";
 import { checksumWorld, mapLayoutFingerprint } from "../sim/checksum.js";
 
 let world = null;
@@ -34,11 +36,13 @@ const DBL_PX = 36;
 let emptyTap = null;
 let emptyTapTimer = 0;
 
-export async function startMatch(opts) {
+export async function startMatch(opts = {}) {
   await ensureMatchAssets();
   stopMatch();
   const save = loadSave();
-  world = createMatch(opts);
+  const mapId = opts.mapId || save.mapId || "bright-mesa";
+  const map = await loadMap(mapId);
+  world = createMatch({ ...opts, map, mapId });
 
   showScreen("game");
   document.getElementById("end-banner").classList.add("hidden");
@@ -57,7 +61,7 @@ export async function startMatch(opts) {
   void viewport.offsetHeight;
   const quality = save.settings.quality || "ultra";
   qualityName = quality;
-  view = createRenderer(viewport, quality, { reduceMotion: !!save.settings.reduceMotion });
+  view = createRenderer(viewport, quality, { reduceMotion: !!save.settings.reduceMotion, map: world.map });
   bindInput(viewport);
   last = performance.now();
   raf = requestAnimationFrame(loop);
@@ -732,18 +736,26 @@ function drawMinimap(world, view) {
   const c = document.getElementById("minimap");
   if (!c) return;
   const ctx = c.getContext("2d", { alpha: false });
-  const s = c.width / 48;
-  ctx.fillStyle = "#163a68";
+  const n = world.N || 48;
+  const s = c.width / n;
+  const terrain = world.map?.terrain;
+  ctx.fillStyle = "#121828";
   ctx.fillRect(0, 0, c.width, c.height);
-  for (let z = 0; z < 48; z++) {
-    for (let x = 0; x < 48; x++) {
-      if (!world.explored.player[z * 48 + x]) {
+  for (let z = 0; z < n; z++) {
+    for (let x = 0; x < n; x++) {
+      const idx = z * n + x;
+      if (!world.explored.player[idx]) {
         ctx.fillStyle = "#071422";
         ctx.fillRect(x * s, z * s, s + 0.5, s + 0.5);
       } else {
-        ctx.fillStyle = "#e2c48a";
+        if (terrain) {
+          const [r, g, b] = biomeRgb(terrain[idx]);
+          ctx.fillStyle = `rgb(${r},${g},${b})`;
+        } else {
+          ctx.fillStyle = "#e2c48a";
+        }
         ctx.fillRect(x * s, z * s, s + 0.5, s + 0.5);
-        if (!world.visible.player[z * 48 + x]) {
+        if (!world.visible.player[idx]) {
           ctx.fillStyle = "rgba(0,0,0,0.35)";
           ctx.fillRect(x * s, z * s, s + 0.5, s + 0.5);
         }
@@ -752,24 +764,25 @@ function drawMinimap(world, view) {
   }
   for (const r of world.resources) {
     if (r.kind === "rockblock" || r.amount <= 0) continue;
-    const [cx, cz] = [(r.x / 2) | 0, (r.z / 2) | 0];
-    if (!world.explored.player[cz * 48 + cx]) continue;
+    const [cx, cz] = [(r.x / world.CELL) | 0, (r.z / world.CELL) | 0];
+    if (!world.explored.player[cz * n + cx]) continue;
     ctx.fillStyle = r.kind === "food" ? "#4c8" : r.kind === "wood" ? "#385" : r.kind === "crystal" ? "#6cf" : "#fc6";
-    ctx.fillRect(r.x * s * 0.5 - 1, r.z * s * 0.5 - 1, 3, 3);
+    ctx.fillRect(r.x * s * (1 / world.CELL) - 1, r.z * s * (1 / world.CELL) - 1, 3, 3);
   }
   for (const b of world.buildings) {
-    const [cx, cz] = [(b.x / 2) | 0, (b.z / 2) | 0];
-    if (b.owner !== "player" && !world.explored.player[cz * 48 + cx]) continue;
+    const [cx, cz] = [(b.x / world.CELL) | 0, (b.z / world.CELL) | 0];
+    if (b.owner !== "player" && !world.explored.player[cz * n + cx]) continue;
     ctx.fillStyle = b.owner === "player" ? "#4af" : b.owner === "enemy" ? "#f45" : "#eee";
-    ctx.fillRect(b.x * s * 0.5 - 2, b.z * s * 0.5 - 2, 5, 5);
+    ctx.fillRect(b.x * s * (1 / world.CELL) - 2, b.z * s * (1 / world.CELL) - 2, 5, 5);
   }
   for (const u of world.units) {
-    const [cx, cz] = [(u.x / 2) | 0, (u.z / 2) | 0];
-    if (u.owner !== "player" && !world.visible.player[cz * 48 + cx]) continue;
+    const [cx, cz] = [(u.x / world.CELL) | 0, (u.z / world.CELL) | 0];
+    if (u.owner !== "player" && !world.visible.player[cz * n + cx]) continue;
     ctx.fillStyle = u.owner === "player" ? "#9df" : u.owner === "enemy" ? "#f88" : "#8ff";
-    ctx.fillRect(u.x * s * 0.5 - 1, u.z * s * 0.5 - 1, 2, 2);
+    ctx.fillRect(u.x * s * (1 / world.CELL) - 1, u.z * s * (1 / world.CELL) - 1, 2, 2);
   }
   const cam = view.cameraInfo();
+  const mapWorld = n * world.CELL;
   ctx.strokeStyle = "#fff";
-  ctx.strokeRect((cam.x / 96) * c.width - 18, (cam.z / 96) * c.height - 12, 36, 24);
+  ctx.strokeRect((cam.x / mapWorld) * c.width - 18, (cam.z / mapWorld) * c.height - 12, 36, 24);
 }

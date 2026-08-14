@@ -3,6 +3,7 @@ import { astar } from "./path.js";
 import { runAI } from "./ai.js";
 import { MatchPrng } from "./prng.js";
 import { resolveSeed } from "./seed.js";
+import { applyMapLayout } from "./map-loader.js";
 
 export const N = 48;
 export const CELL = 2;
@@ -69,6 +70,7 @@ export function createMatch(opts = {}) {
     t: 0,
     seed,
     prng: new MatchPrng(seed),
+    mapId: opts.mapId || opts.map?.id || "bright-mesa",
     N,
     CELL,
     walk,
@@ -100,15 +102,17 @@ export function createMatch(opts = {}) {
     events: [],
   };
 
-  seedTerrain(world);
-  placeStart(world, "player", 6, 40);
-  if (!tutorial) placeStart(world, "enemy", 40, 7);
-  else {
-    world.players.enemy.alive = false;
+  if (opts.map) {
+    applyMapLayout(world, opts.map, { spawnBuilding, spawnUnit, revealAround, id });
+  } else {
+    seedTerrain(world);
+    placeStart(world, "player", 6, 40);
+    if (!tutorial) placeStart(world, "enemy", 40, 7);
+    else world.players.enemy.alive = false;
+    placeRelic(world);
+    revealAround(world, "player", 6, 40, 16);
+    if (!tutorial) revealAround(world, "enemy", 40, 7, 12);
   }
-  placeRelic(world);
-  revealAround(world, "player", 6, 40, 16);
-  if (!tutorial) revealAround(world, "enemy", 40, 7, 12);
   recomputeVision(world);
   return world;
 }

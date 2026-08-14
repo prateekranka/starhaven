@@ -2,6 +2,7 @@ import { loadSave, writeSave, showScreen, beep, haptic, native, postNative } fro
 import { detectDefaultQuality } from "../perf.js";
 import { startBackgroundWarm, ensureMatchAssets, matchAssetsReady } from "../cache/assets.js";
 import { parseSeed } from "../sim/seed.js";
+import { loadMapManifest, populateMapSelect } from "../data/maps.js";
 
 /** Non-deterministic seed for blank setup fields (UI only — never in js/sim/). */
 function pickRandomSeed() {
@@ -31,6 +32,9 @@ export function initUi() {
   applySettingsForm(save);
   const seedInput = document.getElementById("seed-input");
   if (seedInput && save.seed) seedInput.value = save.seed;
+  populateMapSelect(document.getElementById("map-select"), save.mapId).catch((err) => {
+    console.warn("map manifest load failed", err);
+  });
   if (native) document.body.classList.add("native");
   watchCacheWarm();
 
@@ -55,16 +59,19 @@ export function initUi() {
         playerFaction: save.faction || "sunwoven",
         difficulty: "chieftain",
         campaign: true,
+        mapId: save.mapId || "bright-mesa",
       });
     } else if (action === "start-skirmish") {
       const faction = document.querySelector(".faction-pick.selected")?.dataset.faction || "sunwoven";
       const difficulty = document.getElementById("diff-select").value;
+      const mapId = document.getElementById("map-select")?.value || "bright-mesa";
       const seedRaw = document.getElementById("seed-input")?.value?.trim();
       save.faction = faction;
       save.difficulty = difficulty;
+      save.mapId = mapId;
       if (seedRaw) save.seed = seedRaw;
       writeSave(save);
-      playMatch({ playerFaction: faction, difficulty, seed: seedRaw || save.seed || undefined });
+      playMatch({ playerFaction: faction, difficulty, mapId, seed: seedRaw || save.seed || undefined });
     } else if (action === "start-tutorial") {
       playMatch({ playerFaction: save.faction || "sunwoven", tutorial: true, difficulty: "settler" });
     }

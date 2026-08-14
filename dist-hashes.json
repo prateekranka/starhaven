@@ -3,8 +3,8 @@
   "files": [
     {
       "path": "cache-manifest.json",
-      "bytes": 5103,
-      "sha256": "fc7d532272b989684f9755d0cc02c70cdad15eb044531f23eecaafb5599e47d0"
+      "bytes": 5435,
+      "sha256": "df2b9d8a5c077f7347d3f81bcb5bba689cdeb32dc6a47b26dfb7894d7124df34"
     },
     {
       "path": "css/app.css",
@@ -13,18 +13,18 @@
     },
     {
       "path": "index.html",
-      "bytes": 13429,
-      "sha256": "fbad44576941540624369b7035def11b7aaf1cf1a751e29f1b364c6bb231d3db"
+      "bytes": 13632,
+      "sha256": "8273e7c6a7018efaf74809aa100e40f313bd4508181ddbb510246d8ede444260"
     },
     {
       "path": "js/boot.js",
-      "bytes": 1673,
-      "sha256": "67e7d72265e879c717707279264056ad3ebe9958f516fc8db35e9e2f1dfcd95a"
+      "bytes": 1685,
+      "sha256": "68ca5a27273054dbb83d35a83c5b4e981882ff7c4d9275f4ad0b7c6f59806782"
     },
     {
       "path": "js/cache/assets.js",
-      "bytes": 5923,
-      "sha256": "8e6928b28752e336d7d92aad8e7c7de83f7b2d9252fd49e21e2c5b837f478512"
+      "bytes": 6447,
+      "sha256": "6262bb48ac1fbced454427b958c9338ca8d465014d44047603c1d46f613db6b0"
     },
     {
       "path": "js/data/catalog.js",
@@ -32,14 +32,24 @@
       "sha256": "fba2defae81591de0059faf54c61872ae1820afe6e0629924b336ae04ddfa6b1"
     },
     {
+      "path": "js/data/map-biomes.js",
+      "bytes": 1704,
+      "sha256": "1a2eff64544b32ad74b40a323d0099487d1ce6c6c1fea63028f1a9ce88b0baa5"
+    },
+    {
+      "path": "js/data/maps.js",
+      "bytes": 1872,
+      "sha256": "73e179897ae6319a5062747c11ddebdc9e04855ae7e59291db18dafafe5454a9"
+    },
+    {
       "path": "js/game/main.js",
-      "bytes": 24093,
-      "sha256": "8cf9df46fb7ac78d91e5ffb5ae8331143740eb7d43d6adfe02584869879bf4dd"
+      "bytes": 24961,
+      "sha256": "b591d1cc095ed7f1956752863cb185e7323fdfd37be26f65b22e34f9e3a1c0aa"
     },
     {
       "path": "js/game/render.js",
-      "bytes": 29371,
-      "sha256": "60f793c37712755eb189c5a1ec9d5610046b30c032e0dee0604e01d67b889c63"
+      "bytes": 29911,
+      "sha256": "7b16e52f7f2f89b2bea589e8986fdb8691d1cff9d70af777eccfae15284d1724"
     },
     {
       "path": "js/perf.js",
@@ -48,13 +58,28 @@
     },
     {
       "path": "js/sim/ai.js",
-      "bytes": 4497,
-      "sha256": "2fdb6c6b96ec65c038aaf8eb183c575c99350b7e17fd62c4d41e18b7ec9bc2cb"
+      "bytes": 4509,
+      "sha256": "5fd3f38790c8ec1da5ddf984460e617c9d1f0a8f9b4e13a0d793d421a994050c"
+    },
+    {
+      "path": "js/sim/checksum.js",
+      "bytes": 2576,
+      "sha256": "12911b6a23eda71868092ce8b8b92cbb9d1fc42cffaec95c5ffbd52967fa860d"
     },
     {
       "path": "js/sim/engine.js",
-      "bytes": 25586,
-      "sha256": "bc53710e6223e656be4d38d9c345bf5fc6d63e3186e4cfba97ff2b127c1dea01"
+      "bytes": 25984,
+      "sha256": "f312bd76fbf7c7055cb13609845593261e22d2b44f6df811b9c1c2287ec71003"
+    },
+    {
+      "path": "js/sim/fixed.js",
+      "bytes": 2468,
+      "sha256": "769ea933929a438766b9eecdc2ae7dc91c28cad83129c66cb0c48dcb65f9966f"
+    },
+    {
+      "path": "js/sim/map-loader.js",
+      "bytes": 4195,
+      "sha256": "e141d51c0c833fec75cc95bc087c70f4277a2b6307501965fa0a2e015c0ecbd0"
     },
     {
       "path": "js/sim/path.js",
@@ -62,9 +87,39 @@
       "sha256": "12e605d78df29be49700b0f02566f083e7ff2304358f7597f0471cb8dd289c08"
     },
     {
+      "path": "js/sim/prng.js",
+      "bytes": 1661,
+      "sha256": "0da373d959c6b7813f2cb0135a667e1ae216e26508ca9c3b5412b7635c89d984"
+    },
+    {
+      "path": "js/sim/replay.js",
+      "bytes": 977,
+      "sha256": "ce0d2d31f143e738aeeb58cf4a95e54042849de0c08571d2bbedb1096133bf94"
+    },
+    {
+      "path": "js/sim/seed.js",
+      "bytes": 962,
+      "sha256": "db320f366f25a396d5e9c5605b7dc9ea55c9c71cf8311067ec8dc64b9b45ac66"
+    },
+    {
       "path": "js/ui/app.js",
-      "bytes": 5481,
-      "sha256": "62f24049788c09e6e0b2dc9ae4b06d1ead7be521da3703be62ee3990bbaae1a5"
+      "bytes": 6847,
+      "sha256": "d037b881fc7cab2c8feefe3daaf0779da1cbb67f5362707fc46a5127d8d435fd"
+    },
+    {
+      "path": "maps/bright-mesa.json",
+      "bytes": 15368,
+      "sha256": "70fca4fe9f807a45d9316cfa2c683e689ba4624f75c20d4a787dd01d4be1185a"
+    },
+    {
+      "path": "maps/manifest.json",
+      "bytes": 277,
+      "sha256": "b3fa36c3f35538e57e486ec1336b9581e7583c07e84d8bb89f8aa2a8ee269083"
+    },
+    {
+      "path": "maps/training-flat.json",
+      "bytes": 6058,
+      "sha256": "8550757c245b127ca0e92d1b68a5790154963aafb147a0eea3bccae22639bb32"
     },
     {
       "path": "media/fonts/orbitron-latin-700-normal.woff2",
@@ -382,6 +437,6 @@
       "sha256": "ce1fa418de16a19495a9f72495580e3015d7745c296d3ce0485897f902ddedfb"
     }
   ],
-  "fileCount": 76,
-  "totalBytes": 40626365
+  "fileCount": 87,
+  "totalBytes": 40668738
 }

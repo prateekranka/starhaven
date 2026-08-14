@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "maps": [
+    {
+      "id": "bright-mesa",
+      "name": "Bright Mesa",
+      "file": "maps/bright-mesa.json",
+      "default": true
+    },
+    {
+      "id": "training-flat",
+      "name": "Training Flat",
+      "file": "maps/training-flat.json"
+    }
+  ]
+}

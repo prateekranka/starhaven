@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { N, CELL, inLight } from "../sim/engine.js";
 import { pixelRatioFor, resolveQuality, backingLabel, isSoftwareGL, glRendererName } from "../perf.js";
 import { cachedImage } from "../cache/assets.js";
+import { BIOME_HEX } from "../data/map-biomes.js";
 
 const MAP = N * CELL;
 THREE.Cache.enabled = true;
@@ -287,7 +288,7 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
   water.position.set(MAP / 2, -0.28, MAP / 2);
   scene.add(water);
 
-  const terrain = buildMesa(sandMap, q.terrain, true);
+  const terrain = buildMesa(sandMap, q.terrain, true, opts.map);
   scene.add(terrain);
 
   addSky(scene, true);
@@ -751,17 +752,20 @@ function paintFog(ctx, tex, img, world) {
   world._fogPainted = true;
 }
 
-function buildMesa(sandMap, seg = 64, lit = true) {
+function buildMesa(sandMap, seg = 64, lit = true, map = null) {
   const geo = new THREE.PlaneGeometry(MAP, MAP, seg, seg);
   geo.rotateX(-Math.PI / 2);
   const pos = geo.attributes.position;
   const colors = new Float32Array(pos.count * 3);
-  const sand = new THREE.Color("#f3d7a0");
-  const dirt = new THREE.Color("#d4a45c");
-  const grass = new THREE.Color("#7a9a4a");
-  const rock = new THREE.Color("#a56a42");
-  const cliff = new THREE.Color("#6a4030");
-  const wet = new THREE.Color("#c4b07a");
+  const palette = {
+    sand: new THREE.Color(BIOME_HEX.sand),
+    dirt: new THREE.Color(BIOME_HEX.dirt),
+    grass: new THREE.Color(BIOME_HEX.grass),
+    rock: new THREE.Color(BIOME_HEX.rock),
+    cliff: new THREE.Color(BIOME_HEX.cliff),
+    void: new THREE.Color(BIOME_HEX.void),
+  };
+  const biomeKeys = ["sand", "dirt", "grass", "rock", "cliff", "void"];
   for (let i = 0; i < pos.count; i++) {
     const x = pos.getX(i) + MAP / 2;
     const z = pos.getZ(i) + MAP / 2;
@@ -770,13 +774,21 @@ function buildMesa(sandMap, seg = 64, lit = true) {
     if (rim < 1.8) y = -2.2;
     else if (rim < 8.5) y = THREE.MathUtils.lerp(-1.55, Math.max(0.35, y), smoothstep(1.8, 8.5, rim));
     pos.setY(i, y);
-    const moist = fbm(x * 0.05, z * 0.05, 3);
-    const c = sand.clone();
-    if (y < 0.05) c.copy(cliff);
-    else if (rim < 6.2) c.copy(wet);
-    else if (rim < 10.5) c.copy(rock).lerp(sand, 0.35);
-    else if (moist > 0.74) c.lerp(grass, 0.16);
-    else c.lerp(dirt, 0.18);
+    let c;
+    if (map?.terrain) {
+      const cx = Math.max(0, Math.min(map.size - 1, (x / CELL) | 0));
+      const cz = Math.max(0, Math.min(map.size - 1, (z / CELL) | 0));
+      const biome = map.terrain[cz * map.size + cx];
+      c = palette[biomeKeys[biome] || "sand"].clone();
+    } else {
+      const moist = fbm(x * 0.05, z * 0.05, 3);
+      c = palette.sand.clone();
+      if (y < 0.05) c.copy(palette.cliff);
+      else if (rim < 6.2) c.copy(palette.void);
+      else if (rim < 10.5) c.copy(palette.rock).lerp(palette.sand, 0.35);
+      else if (moist > 0.74) c.lerp(palette.grass, 0.16);
+      else c.lerp(palette.dirt, 0.18);
+    }
     colors[i * 3] = c.r;
     colors[i * 3 + 1] = c.g;
     colors[i * 3 + 2] = c.b;

@@ -10,6 +10,12 @@ let matchPromise = null;
 let matchReady = false;
 
 const MATCH_FALLBACK = [
+  "maps/manifest.json",
+  "maps/bright-mesa.json",
+  "maps/training-flat.json",
+  "js/data/map-biomes.js",
+  "js/data/maps.js",
+  "js/sim/map-loader.js",
   "media/textures/pixel-mesa.png",
   "media/textures/pixel-water.png",
   "media/sprites/sheet-sunwoven-walk.png",
@@ -93,7 +99,13 @@ export function ensureMatchAssets(onProgress) {
     matchPromise = (async () => {
       registerServiceWorker();
       const manifest = await loadManifest();
-      const urls = unique(manifest.match?.length ? manifest.match : MATCH_FALLBACK);
+      let urls = unique(manifest.match?.length ? manifest.match : MATCH_FALLBACK);
+      try {
+        const mapManifest = await fetch("maps/manifest.json", { cache: "no-cache" }).then((r) => r.json());
+        urls = unique([...urls, "maps/manifest.json", ...(mapManifest.maps || []).map((m) => m.file).filter(Boolean)]);
+      } catch {
+        urls = unique([...urls, "maps/manifest.json", "maps/bright-mesa.json", "maps/training-flat.json"]);
+      }
       await warmFiles(urls, onProgress, manifest, { decodeImages: true });
       matchReady = true;
     })();
