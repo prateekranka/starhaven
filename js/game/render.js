@@ -759,8 +759,6 @@ function animateUnit(sprite, u, world, dt = 0.016, opts = {}) {
     ? (FACING_MILLIRAD[u.facingOctant || 0] || 0) / 1000
     : (u.facing || sprite.userData.lastFacing || 0);
   sprite.userData.lastFacing = facing;
-  const facing = (FACING_MILLIRAD[u.facingOctant || 0] || 0) / 1000;
-  sprite.userData.lastFacing = facing;
   const meta = sprite.userData.pipelineAtlas;
   const tex = litMap(sprite);
   if (!meta || !tex) return;

@@ -25,6 +25,7 @@ void main() {
   p.y += 0.5 - uPivotY;
   vec3 offset = camRight * (p.x * uScale.x) + camUp * (p.y * uScale.y);
   vec4 mvPos = viewMatrix * worldCenter + vec4((viewMatrix * vec4(offset, 0.0)).xyz, 0.0);
+  vec4 mvPosition = mvPos;
   gl_Position = projectionMatrix * mvPos;
 
   #include <fog_vertex>
@@ -62,9 +63,8 @@ void main() {
     lit += uGlowColor * night * uGlow * pulse * 0.72;
   }
 
-  vec4 outCol = vec4(lit, tex.a * uOpacity);
+  gl_FragColor = vec4(lit, tex.a * uOpacity);
   #include <fog_fragment>
-  gl_FragColor = outCol;
 }
 `;
 
@@ -80,6 +80,9 @@ const template = new THREE.ShaderMaterial({
     uGlowColor: { value: new THREE.Vector3(1, 0.82, 0.38) },
     uScale: { value: new THREE.Vector2(1, 1) },
     uPivotY: { value: 0.1 },
+    fogColor: { value: new THREE.Color() },
+    fogNear: { value: 1 },
+    fogFar: { value: 2000 },
   },
   vertexShader: VERT,
   fragmentShader: FRAG,
@@ -96,18 +99,7 @@ export function brightLineX(world, mapSpan) {
 
 function cloneLitMaterial(map) {
   const mat = template.clone();
-  mat.uniforms = {
-    map: { value: map },
-    uLineX: { value: 0 },
-    uBlend: { value: 4.2 },
-    uOpacity: { value: 1 },
-    uGlow: { value: 0 },
-    uTime: { value: 0 },
-    uTint: { value: new THREE.Vector3(1, 1, 1) },
-    uGlowColor: { value: new THREE.Vector3(1, 0.82, 0.38) },
-    uScale: { value: new THREE.Vector2(1, 1) },
-    uPivotY: { value: 0.1 },
-  };
+  mat.uniforms.map.value = map;
   return mat;
 }
 
