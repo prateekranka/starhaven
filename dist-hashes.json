@@ -98,8 +98,8 @@
     },
     {
       "path": "js/game/main.js",
-      "bytes": 37954,
-      "sha256": "de6d48b89158fbf47db8852bce0ab683e11d87244b64945965d0e2a92ca5734c"
+      "bytes": 36835,
+      "sha256": "9a82686728fbc0797e53c164ef1a21d724ec5bdbc119c3a377a6b8b741b2ffa5"
     },
     {
       "path": "js/game/particles.js",
@@ -108,8 +108,8 @@
     },
     {
       "path": "js/game/render.js",
-      "bytes": 38748,
-      "sha256": "42711de54117d784cad85a904cb58d3f017747b1ac5b5068cd6006091843d797"
+      "bytes": 38764,
+      "sha256": "d930c119cfb4657957131edf8a42a7f8f1cdd4ae1966d7e155af6500627cb805"
     },
     {
       "path": "js/game/unit-atlas.js",
@@ -153,8 +153,8 @@
     },
     {
       "path": "js/sim/engine.js",
-      "bytes": 41354,
-      "sha256": "8ca0552551ba2d4c41768956812637f677a91fc088e3d06a1838fbc60498a467"
+      "bytes": 41356,
+      "sha256": "d343bb7cb92af17b61d985cf4dfc643fa9cbccf4e3c0e4f28ecae6af8fce4a56"
     },
     {
       "path": "js/sim/fixed.js",
@@ -1788,5 +1788,5 @@
     }
   ],
   "fileCount": 357,
-  "totalBytes": 133569421
+  "totalBytes": 133568320
 }
