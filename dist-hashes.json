@@ -73,8 +73,8 @@
     },
     {
       "path": "js/game/bright-lit.js",
-      "bytes": 4688,
-      "sha256": "a38b014b053f1524bf87919715eb8ae7d8e073b6269de2820e21806c75ed127c"
+      "bytes": 4454,
+      "sha256": "7f0386c0041a09745f67a429be9f7f5f4ddfb2627b0df1a93bd458ea10eafd42"
     },
     {
       "path": "js/game/main.js",
@@ -88,8 +88,8 @@
     },
     {
       "path": "js/game/render.js",
-      "bytes": 34210,
-      "sha256": "1f21db05465d3e5c30f5e8eb66d0bdbb632933dd9132fe6ac274146e7b14f57f"
+      "bytes": 34102,
+      "sha256": "f2f4ade3ea5d64510a8e8945302f8562d40de2ec223f28ebb1c78a72c65ecf82"
     },
     {
       "path": "js/game/unit-atlas.js",
@@ -968,5 +968,5 @@
     }
   ],
   "fileCount": 193,
-  "totalBytes": 52064825
+  "totalBytes": 52064483
 }
