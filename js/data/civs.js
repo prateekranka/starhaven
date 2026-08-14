@@ -1,0 +1,201 @@
+/**
+ * Playable civilization definitions. Issue #23 adds qa-stub behind ?qa=1.
+ */
+
+import { AGES, UNITS, BUILDINGS, VILLAGER_BUILD_LIST } from "./catalog.js";
+import { registerCiv } from "./civ-schema.js";
+
+export const SHARED_AI = {
+  villagers: { settler: 8, chieftain: 11, emperor: 14 },
+  waveTickSec: { settler: 140, chieftain: 95, emperor: 70 },
+  emperorExtraStock: 80,
+  buildPriority: ["house", "barracks", "spire", "mill", "workshop"],
+};
+
+function sharedRoster() {
+  return {
+    units: Object.keys(UNITS),
+    buildings: Object.keys(BUILDINGS),
+    villagerBuild: [...VILLAGER_BUILD_LIST],
+  };
+}
+
+function sharedTechs() {
+  return { ages: AGES };
+}
+
+/** @typedef {typeof import("./civs.js").SUNWOVEN} CivDefinition */
+
+const SUNWOVEN_BUILDINGS = {
+  towncenter: "media/sprites/bldg-sun-tc.png",
+  house: "media/sprites/bldg-sun-house.png",
+  barracks: "media/sprites/bldg-sun-rax.png",
+  mill: "media/sprites/bldg-sun-mill.png",
+  lumber: "media/sprites/bldg-sun-mill.png",
+  mine: "media/sprites/bldg-sun-mill.png",
+  spire: "media/sprites/bldg-sun-rax.png",
+  den: "media/sprites/bldg-sun-rax.png",
+  workshop: "media/sprites/bldg-sun-rax.png",
+  wonder: "media/sprites/bldg-sun-wonder.png",
+};
+
+const GRAVEMARK_BUILDINGS = {
+  towncenter: "media/sprites/bldg-grave-tc.png",
+  house: "media/sprites/bldg-grave-house.png",
+  barracks: "media/sprites/bldg-grave-rax.png",
+  mill: "media/sprites/bldg-grave-mill.png",
+  lumber: "media/sprites/bldg-grave-mill.png",
+  mine: "media/sprites/bldg-grave-mill.png",
+  spire: "media/sprites/bldg-grave-rax.png",
+  den: "media/sprites/bldg-grave-rax.png",
+  workshop: "media/sprites/bldg-grave-rax.png",
+  wonder: "media/sprites/bldg-grave-wonder.png",
+};
+
+const walkUnit = (scale, southFirst = false) => ({ kind: "walkSheet", sheet: true, scale, southFirst });
+const guardUnit = () => ({ kind: "guardSheet", sheet: true, scale: 4.15, southFirst: false });
+const stillUnit = (kind, scale) => ({ kind, sheet: false, scale, southFirst: false });
+
+export const SUNWOVEN = {
+  id: "sunwoven",
+  renderKey: "sun",
+  identity: {
+    name: "Sunwoven",
+    tagline: "Solar sails, beam infantry, faster in daylight",
+    portrait: "media/sprites/portrait-sunwoven.png",
+    banner: "media/textures/sunwoven-banner.jpg",
+    lore: {
+      blurb:
+        "Weavers of light who stitch cities from brass, calcite, and solar crystal. Villagers unfold golden arms to raise palaces. In the Bright Line's day-side their skiffs and lumen guards surge.",
+      ages: [
+        "Age I — Weaver, Pathfinder, Lumen Guard, Solar Strider",
+        "Age II — Threadwright backpacks, Sunrunners, Radiant Phalanx",
+        "Age III — Helio Manta gunships, Dawn Ark wonder",
+      ],
+    },
+  },
+  roster: sharedRoster(),
+  statOverrides: {},
+  techs: sharedTechs(),
+  buffs: {
+    inLight: { speed: 1140, dmg: 1100, armor: 1000 },
+    inDark: { speed: 1000, dmg: 1000, armor: 1000 },
+  },
+  names: {
+    units: {
+      villager: "Weaver",
+      scout: "Pathfinder",
+      guard: "Lumen Guard",
+      archer: "Sunbow",
+      strider: "Solar Strider",
+      siege: "Dawn Projector",
+      titan: "Mesa Titan",
+    },
+    buildings: {
+      towncenter: "Town Center",
+      house: "House",
+      mill: "Lumen Mill",
+      lumber: "Timber Camp",
+      mine: "Solarite Camp",
+      barracks: "Barracks",
+      spire: "Lumen Spire",
+      den: "Strider Den",
+      workshop: "Siege Yard",
+      wonder: "Dawn Ark",
+    },
+  },
+  sprites: {
+    walkSheet: "media/sprites/sheet-sunwoven-walk.png",
+    guardSheet: "media/sprites/sheet-sun-guard.png",
+    strider: "media/sprites/unit-sun-strider.png",
+    siege: "media/sprites/unit-sun-siege.png",
+    portrait: "media/sprites/portrait-sunwoven.png",
+    buildings: SUNWOVEN_BUILDINGS,
+    units: {
+      default: walkUnit(4.05, false),
+      villager: walkUnit(4.05, false),
+      scout: walkUnit(4.05, false),
+      guard: guardUnit(),
+      archer: guardUnit(),
+      strider: stillUnit("strider", 5.0),
+      siege: stillUnit("siege", 5.2),
+      titan: stillUnit("strider", 7.0),
+    },
+  },
+  ai: SHARED_AI,
+};
+
+export const GRAVEMARK = {
+  id: "gravemark",
+  renderKey: "grave",
+  identity: {
+    name: "Gravemark",
+    tagline: "Stonebound walkers, tougher in shadow",
+    portrait: "media/sprites/portrait-gravemark.png",
+    banner: "media/textures/gravemark-banner.jpg",
+    lore: {
+      blurb:
+        "Necrolith masons who bind basalt to void crystal. Their gravesmiths raise crypt-fortresses. Night on the Bright Line hardens their phalanxes and wakes rift-cutter barges.",
+      ages: [
+        "Age I — Stonemason, Faultseer, Basalt Guard, Tomb Strider",
+        "Age II — Gravesmith rigs, Dustrunners, Crypt Phalanx",
+        "Age III — Obsidian Ray, Mausoleum Engine wonder",
+      ],
+    },
+  },
+  roster: sharedRoster(),
+  statOverrides: {},
+  techs: sharedTechs(),
+  buffs: {
+    inLight: { speed: 1000, dmg: 1000, armor: 1000 },
+    inDark: { speed: 1060, dmg: 1080, armor: 820 },
+  },
+  names: {
+    units: {
+      villager: "Stonemason",
+      scout: "Faultseer",
+      guard: "Basalt Guard",
+      archer: "Shade Bow",
+      strider: "Tomb Strider",
+      siege: "Grave Lobber",
+      titan: "Mesa Titan",
+    },
+    buildings: {
+      towncenter: "Cryptkeep",
+      house: "Ossuary",
+      mill: "Grave Mill",
+      lumber: "Quarry Camp",
+      mine: "Void Pit",
+      barracks: "Phalanx Hall",
+      spire: "Rift Spire",
+      den: "Beast Crypt",
+      workshop: "Mausoleum Yard",
+      wonder: "Mausoleum Engine",
+    },
+  },
+  sprites: {
+    walkSheet: "media/sprites/sheet-gravemark-walk.png",
+    guardSheet: "media/sprites/sheet-grave-guard.png",
+    strider: "media/sprites/unit-grave-strider.png",
+    siege: "media/sprites/unit-grave-siege.png",
+    portrait: "media/sprites/portrait-gravemark.png",
+    buildings: GRAVEMARK_BUILDINGS,
+    units: {
+      default: walkUnit(4.05, true),
+      villager: walkUnit(4.05, true),
+      scout: walkUnit(4.05, true),
+      guard: guardUnit(),
+      archer: guardUnit(),
+      strider: stillUnit("strider", 5.0),
+      siege: stillUnit("siege", 5.2),
+      titan: stillUnit("strider", 7.0),
+    },
+  },
+  ai: SHARED_AI,
+};
+
+registerCiv(SUNWOVEN);
+registerCiv(GRAVEMARK);
+
+/** Temporary shim — issue #23 deletes this table; use getCiv("gravemark").names. */
+export const GRAVEMARK_NAMES = { ...GRAVEMARK.names.units, ...GRAVEMARK.names.buildings };

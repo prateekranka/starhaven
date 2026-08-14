@@ -3,7 +3,8 @@ import { distanceSquaredQ10, q10RangeSq, ticksToSec } from "../sim/fixed.js";
 
 const wx = (e) => worldFromQ10(e.xQ10);
 const wz = (e) => worldFromQ10(e.zQ10);
-import { displayName } from "../data/catalog.js";
+import { civDisplayName as displayName, civSelectionPortrait, civBuildThumb } from "../data/civ-schema.js";
+import "../data/civs.js";
 import { createRenderer } from "./render.js";
 import { beep, haptic, loadSave, showScreen } from "../boot.js";
 import { createFramePacer, isQaMode, setText, resolveQuality } from "../perf.js";
@@ -655,18 +656,8 @@ function renderSelection() {
   document.getElementById("sel-hp-text").textContent = `${e.hp | 0}/${e.maxHp | 0}`;
   const portrait = document.getElementById("sel-portrait");
   if (portrait) {
-    const grave = faction === "gravemark";
-    if (e.kind === "building") {
-      const fac = grave ? "grave" : "sun";
-      const type = e.type === "towncenter" ? "tc" : e.type === "house" ? "house" : e.type === "wonder" ? "wonder" : e.type === "barracks" ? "rax" : "mill";
-      portrait.src = `media/sprites/bldg-${fac}-${type}.png`;
-    } else if (e.type === "strider") {
-      portrait.src = grave ? "media/sprites/unit-grave-strider.png" : "media/sprites/unit-sun-strider.png";
-    } else if (e.type === "siege" || e.type === "titan") {
-      portrait.src = grave ? "media/sprites/unit-grave-siege.png" : "media/sprites/unit-sun-siege.png";
-    } else {
-      portrait.src = grave ? "media/sprites/portrait-gravemark.png" : "media/sprites/portrait-sunwoven.png";
-    }
+    const src = civSelectionPortrait(faction, e);
+    if (src) portrait.src = src;
   }
   cmds.innerHTML = "";
   queue.innerHTML = "";
@@ -744,9 +735,7 @@ function iconBtn(label, icon, fn) {
 }
 
 function bldgThumb(type, faction) {
-  const fac = faction === "gravemark" ? "grave" : "sun";
-  const key = type === "towncenter" ? "tc" : type === "house" ? "house" : type === "wonder" ? "wonder" : type === "barracks" ? "rax" : "mill";
-  return `media/sprites/bldg-${fac}-${key}.png`;
+  return civBuildThumb(faction, type);
 }
 
 function btn(label, fn) {

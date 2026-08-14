@@ -7,6 +7,8 @@ import { cachedImage } from "../cache/assets.js";
 const wx = (e) => worldFromQ10(e.xQ10);
 const wz = (e) => worldFromQ10(e.zQ10);
 import { BIOME_HEX } from "../data/map-biomes.js";
+import { civRenderKey, civUnitSpriteSpec, listPlayableCivs } from "../data/civ-schema.js";
+import "../data/civs.js";
 
 const MAP = N * CELL;
 THREE.Cache.enabled = true;
@@ -245,44 +247,7 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
 
   const sandMap = pix("media/textures/pixel-mesa.png", 16);
   const waterMap = pix("media/textures/pixel-water.png", 18);
-  const sheets = {
-    sunWalk: pix("media/sprites/sheet-sunwoven-walk.png"),
-    graveWalk: pix("media/sprites/sheet-gravemark-walk.png"),
-    sunGuard: pix("media/sprites/sheet-sun-guard.png"),
-    graveGuard: pix("media/sprites/sheet-grave-guard.png"),
-  };
-  const stills = {
-    sunStrider: pix("media/sprites/unit-sun-strider.png"),
-    graveStrider: pix("media/sprites/unit-grave-strider.png"),
-    sunSiege: pix("media/sprites/unit-sun-siege.png"),
-    graveSiege: pix("media/sprites/unit-grave-siege.png"),
-  };
-  const bldg = {
-    sun: {
-      towncenter: pix("media/sprites/bldg-sun-tc.png"),
-      house: pix("media/sprites/bldg-sun-house.png"),
-      barracks: pix("media/sprites/bldg-sun-rax.png"),
-      mill: pix("media/sprites/bldg-sun-mill.png"),
-      lumber: pix("media/sprites/bldg-sun-mill.png"),
-      mine: pix("media/sprites/bldg-sun-mill.png"),
-      spire: pix("media/sprites/bldg-sun-rax.png"),
-      den: pix("media/sprites/bldg-sun-rax.png"),
-      workshop: pix("media/sprites/bldg-sun-rax.png"),
-      wonder: pix("media/sprites/bldg-sun-wonder.png"),
-    },
-    grave: {
-      towncenter: pix("media/sprites/bldg-grave-tc.png"),
-      house: pix("media/sprites/bldg-grave-house.png"),
-      barracks: pix("media/sprites/bldg-grave-rax.png"),
-      mill: pix("media/sprites/bldg-grave-mill.png"),
-      lumber: pix("media/sprites/bldg-grave-mill.png"),
-      mine: pix("media/sprites/bldg-grave-mill.png"),
-      spire: pix("media/sprites/bldg-grave-rax.png"),
-      den: pix("media/sprites/bldg-grave-rax.png"),
-      workshop: pix("media/sprites/bldg-grave-rax.png"),
-      wonder: pix("media/sprites/bldg-grave-wonder.png"),
-    },
-  };
+  const { sheets, stills, bldg } = buildRendererAssets(pix);
   const nodes = {
     food: pix("media/sprites/node-food.png"),
     wood: pix("media/sprites/node-trees.png"),
@@ -578,7 +543,7 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
 
     if (world.placing) {
       ghost.visible = true;
-      const fac = world.players.player.faction === "gravemark" ? "grave" : "sun";
+      const fac = civRenderKey(world.players.player.faction);
       const map = bldg[fac][world.placing] || bldg[fac].house;
       if (ghost.material.map !== map) ghost.material.map = map;
       fitWhenReady(ghost, map, buildingScale(world.placing));
@@ -662,8 +627,25 @@ function buildingScale(type) {
   return 5.2;
 }
 
+function buildRendererAssets(pix) {
+  const sheets = {};
+  const stills = {};
+  const bldg = {};
+  for (const civ of listPlayableCivs()) {
+    const key = civ.renderKey;
+    sheets[`${key}Walk`] = pix(civ.sprites.walkSheet);
+    sheets[`${key}Guard`] = pix(civ.sprites.guardSheet);
+    stills[`${key}Strider`] = pix(civ.sprites.strider);
+    stills[`${key}Siege`] = pix(civ.sprites.siege);
+    bldg[key] = Object.fromEntries(
+      Object.entries(civ.sprites.buildings).map(([type, path]) => [type, pix(path)])
+    );
+  }
+  return { sheets, stills, bldg };
+}
+
 function makeBuildingSprite(b, bldg) {
-  const fac = b.faction === "gravemark" ? "grave" : "sun";
+  const fac = civRenderKey(b.faction);
   const map = bldg[fac][b.type] || bldg[fac].house;
   const s = new THREE.Sprite(spriteMat(map));
   s.center.set(0.5, 0.07);
@@ -680,14 +662,20 @@ function makeNode(r, nodes) {
 }
 
 function unitSheet(u, sheets, stills) {
-  const grave = u.faction === "gravemark";
-  if (u.type === "strider") return { map: grave ? stills.graveStrider : stills.sunStrider, sheet: false, scale: 5.0 };
-  if (u.type === "siege") return { map: grave ? stills.graveSiege : stills.sunSiege, sheet: false, scale: 5.2 };
-  if (u.type === "titan") return { map: stills.graveStrider, sheet: false, scale: 7.0 };
-  if (u.type === "guard" || u.type === "archer") {
-    return { map: grave ? sheets.graveGuard : sheets.sunGuard, sheet: true, scale: 4.15, southFirst: false };
+  const spec = civUnitSpriteSpec(u.faction, u.type);
+  const key = civRenderKey(u.faction);
+  if (!spec) {
+    return { map: sheets[`${key}Walk`], sheet: true, scale: 4.05, southFirst: false };
   }
-  return { map: grave ? sheets.graveWalk : sheets.sunWalk, sheet: true, scale: 4.05, southFirst: grave };
+  const bucket =
+    spec.kind === "guardSheet"
+      ? sheets[`${key}Guard`]
+      : spec.kind === "strider"
+        ? stills[`${key}Strider`]
+        : spec.kind === "siege"
+          ? stills[`${key}Siege`]
+          : sheets[`${key}Walk`];
+  return { map: bucket, sheet: spec.sheet, scale: spec.scale, southFirst: spec.southFirst };
 }
 
 function makeUnitSprite(u, sheets, stills) {

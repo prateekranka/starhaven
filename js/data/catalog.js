@@ -217,28 +217,4 @@ export const BUILDINGS = {
   },
 };
 
-export const GRAVEMARK_NAMES = {
-  villager: "Stonemason",
-  scout: "Faultseer",
-  guard: "Basalt Guard",
-  archer: "Shade Bow",
-  strider: "Tomb Strider",
-  siege: "Grave Lobber",
-  towncenter: "Cryptkeep",
-  house: "Ossuary",
-  mill: "Grave Mill",
-  lumber: "Quarry Camp",
-  mine: "Void Pit",
-  barracks: "Phalanx Hall",
-  spire: "Rift Spire",
-  den: "Beast Crypt",
-  workshop: "Mausoleum Yard",
-  wonder: "Mausoleum Engine",
-};
-
-export function displayName(type, faction, kind = "unit") {
-  if (faction === "gravemark") return GRAVEMARK_NAMES[type] || (kind === "unit" ? UNITS[type]?.name : BUILDINGS[type]?.name);
-  return kind === "unit" ? UNITS[type]?.name : BUILDINGS[type]?.name;
-}
-
 export const VILLAGER_BUILD_LIST = ["house", "mill", "lumber", "mine", "barracks", "spire", "den", "workshop", "wonder"];

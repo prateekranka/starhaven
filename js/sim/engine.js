@@ -1,4 +1,6 @@
 import { AGES, UNITS, BUILDINGS, VILLAGER_BUILD_LIST } from "../data/catalog.js";
+import { civBuff, DEFAULT_CIV_ID, opponentCivId } from "../data/civ-schema.js";
+import "../data/civs.js";
 import { astar } from "./path.js";
 import { runAI } from "./ai.js";
 import { MatchPrng } from "./prng.js";
@@ -75,14 +77,14 @@ function refund(stock, cost) {
 export function createMatch(opts = {}) {
   nextId = 1;
   const {
-    playerFaction = "sunwoven",
+    playerFaction = DEFAULT_CIV_ID,
     difficulty = "chieftain",
     tutorial = false,
     campaign = false,
   } = opts;
   const seed = resolveSeed(opts);
 
-  const enemyFaction = playerFaction === "sunwoven" ? "gravemark" : "sunwoven";
+  const enemyFaction = opponentCivId(playerFaction);
   const gridN = opts.map?.size || N;
   const walk = new Uint8Array(gridN * gridN).fill(1);
   const explored = {
@@ -489,15 +491,9 @@ export function inLight(world, xQ10) {
   return xQ10 < lineXQ10(world);
 }
 
+/** Temporary shim — issue #23 inlines civBuff at call sites. */
 function factionBuff(world, u) {
-  const light = inLight(world, u.xQ10);
-  if (u.faction === "sunwoven") {
-    return light ? { speed: 1140, dmg: 1100, armor: 1000 } : { speed: 1000, dmg: 1000, armor: 1000 };
-  }
-  if (u.faction === "gravemark") {
-    return light ? { speed: 1000, dmg: 1000, armor: 1000 } : { speed: 1060, dmg: 1080, armor: 820 };
-  }
-  return { speed: 1000, dmg: 1000, armor: 1000 };
+  return civBuff(u.faction, inLight(world, u.xQ10));
 }
 
 function tickAging(world) {
