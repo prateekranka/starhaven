@@ -4,6 +4,8 @@
 
 import { AGES, UNITS, BUILDINGS, VILLAGER_BUILD_LIST } from "./catalog.js";
 import { registerCiv } from "./civ-schema.js";
+import { COGFORGED_AI } from "../sim/civs/cogforged.js";
+import "../sim/civs/cogforged.js";
 
 export const SHARED_AI = {
   villagers: { settler: 8, chieftain: 11, emperor: 14 },
@@ -37,6 +39,19 @@ const SUNWOVEN_BUILDINGS = {
   den: "media/sprites/bldg-sun-rax.png",
   workshop: "media/sprites/bldg-sun-rax.png",
   wonder: "media/sprites/bldg-sun-wonder.png",
+};
+
+const COGFORGED_BUILDINGS = {
+  towncenter: "media/sprites/bldg-cog-tc.png",
+  house: "media/sprites/bldg-cog-house.png",
+  barracks: "media/sprites/bldg-cog-rax.png",
+  mill: "media/sprites/bldg-cog-mill.png",
+  lumber: "media/sprites/bldg-cog-lumber.png",
+  mine: "media/sprites/bldg-cog-mine.png",
+  spire: "media/sprites/bldg-cog-spire.png",
+  den: "media/sprites/bldg-cog-den.png",
+  workshop: "media/sprites/bldg-cog-workshop.png",
+  wonder: "media/sprites/bldg-cog-wonder.png",
 };
 
 const GRAVEMARK_BUILDINGS = {
@@ -192,6 +207,81 @@ export const GRAVEMARK = {
   ai: SHARED_AI,
 };
 
+export const COGFORGED = {
+  id: "cogforged",
+  identity: {
+    name: "Cogforged Assembly",
+    tagline: "Grid power, on-site assembly, no harvest rations",
+    portrait: "media/sprites/portrait-cogforged.png",
+    banner: "media/textures/cogforged-banner.jpg",
+    lore: {
+      blurb:
+        "Brass automatons who weld legions in the field and feed cities through copper relay grids. They ignore the Bright Line entirely — neither boosted nor blunted — and never ration lumenfruit.",
+      ages: [
+        "Age I — Assembler, Surveyor, Plate Guard, Gear Strider",
+        "Age II — Relay rigs, Cogrunners, Assembly Phalanx",
+        "Age III — Siege Calibrator, Foundry Engine wonder",
+      ],
+    },
+  },
+  economy: { usesFood: false },
+  roster: {
+    units: Object.keys(UNITS),
+    buildings: Object.keys(BUILDINGS).filter((t) => t !== "mill"),
+    villagerBuild: VILLAGER_BUILD_LIST.filter((t) => t !== "mill"),
+  },
+  statOverrides: {},
+  techs: sharedTechs(),
+  buffs: {
+    brightLineImmune: true,
+    inLight: { speed: 1000, dmg: 1000, armor: 1000 },
+    inDark: { speed: 1000, dmg: 1000, armor: 1000 },
+  },
+  names: {
+    units: {
+      villager: "Assembler",
+      scout: "Surveyor",
+      guard: "Plate Guard",
+      archer: "Rivet Bow",
+      strider: "Gear Strider",
+      siege: "Calibrator",
+      titan: "Mesa Titan",
+    },
+    buildings: {
+      towncenter: "Foundry Core",
+      house: "Capacitor Hut",
+      mill: "Flux Mill",
+      lumber: "Timber Relay",
+      mine: "Ore Relay",
+      barracks: "Assembly Hall",
+      spire: "Optic Spire",
+      den: "Strider Bay",
+      workshop: "Siege Foundry",
+      wonder: "Foundry Engine",
+    },
+  },
+  sprites: {
+    walkSheet: "media/sprites/sheet-cogforged-walk.png",
+    guardSheet: "media/sprites/sheet-cog-guard.png",
+    strider: "media/sprites/unit-cog-strider.png",
+    siege: "media/sprites/unit-cog-siege.png",
+    portrait: "media/sprites/portrait-cogforged.png",
+    gridPylon: "media/sprites/bldg-cog-grid-pylon.png",
+    buildings: COGFORGED_BUILDINGS,
+    units: {
+      default: walkUnit(4.05, false),
+      villager: walkUnit(4.05, false),
+      scout: walkUnit(4.05, false),
+      guard: guardUnit(),
+      archer: guardUnit(),
+      strider: stillUnit("strider", 5.0),
+      siege: stillUnit("siege", 5.2),
+      titan: stillUnit("strider", 7.0),
+    },
+  },
+  ai: COGFORGED_AI,
+};
+
 const ASHVEIN_BUILDINGS = {
   towncenter: "media/sprites/bldg-ash-tc.png",
   house: "media/sprites/bldg-ash-house.png",
@@ -342,5 +432,6 @@ export const QA_STUB = {
 
 registerCiv(SUNWOVEN);
 registerCiv(GRAVEMARK);
+registerCiv(COGFORGED);
 registerCiv(ASHVEIN);
 registerCiv(QA_STUB);

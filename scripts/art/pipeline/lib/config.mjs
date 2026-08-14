@@ -23,6 +23,7 @@ export function loadPalette(faction) {
     meridian: "meridian.v1.json",
     sunwoven: "sunwoven.v1.json",
     stormveil: "stormveil.v1.json",
+    cogforged: "cogforged.v1.json",
     ashvein: "ashvein.v1.json",
   };
   const file = map[faction] || "sunwoven.v1.json";

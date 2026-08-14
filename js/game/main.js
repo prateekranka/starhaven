@@ -3,7 +3,8 @@ import { distanceSquaredQ10, q10RangeSq, ticksToSec } from "../sim/fixed.js";
 
 const wx = (e) => worldFromQ10(e.xQ10);
 const wz = (e) => worldFromQ10(e.zQ10);
-import { civDisplayName, civSelectionPortrait, civBuildThumb } from "../data/civ-schema.js";
+import { civDisplayName, civSelectionPortrait, civBuildThumb, civUsesFood } from "../data/civ-schema.js";
+import { civMechanics } from "../sim/civs/index.js";
 import "../data/civs.js";
 import { createRenderer } from "./render.js";
 import { beep, haptic, loadSave, showScreen } from "../boot.js";
@@ -11,7 +12,6 @@ import { createFramePacer, isQaMode, setText, resolveQuality } from "../perf.js"
 import { ensureMatchAssets } from "../cache/assets.js";
 import { loadMap } from "../data/maps.js";
 import { biomeRgb } from "../data/map-biomes.js";
-import { minimapCellColor } from "../sim/civs/ashvein.js";
 import { checksumWorld, mapLayoutFingerprint } from "../sim/checksum.js";
 
 let world = null;
@@ -623,12 +623,15 @@ function pickEntity(world, x, z) {
 
 function drawHud(world) {
   const p = world.players.player;
-  setText("res-food", p.stock.food | 0);
+  const showFood = civUsesFood(p.faction);
+  const foodRow = document.querySelector('.resources li[title="Lumenfruit"]');
+  if (foodRow) foodRow.hidden = !showFood;
+  if (showFood) setText("res-food", p.stock.food | 0);
   setText("res-wood", p.stock.wood | 0);
   setText("res-crystal", p.stock.crystal | 0);
   setText("res-ore", p.stock.ore | 0);
   setText("res-pop", `${p.pop}/${p.popCap}`);
-  setText("rate-food", p.rates.food ? `+${p.rates.food.toFixed(1)}/s` : "");
+  if (showFood) setText("rate-food", p.rates.food ? `+${p.rates.food.toFixed(1)}/s` : "");
   setText("rate-wood", p.rates.wood ? `+${p.rates.wood.toFixed(1)}/s` : "");
   setText("rate-crystal", p.rates.crystal ? `+${p.rates.crystal.toFixed(1)}/s` : "");
   setText("rate-ore", p.rates.ore ? `+${p.rates.ore.toFixed(1)}/s` : "");
@@ -689,12 +692,16 @@ function renderSelection() {
     }
   }
   if (e.kind === "building" && e.owner === "player" && isBuilt(e)) {
+    const mech = civMechanics(faction);
+    if (e.powered === false) cmds.appendChild(btn("UNPOWERED", () => { world.tip = "Relay this structure to your Foundry Core grid."; }));
     const produces = BUILDINGS[e.type].produces || [];
+    const verb = mech.usesTrainingQueue ? "Training" : "Assembling";
     for (const t of produces) {
+      const label = civDisplayName(faction, t, "unit");
       cmds.appendChild(
-        btn(UNITS[t].name, () => {
+        btn(label, () => {
           const r = queueUnit(world, e, t);
-          world.tip = r.ok ? `Training ${UNITS[t].name}` : r.why;
+          world.tip = r.ok ? `${verb} ${label}` : r.why;
           beep(r.ok ? 400 : 140);
           renderSelection();
         })
@@ -715,8 +722,15 @@ function renderSelection() {
       chip.style.cssText = "border:1px solid #a8883a;padding:4px 6px;font-size:11px";
       queue.appendChild(chip);
     }
+    for (const site of world.assemblies || []) {
+      if (site.buildingId !== e.id) continue;
+      const chip = document.createElement("span");
+      const label = civDisplayName(faction, site.type, "unit");
+      chip.textContent = `${label} ${Math.ceil(ticksToSec(Math.max(0, site.buildTotalTicks - site.buildTicks)))}s`;
+      chip.style.cssText = "border:1px solid #8a6a2a;padding:4px 6px;font-size:11px";
+      queue.appendChild(chip);
+    }
   }
-}
 
 function iconBtn(label, icon, fn) {
   const b = document.createElement("button");
@@ -759,9 +773,7 @@ function drawMinimap(world, view) {
         ctx.fillStyle = "#071422";
         ctx.fillRect(x * s, z * s, s + 0.5, s + 0.5);
       } else {
-        const mutColor = minimapCellColor(world, idx, true);
-        if (mutColor) ctx.fillStyle = `rgb(${mutColor[0]},${mutColor[1]},${mutColor[2]})`;
-        else if (terrain) {
+        if (terrain) {
           const [r, g, b] = biomeRgb(terrain[idx]);
           ctx.fillStyle = `rgb(${r},${g},${b})`;
         } else {
@@ -790,7 +802,7 @@ function drawMinimap(world, view) {
   }
   for (const u of world.units) {
     const [cx, cz] = [(wx(u) / world.CELL) | 0, (wz(u) / world.CELL) | 0];
-    if (u.owner !== "player" && (u.layer === "tunnel" || !world.visible.player[cz * n + cx])) continue;
+    if (u.owner !== "player" && !world.visible.player[cz * n + cx]) continue;
     ctx.fillStyle = u.owner === "player" ? "#9df" : u.owner === "enemy" ? "#f88" : "#8ff";
     ctx.fillRect(wx(u) * s * (1 / world.CELL) - 1, wz(u) * s * (1 / world.CELL) - 1, 2, 2);
   }

@@ -7,7 +7,6 @@ import { cachedImage } from "../cache/assets.js";
 const wx = (e) => worldFromQ10(e.xQ10);
 const wz = (e) => worldFromQ10(e.zQ10);
 import { BIOME_HEX } from "../data/map-biomes.js";
-import { effectiveBiome, unitInTunnelLayer } from "../sim/civs/ashvein.js";
 import { civUnitSpriteSpec, listPlayableCivs, DEFAULT_CIV_ID } from "../data/civ-schema.js";
 import { isQaMode } from "../perf.js";
 import "../data/civs.js";
@@ -448,7 +447,8 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
       const base = (m.userData.baseScale || buildingScale(b.type)) * (0.55 + 0.45 * built);
       const a = m.userData.aspect || 1;
       m.scale.set(base * a, base, 1);
-      m.material.opacity = 0.55 + 0.45 * built;
+      const powered = b.powered !== false;
+      m.material.opacity = powered ? 0.55 + 0.45 * built : 0.22 + 0.18 * built;
       m.visible = seen(world, wx(b), wz(b)) || b.owner === "player";
     }
     for (const u of world.units) {
@@ -462,7 +462,7 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
       const y = sampleH(wx(u), wz(u));
       m.position.set(wx(u), y, wz(u));
       animateUnit(m, u, world, dt);
-      m.visible = u.owner === "player" || (!unitInTunnelLayer(u) && vis(world, wx(u), wz(u)));
+      m.visible = u.owner === "player" || vis(world, wx(u), wz(u));
       keep.add("sh" + u.id);
       let sh = meshes.get("sh" + u.id);
       if (!sh) {
@@ -541,10 +541,6 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
     hemi.color.set(inLight(world, q10FromWorld(camTarget.x)) ? 0xd8ecff : 0x9aa8d8);
     scene.background.set(inLight(world, q10FromWorld(camTarget.x)) ? "#6eb4e8" : "#3a4a78");
     paintFog(fogCtx, fogTex, fogImg, world);
-    if (world.ashvein?.terrainDirty && world.map?.terrain) {
-      patchTerrainColors(terrain, world, mapWorld);
-      world.ashvein.terrainDirty = false;
-    }
     vfx.tick(world);
 
     if (world.placing) {
@@ -766,40 +762,6 @@ function paintFog(ctx, tex, img, world) {
   tex.needsUpdate = true;
   world.fogDirty = false;
   world._fogPainted = true;
-}
-
-function patchTerrainColors(mesh, world, mapWorld) {
-  const geo = mesh.geometry;
-  const pos = geo.attributes.position;
-  const colors = geo.attributes.color;
-  if (!colors || !world.map?.terrain) return;
-  const map = world.map;
-  const cell = world.CELL || 2;
-  const palette = {
-    sand: new THREE.Color(BIOME_HEX.sand),
-    dirt: new THREE.Color(BIOME_HEX.dirt),
-    grass: new THREE.Color(BIOME_HEX.grass),
-    rock: new THREE.Color(BIOME_HEX.rock),
-    cliff: new THREE.Color(BIOME_HEX.cliff),
-    void: new THREE.Color(BIOME_HEX.void),
-  };
-  const biomeKeys = ["sand", "dirt", "grass", "rock", "cliff", "void"];
-  const lava = new THREE.Color("#dc4018");
-  const cool = new THREE.Color("#783020");
-  for (let i = 0; i < pos.count; i++) {
-    const x = pos.getX(i) + mapWorld / 2;
-    const z = pos.getZ(i) + mapWorld / 2;
-    const cx = Math.max(0, Math.min(map.size - 1, (x / cell) | 0));
-    const cz = Math.max(0, Math.min(map.size - 1, (z / cell) | 0));
-    const idx = cz * map.size + cx;
-    const mut = world.ashvein?.cellMutation?.[idx] ?? 0;
-    let c;
-    if (mut === 1) c = lava.clone();
-    else if (mut === 2) c = cool.clone();
-    else c = palette[biomeKeys[effectiveBiome(world, idx)] || "sand"].clone();
-    colors.setXYZ(i, c.r, c.g, c.b);
-  }
-  colors.needsUpdate = true;
 }
 
 function buildMesa(sandMap, seg = 64, lit = true, map = null, mapWorld = N * CELL) {

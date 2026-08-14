@@ -1,0 +1,17 @@
+{
+  "unitId": "cog-siege",
+  "faction": "cogforged",
+  "clips": [
+    "walk",
+    "attack",
+    "gather",
+    "build",
+    "death"
+  ],
+  "atlas": "media/sprites/cog-siege.atlas.png",
+  "sha256": "b70375220651dd595caf014cde339540d2d0b0cd65e2dd404009a085045069d8",
+  "bytes": 34906,
+  "sourceCount": 50,
+  "generator": "starhaven-pixel-pipeline-v1",
+  "libvips": "8.17.1"
+}
