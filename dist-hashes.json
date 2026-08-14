@@ -3,8 +3,8 @@
   "files": [
     {
       "path": "cache-manifest.json",
-      "bytes": 6535,
-      "sha256": "45e20466c5c35dfa01b128c4aaa631dfd391d02f0fbf681a6b25c0c6babd1db3"
+      "bytes": 11650,
+      "sha256": "07c48656edbdc9d13f7d625f1429e374493aaa94fd4615526ca0d502135a8cf0"
     },
     {
       "path": "css/app.css",
@@ -33,13 +33,13 @@
     },
     {
       "path": "js/game/main.js",
-      "bytes": 24093,
-      "sha256": "8cf9df46fb7ac78d91e5ffb5ae8331143740eb7d43d6adfe02584869879bf4dd"
+      "bytes": 24154,
+      "sha256": "47577c02e93aaf3eef2719c02101339281fb25c5621e52e452d339613aad11f5"
     },
     {
       "path": "js/game/render.js",
-      "bytes": 31259,
-      "sha256": "90283e2ec3329827e649d59e7fba6379f98cd9d71ef1c43b7c8229990b92a4ac"
+      "bytes": 31277,
+      "sha256": "e1f5afb74411d194ec019a50741f7f969ba34dddb7dfd6abbae28d536742e712"
     },
     {
       "path": "js/game/unit-atlas.js",
@@ -97,9 +97,19 @@
       "sha256": "5b7e4a6f97163c2636724d4de90304fc895653dcfe64c67a7a22f26331ca5c5f"
     },
     {
+      "path": "media/sprites/bldg-grave-den.png",
+      "bytes": 412896,
+      "sha256": "831473f9a0f2700e29a359aa1baa874a5eccd4d0e1eb13379ab8df2be2dbeb33"
+    },
+    {
       "path": "media/sprites/bldg-grave-house.png",
       "bytes": 1123354,
       "sha256": "f70fe58482565815082d665e34eda9e11bd035ac8b90a6fa879e22ba50326fa0"
+    },
+    {
+      "path": "media/sprites/bldg-grave-lumber.png",
+      "bytes": 345144,
+      "sha256": "4884a4ba26af80549a32ffae39b6195b94f36a296808296feda63b94000ef1b3"
     },
     {
       "path": "media/sprites/bldg-grave-mill.png",
@@ -107,9 +117,19 @@
       "sha256": "75387f34be1fb20c0d1a3177605970f39e9d0001b35107e3de522b48b25a4039"
     },
     {
+      "path": "media/sprites/bldg-grave-mine.png",
+      "bytes": 361837,
+      "sha256": "b62c6f7b9f645cf280fcd56b3896c7b7f5696ad16a476ecd0bd58bc21dd704cc"
+    },
+    {
       "path": "media/sprites/bldg-grave-rax.png",
       "bytes": 1145127,
       "sha256": "a565cd5834e6902737f1147f678b27173ca312dfd401216ae6efba86c690f582"
+    },
+    {
+      "path": "media/sprites/bldg-grave-spire.png",
+      "bytes": 432132,
+      "sha256": "a4d5294a61f0179a858e6d0b1771784ddbc2391b3289c49ea4b7358234e78a42"
     },
     {
       "path": "media/sprites/bldg-grave-tc.png",
@@ -122,9 +142,24 @@
       "sha256": "9b9be4f0b75d0b189c13197006821fcfebbd100285d67c16d862e6d358b795e8"
     },
     {
+      "path": "media/sprites/bldg-grave-workshop.png",
+      "bytes": 416201,
+      "sha256": "3099cfa3b0c66b87e54eb7f7349176708e3809d3798bded73b442e9bbdd27050"
+    },
+    {
+      "path": "media/sprites/bldg-sun-den.png",
+      "bytes": 401622,
+      "sha256": "3776f6a0f2763ff033121865e0fa3d96814923c6790a2b632d76b3942744e4bf"
+    },
+    {
       "path": "media/sprites/bldg-sun-house.png",
       "bytes": 911030,
       "sha256": "62f9d84940be6dc8350945d42f878578cb78c99bf5d01623f0af88cfe47f85d9"
+    },
+    {
+      "path": "media/sprites/bldg-sun-lumber.png",
+      "bytes": 405811,
+      "sha256": "bb39ee11142f6a201a624960049f4aa61ddb7302d9fc891614db11cee8fe1d27"
     },
     {
       "path": "media/sprites/bldg-sun-mill.png",
@@ -132,9 +167,19 @@
       "sha256": "5fa09338adb3b2c7f921aa1bc9dab1777329b01acb825305bc6d80d0dd263a26"
     },
     {
+      "path": "media/sprites/bldg-sun-mine.png",
+      "bytes": 408682,
+      "sha256": "3d9edbe7ac4f10b7e5c0d95804ab8d8e71fa2db8e02904a96139941baa906eea"
+    },
+    {
       "path": "media/sprites/bldg-sun-rax.png",
       "bytes": 1205622,
       "sha256": "620d31107e0a3ce0e300f2509c3ad02fa31d35a820d3356e282f605bce70745e"
+    },
+    {
+      "path": "media/sprites/bldg-sun-spire.png",
+      "bytes": 420056,
+      "sha256": "757859a85d0ea9d080d4e4771814e78f1e2bb9f043979ab2fde845f25c3d2176"
     },
     {
       "path": "media/sprites/bldg-sun-tc.png",
@@ -145,6 +190,11 @@
       "path": "media/sprites/bldg-sun-wonder.png",
       "bytes": 1350094,
       "sha256": "38e97c65a3aa1f07ff5d9dc41a0ed11537f1f6f4e044403f2ada8cd6c338dad5"
+    },
+    {
+      "path": "media/sprites/bldg-sun-workshop.png",
+      "bytes": 398181,
+      "sha256": "e58e1de5141d2b1209abab28de17a489d1805afc731607058d8510baea52c6f4"
     },
     {
       "path": "media/sprites/grave-guard.atlas.json",
@@ -185,6 +235,106 @@
       "path": "media/sprites/grave-walk.atlas.png",
       "bytes": 278283,
       "sha256": "739bba6f183e585931956786e4c796f41695283b3ea10a44a534fb9345710a41"
+    },
+    {
+      "path": "media/sprites/icon-age-grave.png",
+      "bytes": 41619,
+      "sha256": "b6bd37916f93e4ecc7007ff5a9cdafaec4d28593734939de4b999466a4183b30"
+    },
+    {
+      "path": "media/sprites/icon-age-sun.png",
+      "bytes": 49339,
+      "sha256": "8b7fbd1aa13efac0dd5c8140df0c185397942b2f32ea05629986db8d3a3ef281"
+    },
+    {
+      "path": "media/sprites/icon-build-grave-barracks.png",
+      "bytes": 43427,
+      "sha256": "c5aaaef81959c20ecf1ce68222a856bc3773c7575e01402d27a8ce795909d41f"
+    },
+    {
+      "path": "media/sprites/icon-build-grave-den.png",
+      "bytes": 43756,
+      "sha256": "ad7e25bd0942b8589d8c7c497c04a97d5035c2dee78f8a7df3906c07ae9cd811"
+    },
+    {
+      "path": "media/sprites/icon-build-grave-house.png",
+      "bytes": 47937,
+      "sha256": "1e89fafdd47c058ccafbf0bc6be9f6bd31f9a4cfe30b4aa3eb635ae0ca15d461"
+    },
+    {
+      "path": "media/sprites/icon-build-grave-lumber.png",
+      "bytes": 41924,
+      "sha256": "4e3b16e11b99e362d27d8031e1d4b44661e76a893add25218f4eb031ba6988c1"
+    },
+    {
+      "path": "media/sprites/icon-build-grave-mill.png",
+      "bytes": 41401,
+      "sha256": "36541010cb2bb35ebde47a9ef0630065c52a0582b3fa20ec57b1fb22e56bb305"
+    },
+    {
+      "path": "media/sprites/icon-build-grave-mine.png",
+      "bytes": 41724,
+      "sha256": "44f002919025ee57de668dbed2290251bfca486bd133c77469bb4372087881ff"
+    },
+    {
+      "path": "media/sprites/icon-build-grave-spire.png",
+      "bytes": 44156,
+      "sha256": "ddf68a89fd584d62cc313555540f32a77da15349ec3569c6fd056ddb73c86b2e"
+    },
+    {
+      "path": "media/sprites/icon-build-grave-wonder.png",
+      "bytes": 43994,
+      "sha256": "3fb482c90de73ccc75f10bd4527029399343a337ed283c8d362ad33c34972329"
+    },
+    {
+      "path": "media/sprites/icon-build-grave-workshop.png",
+      "bytes": 43887,
+      "sha256": "9c048ee74cff7b76be9e56bdf6a733d4f1439ed1e862c1cdf8e12a7032833c6d"
+    },
+    {
+      "path": "media/sprites/icon-build-sun-barracks.png",
+      "bytes": 45218,
+      "sha256": "f49997acfb86ccbec66d810bd103317ce4691e088db51dd986126000e26a7388"
+    },
+    {
+      "path": "media/sprites/icon-build-sun-den.png",
+      "bytes": 45237,
+      "sha256": "d157da484220e69bf8d89b70833eefb4b7f1a615807bb29f677c1d6f86ba040e"
+    },
+    {
+      "path": "media/sprites/icon-build-sun-house.png",
+      "bytes": 43969,
+      "sha256": "7ee9cc607a8141b1ec55dcf9236e46e5fbb434e0521624d6b3323625564bb667"
+    },
+    {
+      "path": "media/sprites/icon-build-sun-lumber.png",
+      "bytes": 47445,
+      "sha256": "1c519744fe6f4c12e3ab4324d96199a5eafa1893ec71985d85e2df0c0eb58a90"
+    },
+    {
+      "path": "media/sprites/icon-build-sun-mill.png",
+      "bytes": 47704,
+      "sha256": "59873d5051e078f69759027ee076ad4e81d2fd545fec6cb70c0c905b4510befe"
+    },
+    {
+      "path": "media/sprites/icon-build-sun-mine.png",
+      "bytes": 47695,
+      "sha256": "ea3d1e22199a29eb4c91d3d844a1e78a2920912889a59725c03d7ccd08393313"
+    },
+    {
+      "path": "media/sprites/icon-build-sun-spire.png",
+      "bytes": 45940,
+      "sha256": "e87910cf19c3cf8faafd4528ad16a7add63902b5064695c28ae133bea2a14fa5"
+    },
+    {
+      "path": "media/sprites/icon-build-sun-wonder.png",
+      "bytes": 45282,
+      "sha256": "e0c09874ce0f0f2231c69cdc4fe53a56134dd956fceeaa033551668902777a30"
+    },
+    {
+      "path": "media/sprites/icon-build-sun-workshop.png",
+      "bytes": 45198,
+      "sha256": "3447ab02365e5163a9e506260e930fca53cfde416958e362905c0aa8a6ae000d"
     },
     {
       "path": "media/sprites/icon-commands.png",
@@ -235,6 +385,66 @@
       "path": "media/sprites/icon-scan.png",
       "bytes": 164529,
       "sha256": "a438b23663f81b87bf99f1509a5c5b5cad5fdb03d59610bd193277f86c1e5ed3"
+    },
+    {
+      "path": "media/sprites/icon-train-grave-archer.png",
+      "bytes": 7267,
+      "sha256": "31c91d45bdc1e0a1390cc13245eaa0fac84cae79f959950e2aa177f62c702d0e"
+    },
+    {
+      "path": "media/sprites/icon-train-grave-guard.png",
+      "bytes": 7308,
+      "sha256": "84b3a0eed9d1caf42f6981ebdffbfddf63038e3a9ca7e55291a0375d883e7208"
+    },
+    {
+      "path": "media/sprites/icon-train-grave-scout.png",
+      "bytes": 9542,
+      "sha256": "8fc4fe56eeafd6f221fad7a57fc246d44e4b53695516294fb8257f50b1aee9f9"
+    },
+    {
+      "path": "media/sprites/icon-train-grave-siege.png",
+      "bytes": 38594,
+      "sha256": "ba1861ce2bd6efcd20e89140077f5402b4a54f1cbc019665d600534c02173ff3"
+    },
+    {
+      "path": "media/sprites/icon-train-grave-strider.png",
+      "bytes": 29922,
+      "sha256": "6e5e0089efe43e0f6ad89ccc6c96417c354b9f0ca32504aebb6f40ae0f43a5e8"
+    },
+    {
+      "path": "media/sprites/icon-train-grave-villager.png",
+      "bytes": 9741,
+      "sha256": "25d543162d187c856879b687b4457a81a782de59c2e54a55f41bbecd7dad4f41"
+    },
+    {
+      "path": "media/sprites/icon-train-sun-archer.png",
+      "bytes": 8154,
+      "sha256": "1a463d75ee89bdf98f3f030db2a17ea644eaebfd3a6e46aeb990d3cab486288f"
+    },
+    {
+      "path": "media/sprites/icon-train-sun-guard.png",
+      "bytes": 8474,
+      "sha256": "b3040015a7b9f7697b34b747bc6f66e12478a552bb99e10bbcfecb2fc1e70b8b"
+    },
+    {
+      "path": "media/sprites/icon-train-sun-scout.png",
+      "bytes": 7716,
+      "sha256": "4ed86490cdd7ad6ffaec9f6796bf9d4ac41af2c058b1558d8bd133d1a907129c"
+    },
+    {
+      "path": "media/sprites/icon-train-sun-siege.png",
+      "bytes": 44063,
+      "sha256": "25bb0e2a131efb056876d39ae8b47e1b20646044c0946eea5b4daa0994f2fa86"
+    },
+    {
+      "path": "media/sprites/icon-train-sun-strider.png",
+      "bytes": 33325,
+      "sha256": "301d2f974a3e7f627383b3d1884ba753d87370475a2b75c15c2053e328ab1921"
+    },
+    {
+      "path": "media/sprites/icon-train-sun-villager.png",
+      "bytes": 7886,
+      "sha256": "e20fba134640ba773f60fc353fb667597d9386dfd91e5e543077bfccb79c14b6"
     },
     {
       "path": "media/sprites/icon-wood.v2.png",
@@ -297,9 +507,74 @@
       "sha256": "9cec4ad63edb0b8fdd900e15dd9327ede3507dcfe9475a0f44bc1e75823f0075"
     },
     {
+      "path": "media/sprites/portrait-grave-archer.png",
+      "bytes": 23161,
+      "sha256": "60315e565e92b494b7b92b90721de7f17558aab112b504a83991ca4924363c74"
+    },
+    {
+      "path": "media/sprites/portrait-grave-guard.png",
+      "bytes": 23161,
+      "sha256": "60315e565e92b494b7b92b90721de7f17558aab112b504a83991ca4924363c74"
+    },
+    {
+      "path": "media/sprites/portrait-grave-scout.png",
+      "bytes": 31907,
+      "sha256": "5953f4d72a3552c2b09534bcb355fc69579b86effb1def81a0ceff09e7719330"
+    },
+    {
+      "path": "media/sprites/portrait-grave-siege.png",
+      "bytes": 125471,
+      "sha256": "ac51550842a1c620f6ea177c52c52de84737c0cbc4be7aa5233ab0775cc39191"
+    },
+    {
+      "path": "media/sprites/portrait-grave-strider.png",
+      "bytes": 92060,
+      "sha256": "833c9077e81bd27137bc6640bf0e623278698cc8a32be821c529519be91dea8e"
+    },
+    {
+      "path": "media/sprites/portrait-grave-titan.png",
+      "bytes": 92060,
+      "sha256": "833c9077e81bd27137bc6640bf0e623278698cc8a32be821c529519be91dea8e"
+    },
+    {
+      "path": "media/sprites/portrait-grave-villager.png",
+      "bytes": 31907,
+      "sha256": "5953f4d72a3552c2b09534bcb355fc69579b86effb1def81a0ceff09e7719330"
+    },
+    {
       "path": "media/sprites/portrait-gravemark.png",
       "bytes": 1085082,
       "sha256": "394839dc169a06d7e54138f6b5344930c29c39e2b5d29ba7875516fa26a774c1"
+    },
+    {
+      "path": "media/sprites/portrait-sun-archer.png",
+      "bytes": 28124,
+      "sha256": "4018e90b7df144a3e84dc5e08f64dee93453fa1dbe8b84345882c24446c28f6b"
+    },
+    {
+      "path": "media/sprites/portrait-sun-guard.png",
+      "bytes": 28124,
+      "sha256": "4018e90b7df144a3e84dc5e08f64dee93453fa1dbe8b84345882c24446c28f6b"
+    },
+    {
+      "path": "media/sprites/portrait-sun-scout.png",
+      "bytes": 24699,
+      "sha256": "3c412d3d1d3d264cc1d8702135b7a9260a66b5b19af6c5ec60d87fd89c938d84"
+    },
+    {
+      "path": "media/sprites/portrait-sun-siege.png",
+      "bytes": 148973,
+      "sha256": "eda89bc2ae3e97375db9dd81a5ad2e9a7819c0e144abc3c68cdd500ef48270f1"
+    },
+    {
+      "path": "media/sprites/portrait-sun-strider.png",
+      "bytes": 109539,
+      "sha256": "03ba9eca7a90e189b7d871d4fa0c3c6c7e89ec39effd5c77ceebdb5c97bd7922"
+    },
+    {
+      "path": "media/sprites/portrait-sun-villager.png",
+      "bytes": 24699,
+      "sha256": "3c412d3d1d3d264cc1d8702135b7a9260a66b5b19af6c5ec60d87fd89c938d84"
     },
     {
       "path": "media/sprites/portrait-sunwoven.png",
@@ -467,6 +742,6 @@
       "sha256": "ce1fa418de16a19495a9f72495580e3015d7745c296d3ce0485897f902ddedfb"
     }
   ],
-  "fileCount": 93,
-  "totalBytes": 42289653
+  "fileCount": 148,
+  "totalBytes": 48190138
 }
