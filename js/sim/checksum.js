@@ -1,9 +1,5 @@
 /** Stable world snapshots and FNV-1a checksums for harness/replay. */
 
-function round4(value) {
-  return Math.round(value * 10_000) / 10_000;
-}
-
 export function checksumSnapshot(snapshot) {
   let hash = 0x811c9dc5;
   const source = JSON.stringify(snapshot);
@@ -21,9 +17,9 @@ function unitSnap(u) {
     owner: u.owner,
     xQ10: u.xQ10,
     zQ10: u.zQ10,
-    hp: round4(u.hp),
+    hp: u.hp | 0,
     state: u.state,
-    carry: round4(u.carry || 0),
+    carry: u.carry | 0,
     carryKind: u.carryKind || null,
     facingOctant: u.facingOctant ?? 0,
   };
@@ -38,8 +34,9 @@ function buildingSnap(b) {
     cz: b.cz,
     xQ10: b.xQ10,
     zQ10: b.zQ10,
-    hp: round4(b.hp),
-    built: round4(b.built),
+    hp: b.hp | 0,
+    buildTicks: b.buildTicks | 0,
+    buildTotalTicks: b.buildTotalTicks | 0,
     queueLen: b.queue.length,
   };
 }
@@ -62,7 +59,7 @@ function playerSnap(p) {
     faction: p.faction,
     alive: p.alive,
     age: p.age,
-    aging: round4(p.aging),
+    agingTicks: p.agingTicks | 0,
     stock: {
       food: p.stock.food | 0,
       wood: p.stock.wood | 0,
@@ -76,9 +73,9 @@ function playerSnap(p) {
 
 export function snapshotWorld(world) {
   return {
-    simulationVersion: "pixel-sim.v2-q10",
+    simulationVersion: "pixel-sim.v3-int",
     seed: world.seed >>> 0,
-    t: round4(world.t),
+    t: world.t | 0,
     winner: world.winner,
     titanAwake: !!world.titanAwake,
     players: {

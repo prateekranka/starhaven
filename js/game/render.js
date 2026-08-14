@@ -1,6 +1,6 @@
 import * as THREE from "three";
-import { N, CELL, inLight, q10FromWorld } from "../sim/engine.js";
-import { worldFromQ10, octantToFacing } from "../sim/fixed.js";
+import { N, CELL, inLight, q10FromWorld, lineX, buildRatio } from "../sim/engine.js";
+import { worldFromQ10, Q10, FACING_MILLIRAD, TICKS_PER_SEC } from "../sim/fixed.js";
 import { pixelRatioFor, resolveQuality, backingLabel, isSoftwareGL, glRendererName } from "../perf.js";
 import { cachedImage } from "../cache/assets.js";
 
@@ -470,10 +470,11 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
       }
       const y = sampleH(wx(b), wz(b));
       m.position.set(wx(b), y, wz(b));
-      const base = (m.userData.baseScale || buildingScale(b.type)) * (0.55 + 0.45 * b.built);
+      const built = buildRatio(b);
+      const base = (m.userData.baseScale || buildingScale(b.type)) * (0.55 + 0.45 * built);
       const a = m.userData.aspect || 1;
       m.scale.set(base * a, base, 1);
-      m.material.opacity = 0.55 + 0.45 * b.built;
+      m.material.opacity = 0.55 + 0.45 * built;
       m.visible = seen(world, wx(b), wz(b)) || b.owner === "player";
     }
     for (const u of world.units) {
@@ -557,10 +558,11 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
       ring.position.set(wx(sel), sampleH(wx(sel), wz(sel)) + 0.08, wz(sel));
     });
 
-    const lx = 4 + world.bright * (MAP - 8);
+    const lx = lineX(world);
+    const brightNorm = world.brightQ10 / Q10;
     brightLine.position.set(lx, 1.1, MAP / 2);
-    brightLine.material.opacity = 0.22 + Math.sin(world.t * 2.2) * 0.08;
-    sun.position.set(20 + world.bright * 50, 50, 20);
+    brightLine.material.opacity = 0.22 + Math.sin((world.t / TICKS_PER_SEC) * 2.2) * 0.08;
+    sun.position.set(20 + brightNorm * 50, 50, 20);
     sun.color.set(inLight(world, q10FromWorld(camTarget.x)) ? 0xfff3d0 : 0xb8c8ff);
     hemi.color.set(inLight(world, q10FromWorld(camTarget.x)) ? 0xd8ecff : 0x9aa8d8);
     scene.background.set(inLight(world, q10FromWorld(camTarget.x)) ? "#6eb4e8" : "#3a4a78");
@@ -706,7 +708,7 @@ function animateUnit(sprite, u, world, dt = 0.016) {
     if (moving) sprite.userData.walkT = (sprite.userData.walkT || 0) + dt;
     else sprite.userData.walkT = 0;
     const col = moving ? Math.floor(sprite.userData.walkT * 12) % 8 : 0;
-    const row = dirRow(octantToFacing(u.facingOctant || 0), sprite.userData.southFirst);
+    const row = dirRow((FACING_MILLIRAD[u.facingOctant || 0] || 0) / 1000, sprite.userData.southFirst);
     if (sprite.userData.col !== col || sprite.userData.row !== row) {
       sprite.userData.col = col;
       sprite.userData.row = row;

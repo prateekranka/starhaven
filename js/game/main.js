@@ -1,5 +1,5 @@
-import { createMatch, updateWorld, commandGround, tryPlace, queueUnit, tryAgeUp, idleVillager, selectedEntities, villagerBuildOptions, BUILDINGS, UNITS, worldFromQ10, q10FromWorld } from "../sim/engine.js";
-import { distanceSquaredQ10, q10RangeSq } from "../sim/fixed.js";
+import { createMatch, updateWorld, commandGround, tryPlace, queueUnit, tryAgeUp, idleVillager, selectedEntities, villagerBuildOptions, BUILDINGS, UNITS, worldFromQ10, q10FromWorld, isBuilt } from "../sim/engine.js";
+import { distanceSquaredQ10, q10RangeSq, ticksToSec } from "../sim/fixed.js";
 
 const wx = (e) => worldFromQ10(e.xQ10);
 const wz = (e) => worldFromQ10(e.zQ10);
@@ -614,7 +614,7 @@ function drawHud(world) {
   setText("rate-wood", p.rates.wood ? `+${p.rates.wood.toFixed(1)}/s` : "");
   setText("rate-crystal", p.rates.crystal ? `+${p.rates.crystal.toFixed(1)}/s` : "");
   setText("rate-ore", p.rates.ore ? `+${p.rates.ore.toFixed(1)}/s` : "");
-  setText("age-label", p.aging > 0 ? `AGING ${p.aging | 0}s` : ["AGE I · FOUNDATION", "AGE II · RADIANT EXPANSE", "AGE III · ASCENSION"][p.age - 1]);
+  setText("age-label", p.agingTicks > 0 ? `AGING ${Math.ceil(ticksToSec(p.agingTicks))}s` : ["AGE I · FOUNDATION", "AGE II · RADIANT EXPANSE", "AGE III · ASCENSION"][p.age - 1]);
   setText("objective-text", world.objective);
   setText("tip", world.tip ? `TIP: ${world.tip}` : "");
 }
@@ -680,7 +680,7 @@ function renderSelection() {
       );
     }
   }
-  if (e.kind === "building" && e.owner === "player" && e.built >= 1) {
+  if (e.kind === "building" && e.owner === "player" && isBuilt(e)) {
     const produces = BUILDINGS[e.type].produces || [];
     for (const t of produces) {
       cmds.appendChild(
@@ -703,7 +703,7 @@ function renderSelection() {
     }
     for (const q of e.queue) {
       const chip = document.createElement("span");
-      chip.textContent = `${UNITS[q.type].name} ${q.left | 0}s`;
+      chip.textContent = `${UNITS[q.type].name} ${Math.ceil(ticksToSec(q.leftTicks))}s`;
       chip.style.cssText = "border:1px solid #a8883a;padding:4px 6px;font-size:11px";
       queue.appendChild(chip);
     }

@@ -8,30 +8,35 @@ import {
   issueBuild,
   q10FromWorld,
   worldFromQ10,
+  isBuilt,
 } from "./engine.js";
-import { distanceSquaredQ10 } from "./fixed.js";
+import { distanceSquaredQ10, secToTicks, TICKS_PER_SEC } from "./fixed.js";
 
 const DIFF = {
-  settler: { villagers: 8, wave: 140, extra: 0 },
-  chieftain: { villagers: 11, wave: 95, extra: 0 },
-  emperor: { villagers: 14, wave: 70, extra: 80 },
+  settler: { villagers: 8, waveTick: secToTicks(140), extra: 0 },
+  chieftain: { villagers: 11, waveTick: secToTicks(95), extra: 0 },
+  emperor: { villagers: 14, waveTick: secToTicks(70), extra: 80 },
 };
 
-export function runAI(world, dt) {
+const AI_INTERVAL_TICKS = secToTicks(0.45);
+const SCOUT_ORBIT_RADIUS_Q10 = q10FromWorld(16);
+const SCOUT_ORBIT_CENTER_Q10 = q10FromWorld(24);
+
+export function runAI(world) {
   const p = world.players.enemy;
   if (!p.alive) return;
-  world._aiAcc = (world._aiAcc || 0) + dt;
-  if (world._aiAcc < 0.45) return;
-  world._aiAcc = 0;
+  world._aiAccTicks = (world._aiAccTicks || 0) + 1;
+  if (world._aiAccTicks < AI_INTERVAL_TICKS) return;
+  world._aiAccTicks = 0;
 
   const d = DIFF[world.difficulty] || DIFF.chieftain;
-  if (world.t < 1 && d.extra) {
+  if (world.t < TICKS_PER_SEC && d.extra) {
     p.stock.food += d.extra;
     p.stock.wood += d.extra;
   }
 
   const villagers = world.units.filter((u) => u.owner === "enemy" && u.type === "villager");
-  const tc = world.buildings.find((b) => b.owner === "enemy" && b.type === "towncenter" && b.built >= 1);
+  const tc = world.buildings.find((b) => b.owner === "enemy" && b.type === "towncenter" && isBuilt(b));
   if (!tc) return;
 
   const popHeadroom = p.popCap - p.pop;
@@ -40,7 +45,7 @@ export function runAI(world, dt) {
   }
 
   if (popHeadroom <= 1) {
-    placeIfMissing(world, "house", tc, 8);
+    placeIfMissing(world, "house", tc, 10);
   }
 
   balanceGather(world, villagers);
@@ -56,25 +61,28 @@ export function runAI(world, dt) {
   }
   if (p.age >= 3) placeIfMissing(world, "workshop", tc, 14);
 
-  const barracks = world.buildings.filter((b) => b.owner === "enemy" && b.type === "barracks" && b.built >= 1);
-  const spire = world.buildings.filter((b) => b.owner === "enemy" && b.type === "spire" && b.built >= 1);
-  const shop = world.buildings.filter((b) => b.owner === "enemy" && b.type === "workshop" && b.built >= 1);
+  const barracks = world.buildings.filter((b) => b.owner === "enemy" && b.type === "barracks" && isBuilt(b));
+  const spire = world.buildings.filter((b) => b.owner === "enemy" && b.type === "spire" && isBuilt(b));
+  const shop = world.buildings.filter((b) => b.owner === "enemy" && b.type === "workshop" && isBuilt(b));
   for (const b of barracks) if (b.queue.length < 2 && popHeadroom > 1) queueUnit(world, b, "guard");
   for (const b of spire) if (b.queue.length < 1 && popHeadroom > 1) queueUnit(world, b, "archer");
   for (const b of shop) if (b.queue.length < 1 && popHeadroom > 2) queueUnit(world, b, "siege");
 
   const army = world.units.filter((u) => u.owner === "enemy" && u.type !== "villager" && u.type !== "scout");
   const ptc = world.buildings.find((b) => b.owner === "player" && b.type === "towncenter");
-  if (ptc && army.length >= (world.difficulty === "settler" ? 10 : 6) && world.t > d.wave) {
-    if (world.t > p.attackWaveAt) {
-      p.attackWaveAt = world.t + 55;
+  if (ptc && army.length >= (world.difficulty === "settler" ? 10 : 6) && world.t > d.waveTick) {
+    if (world.t > p.attackWaveAtTick) {
+      p.attackWaveAtTick = world.t + secToTicks(55);
       for (const u of army) issueAttackMove(world, u, ptc.xQ10, ptc.zQ10);
     }
   }
 
   const scout = world.units.find((u) => u.owner === "enemy" && u.type === "scout" && u.state === "idle");
   if (scout) {
-    issueAttackMove(world, scout, q10FromWorld(24 + Math.sin(world.t / 20) * 16), q10FromWorld(24 + Math.cos(world.t / 18) * 16));
+    const phase = world.t % 720;
+    const xOffset = phase < 360 ? q10FromWorld((phase / 360) * 32 - 16) : q10FromWorld(((720 - phase) / 360) * 32 - 16);
+    const zOffset = phase < 180 || phase >= 540 ? SCOUT_ORBIT_RADIUS_Q10 : -SCOUT_ORBIT_RADIUS_Q10;
+    issueAttackMove(world, scout, SCOUT_ORBIT_CENTER_Q10 + xOffset, SCOUT_ORBIT_CENTER_Q10 + zOffset);
   }
 }
 
@@ -85,10 +93,9 @@ function placeIfMissing(world, type, tc, radius) {
   const spec = BUILDINGS[type];
   const p = world.players.enemy;
   if (p.age < spec.age) return;
-  const ang = world.prng.ai.nextFloat() * Math.PI * 2;
-  const xQ10 = q10FromWorld(Math.cos(ang) * radius) + tc.xQ10;
-  const zQ10 = q10FromWorld(Math.sin(ang) * radius) + tc.zQ10;
-  tryPlace(world, "enemy", type, worldFromQ10(xQ10), worldFromQ10(zQ10));
+  const dx = world.prng.ai.nextInt(-radius, radius);
+  const dz = world.prng.ai.nextInt(-radius, radius);
+  tryPlace(world, "enemy", type, worldFromQ10(tc.xQ10 + q10FromWorld(dx)), worldFromQ10(tc.zQ10 + q10FromWorld(dz)));
 }
 
 function balanceGather(world, villagers) {
@@ -101,7 +108,7 @@ function balanceGather(world, villagers) {
 }
 
 function helpBuild(world, villagers) {
-  const site = world.buildings.find((b) => b.owner === "enemy" && b.built < 1);
+  const site = world.buildings.find((b) => b.owner === "enemy" && !isBuilt(b));
   if (!site) return;
   const helpers = villagers.filter((v) => v.state === "idle" || v.state === "gather" || v.state === "gatherwalk").slice(0, 3);
   for (const v of helpers) issueBuild(world, v, site);
