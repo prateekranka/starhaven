@@ -27,11 +27,13 @@ jobs:
           mkdir -p _pack
           cp index.html sw.js _headers build-info.json dist-hashes.json cache-manifest.json _pack/
           if [ -f .nojekyll ]; then cp .nojekyll _pack/; fi
-          cp -R js css media vendor _pack/
+          cp -R js css media vendor maps _pack/
           test -f _pack/index.html
           test -f _pack/js/ui/app.js
-          grep -q "CONTINUE CAMPAIGN" _pack/index.html
+          test -f _pack/maps/manifest.json
+          test -f _pack/maps/void-rift-crossing.json
           grep -q "SKIRMISH VS AI" _pack/index.html
+          grep -qv "CONTINUE CAMPAIGN" _pack/index.html
       - name: Deploy Cloudflare Pages
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
