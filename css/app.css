@@ -1,3 +1,5 @@
+@import url("./tokens.css");
+
 @font-face {
   font-family: Orbitron;
   src: url("../media/fonts/orbitron-latin-700-normal.woff2") format("woff2");
@@ -33,8 +35,6 @@
   font-style: normal;
   font-display: swap;
 }
-
-@import url("./tokens.css");
 
 :root { font-synthesis: none; }
 
@@ -251,7 +251,7 @@ html, body {
 .gold-btn,.ui-btn-primary{background:var(--gradient-gold-btn);color:var(--color-gold-ink);border:1px solid var(--color-gold-highlight);font-family:var(--font-display);font-weight:var(--weight-display);letter-spacing:var(--tracking-heading);padding:var(--space-4) var(--space-7);min-height:var(--touch-min);cursor:pointer;width:100%;text-transform:uppercase;touch-action:manipulation}
 .gold-btn:hover,.gold-btn:focus-visible,.ui-btn-primary:hover,.ui-btn-primary:focus-visible{box-shadow:var(--shadow-focus-teal);outline:none}
 .gold-btn.wide,.ui-btn-primary.wide{margin-top:var(--space-7)} .gold-btn:disabled,.ui-btn-primary:disabled{opacity:.45;cursor:default}
-.panel-page{position:absolute;inset:var(--space-10);background:var(--color-surface-page) var(--panel-texture) center/cover;background-blend-mode:multiply;border:1px solid var(--color-border-gold);padding:var(--space-9) var(--space-11);overflow:auto}
+.panel-page{position:absolute;inset:24px;inset:var(--space-10, 24px);background:var(--color-surface-page) var(--panel-texture) center/cover;background-blend-mode:multiply;border:1px solid var(--color-border-gold);padding:22px 28px;padding:var(--space-9, 22px) var(--space-11, 28px);overflow:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
 .panel-page.narrow{left:12%;right:12%} .page-head{display:flex;align-items:center;gap:var(--space-7);margin-bottom:var(--space-8)}
 .page-head h2,.brand-mini strong,.end-banner h2,.modal-card h2,.ui-modal-card h2{font-family:var(--font-display);letter-spacing:var(--tracking-title);text-transform:uppercase}
 .back-btn,.ui-icon-btn{min-width:var(--touch-min);min-height:var(--touch-min);width:var(--touch-min);height:var(--touch-min);display:grid;place-items:center;padding:0;background:var(--color-navy-raised);color:var(--color-gold);border:1px solid var(--color-border-gold);font-size:var(--text-xl);cursor:pointer;touch-action:manipulation}

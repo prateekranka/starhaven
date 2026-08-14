@@ -253,7 +253,7 @@ async function playMatch(opts = {}) {
   const already = matchAssetsReady();
   if (!already) {
     veil?.classList.remove("hidden");
-    if (copy) copy.textContent = "Loading Bright Mesa";
+    if (copy) copy.textContent = "Loading match";
     if (bar) bar.style.width = "8%";
   }
   try {

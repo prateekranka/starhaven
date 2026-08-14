@@ -2,6 +2,7 @@
   "version": "crateless-0814a",
   "shell": [
     "css/app.css",
+    "css/tokens.css",
     "index.html",
     "js/audio/engine.js",
     "js/audio/score.js",
@@ -314,6 +315,7 @@
   ],
   "files": [
     "css/app.css",
+    "css/tokens.css",
     "index.html",
     "js/audio/engine.js",
     "js/audio/match-audio.js",
