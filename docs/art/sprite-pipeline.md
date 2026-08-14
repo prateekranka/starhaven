@@ -10,6 +10,7 @@ Repeatable art path for pixel-mesa unit atlases on the `dev` pack branch.
 | `assets/pipeline/inbetweening.v1.json` | Deterministic A/B pose patterns per clip |
 | `assets/palettes/<faction>.v1.json` | Locked sRGB hex colors, no dither |
 | `assets/provenance/units/<unit>.json` | Last atlas sha256 + source count |
+| `assets/provenance/units/<unit>.sources.v1.json` | Legacy sheet extraction map (cols/rows per clip + pose) |
 
 ## Pack budget
 
@@ -32,9 +33,11 @@ node scripts/art/pipeline/run-unit.mjs \
 
 Outputs:
 
-- `assets/source/units/<faction>/<unit>/…` — keyed pose PNGs
+- `assets/source/units/<faction>/<unit>/…` — keyed pose PNGs extracted from committed legacy sheets
 - `media/sprites/<unit>.atlas.png` — packed atlas (2048×768 for walk+attack+death)
 - `media/sprites/<unit>.atlas.json` — frame grid + sha256
+
+Source frames are **sampled** from real pixel sheets (e.g. `media/sprites/sheet-sun-guard.png`) using the unit's `.sources.v1.json` map, then palette-cleaned. No procedural SVG generation.
 
 Then refresh pack manifests:
 

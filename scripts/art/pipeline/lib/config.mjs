@@ -22,6 +22,10 @@ export function loadPalette(faction) {
   return loadJson(`assets/palettes/${file}`);
 }
 
+export function loadUnitSources(unitId) {
+  return loadJson(`assets/provenance/units/${unitId}.sources.v1.json`);
+}
+
 export const DIRECTIONS = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
 export const SOURCE_DIRECTIONS = ["N", "NE", "E", "SE", "S"];
 export const MIRROR_SOURCE = { SW: "SE", W: "E", NW: "NE" };

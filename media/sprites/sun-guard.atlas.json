@@ -28,8 +28,8 @@
       "loop": false
     }
   ],
-  "sha256": "9598b603599bc2dfe613f35165f199baecd9f40b9a250b21f006c3902018c91b",
-  "bytes": 22567,
+  "sha256": "012ff437d9e603d447cbdc3af0f48836079d49bc5496da91d517f93c791f037c",
+  "bytes": 135499,
   "frames": [
     {
       "id": "sun-guard.walk.N.0",
