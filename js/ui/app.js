@@ -1,5 +1,6 @@
 import { loadSave, writeSave, showScreen, beep, haptic, native, audio } from "../boot.js";
 import { sendPackChannel, sendPackReload } from "../bridge.js";
+import { score } from "../audio/score.js";
 import { detectDefaultQuality } from "../perf.js";
 import { startBackgroundWarm, ensureMatchAssets, matchAssetsReady } from "../cache/assets.js";
 import { parseSeed } from "../sim/seed.js";
@@ -56,6 +57,7 @@ export function initUi() {
   if (native) document.body.classList.add("native");
   initNativeHostSettings();
   watchCacheWarm();
+  void bootTitleScore();
 
   document.body.addEventListener("click", (e) => {
     const btn = e.target.closest("[data-action]");
@@ -70,6 +72,7 @@ export function initUi() {
         document.getElementById("results-modal")?.classList.add("hidden");
         document.body.classList.remove("match-paused");
         showScreen("title");
+        score.startTitle();
       });
     } else if (action === "skirmish") showScreen("skirmish");
     else if (action === "factions") showScreen("factions");
@@ -138,19 +141,18 @@ export function initUi() {
     document.getElementById("pause-menu")?.classList.remove("hidden");
   });
 
-  document.getElementById("settings-form").addEventListener("input", (e) => {
-    if (e.target.name !== "music" && e.target.name !== "sfx") return;
-    const s = loadSave();
-    const f = document.getElementById("settings-form");
-    s.settings.music = Number(f.music.value);
-    s.settings.sfx = Number(f.sfx.value);
-    writeSave(s);
-    audio.applyVolumes();
-    if (e.target.name === "music" && document.getElementById("screen-game")?.classList.contains("active")) {
-      if (s.settings.music > 0) audio.startMusic();
-      else audio.stopMusic();
-    }
-  });
+  for (const formId of ["settings-form", "pause-settings-form"]) {
+    document.getElementById(formId)?.addEventListener("input", (e) => {
+      if (e.target.name !== "music" && e.target.name !== "sfx") return;
+      const s = loadSave();
+      const f = e.target.form;
+      s.settings.music = Number(f.music.value);
+      s.settings.sfx = Number(f.sfx.value);
+      writeSave(s);
+      audio.applyVolumes();
+      if (e.target.name === "music") score.refreshVolume();
+    });
+  }
 
   window.addEventListener("keydown", (e) => {
     if (e.key === "Escape") {
@@ -178,6 +180,7 @@ export function initUi() {
       writeSave(s);
       applySettingsForm(s);
       audio.applyVolumes();
+      score.refreshVolume();
     },
   };
 
@@ -208,10 +211,7 @@ function onSettingsChange() {
   writeSave(s);
   applySettingsForm(s);
   audio.applyVolumes();
-  if (document.getElementById("screen-game")?.classList.contains("active")) {
-    if (s.settings.music > 0) audio.startMusic();
-    else audio.stopMusic();
-  }
+  score.refreshVolume();
   loadGame().then(({ applyLiveSettings }) => applyLiveSettings?.(s.settings));
 }
 
@@ -279,7 +279,10 @@ function applySettingsForm(save) {
     if (f.reduceMotion) f.reduceMotion.checked = save.settings.reduceMotion;
     if (f.haptics) f.haptics.checked = save.settings.haptics;
     if (f.showDebug) f.showDebug.checked = !!save.settings.showDebug;
-    f.querySelectorAll(".ui-slider").forEach((el) => bindSlider(el, { value: Number(f.sfx?.value ?? save.settings.sfx) }));
+    f.querySelectorAll(".ui-slider").forEach((el) => {
+      const input = el.querySelector('input[type="range"]');
+      bindSlider(el, { value: Number(input?.value ?? 0) });
+    });
     f.querySelectorAll(".ui-toggle").forEach((el) => {
       const name = el.querySelector("input")?.name;
       if (name && f[name]) bindToggle(el, { checked: !!f[name].checked });
@@ -298,6 +301,16 @@ function initNativeHostSettings() {
   const select = document.getElementById("native-pack-channel");
   if (!select) return;
   select.value = localStorage.getItem("starhaven.packChannel") || "development";
+}
+
+async function bootTitleScore() {
+  try {
+    await startBackgroundWarm();
+  } catch (err) {
+    console.warn("title score preload", err);
+    await audio.preload().catch(() => {});
+  }
+  if (document.getElementById("screen-title")?.classList.contains("active")) score.startTitle();
 }
 
 initUi();

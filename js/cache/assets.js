@@ -60,6 +60,7 @@ const MATCH_FALLBACK = [
   "js/data/catalog.js",
   "js/audio/engine.js",
   "js/audio/match-audio.js",
+  "js/audio/score.js",
   "media/audio/ui.wav",
   "media/audio/select.wav",
   "media/audio/move.wav",
@@ -76,7 +77,12 @@ const MATCH_FALLBACK = [
   "media/audio/victory.wav",
   "media/audio/defeat.wav",
   "media/audio/age_up.wav",
-  "media/audio/music_mesa.wav",
+  "media/audio/music_title.wav",
+  "media/audio/music_day.wav",
+  "media/audio/music_night.wav",
+  "media/audio/music_combat.wav",
+  "media/audio/music_victory.wav",
+  "media/audio/music_defeat.wav",
 ];
 
 export function cachedImage(url) {

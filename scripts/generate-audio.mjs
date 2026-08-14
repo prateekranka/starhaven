@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /** Regenerate media/audio/*.wav — run: node scripts/generate-audio.mjs */
-import { mkdirSync, writeFileSync } from "node:fs";
+import { mkdirSync, unlinkSync, writeFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 
 const SR = 22050;
@@ -65,6 +65,88 @@ function noise(len, fn) {
   return out;
 }
 
+function loopBed(len, fn) {
+  const n = (len * SR) | 0;
+  const out = new Float32Array(n);
+  for (let i = 0; i < n; i++) out[i] = fn(i / SR, i);
+  const fade = (0.08 * SR) | 0;
+  for (let i = 0; i < fade; i++) {
+    const w = i / fade;
+    out[i] *= w;
+    out[n - 1 - i] *= w;
+  }
+  return out;
+}
+
+function musicTitle() {
+  return loopBed(14, (t) => {
+    const bar = (t * 0.42) % 1;
+    const seq = [262, 330, 392, 523, 392, 330];
+    const i = Math.floor(bar * seq.length) % seq.length;
+    const f = seq[i];
+    let s = Math.sin(2 * Math.PI * f * t) * 0.12;
+    s += Math.sin(2 * Math.PI * f * 1.5 * t) * 0.06;
+    s += Math.sin(2 * Math.PI * 65.4 * t) * 0.05;
+    return s * (0.7 + 0.3 * Math.sin(t * 0.31));
+  });
+}
+
+function musicDay() {
+  return loopBed(12, (t) => {
+    const roots = [110, 146.83, 164.81, 196];
+    let s = 0;
+    for (let k = 0; k < roots.length; k++) {
+      const f = roots[k] * (1 + 0.002 * Math.sin(t * 0.17 + k));
+      s += Math.sin(2 * Math.PI * f * t + k) * 0.07;
+      s += Math.sin(2 * Math.PI * f * 2 * t + k * 0.5) * 0.035;
+    }
+    return s * (0.55 + 0.45 * Math.sin(t * 0.39)) * 0.55;
+  });
+}
+
+function musicNight() {
+  return loopBed(12, (t) => {
+    const roots = [82.41, 98, 123.47, 146.83];
+    let s = 0;
+    for (let k = 0; k < roots.length; k++) {
+      const f = roots[k] * (1 + 0.0015 * Math.sin(t * 0.11 + k * 1.3));
+      s += Math.sin(2 * Math.PI * f * t + k * 0.7) * 0.08;
+      s += Math.sin(2 * Math.PI * f * 1.01 * t) * 0.04;
+    }
+    s += Math.sin(2 * Math.PI * 55 * t) * 0.03 * (0.5 + 0.5 * Math.sin(t * 0.08));
+    return s * (0.45 + 0.55 * Math.sin(t * 0.22 + 1)) * 0.52;
+  });
+}
+
+function musicCombat() {
+  return loopBed(10, (t) => {
+    const pulse = Math.max(0, Math.sin(t * 3.8)) ** 3;
+    const kick = Math.sin(2 * Math.PI * 72 * t) * pulse * 0.22;
+    const tension = Math.sin(2 * Math.PI * 130 * t + Math.sin(t * 0.9) * 2) * 0.09;
+    const grit = Math.sin(2 * Math.PI * 220 * t) * 0.04 * (0.4 + 0.6 * pulse);
+    return kick + tension + grit;
+  });
+}
+
+function musicVictory() {
+  return loopBed(8, (t) => {
+    const seq = [392, 494, 587, 784];
+    const i = Math.min(3, (t / 0.55) | 0);
+    const local = t - i * 0.55;
+    const f = seq[i];
+    return Math.sin(2 * Math.PI * f * t) * env(local, 0.02, 0.45) * 0.18
+      + Math.sin(2 * Math.PI * f * 0.5 * t) * env(local, 0.04, 0.4) * 0.1;
+  });
+}
+
+function musicDefeat() {
+  return loopBed(8, (t) => {
+    const f = 220 - t * 18;
+    return Math.sin(2 * Math.PI * f * t) * (0.55 + 0.45 * Math.exp(-t * 0.35)) * 0.2
+      + Math.sin(2 * Math.PI * (f * 0.98) * t) * 0.08;
+  });
+}
+
 const defs = {
   ui: () => tone(0.07, (t) => Math.sin(2 * Math.PI * (880 - t * 2200) * t) * env(t, 0.002, 0.04) * 0.35),
   select: () => tone(0.09, (t) => Math.sin(2 * Math.PI * 620 * t) * env(t, 0.004, 0.05) * 0.28 + Math.sin(2 * Math.PI * 930 * t) * env(t, 0.004, 0.04) * 0.12),
@@ -82,26 +164,17 @@ const defs = {
   victory: () => tone(0.9, (t) => { const seq = [392, 494, 587, 784]; const i = Math.min(3, (t / 0.18) | 0); return Math.sin(2 * Math.PI * seq[i] * t) * env(t - i * 0.18, 0.01, 0.14) * 0.22; }),
   defeat: () => tone(0.8, (t) => Math.sin(2 * Math.PI * (330 - t * 220) * t) * env(t, 0.02, 0.55) * 0.25),
   age_up: () => mix(tone(0.55, (t) => Math.sin(2 * Math.PI * (220 + t * 180) * t) * env(t, 0.04, 0.35) * 0.2), tone(0.55, (t) => Math.sin(2 * Math.PI * (440 + t * 260) * t) * env(t, 0.06, 0.35) * 0.12)),
-  music_mesa: () => {
-    const len = 16;
-    const n = (len * SR) | 0;
-    const out = new Float32Array(n);
-    const roots = [110, 146.83, 164.81, 196];
-    for (let i = 0; i < n; i++) {
-      const t = i / SR;
-      let s = 0;
-      for (let k = 0; k < roots.length; k++) {
-        const f = roots[k] * (1 + 0.002 * Math.sin(t * 0.17 + k));
-        s += Math.sin(2 * Math.PI * f * t + k) * 0.07;
-        s += Math.sin(2 * Math.PI * f * 2 * t + k * 0.5) * 0.035;
-      }
-      out[i] = s * (0.55 + 0.45 * Math.sin(t * 0.39)) * 0.55;
-    }
-    return out;
-  },
+  music_title: musicTitle,
+  music_day: musicDay,
+  music_night: musicNight,
+  music_combat: musicCombat,
+  music_victory: musicVictory,
+  music_defeat: musicDefeat,
 };
 
 mkdirSync(OUT, { recursive: true });
+try { unlinkSync(join(OUT, "music_mesa.wav")); } catch { /* removed legacy stem */ }
+
 let total = 0;
 for (const [name, fn] of Object.entries(defs)) {
   const samples = norm(fn());

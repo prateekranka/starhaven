@@ -17,7 +17,12 @@ export const AUDIO_FILES = {
   victory: "media/audio/victory.wav",
   defeat: "media/audio/defeat.wav",
   age_up: "media/audio/age_up.wav",
-  music_mesa: "media/audio/music_mesa.wav",
+  music_title: "media/audio/music_title.wav",
+  music_day: "media/audio/music_day.wav",
+  music_night: "media/audio/music_night.wav",
+  music_combat: "media/audio/music_combat.wav",
+  music_victory: "media/audio/music_victory.wav",
+  music_defeat: "media/audio/music_defeat.wav",
 };
 
 const BUS_OF = {
@@ -47,10 +52,11 @@ class StarhavenAudio {
     this.combatWindowCount = 0;
     this.cameraX = MAP_HALF;
     this.cameraZ = MAP_HALF;
-    this.musicSrc = null;
+    this.musicLayers = new Map();
     this.ready = false;
     this.loadPromise = null;
     this.unlocked = false;
+    this.onUnlock = null;
   }
 
   volumes() {
@@ -99,6 +105,7 @@ class StarhavenAudio {
       try { await ctx.resume(); } catch { /* ignore */ }
     }
     this.unlocked = true;
+    this.onUnlock?.();
   }
 
   async preload(onProgress) {
@@ -172,43 +179,93 @@ class StarhavenAudio {
 
   playUi() { this.play("ui"); }
 
-  startMusic(track = "music_mesa") {
+  _ensureLayer(id) {
+    const ctx = this.ensureContext();
+    if (!ctx) return null;
+    let layer = this.musicLayers.get(id);
+    if (!layer) {
+      const gain = ctx.createGain();
+      gain.gain.value = 0;
+      gain.connect(this.buses.music);
+      layer = { gain, src: null, track: null };
+      this.musicLayers.set(id, layer);
+    }
+    return layer;
+  }
+
+  setLayerGain(id, value, rampSec = 1.4) {
+    const layer = this._ensureLayer(id);
+    if (!layer || !this.ctx) return;
+    const t = this.ctx.currentTime;
+    const g = layer.gain.gain;
+    g.cancelScheduledValues(t);
+    g.setValueAtTime(g.value, t);
+    g.linearRampToValueAtTime(Math.max(0, value), t + rampSec);
+  }
+
+  startLayer(id, track, { loop = true } = {}) {
     if (!loadSave().settings.music || !this.ready) return;
     const ctx = this.ensureContext();
     if (!ctx || !this.unlocked) return;
-    this.stopMusic(false);
+    const layer = this._ensureLayer(id);
+    if (!layer) return;
+    if (layer.track === track && layer.src) return;
+
+    if (layer.src) {
+      try { layer.src.stop(); layer.src.disconnect(); } catch { /* ignore */ }
+      layer.src = null;
+    }
+
     const buffer = this.buffers.get(track);
-    const bus = this.buses.music;
-    if (!buffer || !bus) return;
+    if (!buffer) return;
+
     const src = ctx.createBufferSource();
     src.buffer = buffer;
-    src.loop = true;
-    src.connect(bus);
+    src.loop = loop;
+    src.connect(layer.gain);
     src.start(0);
-    this.musicSrc = src;
-    this.applyVolumes();
+    layer.src = src;
+    layer.track = track;
+    src.onended = () => {
+      if (layer.src === src) {
+        layer.src = null;
+        layer.track = null;
+      }
+    };
   }
 
+  stopLayer(id, fadeSec = 0.35) {
+    const layer = this.musicLayers.get(id);
+    if (!layer?.src || !this.ctx) return;
+    const src = layer.src;
+    layer.src = null;
+    layer.track = null;
+    const t = this.ctx.currentTime;
+    layer.gain.gain.cancelScheduledValues(t);
+    layer.gain.gain.setValueAtTime(layer.gain.gain.value, t);
+    layer.gain.gain.linearRampToValueAtTime(0, t + fadeSec);
+    try { src.stop(t + fadeSec + 0.02); } catch { /* ignore */ }
+  }
+
+  stopAllLayers(fadeSec = 0.35) {
+    for (const id of [...this.musicLayers.keys()]) this.stopLayer(id, fadeSec);
+  }
+
+  /** @deprecated use score director layers */
+  startMusic(track = "music_day") {
+    this.stopAllLayers(false);
+    this.startLayer("legacy", track);
+    this.setLayerGain("legacy", 1, 0.05);
+  }
+
+  /** @deprecated use score director */
   stopMusic(fade = true) {
-    const src = this.musicSrc;
-    if (!src || !this.ctx) return;
-    this.musicSrc = null;
-    if (fade && this.buses.music) {
-      const g = this.buses.music.gain;
-      const t = this.ctx.currentTime;
-      g.cancelScheduledValues(t);
-      g.setValueAtTime(g.value, t);
-      g.linearRampToValueAtTime(0, t + 0.35);
-      src.stop(t + 0.36);
-      setTimeout(() => this.applyVolumes(), 380);
-    } else {
-      try { src.stop(); } catch { /* ignore */ }
-      this.applyVolumes();
-    }
+    this.stopAllLayers(fade ? 0.35 : 0.01);
   }
 
   dispose() {
-    this.stopMusic(false);
+    this.stopAllLayers(false);
+    this.musicLayers.clear();
     this.ready = false;
     this.loadPromise = null;
     this.buffers.clear();
