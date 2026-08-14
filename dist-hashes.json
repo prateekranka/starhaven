@@ -38,8 +38,8 @@
     },
     {
       "path": "js/game/render.js",
-      "bytes": 33598,
-      "sha256": "02bd73fc81cc6ad9dcd586809be1db7b2f660a39ded3356b4d7bc1f9661d912f"
+      "bytes": 33605,
+      "sha256": "1620d0a6921bb9c859f530de7099f5d4a98329e97ae86c2f1a76408943ea7568"
     },
     {
       "path": "js/perf.js",
@@ -283,13 +283,13 @@
     },
     {
       "path": "media/sprites/sun-guard.atlas.json",
-      "bytes": 25012,
-      "sha256": "c8e09be9ec5c607893aba15b69a027a8c8000fc587702dff7632091e665db0cb"
+      "bytes": 25013,
+      "sha256": "14d8475fa9889e17bc2c337a7bfc4c003e5fbce6de6bb418279d510e9768b2d6"
     },
     {
       "path": "media/sprites/sun-guard.atlas.png",
-      "bytes": 22567,
-      "sha256": "9598b603599bc2dfe613f35165f199baecd9f40b9a250b21f006c3902018c91b"
+      "bytes": 135499,
+      "sha256": "012ff437d9e603d447cbdc3af0f48836079d49bc5496da91d517f93c791f037c"
     },
     {
       "path": "media/sprites/unit-grave-siege.png",
@@ -393,5 +393,5 @@
     }
   ],
   "fileCount": 78,
-  "totalBytes": 40678422
+  "totalBytes": 40791362
 }

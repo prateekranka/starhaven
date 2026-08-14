@@ -548,7 +548,7 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
         const sh = meshes.get("sh" + id);
         if (sh) {
           scene.remove(sh);
-          meshes.delete(sh);
+          meshes.delete("sh" + id);
         }
         corpses.delete(id);
         continue;

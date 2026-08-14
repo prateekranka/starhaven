@@ -9,7 +9,7 @@ import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import sharp from "sharp";
 import { cleanupTree } from "./lib/cleanup.mjs";
-import { loadPalette, loadPipelineConfig, repoPath } from "./lib/config.mjs";
+import { loadPalette, loadPipelineConfig, loadUnitSources, repoPath } from "./lib/config.mjs";
 import { generateUnitSources } from "./lib/generate.mjs";
 import { packUnitAtlas } from "./lib/pack-atlas.mjs";
 
@@ -24,6 +24,7 @@ if (sharp.versions.vips !== "8.17.1") {
 
 const { spec, inbetweening, root } = loadPipelineConfig();
 const palette = loadPalette(faction);
+const sources = loadUnitSources(unitId);
 const sourceRoot = join(root, "assets", "source");
 const atlasPath = repoPath("media", "sprites", `${unitId}.atlas.png`);
 const metaPath = repoPath("media", "sprites", `${unitId}.atlas.json`);
@@ -31,7 +32,7 @@ const provenanceDir = repoPath("assets", "provenance", "units");
 mkdirSync(provenanceDir, { recursive: true });
 
 console.log(`generating sources for ${unitId} (${faction}) clips=${clips.join(",")}`);
-const records = await generateUnitSources({ unitId, faction, clips, palette, sourceRoot });
+const records = await generateUnitSources({ unitId, faction, clips, sourceRoot, sources });
 await cleanupTree(records, palette);
 
 console.log("packing atlas…");
