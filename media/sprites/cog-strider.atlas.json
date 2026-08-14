@@ -40,8 +40,8 @@
       "loop": false
     }
   ],
-  "sha256": "e1e2762e9fc6563ca776068450bf1022fd720cd81c9198df15269d4a3b860181",
-  "bytes": 44613,
+  "sha256": "cc4a1182c0a5f55d2e898afa2fd6c4d3ca6b3909ef2c8ddc15ebde0006aabf56",
+  "bytes": 123134,
   "frames": [
     {
       "id": "cog-strider.walk.N.0",

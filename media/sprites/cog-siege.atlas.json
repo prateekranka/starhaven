@@ -40,8 +40,8 @@
       "loop": false
     }
   ],
-  "sha256": "b70375220651dd595caf014cde339540d2d0b0cd65e2dd404009a085045069d8",
-  "bytes": 34906,
+  "sha256": "5b2a3093d9b346fd52f145af7cb447bcd02a801567b7429fb7c502d1d4745ac2",
+  "bytes": 115450,
   "frames": [
     {
       "id": "cog-siege.walk.N.0",
