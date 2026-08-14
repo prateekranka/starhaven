@@ -192,6 +192,87 @@ export const GRAVEMARK = {
   ai: SHARED_AI,
 };
 
+const ASHVEIN_BUILDINGS = {
+  towncenter: "media/sprites/bldg-grave-tc.png",
+  house: "media/sprites/bldg-grave-house.png",
+  barracks: "media/sprites/bldg-grave-rax.png",
+  mill: "media/sprites/bldg-grave-mill.png",
+  lumber: "media/sprites/bldg-grave-mill.png",
+  mine: "media/sprites/bldg-grave-mill.png",
+  spire: "media/sprites/bldg-grave-rax.png",
+  den: "media/sprites/bldg-grave-rax.png",
+  workshop: "media/sprites/bldg-grave-rax.png",
+  wonder: "media/sprites/bldg-grave-wonder.png",
+};
+
+export const ASHVEIN = {
+  id: "ashvein",
+  identity: {
+    name: "Ashvein Depths",
+    tagline: "Tunnel networks, lava bridges, unseen flanks",
+    portrait: "media/sprites/portrait-gravemark.png",
+    banner: "media/textures/gravemark-banner.jpg",
+    lore: {
+      blurb:
+        "Magma masons who hollow the mesa into hidden arteries. Their delvers slip beneath rival scouts, while vent-calls pour molten rivers that cool into stone spans — reshaping the battlefield mid-siege.",
+      ages: [
+        "Age I — Delver, Ventseer, Ember Guard, Tunnel Strider",
+        "Age II — Magmacore rigs, Ashrunners, Basalt Phalanx",
+        "Age III — Rift Furnace, Caldera Gate wonder",
+      ],
+    },
+  },
+  roster: sharedRoster(),
+  statOverrides: {},
+  techs: sharedTechs(),
+  buffs: {
+    inLight: { speed: 980, dmg: 1020, armor: 1000 },
+    inDark: { speed: 1040, dmg: 1060, armor: 940 },
+  },
+  names: {
+    units: {
+      villager: "Delver",
+      scout: "Ventseer",
+      guard: "Ember Guard",
+      archer: "Cinder Bow",
+      strider: "Tunnel Strider",
+      siege: "Magma Lobber",
+      titan: "Caldera Titan",
+    },
+    buildings: {
+      towncenter: "Vent Keep",
+      house: "Ash Hut",
+      mill: "Ember Mill",
+      lumber: "Quarry Camp",
+      mine: "Magma Pit",
+      barracks: "Basalt Hall",
+      spire: "Vent Spire",
+      den: "Tunnel Den",
+      workshop: "Caldera Yard",
+      wonder: "Caldera Gate",
+    },
+  },
+  sprites: {
+    walkSheet: "media/sprites/sheet-gravemark-walk.png",
+    guardSheet: "media/sprites/sheet-grave-guard.png",
+    strider: "media/sprites/unit-grave-strider.png",
+    siege: "media/sprites/unit-grave-siege.png",
+    portrait: "media/sprites/portrait-gravemark.png",
+    buildings: ASHVEIN_BUILDINGS,
+    units: {
+      default: walkUnit(4.05, true),
+      villager: walkUnit(4.05, true),
+      scout: walkUnit(4.05, true),
+      guard: guardUnit(),
+      archer: guardUnit(),
+      strider: stillUnit("strider", 5.0),
+      siege: stillUnit("siege", 5.2),
+      titan: stillUnit("strider", 7.0),
+    },
+  },
+  ai: { ...SHARED_AI, useTunnelFlank: true },
+};
+
 /** QA-only stub civ: data + placeholder art, no bespoke sim branches. */
 export const QA_STUB = {
   id: "qa-stub",
@@ -259,4 +340,5 @@ export const QA_STUB = {
 
 registerCiv(SUNWOVEN);
 registerCiv(GRAVEMARK);
+registerCiv(ASHVEIN);
 registerCiv(QA_STUB);

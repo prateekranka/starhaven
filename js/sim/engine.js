@@ -8,6 +8,15 @@ import { resolveSeed } from "./seed.js";
 import { applyMapLayout } from "./map-loader.js";
 import { computeFormationSlots } from "./formation.js";
 import {
+  initAshveinWorld,
+  tickAshvein,
+  skipSurfaceVision,
+  ashveinResolvePath,
+  ashveinPlanSurfacePath,
+  onUnitStep,
+  isAshveinUnit,
+} from "./civs/ashvein.js";
+import {
   Q10,
   PERMILLE,
   TICKS_PER_SEC,
@@ -148,6 +157,7 @@ export function createMatch(opts = {}) {
     if (!tutorial) revealAround(world, "enemy", 40, 7, 12);
   }
   recomputeVision(world);
+  initAshveinWorld(world);
   return world;
 }
 
@@ -338,6 +348,7 @@ function spawnUnit(world, owner, type, xQ10, zQ10) {
     remainderX: 0,
     remainderZ: 0,
     _moveBudget: 0,
+    layer: "surface",
   };
   world.units.push(u);
   return u;
@@ -358,7 +369,7 @@ function collectVisionEntities(world) {
   const list = [];
   for (const owner of ["player", "enemy"]) {
     for (const u of world.units) {
-      if (u.owner === owner) list.push({ owner, e: u, kind: "unit" });
+      if (u.owner === owner && !skipSurfaceVision(u)) list.push({ owner, e: u, kind: "unit" });
     }
     for (const b of world.buildings) {
       if (b.owner === owner && isBuilt(b)) list.push({ owner, e: b, kind: "building" });
@@ -457,6 +468,7 @@ function simTick(world) {
     p.rates = { food: 0, wood: 0, crystal: 0, ore: 0 };
   }
   tickAging(world);
+  tickAshvein(world);
   tickBuildings(world);
   tickUnits(world);
   tickProjectiles(world);
@@ -610,6 +622,7 @@ function followPath(world, u, speed, speedPermille) {
       u.zQ10 = tzQ10;
       u.remainderX = 0;
       u.remainderZ = 0;
+      onUnitStep(world, u, cx, cz);
       u.path.shift();
     }
     return;
@@ -839,6 +852,12 @@ function findById(world, fid) {
 function setPath(world, u, xQ10, zQ10) {
   const [sx, sz] = cellOfQ10(u.xQ10, u.zQ10, world.CELL);
   const [gx, gz] = cellOfQ10(xQ10, zQ10, world.CELL);
+  if (isAshveinUnit(u)) {
+    u.path = u.layer === "tunnel"
+      ? ashveinResolvePath(world, u, xQ10, zQ10) || []
+      : ashveinPlanSurfacePath(world, u, xQ10, zQ10) || astar(world.walk, world.N, sx, sz, gx, gz);
+    return;
+  }
   u.path = astar(world.walk, world.N, sx, sz, gx, gz);
 }
 

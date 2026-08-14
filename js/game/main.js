@@ -11,6 +11,7 @@ import { createFramePacer, isQaMode, setText, resolveQuality } from "../perf.js"
 import { ensureMatchAssets } from "../cache/assets.js";
 import { loadMap } from "../data/maps.js";
 import { biomeRgb } from "../data/map-biomes.js";
+import { minimapCellColor } from "../sim/civs/ashvein.js";
 import { checksumWorld, mapLayoutFingerprint } from "../sim/checksum.js";
 
 let world = null;
@@ -758,7 +759,9 @@ function drawMinimap(world, view) {
         ctx.fillStyle = "#071422";
         ctx.fillRect(x * s, z * s, s + 0.5, s + 0.5);
       } else {
-        if (terrain) {
+        const mutColor = minimapCellColor(world, idx, true);
+        if (mutColor) ctx.fillStyle = `rgb(${mutColor[0]},${mutColor[1]},${mutColor[2]})`;
+        else if (terrain) {
           const [r, g, b] = biomeRgb(terrain[idx]);
           ctx.fillStyle = `rgb(${r},${g},${b})`;
         } else {
@@ -787,7 +790,7 @@ function drawMinimap(world, view) {
   }
   for (const u of world.units) {
     const [cx, cz] = [(wx(u) / world.CELL) | 0, (wz(u) / world.CELL) | 0];
-    if (u.owner !== "player" && !world.visible.player[cz * n + cx]) continue;
+    if (u.owner !== "player" && (u.layer === "tunnel" || !world.visible.player[cz * n + cx])) continue;
     ctx.fillStyle = u.owner === "player" ? "#9df" : u.owner === "enemy" ? "#f88" : "#8ff";
     ctx.fillRect(wx(u) * s * (1 / world.CELL) - 1, wz(u) * s * (1 / world.CELL) - 1, 2, 2);
   }

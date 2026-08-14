@@ -1,4 +1,5 @@
 import { BUILDINGS, UNITS } from "../data/catalog.js";
+import { ASHVEIN_ID, planAshveinFlankPath } from "./civs/ashvein.js";
 import {
   queueUnit,
   tryPlace,
@@ -73,7 +74,18 @@ export function runAI(world) {
   if (ptc && army.length >= (world.difficulty === "settler" ? 10 : 6) && world.t > d.waveTick) {
     if (world.t > p.attackWaveAtTick) {
       p.attackWaveAtTick = world.t + secToTicks(55);
-      for (const u of army) issueAttackMove(world, u, ptc.xQ10, ptc.zQ10);
+      for (const u of army) {
+        if (p.faction === ASHVEIN_ID) {
+          const flank = planAshveinFlankPath(world, u, ptc.xQ10, ptc.zQ10);
+          if (flank?.length) {
+            u.layer = "surface";
+            u.path = flank;
+            u.state = "attackmove";
+            continue;
+          }
+        }
+        issueAttackMove(world, u, ptc.xQ10, ptc.zQ10);
+      }
     }
   }
 
