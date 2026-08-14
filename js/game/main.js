@@ -3,7 +3,7 @@ import { distanceSquaredQ10, q10RangeSq, ticksToSec } from "../sim/fixed.js";
 
 const wx = (e) => worldFromQ10(e.xQ10);
 const wz = (e) => worldFromQ10(e.zQ10);
-import { civDisplayName as displayName, civSelectionPortrait, civBuildThumb } from "../data/civ-schema.js";
+import { civDisplayName, civSelectionPortrait, civBuildThumb } from "../data/civ-schema.js";
 import "../data/civs.js";
 import { createRenderer } from "./render.js";
 import { beep, haptic, loadSave, showScreen } from "../boot.js";
@@ -648,7 +648,7 @@ function renderSelection() {
   box.classList.remove("hidden");
   const e = sel[0];
   const faction = e.faction || world.players.player.faction;
-  const name = e.kind === "unit" ? displayName(e.type, faction, "unit") : displayName(e.type, faction, "building");
+  const name = e.kind === "unit" ? civDisplayName(faction, e.type, "unit") : civDisplayName(faction, e.type, "building");
   document.getElementById("sel-name").textContent = sel.length > 1 ? `${sel.length} SELECTED` : name;
   document.getElementById("sel-meta").textContent = e.kind === "unit" ? UNITS[e.type].role : BUILDINGS[e.type].name;
   const hp = e.hp / e.maxHp;

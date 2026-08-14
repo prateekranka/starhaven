@@ -491,11 +491,6 @@ export function inLight(world, xQ10) {
   return xQ10 < lineXQ10(world);
 }
 
-/** Temporary shim — issue #23 inlines civBuff at call sites. */
-function factionBuff(world, u) {
-  return civBuff(u.faction, inLight(world, u.xQ10));
-}
-
 function tickAging(world) {
   for (const p of Object.values(world.players)) {
     if (p.agingTicks > 0) {
@@ -539,7 +534,7 @@ function tickUnits(world) {
   for (const u of world.units) {
     if (u.hp <= 0) continue;
     const spec = UNITS[u.type];
-    const buff = factionBuff(world, u);
+    const buff = civBuff(u.faction, inLight(world, u.xQ10));
     if (u.attackCdTicks > 0) u.attackCdTicks -= 1;
     if (u.state === "walk" || u.state === "return" || u.state === "gatherwalk" || u.state === "buildwalk" || u.state === "attackmove") {
       followPath(world, u, spec.speed, buff.speed);
@@ -800,7 +795,7 @@ function tickProjectiles(world) {
 }
 
 function hit(world, t, dmg, src) {
-  const buff = t.kind === "unit" ? factionBuff(world, t) : { armor: 1000 };
+  const buff = t.kind === "unit" ? civBuff(t.faction, inLight(world, t.xQ10)) : { armor: 1000 };
   t.hp -= permilleMul(dmg, buff.armor || 1000);
   if (t.kind === "unit" && t.state === "idle" && t.type === "villager") {
     /* keep gathering unless dying */

@@ -92,22 +92,7 @@
       <div class="setup-grid setup-stack">
         <div class="setup-card setup-civ">
           <h3>Your civilization</h3>
-          <div class="faction-picks">
-            <button class="faction-pick selected" data-faction="sunwoven">
-              <span class="faction-portrait">
-                <img src="media/sprites/portrait-sunwoven.png" alt="Sunwoven" />
-              </span>
-              <strong>Sunwoven</strong>
-              <em>Solar sails, beam infantry, faster in daylight</em>
-            </button>
-            <button class="faction-pick" data-faction="gravemark">
-              <span class="faction-portrait">
-                <img src="media/sprites/portrait-gravemark.png" alt="Gravemark" />
-              </span>
-              <strong>Gravemark</strong>
-              <em>Stonebound walkers, tougher in shadow</em>
-            </button>
-          </div>
+          <div class="faction-picks" id="faction-picks"></div>
         </div>
         <div class="setup-card setup-battle">
           <h3>Battle</h3>
@@ -142,28 +127,7 @@
         <button class="back-btn" data-action="title">←</button>
         <h2>CIVILIZATIONS</h2>
       </header>
-      <div class="lore-grid">
-        <article class="lore">
-          <img src="media/sprites/portrait-sunwoven.png" alt="" />
-          <h3>Sunwoven</h3>
-          <p>Weavers of light who stitch cities from brass, calcite, and solar crystal. Villagers unfold golden arms to raise palaces. In the Bright Line's day-side their skiffs and lumen guards surge.</p>
-          <ul>
-            <li>Age I — Weaver, Pathfinder, Lumen Guard, Solar Strider</li>
-            <li>Age II — Threadwright backpacks, Sunrunners, Radiant Phalanx</li>
-            <li>Age III — Helio Manta gunships, Dawn Ark wonder</li>
-          </ul>
-        </article>
-        <article class="lore">
-          <img src="media/sprites/portrait-gravemark.png" alt="" />
-          <h3>Gravemark</h3>
-          <p>Necrolith masons who bind basalt to void crystal. Their gravesmiths raise crypt-fortresses. Night on the Bright Line hardens their phalanxes and wakes rift-cutter barges.</p>
-          <ul>
-            <li>Age I — Stonemason, Faultseer, Basalt Guard, Tomb Strider</li>
-            <li>Age II — Gravesmith rigs, Dustrunners, Crypt Phalanx</li>
-            <li>Age III — Obsidian Ray, Mausoleum Engine wonder</li>
-          </ul>
-        </article>
-      </div>
+      <div class="lore-grid" id="lore-grid"></div>
     </div>
   </section>
 

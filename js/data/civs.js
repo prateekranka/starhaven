@@ -58,7 +58,6 @@ const stillUnit = (kind, scale) => ({ kind, sheet: false, scale, southFirst: fal
 
 export const SUNWOVEN = {
   id: "sunwoven",
-  renderKey: "sun",
   identity: {
     name: "Sunwoven",
     tagline: "Solar sails, beam infantry, faster in daylight",
@@ -127,7 +126,6 @@ export const SUNWOVEN = {
 
 export const GRAVEMARK = {
   id: "gravemark",
-  renderKey: "grave",
   identity: {
     name: "Gravemark",
     tagline: "Stonebound walkers, tougher in shadow",
@@ -194,8 +192,71 @@ export const GRAVEMARK = {
   ai: SHARED_AI,
 };
 
+/** QA-only stub civ: data + placeholder art, no bespoke sim branches. */
+export const QA_STUB = {
+  id: "qa-stub",
+  qaOnly: true,
+  identity: {
+    name: "QA Stub",
+    tagline: "Placeholder civ for data-only boot tests",
+    portrait: "media/sprites/portrait-sunwoven.png",
+    banner: "media/textures/sunwoven-banner.jpg",
+    lore: {
+      blurb: "Synthetic civilization registered from data. Uses placeholder sprites and neutral buffs to prove new civs need no code forks.",
+      ages: ["Age I — Stub Mason, Stub Scout", "Age II — Placeholder rigs", "Age III — Test Engine wonder"],
+    },
+  },
+  roster: sharedRoster(),
+  statOverrides: {},
+  techs: sharedTechs(),
+  buffs: {
+    inLight: { speed: 1000, dmg: 1000, armor: 1000 },
+    inDark: { speed: 1000, dmg: 1000, armor: 1000 },
+  },
+  names: {
+    units: {
+      villager: "Stub Mason",
+      scout: "Stub Scout",
+      guard: "Stub Guard",
+      archer: "Stub Bow",
+      strider: "Stub Strider",
+      siege: "Stub Siege",
+      titan: "Stub Titan",
+    },
+    buildings: {
+      towncenter: "Stub Keep",
+      house: "Stub Hut",
+      mill: "Stub Mill",
+      lumber: "Stub Camp",
+      mine: "Stub Pit",
+      barracks: "Stub Hall",
+      spire: "Stub Spire",
+      den: "Stub Den",
+      workshop: "Stub Yard",
+      wonder: "Stub Engine",
+    },
+  },
+  sprites: {
+    walkSheet: "media/sprites/sheet-sunwoven-walk.png",
+    guardSheet: "media/sprites/sheet-sun-guard.png",
+    strider: "media/sprites/unit-sun-strider.png",
+    siege: "media/sprites/unit-sun-siege.png",
+    portrait: "media/sprites/portrait-sunwoven.png",
+    buildings: SUNWOVEN_BUILDINGS,
+    units: {
+      default: walkUnit(4.05, false),
+      villager: walkUnit(4.05, false),
+      scout: walkUnit(4.05, false),
+      guard: guardUnit(),
+      archer: guardUnit(),
+      strider: stillUnit("strider", 5.0),
+      siege: stillUnit("siege", 5.2),
+      titan: stillUnit("strider", 7.0),
+    },
+  },
+  ai: SHARED_AI,
+};
+
 registerCiv(SUNWOVEN);
 registerCiv(GRAVEMARK);
-
-/** Temporary shim — issue #23 deletes this table; use getCiv("gravemark").names. */
-export const GRAVEMARK_NAMES = { ...GRAVEMARK.names.units, ...GRAVEMARK.names.buildings };
+registerCiv(QA_STUB);

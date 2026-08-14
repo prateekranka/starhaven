@@ -29,14 +29,10 @@ export const DEFAULT_CIV_ID = "sunwoven";
 
 export function opponentCivId(playerId) {
   const pool = listPlayableCivs({ qa: playerId === "qa-stub" });
-  const other = pool.find((c) => c.id !== playerId);
+  const other = pool.find((c) => c.id !== playerId && !c.qaOnly);
   if (other) return other.id;
-  return playerId === "sunwoven" ? "gravemark" : "sunwoven";
-}
-
-export function civRenderKey(civId) {
-  const civ = getCiv(civId);
-  return civ?.renderKey || civId;
+  const fallback = pool.find((c) => c.id !== playerId);
+  return fallback?.id || DEFAULT_CIV_ID;
 }
 
 export function civDisplayName(civId, type, kind = "unit") {
@@ -79,9 +75,4 @@ export function civSelectionPortrait(civId, entity) {
 
 export function civBuildThumb(civId, buildingType) {
   return civBuildingSprite(civId, buildingType);
-}
-
-/** Temporary shim — issue #23 removes this alias. */
-export function displayName(type, faction, kind = "unit") {
-  return civDisplayName(faction, type, kind);
 }

@@ -7,7 +7,8 @@ import { cachedImage } from "../cache/assets.js";
 const wx = (e) => worldFromQ10(e.xQ10);
 const wz = (e) => worldFromQ10(e.zQ10);
 import { BIOME_HEX } from "../data/map-biomes.js";
-import { civRenderKey, civUnitSpriteSpec, listPlayableCivs } from "../data/civ-schema.js";
+import { civUnitSpriteSpec, listPlayableCivs, DEFAULT_CIV_ID } from "../data/civ-schema.js";
+import { isQaMode } from "../perf.js";
 import "../data/civs.js";
 
 const MAP = N * CELL;
@@ -315,12 +316,12 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
   const shadowGeo = new THREE.CircleGeometry(0.62, 22);
   const shadowMat = new THREE.MeshBasicMaterial({ color: 0x120c08, transparent: true, opacity: 0.52, depthWrite: false, toneMapped: false });
 
-  const ghost = new THREE.Sprite(spriteMat(bldg.sun.house));
+  const ghost = new THREE.Sprite(spriteMat(bldg[DEFAULT_CIV_ID].house));
   ghost.center.set(0.5, 0.12);
   ghost.visible = false;
   ghost.material.opacity = 0.45;
   ghost.material.alphaTest = 0.05;
-  fitWhenReady(ghost, bldg.sun.house, 4.2);
+  fitWhenReady(ghost, bldg[DEFAULT_CIV_ID].house, 4.2);
   scene.add(ghost);
 
   const vfx = makeVfx(scene, q.vfx);
@@ -543,8 +544,8 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
 
     if (world.placing) {
       ghost.visible = true;
-      const fac = civRenderKey(world.players.player.faction);
-      const map = bldg[fac][world.placing] || bldg[fac].house;
+      const playerCiv = world.players.player.faction;
+      const map = bldg[playerCiv]?.[world.placing] || bldg[playerCiv]?.house || bldg[DEFAULT_CIV_ID].house;
       if (ghost.material.map !== map) ghost.material.map = map;
       fitWhenReady(ghost, map, buildingScale(world.placing));
       const gx = world.placeX || camTarget.x;
@@ -631,13 +632,16 @@ function buildRendererAssets(pix) {
   const sheets = {};
   const stills = {};
   const bldg = {};
-  for (const civ of listPlayableCivs()) {
-    const key = civ.renderKey;
-    sheets[`${key}Walk`] = pix(civ.sprites.walkSheet);
-    sheets[`${key}Guard`] = pix(civ.sprites.guardSheet);
-    stills[`${key}Strider`] = pix(civ.sprites.strider);
-    stills[`${key}Siege`] = pix(civ.sprites.siege);
-    bldg[key] = Object.fromEntries(
+  for (const civ of listPlayableCivs({ qa: isQaMode() })) {
+    sheets[civ.id] = {
+      walk: pix(civ.sprites.walkSheet),
+      guard: pix(civ.sprites.guardSheet),
+    };
+    stills[civ.id] = {
+      strider: pix(civ.sprites.strider),
+      siege: pix(civ.sprites.siege),
+    };
+    bldg[civ.id] = Object.fromEntries(
       Object.entries(civ.sprites.buildings).map(([type, path]) => [type, pix(path)])
     );
   }
@@ -645,8 +649,8 @@ function buildRendererAssets(pix) {
 }
 
 function makeBuildingSprite(b, bldg) {
-  const fac = civRenderKey(b.faction);
-  const map = bldg[fac][b.type] || bldg[fac].house;
+  const bucket = bldg[b.faction] || bldg[DEFAULT_CIV_ID];
+  const map = bucket[b.type] || bucket.house;
   const s = new THREE.Sprite(spriteMat(map));
   s.center.set(0.5, 0.07);
   fitWhenReady(s, map, buildingScale(b.type));
@@ -663,19 +667,21 @@ function makeNode(r, nodes) {
 
 function unitSheet(u, sheets, stills) {
   const spec = civUnitSpriteSpec(u.faction, u.type);
-  const key = civRenderKey(u.faction);
+  const walk = sheets[u.faction]?.walk || sheets[DEFAULT_CIV_ID].walk;
   if (!spec) {
-    return { map: sheets[`${key}Walk`], sheet: true, scale: 4.05, southFirst: false };
+    return { map: walk, sheet: true, scale: 4.05, southFirst: false };
   }
-  const bucket =
+  const bucket = sheets[u.faction] || sheets[DEFAULT_CIV_ID];
+  const still = stills[u.faction] || stills[DEFAULT_CIV_ID];
+  const map =
     spec.kind === "guardSheet"
-      ? sheets[`${key}Guard`]
+      ? bucket.guard
       : spec.kind === "strider"
-        ? stills[`${key}Strider`]
+        ? still.strider
         : spec.kind === "siege"
-          ? stills[`${key}Siege`]
-          : sheets[`${key}Walk`];
-  return { map: bucket, sheet: spec.sheet, scale: spec.scale, southFirst: spec.southFirst };
+          ? still.siege
+          : bucket.walk;
+  return { map, sheet: spec.sheet, scale: spec.scale, southFirst: spec.southFirst };
 }
 
 function makeUnitSprite(u, sheets, stills) {

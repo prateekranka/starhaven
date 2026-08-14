@@ -3,6 +3,9 @@ import { detectDefaultQuality } from "../perf.js";
 import { startBackgroundWarm, ensureMatchAssets, matchAssetsReady } from "../cache/assets.js";
 import { parseSeed } from "../sim/seed.js";
 import { loadMapManifest, populateMapSelect } from "../data/maps.js";
+import { renderFactionPicks, renderLoreGrid, DEFAULT_CIV_ID } from "../data/civ-ui.js";
+import { getCiv } from "../data/civ-schema.js";
+import "../data/civs.js";
 
 /** Non-deterministic seed for blank setup fields (UI only — never in js/sim/). */
 function pickRandomSeed() {
@@ -48,6 +51,7 @@ export function initUi() {
   }).catch((err) => {
     console.warn("map manifest load failed", err);
   });
+  mountCivScreens(save);
   if (native) document.body.classList.add("native");
   watchCacheWarm();
 
@@ -63,19 +67,23 @@ export function initUi() {
         stopMatch();
         showScreen("title");
       });
-    } else if (action === "skirmish") showScreen("skirmish");
-    else if (action === "factions") showScreen("factions");
+    } else if (action === "skirmish") {
+      mountCivScreens(save);
+      showScreen("skirmish");
+    } else if (action === "factions") {
+      renderLoreGrid(document.getElementById("lore-grid"));
+      showScreen("factions");
     else if (action === "settings") showScreen("settings");
     else if (action === "tutorial") showScreen("tutorial");
     else if (action === "campaign") {
       playMatch({
-        playerFaction: save.faction || "sunwoven",
+        playerFaction: save.faction || DEFAULT_CIV_ID,
         difficulty: "chieftain",
         campaign: true,
         mapId: save.mapId || "bright-mesa",
       });
     } else if (action === "start-skirmish") {
-      const faction = document.querySelector(".faction-pick.selected")?.dataset.faction || "sunwoven";
+      const faction = document.querySelector(".faction-pick.selected")?.dataset.faction || DEFAULT_CIV_ID;
       const difficulty = document.getElementById("diff-select").value;
       const mapId = document.getElementById("map-select")?.value || "bright-mesa";
       const seedRaw = document.getElementById("seed-input")?.value?.trim();
@@ -86,18 +94,11 @@ export function initUi() {
       writeSave(save);
       playMatch({ playerFaction: faction, difficulty, mapId, seed: seedRaw || save.seed || undefined });
     } else if (action === "start-tutorial") {
-      playMatch({ playerFaction: save.faction || "sunwoven", tutorial: true, difficulty: "settler" });
+      playMatch({ playerFaction: save.faction || DEFAULT_CIV_ID, tutorial: true, difficulty: "settler" });
     }
   });
 
-  document.querySelectorAll(".faction-pick").forEach((el) => {
-    el.addEventListener("click", () => {
-      document.querySelectorAll(".faction-pick").forEach((x) => x.classList.remove("selected"));
-      el.classList.add("selected");
-      save.faction = el.dataset.faction;
-      writeSave(save);
-    });
-  });
+  mountCivScreens(save);
 
   document.getElementById("settings-form").addEventListener("change", () => {
     const s = loadSave();
@@ -129,13 +130,27 @@ export function initUi() {
   const params = new URLSearchParams(location.search);
   if (params.get("play") === "1") {
     playMatch({
-      playerFaction: params.get("faction") || save.faction || "sunwoven",
+      playerFaction: params.get("faction") || save.faction || DEFAULT_CIV_ID,
       difficulty: params.get("diff") || save.difficulty || "chieftain",
       tutorial: params.get("tutorial") === "1",
       seed: save.seed || undefined,
     });
   }
 }
+
+function mountCivScreens(save) {
+  const selected = getCiv(save.faction)?.id || DEFAULT_CIV_ID;
+  renderFactionPicks(document.getElementById("faction-picks"), {
+    selectedId: selected,
+    onSelect: (civId) => {
+      const s = loadSave();
+      s.faction = civId;
+      writeSave(s);
+    },
+  });
+  renderLoreGrid(document.getElementById("lore-grid"));
+}
+
 
 async function playMatch(opts = {}) {
   const seed = resolveUiSeed(opts.seed);
