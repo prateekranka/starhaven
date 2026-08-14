@@ -53,8 +53,13 @@
     },
     {
       "path": "js/cache/assets.js",
-      "bytes": 10455,
-      "sha256": "8137f4132e301780fd4bd40fcf297474bc0269e7f2af60e02e926f1712291591"
+      "bytes": 9748,
+      "sha256": "52d87cc20052d58dc710371aac2c4c9f8e4fef17a4c789729df11b474362b60b"
+    },
+    {
+      "path": "js/cache/offline-shared.js",
+      "bytes": 1120,
+      "sha256": "10c41941b9864b8e5d0c6c3875b389621c82bf32c175fbe50c424b9a2a11c454"
     },
     {
       "path": "js/data/catalog.js",
@@ -83,8 +88,8 @@
     },
     {
       "path": "js/data/map-biomes.js",
-      "bytes": 1704,
-      "sha256": "1a2eff64544b32ad74b40a323d0099487d1ce6c6c1fea63028f1a9ce88b0baa5"
+      "bytes": 2328,
+      "sha256": "687684e10004414ce8fb924eb4f122ba856adafb0b82cf342e9bf172adb3c996"
     },
     {
       "path": "js/data/maps.js",
@@ -1783,8 +1788,8 @@
     },
     {
       "path": "sw.js",
-      "bytes": 6494,
-      "sha256": "80ce3e52f0dee9fc7a1d480ee96c40c5268ae68e6bf039b00a4dffad6ae63b43"
+      "bytes": 5863,
+      "sha256": "be8d62e686d32cd47533827a15d27e53833276529132ec4380fb865c791402d7"
     },
     {
       "path": "vendor/three.module.js",
@@ -1792,6 +1797,6 @@
       "sha256": "ce1fa418de16a19495a9f72495580e3015d7745c296d3ce0485897f902ddedfb"
     }
   ],
-  "fileCount": 358,
-  "totalBytes": 133568988
+  "fileCount": 359,
+  "totalBytes": 133569394
 }
