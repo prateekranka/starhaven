@@ -8,8 +8,8 @@ import { fileURLToPath } from "node:url";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
-const CDP_PORT = 9333;
-const HTTP_PORT = 8765;
+const CDP_PORT = 9340 + Math.floor(Math.random() * 200);
+const HTTP_PORT = 8860 + Math.floor(Math.random() * 200);
 const SAVE_KEY = "starhaven.bright-frontier.v1";
 const MIME = { ".html": "text/html", ".js": "text/javascript", ".css": "text/css", ".json": "application/json", ".png": "image/png", ".jpg": "image/jpeg", ".woff2": "font/woff2" };
 
@@ -83,7 +83,10 @@ async function main() {
     cdp = await connectPage(CDP_PORT);
     await cdp.send("Runtime.enable");
     await cdp.send("Page.enable");
-    await cdp.eval(`new Promise((resolve)=>{const s=Date.now();const t=()=>{if(document.getElementById('settings-form'))resolve(true);else if(Date.now()-s>8000)resolve(false);else requestAnimationFrame(t);};t();})`);
+    await cdp.send("ServiceWorker.disable");
+    await cdp.send("Page.navigate", { url: `http://127.0.0.1:${HTTP_PORT}/` });
+    await sleep(600);
+    await cdp.eval(`new Promise((resolve)=>{const s=Date.now();const t=()=>{if(document.querySelector('.title-settings'))resolve(true);else if(Date.now()-s>8000)resolve(false);else requestAnimationFrame(t);};t();})`);
 
     const results = {};
     results.titleVisible = await cdp.eval(`!!document.querySelector('#screen-title.active')`);
