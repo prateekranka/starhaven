@@ -3,13 +3,13 @@
   "files": [
     {
       "path": "cache-manifest.json",
-      "bytes": 24312,
-      "sha256": "05653d24dd89f90f9f6542285f80d8a55d2bc5918e916823097ed81c6fdf8be8"
+      "bytes": 24356,
+      "sha256": "16c094d8602607e02c0bb73ea404111079d8b19d00b339f1e22ec2f77df5969a"
     },
     {
       "path": "css/app.css",
-      "bytes": 33805,
-      "sha256": "488300ebd95788df442ee004eead2282bdcdae498b45ac93b57fcdad234fe51c"
+      "bytes": 33913,
+      "sha256": "9b5653cf0bc207996efd4a7dd4cc653887df1e707dad88d24f91201d3b736c13"
     },
     {
       "path": "css/tokens.css",
@@ -18,8 +18,8 @@
     },
     {
       "path": "index.html",
-      "bytes": 23738,
-      "sha256": "769e129482a87e47ebb5676240e60dac5084a3abcd6e993b62976447fe326fc0"
+      "bytes": 23840,
+      "sha256": "bea113e635af65cb61bce84b459453735301685c6f5886af145c05920d4cabb4"
     },
     {
       "path": "js/audio/engine.js",
@@ -198,8 +198,8 @@
     },
     {
       "path": "js/ui/app.js",
-      "bytes": 13589,
-      "sha256": "9c85b5eed451cace59066c42f242edc9798e6aa3351b9cd471f731cae54f0aeb"
+      "bytes": 13583,
+      "sha256": "56f082067c4531eb3787e88a5fd2eb51bd31cd7650e842ac1cd6b97c84d89b9e"
     },
     {
       "path": "js/ui/kit.js",
@@ -1828,5 +1828,5 @@
     }
   ],
   "fileCount": 365,
-  "totalBytes": 56911314
+  "totalBytes": 56911562
 }
