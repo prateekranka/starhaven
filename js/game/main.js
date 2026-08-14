@@ -785,22 +785,28 @@ function drawMinimap(world, view) {
   }
   for (const r of world.resources) {
     if (r.kind === "rockblock" || r.amount <= 0) continue;
-    const [cx, cz] = [(r.x / world.CELL) | 0, (r.z / world.CELL) | 0];
+    const rx = wx(r);
+    const rz = wz(r);
+    const [cx, cz] = [(rx / world.CELL) | 0, (rz / world.CELL) | 0];
     if (!world.explored.player[cz * n + cx]) continue;
     ctx.fillStyle = r.kind === "food" ? "#4c8" : r.kind === "wood" ? "#385" : r.kind === "crystal" ? "#6cf" : "#fc6";
-    ctx.fillRect(r.x * s * (1 / world.CELL) - 1, r.z * s * (1 / world.CELL) - 1, 3, 3);
+    ctx.fillRect(rx * s * (1 / world.CELL) - 1, rz * s * (1 / world.CELL) - 1, 3, 3);
   }
   for (const b of world.buildings) {
-    const [cx, cz] = [(b.x / world.CELL) | 0, (b.z / world.CELL) | 0];
+    const bx = wx(b);
+    const bz = wz(b);
+    const [cx, cz] = [(bx / world.CELL) | 0, (bz / world.CELL) | 0];
     if (b.owner !== "player" && !world.explored.player[cz * n + cx]) continue;
     ctx.fillStyle = b.owner === "player" ? "#4af" : b.owner === "enemy" ? "#f45" : "#eee";
-    ctx.fillRect(b.x * s * (1 / world.CELL) - 2, b.z * s * (1 / world.CELL) - 2, 5, 5);
+    ctx.fillRect(bx * s * (1 / world.CELL) - 2, bz * s * (1 / world.CELL) - 2, 5, 5);
   }
   for (const u of world.units) {
-    const [cx, cz] = [(u.x / world.CELL) | 0, (u.z / world.CELL) | 0];
+    const ux = wx(u);
+    const uz = wz(u);
+    const [cx, cz] = [(ux / world.CELL) | 0, (uz / world.CELL) | 0];
     if (u.owner !== "player" && !world.visible.player[cz * n + cx]) continue;
     ctx.fillStyle = u.owner === "player" ? "#9df" : u.owner === "enemy" ? "#f88" : "#8ff";
-    ctx.fillRect(u.x * s * (1 / world.CELL) - 1, u.z * s * (1 / world.CELL) - 1, 2, 2);
+    ctx.fillRect(ux * s * (1 / world.CELL) - 1, uz * s * (1 / world.CELL) - 1, 2, 2);
   }
   const cam = view.cameraInfo();
   const mapWorld = n * world.CELL;

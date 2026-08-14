@@ -3,10 +3,19 @@ import { N, CELL, inLight, q10FromWorld, lineX, buildRatio } from "../sim/engine
 import { worldFromQ10, Q10, FACING_MILLIRAD, TICKS_PER_SEC } from "../sim/fixed.js";
 import { pixelRatioFor, resolveQuality, backingLabel, isSoftwareGL, glRendererName } from "../perf.js";
 import { cachedImage } from "../cache/assets.js";
+import { BIOME_HEX } from "../data/map-biomes.js";
+import {
+  createLitBillboard,
+  syncBrightLineUniforms,
+  setLitTint,
+  disposeLitBillboard,
+  litMap,
+  setLitMap,
+} from "./bright-lit.js";
+import { createParticleSystem } from "./particles.js";
 
 const wx = (e) => worldFromQ10(e.xQ10);
 const wz = (e) => worldFromQ10(e.zQ10);
-import { BIOME_HEX } from "../data/map-biomes.js";
 
 const MAP = N * CELL;
 THREE.Cache.enabled = true;
@@ -148,27 +157,14 @@ function cloneSheet(base) {
   return t;
 }
 
-function spriteMat(map, { additive = false } = {}) {
-  return new THREE.SpriteMaterial({
-    map,
-    transparent: true,
-    alphaTest: 0.22,
-    depthWrite: !additive,
-    depthTest: true,
-    sizeAttenuation: true,
-    toneMapped: false,
-    blending: additive ? THREE.AdditiveBlending : THREE.NormalBlending,
-  });
-}
-
-function fitWhenReady(sprite, map, height) {
+function fitWhenReady(mesh, map, height) {
   const apply = () => {
     const img = map.image;
     if (!img?.width) return false;
     const a = img.width / Math.max(1, img.height);
-    sprite.userData.baseScale = height;
-    sprite.userData.aspect = a;
-    sprite.scale.set(height * a, height, 1);
+    mesh.userData.baseScale = height;
+    mesh.userData.aspect = a;
+    mesh.scale.set(height * a, height, 1);
     return true;
   };
   if (apply()) return;
@@ -344,15 +340,12 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
   const shadowGeo = new THREE.CircleGeometry(0.62, 22);
   const shadowMat = new THREE.MeshBasicMaterial({ color: 0x120c08, transparent: true, opacity: 0.52, depthWrite: false, toneMapped: false });
 
-  const ghost = new THREE.Sprite(spriteMat(bldg.sun.house));
-  ghost.center.set(0.5, 0.12);
+  const ghost = createLitBillboard(bldg.sun.house, { pivotY: 0.12, opacity: 0.45, glow: 0.15 });
   ghost.visible = false;
-  ghost.material.opacity = 0.45;
-  ghost.material.alphaTest = 0.05;
   fitWhenReady(ghost, bldg.sun.house, 4.2);
   scene.add(ghost);
 
-  const vfx = makeVfx(scene, q.vfx);
+  const vfx = createParticleSystem(scene, sampleH, Math.max(160, q.vfx * 5), MAP);
   let rockProps = null;
 
   const raycaster = new THREE.Raycaster();
@@ -443,8 +436,9 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
     }
     settleCam(false);
 
-    waterMap.offset.x = (world.t * 0.018) % 1;
-    waterMap.offset.y = (world.t * 0.011) % 1;
+    const tSec = world.t / TICKS_PER_SEC;
+    waterMap.offset.x = (tSec * 0.018) % 1;
+    waterMap.offset.y = (tSec * 0.011) % 1;
 
     for (const r of world.resources) {
       if (r.kind === "rockblock") continue;
@@ -476,7 +470,8 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
       const base = (m.userData.baseScale || buildingScale(b.type)) * (0.55 + 0.45 * built);
       const a = m.userData.aspect || 1;
       m.scale.set(base * a, base, 1);
-      m.material.opacity = 0.55 + 0.45 * built;
+      m.userData.opacity = 0.55 + 0.45 * built;
+      m.userData.glow = built >= 0.35 ? 0.55 + built * 0.45 : 0;
       m.visible = seen(world, wx(b), wz(b)) || b.owner === "player";
     }
     for (const u of world.units) {
@@ -525,8 +520,7 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
       keep.add("relic" + relic.id);
       let m = meshes.get("relic" + relic.id);
       if (!m) {
-        m = new THREE.Sprite(spriteMat(nodes.void, { additive: false }));
-        m.center.set(0.5, 0.12);
+        m = createLitBillboard(nodes.void, { pivotY: 0.12, glow: 0.35, glowColor: [0.55, 0.78, 1] });
         m.scale.set(4.2, 4.2, 1);
         meshes.set("relic" + relic.id, m);
         scene.add(m);
@@ -537,7 +531,7 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
     for (const [k, m] of meshes) {
       if (!keep.has(k)) {
         scene.remove(m);
-        disposeSprite(m);
+        disposeLitBillboard(m);
         meshes.delete(k);
       }
     }
@@ -546,7 +540,7 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
       ...world.units.filter((u) => selSet.has(u.id)),
       ...world.buildings.filter((b) => selSet.has(b.id)),
     ];
-    const pulse = 0.82 + Math.sin(world.t * 6) * 0.12;
+    const pulse = 0.82 + Math.sin((world.t / TICKS_PER_SEC) * 6) * 0.12;
     rings.forEach((ring, i) => {
       const sel = selected[i];
       if (!sel) {
@@ -569,15 +563,18 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
     hemi.color.set(inLight(world, q10FromWorld(camTarget.x)) ? 0xd8ecff : 0x9aa8d8);
     scene.background.set(inLight(world, q10FromWorld(camTarget.x)) ? "#6eb4e8" : "#3a4a78");
     if (!rockProps) rockProps = addRockProps(scene, world);
+    syncBrightLineUniforms(scene, world, MAP);
     paintFog(fogCtx, fogTex, fogImg, world, terrainFogLut);
-    vfx.tick(world);
+    vfx.tick(world, dt);
 
     if (world.placing) {
       ghost.visible = true;
       const fac = world.players.player.faction === "gravemark" ? "grave" : "sun";
       const map = bldg[fac][world.placing] || bldg[fac].house;
-      if (ghost.material.map !== map) ghost.material.map = map;
-      fitWhenReady(ghost, map, buildingScale(world.placing));
+      if (litMap(ghost) !== map) {
+        setLitMap(ghost, map);
+        fitWhenReady(ghost, map, buildingScale(world.placing));
+      }
       const gx = world.placeX || camTarget.x;
       const gz = world.placeZ || camTarget.z;
       ghost.position.set(gx, sampleH(gx, gz), gz);
@@ -625,7 +622,7 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
     },
     setGhost(x, z, ok) {
       ghost.position.set(x, sampleH(x, z), z);
-      ghost.material.color.set(ok ? 0xffffff : 0xff6688);
+      setLitTint(ghost, ok ? 1 : 1, ok ? 1 : 0.42, ok ? 1 : 0.55);
     },
     setAdaptiveScale(scale) {
       adaptiveScale = scale;
@@ -657,16 +654,15 @@ function buildingScale(type) {
 function makeBuildingSprite(b, bldg) {
   const fac = b.faction === "gravemark" ? "grave" : "sun";
   const map = bldg[fac][b.type] || bldg[fac].house;
-  const s = new THREE.Sprite(spriteMat(map));
-  s.center.set(0.5, 0.07);
+  const glowColor = fac === "grave" ? [0.48, 0.62, 1] : [1, 0.82, 0.38];
+  const s = createLitBillboard(map, { pivotY: 0.07, glow: 0.85, glowColor });
   fitWhenReady(s, map, buildingScale(b.type));
   return s;
 }
 
 function makeNode(r, nodes) {
   const map = nodes[r.kind] || nodes.crystal;
-  const s = new THREE.Sprite(spriteMat(map));
-  s.center.set(0.5, 0.02);
+  const s = createLitBillboard(map, { pivotY: 0.02, glow: r.kind === "crystal" ? 0.25 : 0 });
   fitWhenReady(s, map, r.kind === "wood" ? 5.1 : r.kind === "food" ? 4.4 : r.kind === "ore" ? 4.3 : 4.0);
   return s;
 }
@@ -685,8 +681,7 @@ function unitSheet(u, sheets, stills) {
 function makeUnitSprite(u, sheets, stills) {
   const spec = unitSheet(u, sheets, stills);
   const map = spec.sheet ? cloneSheet(spec.map) : spec.map;
-  const s = new THREE.Sprite(spriteMat(map));
-  s.center.set(0.5, 0.05);
+  const s = createLitBillboard(map, { pivotY: 0.05 });
   s.userData.sheet = spec.sheet;
   s.userData.southFirst = !!spec.southFirst;
   s.userData.baseScale = spec.scale;
@@ -707,7 +702,8 @@ function animateUnit(sprite, u, world, dt = 0.016) {
   sprite.userData.px = wx(u);
   sprite.userData.pz = wz(u);
   const moving = onPath || Math.hypot(dx, dz) > 0.0008;
-  if (sprite.userData.sheet && sprite.material.map) {
+  const tex = litMap(sprite);
+  if (sprite.userData.sheet && tex) {
     if (moving) sprite.userData.walkT = (sprite.userData.walkT || 0) + dt;
     else sprite.userData.walkT = 0;
     const col = moving ? Math.floor(sprite.userData.walkT * 12) % 8 : 0;
@@ -715,18 +711,13 @@ function animateUnit(sprite, u, world, dt = 0.016) {
     if (sprite.userData.col !== col || sprite.userData.row !== row) {
       sprite.userData.col = col;
       sprite.userData.row = row;
-      setFrame(sprite.material.map, col, row);
+      setFrame(tex, col, row);
     }
   }
   const bob = moving ? 1 + Math.sin((sprite.userData.walkT || 0) * 14) * 0.03 : 1;
   const s = (sprite.userData.baseScale || 2.4) * bob;
   const a = sprite.userData.aspect || 1;
   sprite.scale.set(s * a, s, 1);
-}
-
-function disposeSprite(m) {
-  if (m.material?.map?.userData?.cloned) m.material.map.dispose();
-  m.material?.dispose?.();
 }
 
 function vis(world, x, z) {
@@ -943,49 +934,4 @@ function addPlanet(scene, hi = false) {
   ring.position.copy(p.position);
   ring.rotation.x = Math.PI / 2.5;
   scene.add(ring);
-}
-
-function makeVfx(scene, n = 80) {
-  if (!n) {
-    return { tick() {} };
-  }
-  const geo = new THREE.BufferGeometry();
-  const pos = new Float32Array(n * 3);
-  geo.setAttribute("position", new THREE.BufferAttribute(pos, 3));
-  const mat = new THREE.PointsMaterial({
-    color: 0x66e0ff,
-    size: 0.28,
-    transparent: true,
-    opacity: 0.75,
-    blending: THREE.AdditiveBlending,
-    depthWrite: false,
-    sizeAttenuation: true,
-    toneMapped: false,
-  });
-  const cloud = new THREE.Points(geo, mat);
-  cloud.frustumCulled = false;
-  scene.add(cloud);
-  return {
-    tick(world) {
-      let i = 0;
-      for (const r of world.resources) {
-        if (r.kind !== "crystal" && r.kind !== "void") continue;
-        if (i >= n) break;
-        const t = world.t;
-        pos[i * 3] = wx(r) + Math.sin(t * 2 + r.id) * 0.35;
-        pos[i * 3 + 1] = sampleH(wx(r), wz(r)) + 1.2 + Math.abs(Math.sin(t * 3 + r.id));
-        pos[i * 3 + 2] = wz(r) + Math.cos(t * 2 + r.id) * 0.35;
-        i++;
-      }
-      for (const p of world.projectiles) {
-        if (i >= n) break;
-        pos[i * 3] = wx(p);
-        pos[i * 3 + 1] = sampleH(wx(p), wz(p)) + 1.2;
-        pos[i * 3 + 2] = wz(p);
-        i++;
-      }
-      geo.setDrawRange(0, i);
-      geo.attributes.position.needsUpdate = true;
-    },
-  };
 }

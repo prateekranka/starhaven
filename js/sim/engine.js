@@ -192,7 +192,7 @@ function seedTerrain(world) {
         world.resources.push({
           id: id(),
           kind: "rockblock",
-          xQ10: (x + 0.5) * CELL,
+          xQ10: q10FromWorld((x + 0.5) * CELL),
           zQ10: q10FromWorld((z + 0.5) * CELL),
           amount: 0,
         });
@@ -436,6 +436,10 @@ export function inLight(world, xQ10) {
   return xQ10 < lineXQ10(world);
 }
 
+export function emitVfx(world, kind, x, z, opts = {}) {
+  (world.vfxEvents ||= []).push({ kind, x, z, ...opts });
+}
+
 function factionBuff(world, u) {
   const light = inLight(world, u.xQ10);
   if (u.faction === "sunwoven") {
@@ -605,6 +609,7 @@ function gatherTick(world, u, spec) {
     u.carry += take;
     u.carryKind = res.kind;
     world.players[u.owner].rates[res.kind] += Math.trunc((rateQ10PerTick * TICKS_PER_SEC) / Q10);
+    emitVfx(world, "gather", worldFromQ10(res.xQ10), worldFromQ10(res.zQ10), { sub: res.kind });
   }
   if (u.carry >= spec.carry || res.amount <= 0) startReturn(world, u);
 }
@@ -667,6 +672,9 @@ function buildTick(world, u) {
     b.buildTicks += 1;
     const hpPerTick = Math.max(1, Math.trunc(spec.hp / b.buildTotalTicks));
     b.hp = Math.min(spec.hp, b.hp + hpPerTick);
+    if (b.buildTicks % secToTicks(0.22) === 0) {
+      emitVfx(world, "build", worldFromQ10(b.xQ10), worldFromQ10(b.zQ10));
+    }
   }
   if (isBuilt(b)) {
     u.state = "idle";
@@ -753,6 +761,7 @@ function tickProjectiles(world) {
 function hit(world, t, dmg, src) {
   const buff = t.kind === "unit" ? factionBuff(world, t) : { armor: 1000 };
   t.hp -= permilleMul(dmg, buff.armor || 1000);
+  emitVfx(world, "hit", worldFromQ10(t.xQ10), worldFromQ10(t.zQ10), { dmg });
   if (t.kind === "unit" && t.state === "idle" && t.type === "villager") {
     /* keep gathering unless dying */
   }
