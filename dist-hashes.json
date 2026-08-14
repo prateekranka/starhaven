@@ -3,8 +3,8 @@
   "files": [
     {
       "path": "cache-manifest.json",
-      "bytes": 6271,
-      "sha256": "cb46fae0586e806c31bd710a178b78fc1fb7a2442e34a076f567268d7f28445d"
+      "bytes": 6702,
+      "sha256": "92676a8cbc822d946789669185f0edf93b868961448ec0e59ad3fc48d3b42fae"
     },
     {
       "path": "css/app.css",
@@ -13,18 +13,23 @@
     },
     {
       "path": "index.html",
-      "bytes": 13486,
-      "sha256": "f62bc1dd3a3c6ff51d18cdbc1bef478ef09b8b8cd08ce48edb5d0bcb93c4e68c"
+      "bytes": 13688,
+      "sha256": "fab8fe464281445a2a1c431c221ad97cf7a1583d21b40d43c55f398b747cd5f1"
     },
     {
       "path": "js/audio/engine.js",
-      "bytes": 6909,
-      "sha256": "efc75308f7392b41013dbb336dbd1c2e766bbe8ff497051ee41b094676ed309e"
+      "bytes": 8573,
+      "sha256": "d8efbeb8ddf0478635069bd94441490f95ecaa831ebb091008cb76469676cba1"
     },
     {
       "path": "js/audio/match-audio.js",
-      "bytes": 1790,
-      "sha256": "f0c00146006406a2a7359b68dcc232aa11006c4a281a6fba9fd75468523b5223"
+      "bytes": 2006,
+      "sha256": "9f94336eb324d08c2012a372d39bc71bd6c5ee84b6b4f79e01fd4ba2da019d01"
+    },
+    {
+      "path": "js/audio/score.js",
+      "bytes": 3280,
+      "sha256": "87aa2d2bf42ca65df4e0cc4e770ef51d6f17d405c15a407a4dc59d6f8ed5d6fb"
     },
     {
       "path": "js/boot.js",
@@ -33,8 +38,8 @@
     },
     {
       "path": "js/cache/assets.js",
-      "bytes": 6807,
-      "sha256": "b2e9df68a8fd9f8109ae06c62f7b463366464b6552da7e906a54b0e80d560184"
+      "bytes": 6998,
+      "sha256": "a31845dcf2c484ab3bfd6cd52dcd01e6113d2823930b73e326a49b55cd1d5f1c"
     },
     {
       "path": "js/data/catalog.js",
@@ -43,8 +48,8 @@
     },
     {
       "path": "js/game/main.js",
-      "bytes": 24573,
-      "sha256": "8144d06e8efabb3a608ec3db6f58925db4e2f69b7c255ddeae6718e75eb5794b"
+      "bytes": 24606,
+      "sha256": "331b42e698981457660be9918bb3c324583d78a08b4a575a9747d1902b144106"
     },
     {
       "path": "js/game/render.js",
@@ -73,8 +78,8 @@
     },
     {
       "path": "js/ui/app.js",
-      "bytes": 6295,
-      "sha256": "44464b165def14924e376b65b9b1d10b58d4a9419830b461f522292ad709ebdc"
+      "bytes": 6426,
+      "sha256": "900a6d5559c2f62106530bb5499966b3e995e46210c7fe8e3ebe061e2d13e0f1"
     },
     {
       "path": "media/audio/age_up.wav",
@@ -84,7 +89,7 @@
     {
       "path": "media/audio/attack.wav",
       "bytes": 6218,
-      "sha256": "62bd86be2980a2ba68f75b0921e0f52aa1d320be48c240c2df94807452d42c5b"
+      "sha256": "7dfe14d137386fbc02dcfdd97771e5b604602e8d1fb52b9a9b9f04864273767b"
     },
     {
       "path": "media/audio/build_fail.wav",
@@ -99,7 +104,7 @@
     {
       "path": "media/audio/death_building.wav",
       "bytes": 19888,
-      "sha256": "04195910ddf5a4d52aadc8c238a3d55f679b9b7bfc0feee584bc1371d04ef418"
+      "sha256": "c1f25c5088aa1ef93e60ff56452446500fce4c1937580ebf25c0b345336a54d8"
     },
     {
       "path": "media/audio/death_unit.wav",
@@ -119,12 +124,12 @@
     {
       "path": "media/audio/hit_heavy.wav",
       "bytes": 5336,
-      "sha256": "c90cf036801b6f67e612ec694cb3c18ca6d8e327488f2ab7539777452da20d05"
+      "sha256": "6d39d17c389c27ea22ca9567f08202002b967848ee09b7112bc37d6a9cf37e64"
     },
     {
       "path": "media/audio/hit.wav",
       "bytes": 3572,
-      "sha256": "d2dbbb35624eb49eae873e1b5be3fca7e17d3d60efd40f5cc0809489b256fd90"
+      "sha256": "1068d3f2b6dfb22c75abe41e24d437f3fb81d7ed2d291ee37470b802c38e6657"
     },
     {
       "path": "media/audio/move.wav",
@@ -132,9 +137,34 @@
       "sha256": "c8d00ae743d452754c987b2969ccfc49a05752cf7b50e0d112ed2eb850f5a9c7"
     },
     {
-      "path": "media/audio/music_mesa.wav",
-      "bytes": 705644,
-      "sha256": "7ec6136fbffb362f1cd445b9497eba365341b558ae62ba56901b6eb88529a869"
+      "path": "media/audio/music_combat.wav",
+      "bytes": 441044,
+      "sha256": "f232a7d38aed789facc5ffbd2de3fb0c541408004b2607c5d7e51c58e8e0a7e9"
+    },
+    {
+      "path": "media/audio/music_day.wav",
+      "bytes": 529244,
+      "sha256": "6c548e09a927d8b3240b88d1c99fb0a3cd291ee40e5aeab5528e7c324d12a4f6"
+    },
+    {
+      "path": "media/audio/music_defeat.wav",
+      "bytes": 352844,
+      "sha256": "e364d7fdb2a89b145fa1f5c776d2cdb20c00f71f41972d7f1afe928dd8f145e1"
+    },
+    {
+      "path": "media/audio/music_night.wav",
+      "bytes": 529244,
+      "sha256": "615920b191a7a19df3eed7d769c4667fbd3dd2f57c39efced40482fdd5395cad"
+    },
+    {
+      "path": "media/audio/music_title.wav",
+      "bytes": 617444,
+      "sha256": "d58d51a23c461db7663b538d586db5b54af330cc331589718ecf863cba87ea4c"
+    },
+    {
+      "path": "media/audio/music_victory.wav",
+      "bytes": 352844,
+      "sha256": "e2be0f92160843b9dd4e732f5ec7439dcfc7e54841fb0bdd750ab70c387271ec"
     },
     {
       "path": "media/audio/select.wav",
@@ -477,6 +507,6 @@
       "sha256": "ce1fa418de16a19495a9f72495580e3015d7745c296d3ce0485897f902ddedfb"
     }
   ],
-  "fileCount": 95,
-  "totalBytes": 41541528
+  "fileCount": 101,
+  "totalBytes": 43664696
 }

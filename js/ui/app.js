@@ -1,4 +1,5 @@
 import { loadSave, writeSave, showScreen, beep, haptic, native, postNative, audio } from "../boot.js";
+import { score } from "../audio/score.js";
 import { detectDefaultQuality } from "../perf.js";
 import { startBackgroundWarm, ensureMatchAssets, matchAssetsReady } from "../cache/assets.js";
 
@@ -17,6 +18,7 @@ export function initUi() {
   applySettingsForm(save);
   if (native) document.body.classList.add("native");
   watchCacheWarm();
+  void bootTitleScore();
 
   document.body.addEventListener("click", (e) => {
     const btn = e.target.closest("[data-action]");
@@ -29,6 +31,7 @@ export function initUi() {
         togglePause(false);
         stopMatch();
         showScreen("title");
+        score.startTitle();
       });
     } else if (action === "skirmish") showScreen("skirmish");
     else if (action === "factions") showScreen("factions");
@@ -72,10 +75,7 @@ export function initUi() {
     s.settings.showDebug = f.showDebug.checked;
     writeSave(s);
     audio.applyVolumes();
-    if (document.getElementById("screen-game")?.classList.contains("active")) {
-      if (s.settings.music > 0) audio.startMusic();
-      else audio.stopMusic();
-    }
+    score.refreshVolume();
     postNative("settings", s.settings);
   });
 
@@ -87,10 +87,7 @@ export function initUi() {
     s.settings.sfx = Number(f.sfx.value);
     writeSave(s);
     audio.applyVolumes();
-    if (e.target.name === "music" && document.getElementById("screen-game")?.classList.contains("active")) {
-      if (s.settings.music > 0) audio.startMusic();
-      else audio.stopMusic();
-    }
+    if (e.target.name === "music") score.refreshVolume();
   });
 
   window.addEventListener("keydown", (e) => {
@@ -106,6 +103,7 @@ export function initUi() {
       writeSave(s);
       applySettingsForm(s);
       audio.applyVolumes();
+      score.refreshVolume();
     },
   };
 
@@ -171,6 +169,16 @@ function applySettingsForm(save) {
   f.reduceMotion.checked = save.settings.reduceMotion;
   f.haptics.checked = save.settings.haptics;
   f.showDebug.checked = !!save.settings.showDebug;
+}
+
+async function bootTitleScore() {
+  try {
+    await startBackgroundWarm();
+  } catch (err) {
+    console.warn("title score preload", err);
+    await audio.preload().catch(() => {});
+  }
+  if (document.getElementById("screen-title")?.classList.contains("active")) score.startTitle();
 }
 
 initUi();

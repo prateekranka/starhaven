@@ -3,6 +3,7 @@ import { displayName } from "../data/catalog.js";
 import { createRenderer } from "./render.js";
 import { audio, haptic, loadSave, showScreen } from "../boot.js";
 import { createMatchAudio } from "../audio/match-audio.js";
+import { score } from "../audio/score.js";
 import { createFramePacer, isQaMode, setText, resolveQuality } from "../perf.js";
 import { ensureMatchAssets } from "../cache/assets.js";
 
@@ -71,12 +72,12 @@ export async function startMatch(opts) {
   drawHud(world, true);
   drawMinimap(world, view);
   paintDebugState();
-  audio.startMusic();
+  score.startMatch();
 }
 
 export function stopMatch() {
   cancelAnimationFrame(raf);
-  audio.stopMusic(false);
+  score.stop();
   matchAudio = null;
   inputAbort?.abort();
   inputAbort = null;

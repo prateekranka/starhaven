@@ -1,4 +1,5 @@
 import { audio } from "./engine.js";
+import { score } from "./score.js";
 
 export function createMatchAudio() {
   const hp = new Map();
@@ -29,9 +30,11 @@ export function createMatchAudio() {
         const prev = hp.get(e.id);
         if (prev != null && e.hp > 0 && e.hp < prev - 0.05) {
           audio.play(prev - e.hp > 18 || e.kind === "building" ? "hit_heavy" : "hit", { x: e.x, z: e.z });
+          score.noteCombat(prev - e.hp > 18 ? 0.32 : 0.18);
         }
         if (prev != null && prev > 0 && e.hp <= 0) {
           audio.play(e.kind === "building" ? "death_building" : "death_unit", { x: e.x, z: e.z });
+          score.noteCombat(e.kind === "building" ? 0.45 : 0.28);
         }
         hp.set(e.id, e.hp);
       }
@@ -47,9 +50,11 @@ export function createMatchAudio() {
 
       if (world.winner && world.winner !== winner) {
         audio.play(world.winner === "player" ? "victory" : "defeat");
-        audio.stopMusic();
+        score.playEnd(world.winner === "player");
       }
       winner = world.winner;
+
+      score.tick(world, view);
     },
   };
 }
