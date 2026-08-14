@@ -69,6 +69,7 @@ const COMMAND_RES_SQ = q10RangeSq(2.2);
 const COMMAND_FOE_SQ = q10RangeSq(2.4);
 const TITAN_WAKE_SQ = q10RangeSq(5);
 const PROJECTILE_SPEED_Q10_PER_TICK = Math.trunc(q10FromWorld(14) / TICKS_PER_SEC);
+const PROJECTILE_HIT_SQ = q10RangeSq(1.4);
 const VIS_ENTITY_BATCH = 12;
 const INTEGER_ASSERT_EVERY = 60;
 const REPATH_GATHER_TICKS = secToTicks(0.5);
@@ -932,7 +933,9 @@ function tickProjectiles(world) {
     const budget = p.speedQ10PerTick;
     if (distSq <= budget * budget) {
       const t = findById(world, p.target);
-      if (t) hit(world, t, p.dmg, p);
+      // Impact at the aimed point. Do not damage by id if the target already left —
+      // that made the cyan bolt kill villagers after they walked away.
+      if (t && distanceSquaredQ10(p, t) <= PROJECTILE_HIT_SQ) hit(world, t, p.dmg, p);
     } else if (budget > 0) {
       const remainder = { x: p.remainderX, y: p.remainderZ };
       const step = fixedMovementStep(dx, dz, budget, remainder);
