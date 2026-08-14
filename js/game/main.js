@@ -5,6 +5,16 @@ import { beep, haptic, loadSave, showScreen } from "../boot.js";
 import { bridgeSend, setBridgeMatchId } from "../bridge.js";
 import { createFramePacer, isQaMode, setText, resolveQuality } from "../perf.js";
 import { ensureMatchAssets } from "../cache/assets.js";
+import { checksumWorld } from "../sim/checksum.js";
+import {
+  beginMatchSnapshot,
+  buildBridgeSnapshot,
+  clearMatchSnapshot,
+  recordMatchCommand,
+  restoreFromSnapshotRequest,
+  resumeMatchSnapshot,
+  loadPersistedMatchSnapshot,
+} from "../sim/match-snapshot.js";
 
 let world = null;
 let view = null;
@@ -46,6 +56,7 @@ export async function startMatch(opts) {
   resultsShown = false;
   combatHapticAt = 0;
   hpWatch.clear();
+  beginMatchSnapshot(opts);
   world = createMatch(opts);
   setBridgeMatchId(String(world.seed >>> 0));
   bridgeSend("match.started", { route: "pixel-mesa", faction: opts.playerFaction || "sunwoven" });
@@ -98,6 +109,7 @@ export function stopMatch() {
   clearEmptyTap(false);
   setBridgeMatchId(null);
   hpWatch.clear();
+  clearMatchSnapshot();
 }
 
 export function togglePause(on) {
@@ -123,6 +135,84 @@ export async function restartMatch() {
   await startMatch(lastMatchOpts);
 }
 
+export function sendMatchSnapshot(paused = false) {
+  if (!world) return null;
+  const payload = buildBridgeSnapshot(world, paused);
+  if (payload) bridgeSend("match.snapshot", payload);
+  return payload;
+}
+
+/** @param {{ tick?: number, checksum?: string, seed?: number, paused?: boolean }} request */
+export async function restoreMatch(request = {}) {
+  try {
+    const restored = restoreFromSnapshotRequest(request);
+    if (!restored) return;
+    const persisted = loadPersistedMatchSnapshot();
+    await resumeWorld(restored.world, restored.matchOpts, restored.paused, persisted?.commands || []);
+    bridgeSend("restore.completed", {
+      restored: true,
+      tick: restored.tick,
+      checksum: restored.checksum,
+    });
+  } catch (err) {
+    console.error("[match-restore]", err);
+    bridgeSend("restore.completed", { restored: false, reason: String(err?.message || err) });
+  }
+}
+
+async function resumeWorld(restoredWorld, opts, shouldPause, commands = []) {
+  cancelAnimationFrame(raf);
+  inputAbort?.abort();
+  inputAbort = null;
+  view?.dispose?.();
+  const save = loadSave();
+  lastMatchOpts = { ...opts };
+  resultsShown = false;
+  combatHapticAt = 0;
+  hpWatch.clear();
+  resumeMatchSnapshot(opts, commands);
+  world = restoredWorld;
+  setBridgeMatchId(String(world.seed >>> 0));
+  showScreen("game");
+  document.getElementById("end-banner").classList.add("hidden");
+  document.getElementById("pause-modal").classList.add("hidden");
+  paused = false;
+  lastSelKey = "";
+  attackMove = false;
+  simAcc = 0;
+  hudAcc = 0;
+  mapAcc = 0;
+  pacer = createFramePacer();
+  document.getElementById("perf-chip")?.classList.toggle("hidden", !perfChipEnabled());
+  const viewport = document.getElementById("viewport");
+  viewport.innerHTML = "";
+  void viewport.offsetHeight;
+  const quality = save.settings.quality || "ultra";
+  qualityName = quality;
+  view = createRenderer(viewport, quality, { reduceMotion: !!save.settings.reduceMotion });
+  bindInput(viewport);
+  last = performance.now();
+  raf = requestAnimationFrame(loop);
+  const tc = world.buildings.find((b) => b.owner === "player" && b.type === "towncenter");
+  if (tc) view.lookAt(tc.x, tc.z, true);
+  world.selection = [];
+  renderSelection();
+  drawHud(world, true);
+  drawMinimap(world, view);
+  paintDebugState();
+  if (shouldPause) togglePause(true);
+}
+
+function recordCommand(command) {
+  if (!world) return;
+  recordMatchCommand({ ...command, tick: world.simTick | 0 });
+}
+
+function issueRecordedMove(x, z, attackMoveFlag = false) {
+  recordCommand({ type: "move", unitIds: world.selection.slice(), x, z, attackMove: !!attackMoveFlag });
+  commandGround(world, x, z, attackMoveFlag);
+}
+
 function perfChipEnabled() {
   return isQaMode() || !!loadSave().settings.showDebug;
 }
@@ -144,6 +234,7 @@ if (isQaMode()) {
     const round = (n) => Math.round(n * 100) / 100;
     const before = sel.map((u) => ({ id: u.id, state: u.state, x: round(u.x), z: round(u.z) }));
     commandGround(world, x, z, !!attackMove);
+    recordCommand({ type: "move", unitIds: world.selection.slice(), x, z, attackMove: !!attackMove });
     return {
       ok: true,
       issuedAt: Date.now(),
@@ -256,7 +347,7 @@ function showResults(world) {
     outcome: won ? "Victory" : "Defeat",
     duration: formatDuration(stats.duration),
     seed: String(world.seed >>> 0),
-    checksum: String(world.t),
+    checksum: checksumWorld(world),
   });
   modal.classList.remove("hidden");
   document.body.classList.add("match-paused");
@@ -383,7 +474,7 @@ function bindInput(viewport) {
       e.preventDefault();
       const g = view.groundPick(e.clientX, e.clientY);
       if (g) {
-        commandGround(world, g.x, g.z, true);
+        issueRecordedMove(g.x, g.z, true);
         beep(220, 0.05);
         clearEmptyTap(false);
       }
@@ -547,12 +638,14 @@ function onUp(e) {
   const dist = Math.hypot(e.clientX - p.sx, e.clientY - p.sy);
   const g = view.groundPick(e.clientX, e.clientY);
   if (world.placing && g && dist < 12) {
-    const res = tryPlace(world, "player", world.placing, g.x, g.z);
+    const placingType = world.placing;
+    const res = tryPlace(world, "player", placingType, g.x, g.z);
     world.tip = res.ok ? "Builders inbound." : res.why;
     if (res.ok) {
       beep(380);
       haptic();
       world.placing = null;
+      recordCommand({ type: "place", buildingType: placingType, x: g.x, z: g.z, owner: "player" });
     } else beep(140, 0.1, 0.06);
     hideBox();
     renderSelection();
@@ -568,7 +661,7 @@ function onUp(e) {
     } else if (hit && hit.owner !== "player") {
       clearEmptyTap(false);
       if (world.selection.length) {
-        commandGround(world, g.x, g.z);
+        issueRecordedMove(g.x, g.z);
         beep(200, 0.06);
       }
     } else {
@@ -595,7 +688,7 @@ function onEmptyGround(e, g) {
     const ids = prior.selection;
     clearEmptyTap(false);
     world.selection = ids;
-    commandGround(world, g.x, g.z, attackMove || e.shiftKey);
+    issueRecordedMove(g.x, g.z, attackMove || e.shiftKey);
     beep(240, 0.05);
     haptic(8, "orderAccepted");
     return;
@@ -743,6 +836,7 @@ function renderSelection() {
       cmds.appendChild(
         btn(UNITS[t].name, () => {
           const r = queueUnit(world, e, t);
+          if (r.ok) recordCommand({ type: "train", buildingId: e.id, unitType: t });
           world.tip = r.ok ? `Training ${UNITS[t].name}` : r.why;
           beep(r.ok ? 400 : 140);
           renderSelection();
@@ -753,6 +847,7 @@ function renderSelection() {
       cmds.appendChild(
         btn("Age Up", () => {
           const r = tryAgeUp(world, "player");
+          if (r.ok) recordCommand({ type: "ageUp", owner: "player" });
           world.tip = r.ok ? "The Town Center chants. Age up begun." : r.why;
           beep(r.ok ? 260 : 140, 0.12);
         })

@@ -1,6 +1,8 @@
 import { AGES, UNITS, BUILDINGS, VILLAGER_BUILD_LIST } from "../data/catalog.js";
 import { astar } from "./path.js";
 import { runAI } from "./ai.js";
+import { MatchPrng } from "./prng.js";
+import { resolveSeed } from "./seed.js";
 
 export const N = 48;
 export const CELL = 2;
@@ -42,13 +44,15 @@ function hash(x, z) {
   return s - Math.floor(s);
 }
 
-export function createMatch(opts) {
+export function createMatch(opts = {}) {
+  nextId = 1;
   const {
     playerFaction = "sunwoven",
     difficulty = "chieftain",
     tutorial = false,
     campaign = false,
   } = opts;
+  const seed = resolveSeed(opts);
 
   const enemyFaction = playerFaction === "sunwoven" ? "gravemark" : "sunwoven";
   const walk = new Uint8Array(N * N).fill(1);
@@ -63,6 +67,9 @@ export function createMatch(opts) {
 
   const world = {
     t: 0,
+    simTick: 0,
+    seed,
+    prng: new MatchPrng(seed),
     N,
     CELL,
     walk,
@@ -169,15 +176,16 @@ function seedTerrain(world) {
 }
 
 function scatter(world, kind, count, amount) {
+  const rng = world.prng.event;
   let n = 0;
   let tries = 0;
   while (n < count && tries++ < 400) {
-    const cx = 2 + ((Math.random() * (N - 4)) | 0);
-    const cz = 2 + ((Math.random() * (N - 4)) | 0);
+    const cx = rng.nextInt(2, N - 3);
+    const cz = rng.nextInt(2, N - 3);
     if (!world.walk[cz * N + cx]) continue;
     if (nearStart(cx, cz)) continue;
     const [x, z] = worldOf(cx, cz);
-    world.resources.push({ id: id(), kind, x, z, amount: amount + ((Math.random() * 40) | 0), cx, cz });
+    world.resources.push({ id: id(), kind, x, z, amount: amount + rng.nextInt(0, 39), cx, cz });
     n++;
   }
 }
@@ -362,6 +370,7 @@ export function updateWorld(world, dt) {
   world.players.enemy.popCap = ep.cap;
   if (!world.tutorial) runAI(world, step);
   checkVictory(world);
+  world.simTick = (world.simTick || 0) + 1;
 }
 
 function lineX(world) {
