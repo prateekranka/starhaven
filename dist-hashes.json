@@ -8,8 +8,8 @@
     },
     {
       "path": "cache-manifest.json",
-      "bytes": 23486,
-      "sha256": "be529241d74cc9ab18c5b21743e881a56621335956959a92913637e1c0b5fa3e"
+      "bytes": 26847,
+      "sha256": "b9db9b7b2838fcb03e18647db8f70fbcbbf7e305ceb642b49a7c69ca4b0b3a88"
     },
     {
       "path": "css/app.css",
@@ -53,8 +53,8 @@
     },
     {
       "path": "js/cache/assets.js",
-      "bytes": 10454,
-      "sha256": "f0ab2e65c8a79688a6bbebe03be515fa9258fdfee80832ad0d4362b378fa3c60"
+      "bytes": 10455,
+      "sha256": "8137f4132e301780fd4bd40fcf297474bc0269e7f2af60e02e926f1712291591"
     },
     {
       "path": "js/data/catalog.js",
@@ -1788,5 +1788,5 @@
     }
   ],
   "fileCount": 357,
-  "totalBytes": 138953283
+  "totalBytes": 138956645
 }
