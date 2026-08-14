@@ -37,9 +37,7 @@ export async function startMatch(opts) {
   await ensureMatchAssets();
   stopMatch();
   const save = loadSave();
-  world = createMatch({ ...opts, crateBonus: save.crateBonus || {} });
-  save.crateBonus = { food: 0, wood: 0, crystal: 0, ore: 0 };
-  localStorage.setItem("starhaven.bright-frontier.v1", JSON.stringify(save));
+  world = createMatch(opts);
 
   showScreen("game");
   document.getElementById("end-banner").classList.add("hidden");

@@ -11,7 +11,6 @@ export const defaultSave = () => ({
     reduceMotion: false,
     haptics: true,
   },
-  crateBonus: { food: 0, wood: 0, crystal: 0, ore: 0 },
 });
 
 export function loadSave() {

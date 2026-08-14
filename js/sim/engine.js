@@ -47,7 +47,6 @@ export function createMatch(opts) {
     playerFaction = "sunwoven",
     difficulty = "chieftain",
     tutorial = false,
-    crateBonus = {},
     campaign = false,
   } = opts;
 
@@ -81,8 +80,8 @@ export function createMatch(opts) {
     tip: tutorial ? "Select your weavers, then tap the glowing fruit." : "Scout early. Food first, then timber, then a barracks.",
     objective: tutorial ? "Boom a tiny economy" : campaign ? "Hold the mesa" : "Destroy the rival Town Center",
     players: {
-      player: makePlayer("player", playerFaction, crateBonus, campaign),
-      enemy: makePlayer("enemy", enemyFaction, {}, false),
+      player: makePlayer("player", playerFaction, campaign),
+      enemy: makePlayer("enemy", enemyFaction, false),
     },
     units: [],
     buildings: [],
@@ -108,7 +107,7 @@ export function createMatch(opts) {
   return world;
 }
 
-function makePlayer(idKey, faction, bonus, campaign) {
+function makePlayer(idKey, faction, campaign) {
   const mul = campaign ? 0.75 : 1;
   return {
     id: idKey,
@@ -117,10 +116,10 @@ function makePlayer(idKey, faction, bonus, campaign) {
     age: 1,
     aging: 0,
     stock: {
-      food: Math.floor((200 + (bonus.food || 0)) * mul),
-      wood: Math.floor((200 + (bonus.wood || 0)) * mul),
-      crystal: Math.floor((80 + (bonus.crystal || 0)) * mul),
-      ore: 50 + (bonus.ore || 0),
+      food: Math.floor(200 * mul),
+      wood: Math.floor(200 * mul),
+      crystal: Math.floor(80 * mul),
+      ore: 50,
     },
     pop: 0,
     popCap: 0,
