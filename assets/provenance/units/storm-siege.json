@@ -1,0 +1,17 @@
+{
+  "unitId": "storm-siege",
+  "faction": "stormveil",
+  "clips": [
+    "walk",
+    "attack",
+    "gather",
+    "build",
+    "death"
+  ],
+  "atlas": "media/sprites/storm-siege.atlas.png",
+  "sha256": "a6b2fb4e880bd2a6780f5773489e7ba768b0b12fc540e89cda57875cb6ec201d",
+  "bytes": 31211,
+  "sourceCount": 50,
+  "generator": "starhaven-pixel-pipeline-v1",
+  "libvips": "8.17.1"
+}

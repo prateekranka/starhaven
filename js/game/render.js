@@ -680,6 +680,7 @@ function buildRendererAssets(pix) {
     stills[civ.id] = {
       strider: pix(civ.sprites.strider),
       siege: pix(civ.sprites.siege),
+      ...(civ.sprites.wagon ? { wagon: pix(civ.sprites.wagon) } : {}),
     };
     bldg[civ.id] = Object.fromEntries(
       Object.entries(civ.sprites.buildings).map(([type, path]) => [type, pix(path)])
@@ -720,7 +721,9 @@ function unitSheet(u, sheets, stills) {
         ? still.strider
         : spec.kind === "siege"
           ? still.siege
-          : bucket.walk;
+          : spec.kind === "wagon"
+            ? still.wagon || still.strider
+            : bucket.walk;
   return { map, sheet: spec.sheet, scale: spec.scale, southFirst: spec.southFirst };
 }
 
