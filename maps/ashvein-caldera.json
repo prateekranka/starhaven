@@ -1,0 +1,494 @@
+{
+  "schema": 1,
+  "id": "ashvein-caldera",
+  "name": "Ashvein Caldera",
+  "size": 48,
+  "cell": 2,
+  "terrain": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrccccccrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrccccccrrsssssssssssdddddddddddddddddddddddddddrrccccccrrssssssssssssddddddddddddddddddddddddddrrccccccrrssssssssssssddddddddddddddddddddddddddrrccccccrrsssssssssssssdddddddddddddddddddddddddrrccccccrrsssssssssssssdddddddddddsssdddddddddddrrccccccrrsssssssssssssddddddddddssssdddddddddddrrccccccrrsssssssssssssdddddddsssssssdddddddssddrrccccccrrsssssssssssssddssssssssssssssdddssssddrrccccccrrssssssssssssssssssssssssdddssssssssdddrrccccccrrssssssssssssssssssssssssdddssssssssddsrrccccccrrsssssssssssssssssssssssdddssssssssssssrrccccccrrssssssssssssssssssdsssddddssssssssssssrrccccccrrsssssssssssssssssdddddddddssssssssssssrrccccccrrsssssssssssssssssdddddddddsssssssssdddrrccccccrrsssssssssssssssssdddddddddsssssssssdddrrccccccrrssssssssssssssssddsddddddddsssssssssssrrccccccrrssssssssssssssssssssddssdddsssssssssssrrccccccrrssssssssssssssssssssssssssssssssssssssrrccccccrrssssssssssssssssssssssssssssssssssssssrrccccccrrssssssssssssssssssssssssssssssssssssssrrccccccrrssssssssssssssssssssssssssssssssssssssrrccccccrrssssssssssssssssssssssssssssssssssssssrrccccccrrsssssssssssssssddddsssssssssssssssssssrrccccccrrsssssssssssssssdddddssssssssssssssssssrrccccccrrssssssssssssssddddddssssssssssssssssssrrccccccrrssssssssssssddddddddssssssssssssssssssrrccccccrrssssssssssssddddddddssssssssssssssssssrrccccccrrsssssssssssssddddddddsssssssssssssssssrrccccccrrsssssssssssssdddddddddssssssssssssssssrrccccccrrssssssssssssssddsddddsssssssssssssssssrrccccccrrssssssssssssssssssssssssssssssssssssssrrccccccrrssssssssssssssssssssssssssssssssssssssrrccccccrrssssssssssssssssssssssssssssssssssssssrrccccccrrssssssssssssssssssssssssssssssssssssssrrccccccrrssssssssssssssssssssssssssssssssssssssrrccccccrrssssssssssssssssssssssssssssssssssssssrrccccccrrssssssssssssssssssssssssssssssssssssssrrccccccrrssssssssssssssssssssssssssssssssssssssrrccccccrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrccccccrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+  "walk": "000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000111111111111111111111111111111111111111111000000111111111111111111111111111111111111111111000000111111111111111111111111111111111111111111000000111111111111111111111111111111111111111111000000111111111111111111111111111111111111111111000000111111111111111111111111111111111111111111000000111111111110111111111111110111101111111111000000111111111111111111111110111111111010111111000000111111111111111111111101111110111111111111000000111111111111111111111111111111100111111111000000111111111111011111111111111111111111011111000000111111110111111111111111111111111111111111000000111111111111011011111111111111111111111111000000111111111110111111111111111111111111111111000000111111111110011111111111111110111101111111000000111111111111111110110111111111111111111111000000111111111111011111101111111101101111111111000000111111111111111111110111111111111111111111000000111111111111111111111111111111111111111111000000111111111111101111110111111111111111011111000000111111111101111111111111111111111111111111000000111111110111101111111111111111110111111111000000111111111111111111101111111111111101111111000000111111111011110111110111110111111111111111000000111111111111110011111111110101111111011111000000111111111111111110111111111111111111111111000000111111101111111111111101111110111111111111000000111111111111110111111111111111111111111111000000111111011111101111011111111111111111111111000000111111111111111111111110101111111111111111000000111111111111111111111111110111110111111111000000111111111111111111110111111110111111111111000000111111111111111111111111111111111111011111000000111111111111111111111111111111011111011111000000111111101111111101110111111111111111111111000000111111111111111011111111111111111011011111000000111111101101110101111110111111111111011111000000111111111111111111111111111111111111111111000000111111111111111111111111111111111111111111000000111111111111111111111111111111111111111111000000111111111111111111111111111111111111111111000000111111111111111111111111111111111111111111000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+  "starts": {
+    "player": {
+      "cx": 6,
+      "cz": 40,
+      "reveal": 16
+    },
+    "enemy": {
+      "cx": 40,
+      "cz": 7,
+      "reveal": 12
+    }
+  },
+  "startNodes": [
+    [
+      "food",
+      5,
+      1
+    ],
+    [
+      "food",
+      6,
+      1
+    ],
+    [
+      "food",
+      5,
+      2
+    ],
+    [
+      "food",
+      6,
+      2
+    ],
+    [
+      "wood",
+      -2,
+      5
+    ],
+    [
+      "wood",
+      -1,
+      5
+    ],
+    [
+      "wood",
+      -2,
+      6
+    ],
+    [
+      "crystal",
+      5,
+      -2
+    ],
+    [
+      "crystal",
+      6,
+      -2
+    ],
+    [
+      "ore",
+      -3,
+      -1
+    ]
+  ],
+  "relic": {
+    "cx": 23,
+    "cz": 23
+  },
+  "resources": [
+    {
+      "kind": "food",
+      "cx": 39,
+      "cz": 32,
+      "amount": 115
+    },
+    {
+      "kind": "food",
+      "cx": 34,
+      "cz": 25,
+      "amount": 117
+    },
+    {
+      "kind": "food",
+      "cx": 14,
+      "cz": 22,
+      "amount": 114
+    },
+    {
+      "kind": "food",
+      "cx": 40,
+      "cz": 37,
+      "amount": 97
+    },
+    {
+      "kind": "food",
+      "cx": 27,
+      "cz": 26,
+      "amount": 114
+    },
+    {
+      "kind": "food",
+      "cx": 44,
+      "cz": 28,
+      "amount": 126
+    },
+    {
+      "kind": "food",
+      "cx": 38,
+      "cz": 14,
+      "amount": 91
+    },
+    {
+      "kind": "food",
+      "cx": 4,
+      "cz": 16,
+      "amount": 118
+    },
+    {
+      "kind": "food",
+      "cx": 18,
+      "cz": 14,
+      "amount": 115
+    },
+    {
+      "kind": "food",
+      "cx": 32,
+      "cz": 37,
+      "amount": 111
+    },
+    {
+      "kind": "food",
+      "cx": 38,
+      "cz": 32,
+      "amount": 125
+    },
+    {
+      "kind": "food",
+      "cx": 33,
+      "cz": 31,
+      "amount": 119
+    },
+    {
+      "kind": "food",
+      "cx": 30,
+      "cz": 20,
+      "amount": 116
+    },
+    {
+      "kind": "food",
+      "cx": 17,
+      "cz": 28,
+      "amount": 118
+    },
+    {
+      "kind": "food",
+      "cx": 9,
+      "cz": 10,
+      "amount": 121
+    },
+    {
+      "kind": "food",
+      "cx": 30,
+      "cz": 35,
+      "amount": 99
+    },
+    {
+      "kind": "food",
+      "cx": 21,
+      "cz": 10,
+      "amount": 118
+    },
+    {
+      "kind": "food",
+      "cx": 14,
+      "cz": 38,
+      "amount": 127
+    },
+    {
+      "kind": "wood",
+      "cx": 24,
+      "cz": 5,
+      "amount": 112
+    },
+    {
+      "kind": "wood",
+      "cx": 24,
+      "cz": 10,
+      "amount": 140
+    },
+    {
+      "kind": "wood",
+      "cx": 36,
+      "cz": 18,
+      "amount": 110
+    },
+    {
+      "kind": "wood",
+      "cx": 29,
+      "cz": 12,
+      "amount": 124
+    },
+    {
+      "kind": "wood",
+      "cx": 38,
+      "cz": 13,
+      "amount": 114
+    },
+    {
+      "kind": "wood",
+      "cx": 21,
+      "cz": 7,
+      "amount": 117
+    },
+    {
+      "kind": "wood",
+      "cx": 27,
+      "cz": 4,
+      "amount": 126
+    },
+    {
+      "kind": "wood",
+      "cx": 39,
+      "cz": 31,
+      "amount": 135
+    },
+    {
+      "kind": "wood",
+      "cx": 7,
+      "cz": 21,
+      "amount": 140
+    },
+    {
+      "kind": "wood",
+      "cx": 43,
+      "cz": 25,
+      "amount": 110
+    },
+    {
+      "kind": "wood",
+      "cx": 44,
+      "cz": 28,
+      "amount": 119
+    },
+    {
+      "kind": "wood",
+      "cx": 8,
+      "cz": 14,
+      "amount": 110
+    },
+    {
+      "kind": "wood",
+      "cx": 23,
+      "cz": 28,
+      "amount": 143
+    },
+    {
+      "kind": "wood",
+      "cx": 3,
+      "cz": 6,
+      "amount": 143
+    },
+    {
+      "kind": "wood",
+      "cx": 8,
+      "cz": 5,
+      "amount": 116
+    },
+    {
+      "kind": "wood",
+      "cx": 32,
+      "cz": 38,
+      "amount": 137
+    },
+    {
+      "kind": "wood",
+      "cx": 16,
+      "cz": 40,
+      "amount": 117
+    },
+    {
+      "kind": "wood",
+      "cx": 23,
+      "cz": 15,
+      "amount": 128
+    },
+    {
+      "kind": "wood",
+      "cx": 31,
+      "cz": 17,
+      "amount": 133
+    },
+    {
+      "kind": "wood",
+      "cx": 40,
+      "cz": 21,
+      "amount": 111
+    },
+    {
+      "kind": "wood",
+      "cx": 23,
+      "cz": 21,
+      "amount": 131
+    },
+    {
+      "kind": "wood",
+      "cx": 28,
+      "cz": 35,
+      "amount": 123
+    },
+    {
+      "kind": "crystal",
+      "cx": 40,
+      "cz": 35,
+      "amount": 95
+    },
+    {
+      "kind": "crystal",
+      "cx": 10,
+      "cz": 16,
+      "amount": 108
+    },
+    {
+      "kind": "crystal",
+      "cx": 19,
+      "cz": 34,
+      "amount": 103
+    },
+    {
+      "kind": "crystal",
+      "cx": 19,
+      "cz": 24,
+      "amount": 100
+    },
+    {
+      "kind": "crystal",
+      "cx": 17,
+      "cz": 41,
+      "amount": 105
+    },
+    {
+      "kind": "crystal",
+      "cx": 31,
+      "cz": 5,
+      "amount": 91
+    },
+    {
+      "kind": "crystal",
+      "cx": 17,
+      "cz": 8,
+      "amount": 117
+    },
+    {
+      "kind": "crystal",
+      "cx": 24,
+      "cz": 7,
+      "amount": 106
+    },
+    {
+      "kind": "crystal",
+      "cx": 31,
+      "cz": 15,
+      "amount": 91
+    },
+    {
+      "kind": "crystal",
+      "cx": 9,
+      "cz": 4,
+      "amount": 82
+    },
+    {
+      "kind": "ore",
+      "cx": 11,
+      "cz": 21,
+      "amount": 94
+    },
+    {
+      "kind": "ore",
+      "cx": 31,
+      "cz": 10,
+      "amount": 97
+    },
+    {
+      "kind": "ore",
+      "cx": 14,
+      "cz": 4,
+      "amount": 74
+    },
+    {
+      "kind": "ore",
+      "cx": 11,
+      "cz": 36,
+      "amount": 84
+    },
+    {
+      "kind": "ore",
+      "cx": 5,
+      "cz": 12,
+      "amount": 109
+    },
+    {
+      "kind": "ore",
+      "cx": 6,
+      "cz": 24,
+      "amount": 103
+    },
+    {
+      "kind": "ore",
+      "cx": 33,
+      "cz": 37,
+      "amount": 98
+    },
+    {
+      "kind": "ore",
+      "cx": 42,
+      "cz": 12,
+      "amount": 77
+    }
+  ],
+  "props": [
+    {
+      "kind": "tunnel-entrance",
+      "cx": 14,
+      "cz": 34
+    },
+    {
+      "kind": "tunnel-entrance",
+      "cx": 34,
+      "cz": 14
+    },
+    {
+      "kind": "tunnel-entrance",
+      "cx": 24,
+      "cz": 24
+    },
+    {
+      "kind": "tunnel",
+      "cx": 16,
+      "cz": 28
+    },
+    {
+      "kind": "tunnel",
+      "cx": 18,
+      "cz": 26
+    },
+    {
+      "kind": "tunnel",
+      "cx": 20,
+      "cz": 24
+    },
+    {
+      "kind": "tunnel",
+      "cx": 22,
+      "cz": 22
+    },
+    {
+      "kind": "tunnel",
+      "cx": 24,
+      "cz": 20
+    },
+    {
+      "kind": "tunnel",
+      "cx": 26,
+      "cz": 18
+    },
+    {
+      "kind": "tunnel",
+      "cx": 28,
+      "cz": 16
+    },
+    {
+      "kind": "lava-vent",
+      "cx": 22,
+      "cz": 30
+    },
+    {
+      "kind": "lava-vent",
+      "cx": 30,
+      "cz": 22
+    },
+    {
+      "kind": "lava-vent",
+      "cx": 24,
+      "cz": 18
+    }
+  ]
+}

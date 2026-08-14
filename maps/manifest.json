@@ -31,6 +31,13 @@
       "preview": "media/maps/crystal-basin.svg"
     },
     {
+      "id": "ashvein-caldera",
+      "name": "Ashvein Caldera",
+      "file": "maps/ashvein-caldera.json",
+      "blurb": "Central caldera vents and a staged tunnel spine — Ashvein's lava bridges reshape the choke mid-game.",
+      "preview": "media/maps/ashvein-caldera.svg"
+    },
+    {
       "id": "random",
       "name": "Random Map",
       "procgen": true,
