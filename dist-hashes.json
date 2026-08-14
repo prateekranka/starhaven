@@ -63,8 +63,8 @@
     },
     {
       "path": "js/data/civ-schema.js",
-      "bytes": 3172,
-      "sha256": "8e0e016a2676271c5025997736a8c8b3fe5b462b3e7047e083aee7ec31629f70"
+      "bytes": 3224,
+      "sha256": "58c9d92376184c694ea33f2c522e260da662cfcf1d796a7f530f287b25acc854"
     },
     {
       "path": "js/data/civ-ui.js",
@@ -73,8 +73,8 @@
     },
     {
       "path": "js/data/civs.js",
-      "bytes": 17017,
-      "sha256": "016f97c07facb2dacb81aae023755bb63771abe6c965a8b6f2ef53794c01d1c4"
+      "bytes": 16831,
+      "sha256": "65e89d2c03d0ae0a4ab1f95511b458f342fa99e5ff49b316beaa0ce91789c6f8"
     },
     {
       "path": "js/data/design-tokens.json",
@@ -143,8 +143,8 @@
     },
     {
       "path": "js/sim/civs/index.js",
-      "bytes": 1545,
-      "sha256": "0e9adfab6308d7b5e21bd53f3032a13fb8454e645c45b42677e73a2b6deec525"
+      "bytes": 1466,
+      "sha256": "4eb3651a6759aa9502fc61328a33f6ff0736cd210d9b91ff8b7328abdfbc39ee"
     },
     {
       "path": "js/sim/civs/stormveil.js",
@@ -203,8 +203,8 @@
     },
     {
       "path": "js/ui/app.js",
-      "bytes": 13855,
-      "sha256": "9e5a955898aa2d9bc3c517997531d3577a57cdd1ea6efded5697eeac92e58082"
+      "bytes": 13828,
+      "sha256": "5c18a951c90f34ab240f8efee1e0460382c2c0d59ca7a83bddaab6c27ca00170"
     },
     {
       "path": "js/ui/kit.js",
@@ -1788,5 +1788,5 @@
     }
   ],
   "fileCount": 357,
-  "totalBytes": 133569503
+  "totalBytes": 133569263
 }
