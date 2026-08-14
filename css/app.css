@@ -233,6 +233,7 @@ html, body {
   font-weight: 800;
   letter-spacing: 0.16em;
   padding: 10px 16px;
+  min-height: 44px;
   cursor: pointer;
   width: 100%;
   text-transform: uppercase;
@@ -391,12 +392,36 @@ html, body {
   }
 }
 label { display: block; margin: 10px 0; color: #cde; }
-select, input[type="range"] { width: 100%; margin-top: 4px; background: #081428; color: var(--ivory); border: 1px solid #567; padding: 8px; }
+select, input[type="range"] {
+  width: 100%;
+  margin-top: 4px;
+  background: #081428;
+  color: var(--ivory);
+  border: 1px solid #567;
+  padding: 8px 10px;
+}
+select {
+  min-height: 44px;
+  padding: 12px 10px;
+  box-sizing: border-box;
+}
+.settings select { min-height: 44px; }
 .hint { color: #b9c8da; font-size: 14px; line-height: 1.45; margin-top: 10px; }
 .hint.big { font-size: 16px; margin-bottom: 12px; }
 .steps { margin: 12px 0 0 18px; line-height: 1.7; }
 .settings label { margin: 14px 0; }
-.check { display: flex; gap: 8px; align-items: center; }
+.check {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  min-height: 44px;
+  padding: 4px 0;
+}
+.check input[type="checkbox"] {
+  width: 22px;
+  height: 22px;
+  flex: 0 0 22px;
+}
 .lore ul { margin: 8px 0 0 16px; color: #cfe; font-size: 14px; line-height: 1.5; }
 
 #viewport { position: absolute; inset: 0; background: #1a140c; touch-action: none; }
@@ -472,7 +497,7 @@ select, input[type="range"] { width: 100%; margin-top: 4px; background: #081428;
   padding: 8px 10px;
   cursor: pointer;
   min-width: 64px;
-  min-height: 40px;
+  min-height: 44px;
   font-family: var(--display);
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -599,13 +624,15 @@ select, input[type="range"] { width: 100%; margin-top: 4px; background: #081428;
   background: #10243f;
   color: var(--ivory);
   border: 1px solid var(--gold);
-  min-width: 32px;
-  width: 32px;
-  min-height: 28px;
-  height: 28px;
+  min-width: 44px;
+  width: 44px;
+  min-height: 44px;
+  height: 44px;
   padding: 0;
+  display: grid;
+  place-items: center;
   font-family: var(--display);
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 800;
   line-height: 1;
   letter-spacing: 0;
@@ -621,7 +648,7 @@ select, input[type="range"] { width: 100%; margin-top: 4px; background: #081428;
   position: absolute;
   left: 16px;
   right: 250px;
-  bottom: 10px;
+  bottom: max(14px, calc(env(safe-area-inset-bottom, 0px) + 10px));
   color: #e8d48a;
   font-family: var(--display);
   font-size: 11px;
@@ -687,10 +714,65 @@ select, input[type="range"] { width: 100%; margin-top: 4px; background: #081428;
   .resources li img { width: 36px; height: 36px; }
   .top-actions button {
     min-width: 48px;
-    min-height: 32px;
-    padding: 4px 6px;
+    min-height: 44px;
+    padding: 6px 8px;
     font-size: 11px;
   }
+}
+
+@media (max-height: 834px) and (min-width: 900px) {
+  .topbar {
+    flex-wrap: nowrap;
+    gap: 6px 8px;
+    padding: 6px 10px 6px 12px;
+    padding-right: max(58px, calc(env(safe-area-inset-right, 0px) + 52px));
+  }
+  .brand-mini strong { font-size: 12px; }
+  .brand-mini em { font-size: 9px; }
+  .resources { flex: 1 1 auto; gap: 4px; }
+  .resources li { grid-template-columns: 32px auto; font-size: 12px; }
+  .resources li img { width: 32px; height: 32px; }
+  .top-actions button {
+    min-width: 44px;
+    min-height: 44px;
+    padding: 6px 8px;
+    font-size: 10px;
+  }
+  .objective { top: 56px; max-width: 240px; padding: 8px 10px; }
+  .selection {
+    left: 12px;
+    right: 176px;
+    bottom: max(34px, calc(env(safe-area-inset-bottom, 0px) + 26px));
+    min-height: 88px;
+    padding: 8px;
+    gap: 8px;
+  }
+  .portrait { min-width: 180px; gap: 8px; }
+  .portrait img { width: 72px; height: 72px; }
+  .commands {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    gap: 6px;
+    align-items: stretch;
+  }
+  .commands .cmd { width: 52px; min-width: 52px; min-height: 52px; flex: 0 0 auto; }
+  .commands .cmd img { width: 44px; height: 44px; }
+  .tipbar {
+    left: 12px;
+    right: 176px;
+    bottom: max(16px, calc(env(safe-area-inset-bottom, 0px) + 12px));
+    font-size: 10px;
+  }
+  #minimap-wrap {
+    right: 12px;
+    bottom: max(14px, calc(env(safe-area-inset-bottom, 0px) + 10px));
+    width: 160px;
+    padding: 5px;
+  }
+  #minimap { width: 150px; height: 150px; }
+  .perf-chip { top: 72px; font-size: 10px; }
 }
 @media (max-width: 900px) {
   .sidebar { width: min(300px, 46vw); }
