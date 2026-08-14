@@ -71,16 +71,16 @@ function smoothstep(e0, e1, x) {
   return t * t * (3 - 2 * t);
 }
 
-export function landH(x, z) {
-  const nx = Math.min(x, MAP - x);
-  const nz = Math.min(z, MAP - z);
+export function landH(x, z, mapWorld = MAP) {
+  const nx = Math.min(x, mapWorld - x);
+  const nz = Math.min(z, mapWorld - z);
   const rim = Math.min(nx, nz);
   const wx = x + fbm(x * 0.04, z * 0.04, 3) * 5;
   const wz = z + fbm(x * 0.04 + 19, z * 0.04 - 11, 3) * 5;
   let h = 1.9 * smoothstep(2.4, 10, rim);
   h += (fbm(wx * 0.055, wz * 0.055, 4) - 0.42) * 0.4;
   if (rim > 11) {
-    const crater = Math.hypot(x / MAP - 0.48, z / MAP - 0.44);
+    const crater = Math.hypot(x / mapWorld - 0.48, z / mapWorld - 0.44);
     h -= Math.max(0, 0.16 - crater * 6.5) * 0.55;
   }
   return Math.max(0, h);
@@ -88,20 +88,24 @@ export function landH(x, z) {
 
 const HS = 160;
 let heightLUT = null;
-function buildHeightLut() {
+let heightLUTWorld = 0;
+function buildHeightLut(mapWorld = MAP) {
+  if (heightLUT && heightLUTWorld === mapWorld) return;
+  heightLUTWorld = mapWorld;
   heightLUT = new Float32Array((HS + 1) * (HS + 1));
   const stride = HS + 1;
   for (let z = 0; z <= HS; z++) {
     for (let x = 0; x <= HS; x++) {
-      heightLUT[z * stride + x] = landH((x / HS) * MAP, (z / HS) * MAP);
+      heightLUT[z * stride + x] = landH((x / HS) * mapWorld, (z / HS) * mapWorld, mapWorld);
     }
   }
 }
 
-export function sampleH(x, z) {
-  if (!heightLUT) buildHeightLut();
-  const u = Math.max(0, Math.min(HS, (x / MAP) * HS));
-  const v = Math.max(0, Math.min(HS, (z / MAP) * HS));
+export function sampleH(x, z, mapWorld) {
+  const mw = mapWorld != null ? mapWorld : heightLUTWorld || MAP;
+  if (!heightLUT || heightLUTWorld !== mw) buildHeightLut(mw);
+  const u = Math.max(0, Math.min(HS, (x / mw) * HS));
+  const v = Math.max(0, Math.min(HS, (z / mw) * HS));
   const x0 = u | 0;
   const z0 = v | 0;
   const x1 = Math.min(HS, x0 + 1);
@@ -179,7 +183,10 @@ function fitWhenReady(sprite, map, height) {
 }
 
 export function createRenderer(container, quality = "ultra", opts = {}) {
-  if (!heightLUT) buildHeightLut();
+  const gridN = opts.map?.size || N;
+  const mapWorld = gridN * (opts.map?.cell || CELL);
+  buildHeightLut(mapWorld);
+  const MAP = mapWorld;
   let q = resolveQuality(quality);
   const reduceMotion = !!(opts.reduceMotion || (typeof window !== "undefined" && window.matchMedia?.("(prefers-reduced-motion: reduce)").matches));
 
@@ -190,7 +197,7 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
   const aspect = container.clientWidth / Math.max(1, container.clientHeight);
   const frustum = 22;
   const FRUSTUM_MIN = 14;
-  const FRUSTUM_MAX = 48;
+  const FRUSTUM_MAX = Math.min(64, 24 + Math.round(gridN / 4));
   const camera = new THREE.OrthographicCamera(
     (-frustum * aspect) / 2,
     (frustum * aspect) / 2,
@@ -292,17 +299,17 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
   water.position.set(MAP / 2, -0.28, MAP / 2);
   scene.add(water);
 
-  const terrain = buildMesa(sandMap, q.terrain, true, opts.map);
+  const terrain = buildMesa(sandMap, q.terrain, true, opts.map, mapWorld);
   scene.add(terrain);
 
   addSky(scene, true);
   addPlanet(scene, q.terrain >= 72);
 
   const fogCanvas = document.createElement("canvas");
-  fogCanvas.width = N;
-  fogCanvas.height = N;
+  fogCanvas.width = gridN;
+  fogCanvas.height = gridN;
   const fogCtx = fogCanvas.getContext("2d", { willReadFrequently: true });
-  const fogImg = fogCtx.createImageData(N, N);
+  const fogImg = fogCtx.createImageData(gridN, gridN);
   const fogTex = new THREE.CanvasTexture(fogCanvas);
   fogTex.magFilter = THREE.LinearFilter;
   fogTex.minFilter = THREE.LinearFilter;
@@ -584,11 +591,15 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
   }
 
   function cameraInfo() {
+    const w = Math.max(1, container.clientWidth);
+    const h = Math.max(1, container.clientHeight);
     return {
       x: camTarget.x,
       z: camTarget.z,
       frustum: frustumLive,
       frustumDesired,
+      aspect: w / h,
+      mapWorld,
       min: FRUSTUM_MIN,
       max: FRUSTUM_MAX,
     };
@@ -758,8 +769,8 @@ function paintFog(ctx, tex, img, world) {
   world._fogPainted = true;
 }
 
-function buildMesa(sandMap, seg = 64, lit = true, map = null) {
-  const geo = new THREE.PlaneGeometry(MAP, MAP, seg, seg);
+function buildMesa(sandMap, seg = 64, lit = true, map = null, mapWorld = N * CELL) {
+  const geo = new THREE.PlaneGeometry(mapWorld, mapWorld, seg, seg);
   geo.rotateX(-Math.PI / 2);
   const pos = geo.attributes.position;
   const colors = new Float32Array(pos.count * 3);
@@ -773,10 +784,10 @@ function buildMesa(sandMap, seg = 64, lit = true, map = null) {
   };
   const biomeKeys = ["sand", "dirt", "grass", "rock", "cliff", "void"];
   for (let i = 0; i < pos.count; i++) {
-    const x = pos.getX(i) + MAP / 2;
-    const z = pos.getZ(i) + MAP / 2;
-    let y = landH(x, z);
-    const rim = Math.min(Math.min(x, MAP - x), Math.min(z, MAP - z));
+    const x = pos.getX(i) + mapWorld / 2;
+    const z = pos.getZ(i) + mapWorld / 2;
+    let y = landH(x, z, mapWorld);
+    const rim = Math.min(Math.min(x, mapWorld - x), Math.min(z, mapWorld - z));
     if (rim < 1.8) y = -2.2;
     else if (rim < 8.5) y = THREE.MathUtils.lerp(-1.55, Math.max(0.35, y), smoothstep(1.8, 8.5, rim));
     pos.setY(i, y);
@@ -805,7 +816,7 @@ function buildMesa(sandMap, seg = 64, lit = true, map = null) {
     ? new THREE.MeshLambertMaterial({ map: sandMap, vertexColors: true, color: 0xffffff })
     : new THREE.MeshBasicMaterial({ map: sandMap, vertexColors: true, color: 0xffffff, toneMapped: false });
   const mesh = new THREE.Mesh(geo, mat);
-  mesh.position.set(MAP / 2, 0, MAP / 2);
+  mesh.position.set(mapWorld / 2, 0, mapWorld / 2);
   return mesh;
 }
 

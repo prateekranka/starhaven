@@ -44,7 +44,7 @@ const COMMAND_RES_SQ = q10RangeSq(2.2);
 const COMMAND_FOE_SQ = q10RangeSq(2.4);
 const TITAN_WAKE_SQ = q10RangeSq(5);
 const PROJECTILE_SPEED_Q10_PER_TICK = Math.trunc(q10FromWorld(14) / TICKS_PER_SEC);
-const VIS_RECOMPUTE_TICKS = 5;
+const VIS_ENTITY_BATCH = 12;
 const INTEGER_ASSERT_EVERY = 60;
 const REPATH_GATHER_TICKS = secToTicks(0.5);
 const REPATH_BUILD_TICKS = secToTicks(0.5);
@@ -83,14 +83,15 @@ export function createMatch(opts = {}) {
   const seed = resolveSeed(opts);
 
   const enemyFaction = playerFaction === "sunwoven" ? "gravemark" : "sunwoven";
-  const walk = new Uint8Array(N * N).fill(1);
+  const gridN = opts.map?.size || N;
+  const walk = new Uint8Array(gridN * gridN).fill(1);
   const explored = {
-    player: new Uint8Array(N * N),
-    enemy: new Uint8Array(N * N),
+    player: new Uint8Array(gridN * gridN),
+    enemy: new Uint8Array(gridN * gridN),
   };
   const visible = {
-    player: new Uint8Array(N * N),
-    enemy: new Uint8Array(N * N),
+    player: new Uint8Array(gridN * gridN),
+    enemy: new Uint8Array(gridN * gridN),
   };
 
   const world = {
@@ -98,7 +99,7 @@ export function createMatch(opts = {}) {
     seed,
     prng: new MatchPrng(seed),
     mapId: opts.mapId || opts.map?.id || "bright-mesa",
-    N,
+    N: gridN,
     CELL,
     walk,
     explored,
@@ -128,7 +129,9 @@ export function createMatch(opts = {}) {
     placing: null,
     events: [],
     _tickAcc: 0,
-    _visAccTicks: 0,
+    _visCycle: false,
+    _visCursor: 0,
+    _visList: null,
   };
 
   if (opts.map) {
@@ -168,27 +171,28 @@ function makePlayer(idKey, faction, campaign) {
   };
 }
 
-function blockRect(walk, cx, cz, size) {
+function blockRect(walk, cx, cz, size, gridN = Math.round(Math.sqrt(walk.length))) {
   for (let z = cz; z < cz + size; z++) {
     for (let x = cx; x < cx + size; x++) {
-      if (x >= 0 && z >= 0 && x < N && z < N) walk[z * N + x] = 0;
+      if (x >= 0 && z >= 0 && x < gridN && z < gridN) walk[z * gridN + x] = 0;
     }
   }
 }
 
-function freeRect(walk, cx, cz, size) {
+function freeRect(walk, cx, cz, size, gridN = Math.round(Math.sqrt(walk.length))) {
   for (let z = cz; z < cz + size; z++) {
     for (let x = cx; x < cx + size; x++) {
-      if (x >= 0 && z >= 0 && x < N && z < N) walk[z * N + x] = 1;
+      if (x >= 0 && z >= 0 && x < gridN && z < gridN) walk[z * gridN + x] = 1;
     }
   }
 }
 
 function seedTerrain(world) {
-  for (let z = 0; z < N; z++) {
-    for (let x = 0; x < N; x++) {
-      if (terrainHashPermille(x, z) > 930 && x > 8 && z > 8 && x < N - 8 && z < N - 8) {
-        world.walk[z * N + x] = 0;
+  const gridN = world.N;
+  for (let z = 0; z < gridN; z++) {
+    for (let x = 0; x < gridN; x++) {
+      if (terrainHashPermille(x, z) > 930 && x > 8 && z > 8 && x < gridN - 8 && z < gridN - 8) {
+        world.walk[z * gridN + x] = 0;
         world.resources.push({
           id: id(),
           kind: "rockblock",
@@ -207,20 +211,21 @@ function seedTerrain(world) {
 
 function scatter(world, kind, count, amount) {
   const rng = world.prng.event;
+  const gridN = world.N;
   let n = 0;
   let tries = 0;
   while (n < count && tries++ < 400) {
-    const cx = rng.nextInt(2, N - 3);
-    const cz = rng.nextInt(2, N - 3);
-    if (!world.walk[cz * N + cx]) continue;
-    if (nearStart(cx, cz)) continue;
+    const cx = rng.nextInt(2, gridN - 3);
+    const cz = rng.nextInt(2, gridN - 3);
+    if (!world.walk[cz * gridN + cx]) continue;
+    if (nearStart(cx, cz, gridN)) continue;
     const [xQ10, zQ10] = worldOfCellQ10(cx, cz, CELL);
     world.resources.push({ id: id(), kind, xQ10, zQ10, amount: amount + rng.nextInt(0, 39), cx, cz });
     n++;
   }
 }
 
-function nearStart(cx, cz) {
+function nearStart(cx, cz, gridN = N) {
   const d1 = (cx - 6) * (cx - 6) + (cz - 40) * (cz - 40);
   const d2 = (cx - 40) * (cx - 40) + (cz - 7) * (cz - 7);
   return d1 < 25 || d2 < 25;
@@ -237,6 +242,7 @@ function placeStart(world, owner, cx, cz) {
 }
 
 function seedStartNodes(world, cx, cz) {
+  const gridN = world.N;
   const spots = [
     ["food", 5, 1],
     ["food", 6, 1],
@@ -250,9 +256,9 @@ function seedStartNodes(world, cx, cz) {
     ["ore", -3, -1],
   ];
   for (const [kind, dx, dz] of spots) {
-    const gx = clampCell(cx + dx);
-    const gz = clampCell(cz + dz);
-    if (!world.walk[gz * N + gx]) continue;
+    const gx = clampCell(cx + dx, gridN);
+    const gz = clampCell(cz + dz, gridN);
+    if (!world.walk[gz * gridN + gx]) continue;
     const [xQ10, zQ10] = worldOfCellQ10(gx, gz, CELL);
     world.resources.push({
       id: id(),
@@ -266,8 +272,8 @@ function seedStartNodes(world, cx, cz) {
   }
 }
 
-function clampCell(v) {
-  return Math.max(1, Math.min(N - 2, v));
+function clampCell(v, gridN = N) {
+  return Math.max(1, Math.min(gridN - 2, v));
 }
 
 function placeRelic(world) {
@@ -336,36 +342,86 @@ function spawnUnit(world, owner, type, xQ10, zQ10) {
 }
 
 function revealAround(world, owner, cx, cz, r) {
+  const gridN = world.N;
   const exp = world.explored[owner];
   for (let z = cz - r; z <= cz + r; z++) {
     for (let x = cx - r; x <= cx + r; x++) {
-      if (x < 0 || z < 0 || x >= N || z >= N) continue;
-      if ((x - cx) * (x - cx) + (z - cz) * (z - cz) <= r * r) exp[z * N + x] = 1;
+      if (x < 0 || z < 0 || x >= gridN || z >= gridN) continue;
+      if ((x - cx) * (x - cx) + (z - cz) * (z - cz) <= r * r) exp[z * gridN + x] = 1;
+    }
+  }
+}
+
+function collectVisionEntities(world) {
+  const list = [];
+  for (const owner of ["player", "enemy"]) {
+    for (const u of world.units) {
+      if (u.owner === owner) list.push({ owner, e: u, kind: "unit" });
+    }
+    for (const b of world.buildings) {
+      if (b.owner === owner && isBuilt(b)) list.push({ owner, e: b, kind: "building" });
+    }
+  }
+  return list;
+}
+
+function applyEntityVision(world, owner, e, kind, cell, gridN) {
+  const spec = kind === "unit" ? UNITS[e.type] : BUILDINGS[e.type];
+  const r = spec.los || 5;
+  const [cx, cz] = cellOfQ10(e.xQ10, e.zQ10, cell);
+  revealAround(world, owner, cx, cz, r);
+  const vis = world.visible[owner];
+  for (let z = cz - r; z <= cz + r; z++) {
+    for (let x = cx - r; x <= cx + r; x++) {
+      if (x < 0 || z < 0 || x >= gridN || z >= gridN) continue;
+      if ((x - cx) * (x - cx) + (z - cz) * (z - cz) <= r * r) vis[z * gridN + x] = 1;
     }
   }
 }
 
 function recomputeVision(world) {
+  world.visible.player.fill(0);
+  world.visible.enemy.fill(0);
   const cell = world.CELL;
   const gridN = world.N;
-  for (const owner of ["player", "enemy"]) {
-    world.visible[owner].fill(0);
-    const losEntities = [...world.units.filter((u) => u.owner === owner), ...world.buildings.filter((b) => b.owner === owner && isBuilt(b))];
-    for (const e of losEntities) {
-      const spec = e.kind === "unit" ? UNITS[e.type] : BUILDINGS[e.type];
-      const r = spec.los || 5;
-      const [cx, cz] = cellOfQ10(e.xQ10, e.zQ10, cell);
-      revealAround(world, owner, cx, cz, r);
-      const vis = world.visible[owner];
-      for (let z = cz - r; z <= cz + r; z++) {
-        for (let x = cx - r; x <= cx + r; x++) {
-          if (x < 0 || z < 0 || x >= N || z >= N) continue;
-          if ((x - cx) * (x - cx) + (z - cz) * (z - cz) <= r * r) vis[z * N + x] = 1;
-        }
-      }
-    }
+  for (const { owner, e, kind } of collectVisionEntities(world)) {
+    applyEntityVision(world, owner, e, kind, cell, gridN);
   }
   world.fogDirty = true;
+  world._visCycle = false;
+  world._visCursor = 0;
+  world._visList = null;
+}
+
+function beginVisionCycle(world) {
+  world.visible.player.fill(0);
+  world.visible.enemy.fill(0);
+  world._visList = collectVisionEntities(world);
+  world._visCursor = 0;
+  world._visCycle = true;
+}
+
+function tickVision(world) {
+  if (world.fogDirty === undefined) {
+    recomputeVision(world);
+    return;
+  }
+  if (!world._visCycle) beginVisionCycle(world);
+  const list = world._visList || [];
+  const cell = world.CELL;
+  const gridN = world.N;
+  const end = Math.min(list.length, world._visCursor + VIS_ENTITY_BATCH);
+  for (let i = world._visCursor; i < end; i += 1) {
+    const { owner, e, kind } = list[i];
+    applyEntityVision(world, owner, e, kind, cell, gridN);
+  }
+  world._visCursor = end;
+  if (world._visCursor >= list.length) {
+    world._visCycle = false;
+    world._visCursor = 0;
+    world._visList = null;
+    world.fogDirty = true;
+  }
 }
 
 function popOf(world, owner) {
@@ -405,11 +461,7 @@ function simTick(world) {
   tickTitan(world);
   tickWonders(world);
   separate(world);
-  world._visAccTicks = (world._visAccTicks || 0) + 1;
-  if (world._visAccTicks >= VIS_RECOMPUTE_TICKS || world.fogDirty === undefined) {
-    recomputeVision(world);
-    world._visAccTicks = 0;
-  }
+  tickVision(world);
   const pp = popOf(world, "player");
   const ep = popOf(world, "enemy");
   world.players.player.pop = pp.used;
@@ -425,7 +477,8 @@ function simTick(world) {
 }
 
 function lineXQ10(world) {
-  return q10FromWorld(4) + Math.trunc((world.brightQ10 * q10FromWorld(MAP - 8)) / Q10);
+  const mapWorld = world.N * world.CELL;
+  return q10FromWorld(4) + Math.trunc((world.brightQ10 * q10FromWorld(mapWorld - 8)) / Q10);
 }
 
 export function lineX(world) {
@@ -795,7 +848,7 @@ function findById(world, fid) {
 function setPath(world, u, xQ10, zQ10) {
   const [sx, sz] = cellOfQ10(u.xQ10, u.zQ10, world.CELL);
   const [gx, gz] = cellOfQ10(xQ10, zQ10, world.CELL);
-  u.path = astar(world.walk, N, sx, sz, gx, gz);
+  u.path = astar(world.walk, world.N, sx, sz, gx, gz);
 }
 
 export function issueMove(world, u, xQ10, zQ10, facingOctant = null) {
@@ -864,11 +917,12 @@ export function tryPlace(world, owner, type, wx, wz) {
 }
 
 function canPlace(world, cx, cz, size, owner) {
-  if (cx < 1 || cz < 1 || cx + size >= N - 1 || cz + size >= N - 1) return false;
+  const gridN = world.N;
+  if (cx < 1 || cz < 1 || cx + size >= gridN - 1 || cz + size >= gridN - 1) return false;
   for (let z = cz; z < cz + size; z++) {
     for (let x = cx; x < cx + size; x++) {
-      if (!world.walk[z * N + x]) return false;
-      if (owner === "player" && !world.explored.player[z * N + x]) return false;
+      if (!world.walk[z * gridN + x]) return false;
+      if (owner === "player" && !world.explored.player[z * gridN + x]) return false;
     }
   }
   return true;

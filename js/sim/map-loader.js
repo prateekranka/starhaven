@@ -67,6 +67,14 @@ export function applyMapLayout(world, mapDef, helpers) {
   world.N = map.size;
   world.CELL = map.cell;
 
+  const cells = map.size * map.size;
+  if (world.walk.length !== cells) world.walk = new Uint8Array(cells);
+  for (const key of ["player", "enemy"]) {
+    if (world.explored[key].length !== cells) {
+      world.explored[key] = new Uint8Array(cells);
+      world.visible[key] = new Uint8Array(cells);
+    }
+  }
   world.walk.set(map.walk);
   world.resources.length = 0;
 
