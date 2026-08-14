@@ -1,0 +1,17 @@
+{
+  "unitId": "sun-walk",
+  "faction": "sunwoven",
+  "clips": [
+    "walk",
+    "attack",
+    "gather",
+    "build",
+    "death"
+  ],
+  "atlas": "media/sprites/sun-walk.atlas.png",
+  "sha256": "30eb02a6fd556dc094bb84c04d33e441cb237f134a058e51aa8338c6fe18405f",
+  "bytes": 218097,
+  "sourceCount": 50,
+  "generator": "starhaven-pixel-pipeline-v1",
+  "libvips": "8.17.1"
+}

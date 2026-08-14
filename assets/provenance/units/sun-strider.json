@@ -1,0 +1,17 @@
+{
+  "unitId": "sun-strider",
+  "faction": "sunwoven",
+  "clips": [
+    "walk",
+    "attack",
+    "gather",
+    "build",
+    "death"
+  ],
+  "atlas": "media/sprites/sun-strider.atlas.png",
+  "sha256": "c60e3efca7c186a5303128a57a3b11fbe2ac60b8654299b3d1ace314c20c55d3",
+  "bytes": 98634,
+  "sourceCount": 50,
+  "generator": "starhaven-pixel-pipeline-v1",
+  "libvips": "8.17.1"
+}

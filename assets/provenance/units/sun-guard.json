@@ -4,12 +4,14 @@
   "clips": [
     "walk",
     "attack",
+    "gather",
+    "build",
     "death"
   ],
   "atlas": "media/sprites/sun-guard.atlas.png",
-  "sha256": "012ff437d9e603d447cbdc3af0f48836079d49bc5496da91d517f93c791f037c",
-  "bytes": 135499,
-  "sourceCount": 30,
+  "sha256": "12444c41ecaebacf537467bf11cc8c8ea7eef665ae61f44148e0c5dc54e30267",
+  "bytes": 225834,
+  "sourceCount": 50,
   "generator": "starhaven-pixel-pipeline-v1",
   "libvips": "8.17.1"
 }

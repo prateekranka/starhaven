@@ -1,0 +1,17 @@
+{
+  "unitId": "sun-siege",
+  "faction": "sunwoven",
+  "clips": [
+    "walk",
+    "attack",
+    "gather",
+    "build",
+    "death"
+  ],
+  "atlas": "media/sprites/sun-siege.atlas.png",
+  "sha256": "59168ae53c454c9f16e70b2f3d2f2344cb5fd79d4a6836e4813ad2e9df42c060",
+  "bytes": 78587,
+  "sourceCount": 50,
+  "generator": "starhaven-pixel-pipeline-v1",
+  "libvips": "8.17.1"
+}

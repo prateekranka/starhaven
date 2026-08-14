@@ -3,8 +3,8 @@
   "files": [
     {
       "path": "cache-manifest.json",
-      "bytes": 5275,
-      "sha256": "db47cb02823a0fe80e46682035b4dcff3694e4913f0408d178b46ce65c51c51a"
+      "bytes": 6535,
+      "sha256": "45e20466c5c35dfa01b128c4aaa631dfd391d02f0fbf681a6b25c0c6babd1db3"
     },
     {
       "path": "css/app.css",
@@ -23,8 +23,8 @@
     },
     {
       "path": "js/cache/assets.js",
-      "bytes": 6002,
-      "sha256": "efcd5d300fbef681f5a289294883a8f02370ab851c400f2e22d79a3dcad34453"
+      "bytes": 6295,
+      "sha256": "4e7054a9f11f6cd32f2af33e12ecdd7a24da2b6dca4328820879341ba2f3ae33"
     },
     {
       "path": "js/data/catalog.js",
@@ -38,8 +38,13 @@
     },
     {
       "path": "js/game/render.js",
-      "bytes": 33605,
-      "sha256": "1620d0a6921bb9c859f530de7099f5d4a98329e97ae86c2f1a76408943ea7568"
+      "bytes": 31259,
+      "sha256": "90283e2ec3329827e649d59e7fba6379f98cd9d71ef1c43b7c8229990b92a4ac"
+    },
+    {
+      "path": "js/game/unit-atlas.js",
+      "bytes": 2654,
+      "sha256": "d102854dc098d8557027f94f9924d839542ff497313872c5044b4f9ad907daa0"
     },
     {
       "path": "js/perf.js",
@@ -140,6 +145,46 @@
       "path": "media/sprites/bldg-sun-wonder.png",
       "bytes": 1350094,
       "sha256": "38e97c65a3aa1f07ff5d9dc41a0ed11537f1f6f4e044403f2ada8cd6c338dad5"
+    },
+    {
+      "path": "media/sprites/grave-guard.atlas.json",
+      "bytes": 41855,
+      "sha256": "dd48b67c09245f34d085badee12669ba88a6138efb00a2594b0b9540530f9b94"
+    },
+    {
+      "path": "media/sprites/grave-guard.atlas.png",
+      "bytes": 208670,
+      "sha256": "983bf5376dd915779d8c5fc7c7afd53863509f6f9d7c0afcb2c54be5d6c07b94"
+    },
+    {
+      "path": "media/sprites/grave-siege.atlas.json",
+      "bytes": 41855,
+      "sha256": "82ed4b3201e043e053422bf1ca19675c45e789704c7e332028e862d76307732c"
+    },
+    {
+      "path": "media/sprites/grave-siege.atlas.png",
+      "bytes": 116946,
+      "sha256": "c233c1937e34581d662d58868e421efe8e00f4efb55d5c84cc9c7baee9d10551"
+    },
+    {
+      "path": "media/sprites/grave-strider.atlas.json",
+      "bytes": 42178,
+      "sha256": "eb720ad3abbcc9dee87375168cb29914cef33a3cb830486d0bbdea5ae8af08aa"
+    },
+    {
+      "path": "media/sprites/grave-strider.atlas.png",
+      "bytes": 98030,
+      "sha256": "ccf9b06e472b921ef1c2fb5a1ce54f370ce160cf77232287460305bf1d83ba56"
+    },
+    {
+      "path": "media/sprites/grave-walk.atlas.json",
+      "bytes": 41693,
+      "sha256": "a149f93b658f92a81194aba3bd585c9cb439fc343aa6f199654807804fd25462"
+    },
+    {
+      "path": "media/sprites/grave-walk.atlas.png",
+      "bytes": 278283,
+      "sha256": "739bba6f183e585931956786e4c796f41695283b3ea10a44a534fb9345710a41"
     },
     {
       "path": "media/sprites/icon-commands.png",
@@ -283,13 +328,43 @@
     },
     {
       "path": "media/sprites/sun-guard.atlas.json",
-      "bytes": 25013,
-      "sha256": "14d8475fa9889e17bc2c337a7bfc4c003e5fbce6de6bb418279d510e9768b2d6"
+      "bytes": 41530,
+      "sha256": "fdaa6e408c1c6fdf7a69f7c42129992f82675e525385a95b6f3500976f11ad76"
     },
     {
       "path": "media/sprites/sun-guard.atlas.png",
-      "bytes": 135499,
-      "sha256": "012ff437d9e603d447cbdc3af0f48836079d49bc5496da91d517f93c791f037c"
+      "bytes": 225834,
+      "sha256": "12444c41ecaebacf537467bf11cc8c8ea7eef665ae61f44148e0c5dc54e30267"
+    },
+    {
+      "path": "media/sprites/sun-siege.atlas.json",
+      "bytes": 41529,
+      "sha256": "52e887af70800abaff12c01a7fe01f145dbf2ef733143fc048a7d9792746a29e"
+    },
+    {
+      "path": "media/sprites/sun-siege.atlas.png",
+      "bytes": 78587,
+      "sha256": "59168ae53c454c9f16e70b2f3d2f2344cb5fd79d4a6836e4813ad2e9df42c060"
+    },
+    {
+      "path": "media/sprites/sun-strider.atlas.json",
+      "bytes": 41853,
+      "sha256": "36f8d154c692a224f6029d87f75bd66e20a2666854fde32a175253b6cedd48f5"
+    },
+    {
+      "path": "media/sprites/sun-strider.atlas.png",
+      "bytes": 98634,
+      "sha256": "c60e3efca7c186a5303128a57a3b11fbe2ac60b8654299b3d1ace314c20c55d3"
+    },
+    {
+      "path": "media/sprites/sun-walk.atlas.json",
+      "bytes": 41368,
+      "sha256": "bf8b492db34a3b032d1852c852413b6513cab4c36f9d2d2b4c5106b9a01a5751"
+    },
+    {
+      "path": "media/sprites/sun-walk.atlas.png",
+      "bytes": 218097,
+      "sha256": "30eb02a6fd556dc094bb84c04d33e441cb237f134a058e51aa8338c6fe18405f"
     },
     {
       "path": "media/sprites/unit-grave-siege.png",
@@ -392,6 +467,6 @@
       "sha256": "ce1fa418de16a19495a9f72495580e3015d7745c296d3ce0485897f902ddedfb"
     }
   ],
-  "fileCount": 78,
-  "totalBytes": 40791362
+  "fileCount": 93,
+  "totalBytes": 42289653
 }

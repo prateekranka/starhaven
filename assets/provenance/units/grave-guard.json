@@ -1,0 +1,17 @@
+{
+  "unitId": "grave-guard",
+  "faction": "gravemark",
+  "clips": [
+    "walk",
+    "attack",
+    "gather",
+    "build",
+    "death"
+  ],
+  "atlas": "media/sprites/grave-guard.atlas.png",
+  "sha256": "983bf5376dd915779d8c5fc7c7afd53863509f6f9d7c0afcb2c54be5d6c07b94",
+  "bytes": 208670,
+  "sourceCount": 50,
+  "generator": "starhaven-pixel-pipeline-v1",
+  "libvips": "8.17.1"
+}

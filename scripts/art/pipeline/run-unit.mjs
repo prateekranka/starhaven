@@ -16,7 +16,7 @@ import { packUnitAtlas } from "./lib/pack-atlas.mjs";
 const args = parseArgs(process.argv.slice(2));
 const unitId = args.unit || "sun-guard";
 const faction = args.faction || "sunwoven";
-const clips = (args.clips || "walk,attack,death").split(",").map((s) => s.trim());
+const clips = (args.clips || "walk,attack,gather,build,death").split(",").map((s) => s.trim());
 
 if (sharp.versions.vips !== "8.17.1") {
   console.warn(`warning: libvips ${sharp.versions.vips} (expected 8.17.1 for hash-stable atlases)`);
