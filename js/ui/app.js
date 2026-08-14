@@ -7,8 +7,8 @@ import { parseSeed } from "../sim/seed.js";
 import { populateMapSelect } from "../data/maps.js";
 import { initKit, bindSlider, bindToggle, bindDropdown } from "./kit.js";
 import { initTitleVista } from "./title-vista.js";
-import { renderFactionPicks, renderLoreGrid, DEFAULT_CIV_ID } from "../data/civ-ui.js";
-import { getCiv } from "../data/civ-schema.js";
+import { renderFactionPicks, renderLoreGrid } from "../data/civ-ui.js";
+import { getCiv, DEFAULT_CIV_ID } from "../data/civ-schema.js";
 import "../data/civs.js";
 
 /** Non-deterministic seed for blank setup fields (UI only — never in js/sim/). */

@@ -1,7 +1,7 @@
 import { createMatch, updateWorld, commandGround, tryPlace, queueUnit, tryAgeUp, idleVillager, selectedEntities, villagerBuildOptions, matchStats, formatDuration, BUILDINGS, UNITS, worldFromQ10, q10FromWorld, isBuilt } from "../sim/engine.js";
 import { canPackBuilding, isStormveilFaction, tryPackBuilding, trySummonDarkness } from "../sim/civs/stormveil.js";
 import { distanceSquaredQ10, q10RangeSq, ticksToSec } from "../sim/fixed.js";
-import { civDisplayName, civSelectionPortrait, civBuildThumb } from "../data/civ-schema.js";
+import { civDisplayName, civSelectionPortrait, civBuildThumb, civUsesFood } from "../data/civ-schema.js";
 import { civMechanics } from "../sim/civs/index.js";
 import "../data/civs.js";
 import { createRenderer } from "./render.js";
@@ -935,6 +935,7 @@ function renderSelection() {
       queue.appendChild(chip);
     }
   }
+}
 
 function iconBtn(label, icon, fn) {
   const b = document.createElement("button");
