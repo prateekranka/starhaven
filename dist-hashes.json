@@ -8,8 +8,8 @@
     },
     {
       "path": "css/app.css",
-      "bytes": 33294,
-      "sha256": "90708fb9565fb054a46891dfd05db2e44caa6519780f00ba0377ceed4376fb14"
+      "bytes": 33805,
+      "sha256": "488300ebd95788df442ee004eead2282bdcdae498b45ac93b57fcdad234fe51c"
     },
     {
       "path": "css/tokens.css",
@@ -18,8 +18,8 @@
     },
     {
       "path": "index.html",
-      "bytes": 24046,
-      "sha256": "f7308f485c492ba8dec2716e2560df4e0f2bc497ced83fed023a851839c65302"
+      "bytes": 23738,
+      "sha256": "769e129482a87e47ebb5676240e60dac5084a3abcd6e993b62976447fe326fc0"
     },
     {
       "path": "js/audio/engine.js",
@@ -38,8 +38,8 @@
     },
     {
       "path": "js/boot.js",
-      "bytes": 1446,
-      "sha256": "f0c312578c2088cc507392e8e8d4a33664daa5f26c114e0086574d2a0b7e0392"
+      "bytes": 1424,
+      "sha256": "c8a3883f6c4be2c74e560147101140733ff81be7a8bec2fd52d2b734e0dfd0db"
     },
     {
       "path": "js/bridge.js",
@@ -198,8 +198,8 @@
     },
     {
       "path": "js/ui/app.js",
-      "bytes": 13168,
-      "sha256": "13dbe35385f93c85059e84030f1aa57b61296418a35a415291dbec035d756a69"
+      "bytes": 13589,
+      "sha256": "9c85b5eed451cace59066c42f242edc9798e6aa3351b9cd471f731cae54f0aeb"
     },
     {
       "path": "js/ui/kit.js",
@@ -1828,5 +1828,5 @@
     }
   ],
   "fileCount": 365,
-  "totalBytes": 56910712
+  "totalBytes": 56911314
 }
