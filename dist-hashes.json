@@ -138,8 +138,8 @@
     },
     {
       "path": "js/sim/civs/ashvein.js",
-      "bytes": 13452,
-      "sha256": "bc83aca268d9ba50718f5d25f203b0a53186118ffc822b15b018417bdfba4be0"
+      "bytes": 13521,
+      "sha256": "ead8fec799a8d987d2d605a58a9dc4f2d60a905208c7b31382b3c54cc79d259e"
     },
     {
       "path": "js/sim/civs/cogforged.js",
@@ -1798,5 +1798,5 @@
     }
   ],
   "fileCount": 359,
-  "totalBytes": 133571625
+  "totalBytes": 133571694
 }
