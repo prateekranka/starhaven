@@ -34,8 +34,14 @@
   <div id="ornate-frame" aria-hidden="true"></div>
 
   <section id="screen-title" class="screen active" data-screen="title">
-    <div class="title-art" style="background-image:url('media/textures/title-sky.jpg')"></div>
-    <button class="title-settings" data-action="settings" aria-label="Settings" title="Settings">
+    <div class="title-vista" aria-hidden="true">
+      <div class="title-vista__sky" style="background-image:url('media/textures/title-sky.jpg')"></div>
+      <div class="title-vista__mesa"></div>
+      <canvas class="title-vista__motes" width="1366" height="768"></canvas>
+      <div class="title-vista__bright-line"></div>
+      <div class="title-vista__scrim"></div>
+    </div>
+    <button class="title-settings ui-icon-btn" data-action="settings" aria-label="Settings" title="Settings">
       <svg viewBox="0 0 24 24" aria-hidden="true">
         <path fill="currentColor" d="M19.14 12.94c.04-.31.06-.63.06-.94s-.02-.63-.06-.94l2.03-1.58a.5.5 0 0 0 .12-.64l-1.92-3.32a.5.5 0 0 0-.6-.22l-2.39.96c-.5-.38-1.03-.7-1.63-.94L14.5 2.5a.5.5 0 0 0-.5-.4h-3.84a.5.5 0 0 0-.5.4l-.38 2.45c-.6.24-1.13.56-1.63.94l-2.39-.96a.5.5 0 0 0-.6.22L2.74 8.84a.5.5 0 0 0 .12.64l2.03 1.58c-.04.31-.06.63-.06.94s.02.63.06.94L2.86 14.52a.5.5 0 0 0-.12.64l1.92 3.32c.13.23.4.32.64.22l2.39-.96c.5.38 1.03.7 1.63.94l.38 2.45c.05.24.26.4.5.4h3.84c.24 0 .45-.16.5-.4l.38-2.45c.6-.24 1.13-.56 1.63-.94l2.39.96c.24.1.51 0 .64-.22l1.92-3.32a.5.5 0 0 0-.12-.64l-2.03-1.58zM12 15.6A3.6 3.6 0 1 1 12 8.4a3.6 3.6 0 0 1 0 7.2z"/>
       </svg>
@@ -47,28 +53,21 @@
         <p class="subtitle"><span>◆</span> BRIGHT FRONTIER <span>◆</span></p>
       </header>
       <nav class="menu">
-        <button class="menu-btn" data-action="campaign">
-          <img src="media/sprites/menu-campaign.png" alt="" />
-          <span>
-            <strong>CONTINUE CAMPAIGN</strong>
-            <em>CHAPTER 4: NEW HORIZONS</em>
-          </span>
-        </button>
-        <button class="menu-btn" data-action="skirmish">
+        <button class="ui-btn ui-menu-btn ui-menu-btn-primary" data-action="skirmish">
           <img src="media/sprites/menu-skirmish.png" alt="" />
           <span>
             <strong>SKIRMISH VS AI</strong>
             <em>CUSTOM BATTLES</em>
           </span>
         </button>
-        <button class="menu-btn" data-action="tutorial">
+        <button class="ui-btn ui-menu-btn" data-action="tutorial">
           <img src="media/sprites/menu-tutorial.png" alt="" />
           <span>
             <strong>TUTORIAL</strong>
             <em>LEARN THE BASICS</em>
           </span>
         </button>
-        <button class="menu-btn" data-action="factions">
+        <button class="ui-btn ui-menu-btn" data-action="factions">
           <img src="media/sprites/portrait-gravemark.png" alt="" />
           <span>
             <strong>FACTIONS</strong>
@@ -155,21 +154,21 @@
         <article class="lore">
           <img src="media/sprites/portrait-sunwoven.png" alt="" />
           <h3>Sunwoven</h3>
-          <p>Weavers of light who stitch cities from brass, calcite, and solar crystal. Villagers unfold golden arms to raise palaces. In the Bright Line's day-side their skiffs and lumen guards surge.</p>
+          <p>Weavers of light who stitch cities from brass, calcite, and solar crystal. In the Bright Line's day-side their guards and striders surge across the mesa.</p>
           <ul>
-            <li>Age I — Weaver, Pathfinder, Lumen Guard, Solar Strider</li>
-            <li>Age II — Threadwright backpacks, Sunrunners, Radiant Phalanx</li>
-            <li>Age III — Helio Manta gunships, Dawn Ark wonder</li>
+            <li>Age I — Weaver, Pathfinder, Lumen Guard, Barracks, Lumen Mill, Timber Camp, Solarite Camp</li>
+            <li>Age II — Sunbow, Solar Strider, Lumen Spire, Strider Den</li>
+            <li>Age III — Dawn Projector, Siege Yard, Dawn Ark wonder</li>
           </ul>
         </article>
         <article class="lore">
           <img src="media/sprites/portrait-gravemark.png" alt="" />
           <h3>Gravemark</h3>
-          <p>Necrolith masons who bind basalt to void crystal. Their gravesmiths raise crypt-fortresses. Night on the Bright Line hardens their phalanxes and wakes rift-cutter barges.</p>
+          <p>Necrolith masons who bind basalt to void crystal. Night on the Bright Line hardens their guards and tomb striders.</p>
           <ul>
-            <li>Age I — Stonemason, Faultseer, Basalt Guard, Tomb Strider</li>
-            <li>Age II — Gravesmith rigs, Dustrunners, Crypt Phalanx</li>
-            <li>Age III — Obsidian Ray, Mausoleum Engine wonder</li>
+            <li>Age I — Stonemason, Faultseer, Basalt Guard, Phalanx Hall, Grave Mill, Quarry Camp, Void Pit</li>
+            <li>Age II — Shade Bow, Tomb Strider, Rift Spire, Beast Crypt</li>
+            <li>Age III — Grave Lobber, Mausoleum Yard, Mausoleum Engine wonder</li>
           </ul>
         </article>
       </div>
@@ -319,11 +318,6 @@
       <div id="tip" class="tipbar">TIP: Scout early and control key resources to outpace your opponent.</div>
       <div id="perf-chip" class="perf-chip hidden" aria-live="off">60 FPS · 4K</div>
       <div id="qa-chip" class="perf-chip hidden" aria-live="polite"></div>
-      <div id="end-banner" class="end-banner hidden">
-        <h2 id="end-title">VICTORY</h2>
-        <p id="end-sub">The mesa is yours.</p>
-        <button class="gold-btn" data-action="title">Return to Starhaven</button>
-      </div>
     </div>
   </section>
 
@@ -340,11 +334,50 @@
     </div>
   </div>
 
-  <div id="pause-modal" class="modal hidden">
-    <div class="modal-card">
-      <h2>PAUSED</h2>
-      <button class="gold-btn wide" id="resume-btn">Resume</button>
-      <button class="menu-btn" data-action="title">Abandon Match</button>
+  <div id="pause-modal" class="ui-modal pause-modal hidden" aria-hidden="true">
+    <div class="ui-modal-card pause-card">
+      <h2 class="pause-heading">PAUSED</h2>
+      <div id="pause-menu" class="pause-stack">
+        <button type="button" class="ui-btn ui-btn-primary wide" id="resume-btn">Resume</button>
+        <button type="button" class="ui-btn ui-btn-secondary wide" id="pause-settings-btn">Settings</button>
+        <button type="button" class="ui-btn ui-btn-secondary wide" id="pause-restart-btn">Restart</button>
+        <button type="button" class="ui-btn ui-btn-secondary wide" id="pause-abandon-btn">Abandon Match</button>
+      </div>
+      <div id="pause-settings-panel" class="pause-panel hidden">
+        <h3 class="ui-panel-title">Settings</h3>
+        <form id="pause-settings-form" class="pause-settings-form">
+          <input type="hidden" name="music" value="0.35" />
+          <div class="ui-field"><div class="ui-field-head"><span class="ui-field-label">Effects</span><span class="ui-slider-value">70%</span></div><div class="ui-slider"><div class="ui-slider-track" tabindex="0" role="slider" aria-label="Effects volume"><div class="ui-slider-rail"></div><div class="ui-slider-fill"></div><div class="ui-slider-thumb"></div></div><input type="range" name="sfx" min="0" max="1" step="0.05" value="0.7" tabindex="-1" aria-hidden="true" /></div></div>
+          <div class="ui-field"><span class="ui-field-label">Quality</span><div class="ui-dropdown" data-value="ultra"><button type="button" class="ui-dropdown-trigger" aria-haspopup="listbox" aria-expanded="false"><span class="ui-dropdown-label">Ultra — 4K / 60 FPS</span><span class="ui-dropdown-chevron" aria-hidden="true"></span></button><ul class="ui-dropdown-list" role="listbox" aria-label="Quality"><li class="ui-dropdown-option" role="option" data-value="low">Low — 720p</li><li class="ui-dropdown-option" role="option" data-value="medium">Medium — 1080p</li><li class="ui-dropdown-option" role="option" data-value="high">High — 1440p</li><li class="ui-dropdown-option selected" role="option" data-value="ultra" aria-selected="true">Ultra — 4K / 60 FPS</li></ul><input type="hidden" name="quality" value="ultra" /></div></div>
+          <div class="ui-field ui-field-row"><span class="ui-field-label">Reduce camera motion</span><div class="ui-toggle"><button type="button" class="ui-toggle-btn" role="switch" aria-checked="false" aria-label="Reduce camera motion"></button><input type="checkbox" name="reduceMotion" tabindex="-1" aria-hidden="true" /></div></div>
+          <div class="ui-field ui-field-row"><span class="ui-field-label">Haptics (iPad)</span><div class="ui-toggle on"><button type="button" class="ui-toggle-btn" role="switch" aria-checked="true" aria-label="Haptics"></button><input type="checkbox" name="haptics" checked tabindex="-1" aria-hidden="true" /></div></div>
+        </form>
+        <button type="button" class="ui-btn ui-btn-secondary wide" id="pause-settings-back">Back</button>
+      </div>
+      <div id="pause-abandon-panel" class="pause-panel hidden">
+        <p class="pause-confirm-copy">Abandon this match? Progress will be lost.</p>
+        <button type="button" class="ui-btn ui-btn-primary wide" data-action="pause-abandon-confirm">Yes, abandon</button>
+        <button type="button" class="ui-btn ui-btn-secondary wide" id="pause-abandon-cancel">Cancel</button>
+      </div>
+    </div>
+  </div>
+  <div id="results-modal" class="ui-modal results-modal hidden" aria-hidden="true">
+    <div class="ui-modal-card results-card">
+      <p class="results-eyebrow">MATCH RESULTS</p>
+      <h2 id="results-title">VICTORY</h2>
+      <p id="results-sub" class="results-sub">The mesa is yours.</p>
+      <dl class="results-stats">
+        <div><dt>Duration</dt><dd id="stat-duration">0:00</dd></div>
+        <div><dt>Resources gathered</dt><dd id="stat-gathered">0</dd></div>
+        <div><dt>Units trained</dt><dd id="stat-trained">0</dd></div>
+        <div><dt>Units lost</dt><dd id="stat-lost">0</dd></div>
+        <div><dt>Buildings razed</dt><dd id="stat-razed">0</dd></div>
+        <div class="results-score"><dt>Score</dt><dd id="stat-score">0</dd></div>
+      </dl>
+      <div class="results-actions">
+        <button type="button" class="ui-btn ui-btn-primary wide" id="results-rematch">Rematch</button>
+        <button type="button" class="ui-btn ui-btn-secondary wide" data-action="title">Return to Title</button>
+      </div>
     </div>
   </div>
 

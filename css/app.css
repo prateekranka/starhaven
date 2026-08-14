@@ -82,6 +82,15 @@ html, body {
 }
 .screen.active { display: block; }
 
+.title-vista {
+  position: absolute; inset: 0; overflow: hidden; background: var(--color-navy);
+}
+.title-vista__sky { position: absolute; inset: -4%; background: #123 center / cover no-repeat; filter: saturate(1.1) contrast(1.05); will-change: transform; }
+.title-vista__mesa { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 42%, rgba(18, 48, 72, 0.35) 68%, rgba(7, 20, 34, 0.82) 100%), radial-gradient(ellipse 80% 40% at 72% 78%, rgba(62, 199, 201, 0.12), transparent 60%); will-change: transform; }
+.title-vista__motes { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.title-vista__bright-line { position: absolute; top: 0; bottom: 0; left: 0; width: 3px; background: linear-gradient(180deg, transparent, rgba(154, 246, 255, 0.85) 35%, rgba(240, 215, 138, 0.75) 65%, transparent); box-shadow: 0 0 24px rgba(62, 199, 201, 0.55), 0 0 48px rgba(240, 215, 138, 0.25); pointer-events: none; will-change: transform, opacity; }
+.title-vista__scrim { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(7, 20, 34, 0.92) 0 340px, rgba(7, 20, 34, 0.15) 50%, transparent 70%); pointer-events: none; }
+@media (prefers-reduced-motion: reduce) { .title-vista__sky, .title-vista__mesa, .title-vista__bright-line { transform: none !important; will-change: auto; } }
 .title-art {
   position: absolute;
   inset: 0;
@@ -169,6 +178,16 @@ html, body {
 .star-sigil.tiny { width: 18px; height: 18px; margin: 0; }
 
 .menu { display: flex; flex-direction: column; gap: 10px; flex: 1; }
+.ui-menu-btn { display: flex; gap: 12px; align-items: center; text-align: left; width: 100%; padding: 8px 10px; min-height: 64px; background: rgba(8, 22, 40, 0.85); border: 1px solid var(--color-border-gold-soft); color: var(--color-text); transition: border-color var(--motion-base), transform 0.12s, background var(--motion-base); }
+.ui-menu-btn-primary { background: var(--gradient-gold-btn); color: var(--color-gold-ink); border-color: var(--color-gold-highlight); }
+.ui-menu-btn img { width: 54px; height: 54px; object-fit: cover; image-rendering: pixelated; border: 1px solid rgba(212, 175, 55, 0.4); background: var(--color-navy-deep); flex-shrink: 0; }
+.ui-menu-btn strong { display: block; font-family: var(--font-display); font-size: 13px; letter-spacing: 0.08em; font-weight: 700; }
+.ui-menu-btn em { display: block; font-style: normal; font-size: 11px; color: var(--color-teal); letter-spacing: 0.12em; }
+.ui-menu-btn-primary em { color: rgba(26, 20, 8, 0.72); }
+.ui-menu-btn:hover, .ui-menu-btn:focus-visible { border-color: var(--color-gold); background: var(--color-surface-menu-hover); transform: translateX(3px); outline: none; box-shadow: var(--shadow-focus-teal); }
+.ui-menu-btn-primary:hover, .ui-menu-btn-primary:focus-visible { background: var(--gradient-gold-btn); box-shadow: var(--shadow-focus-teal-strong); }
+.ui-btn-secondary { background: var(--gradient-dropdown); color: var(--color-text); border: 1px solid var(--color-border-gold-medium); font-family: var(--font-display); font-weight: var(--weight-display); letter-spacing: var(--tracking-heading); padding: var(--space-4) var(--space-7); min-height: var(--touch-min); cursor: pointer; width: 100%; text-transform: uppercase; touch-action: manipulation; }
+.ui-btn-secondary:hover, .ui-btn-secondary:focus-visible { border-color: var(--color-gold); box-shadow: var(--shadow-focus-teal); outline: none; }
 .menu-btn {
   display: flex;
   gap: 12px;

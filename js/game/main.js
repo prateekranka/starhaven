@@ -1,4 +1,4 @@
-import { createMatch, updateWorld, commandGround, tryPlace, queueUnit, tryAgeUp, idleVillager, selectedEntities, villagerBuildOptions, BUILDINGS, UNITS, worldFromQ10, q10FromWorld, isBuilt } from "../sim/engine.js";
+import { createMatch, updateWorld, commandGround, tryPlace, queueUnit, tryAgeUp, idleVillager, selectedEntities, villagerBuildOptions, matchStats, formatDuration, BUILDINGS, UNITS, worldFromQ10, q10FromWorld, isBuilt } from "../sim/engine.js";
 import { distanceSquaredQ10, q10RangeSq, ticksToSec } from "../sim/fixed.js";
 
 const wx = (e) => worldFromQ10(e.xQ10);
@@ -39,6 +39,8 @@ const DBL_MS = 400;
 const DBL_PX = 36;
 let emptyTap = null;
 let emptyTapTimer = 0;
+let lastMatchOpts = null;
+let resultsShown = false;
 
 export async function startMatch(opts = {}) {
   await ensureMatchAssets();
@@ -49,8 +51,8 @@ export async function startMatch(opts = {}) {
   world = createMatch({ ...opts, map, mapId });
 
   showScreen("game");
-  document.getElementById("end-banner").classList.add("hidden");
-  document.getElementById("pause-modal").classList.add("hidden");
+  document.getElementById("results-modal")?.classList.add("hidden");
+  document.getElementById("pause-modal")?.classList.add("hidden");
   paused = false;
   lastSelKey = "";
   attackMove = false;
@@ -98,7 +100,25 @@ export function stopMatch() {
 
 export function togglePause(on) {
   paused = on ?? !paused;
-  document.getElementById("pause-modal").classList.toggle("hidden", !paused);
+  document.getElementById("pause-modal")?.classList.toggle("hidden", !paused);
+  document.body.classList.toggle("match-paused", paused);
+  if (!paused) resetPausePanels();
+}
+function resetPausePanels() {
+  document.getElementById("pause-menu")?.classList.remove("hidden");
+  document.getElementById("pause-settings-panel")?.classList.add("hidden");
+  document.getElementById("pause-abandon-panel")?.classList.add("hidden");
+}
+export function applyLiveSettings(settings) {
+  if (!view) return;
+  qualityName = settings.quality || qualityName;
+  view.setQuality?.(settings.quality);
+  view.setReduceMotion?.(!!settings.reduceMotion);
+  document.getElementById("perf-chip")?.classList.toggle("hidden", !perfChipEnabled());
+}
+export async function restartMatch() {
+  if (!lastMatchOpts) return;
+  await startMatch(lastMatchOpts);
 }
 
 function perfChipEnabled() {
@@ -195,15 +215,26 @@ function loop(now) {
     drawMinimap(world, view);
   }
 
-  if (world.winner) {
-    const banner = document.getElementById("end-banner");
-    banner.classList.remove("hidden");
-    setText("end-title", world.winner === "player" ? "VICTORY" : "DEFEAT");
-    setText(
-      "end-sub",
-      world.winner === "player" ? "The mesa is yours. The Bright Line keeps moving." : "Your Town Center is ash."
-    );
+  if (world.winner && !resultsShown) {
+    resultsShown = true;
+    showResults(world);
   }
+}
+function showResults(world) {
+  const modal = document.getElementById("results-modal");
+  if (!modal) return;
+  const won = world.winner === "player";
+  const stats = matchStats(world, "player");
+  setText("results-title", won ? "VICTORY" : "DEFEAT");
+  setText("results-sub", won ? "The mesa is yours. The Bright Line keeps moving." : "Your Town Center is ash.");
+  setText("stat-duration", formatDuration(stats.duration));
+  setText("stat-gathered", String(stats.totalGathered));
+  setText("stat-trained", String(stats.unitsTrained));
+  setText("stat-lost", String(stats.unitsLost));
+  setText("stat-razed", String(stats.buildingsRazed));
+  setText("stat-score", String(stats.score));
+  modal.classList.remove("hidden");
+  document.body.classList.add("match-paused");
 }
 
 function paintPerf() {
@@ -385,6 +416,12 @@ function bindInput(viewport) {
   };
   document.getElementById("btn-menu").onclick = () => togglePause(true);
   document.getElementById("resume-btn").onclick = () => togglePause(false);
+  document.getElementById("pause-restart-btn")?.addEventListener("click", () => { togglePause(false); restartMatch(); });
+  document.getElementById("results-rematch")?.addEventListener("click", () => {
+    document.getElementById("results-modal")?.classList.add("hidden");
+    document.body.classList.remove("match-paused");
+    restartMatch();
+  });
   const zoomIn = document.getElementById("btn-zoom-in");
   const zoomOut = document.getElementById("btn-zoom-out");
   if (zoomIn) zoomIn.onclick = () => nudgeZoom(-1);
@@ -442,6 +479,7 @@ function bindInput(viewport) {
 }
 
 function onDown(e) {
+  if (paused) return;
   if (e.button === 2) return;
   pointers.set(e.pointerId, { x: e.clientX, y: e.clientY, sx: e.clientX, sy: e.clientY });
   e.target.setPointerCapture?.(e.pointerId);
@@ -451,6 +489,7 @@ function onDown(e) {
 }
 
 function onMove(e) {
+  if (paused) return;
   const p = pointers.get(e.pointerId);
   if (!p) return;
   const dx = e.clientX - p.x;
@@ -491,6 +530,7 @@ function onMove(e) {
 }
 
 function onUp(e) {
+  if (paused) return;
   const p = pointers.get(e.pointerId);
   pointers.delete(e.pointerId);
   if (pointers.size < 2) pinch0 = 0;
