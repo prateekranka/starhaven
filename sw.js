@@ -1,5 +1,7 @@
 /* Starhaven cache-first service worker. Serves warmed assets without re-buffering.
  * Never serve the SPA index.html for JSON/sprites — Pages 200-HTML fallback poisoned Brave. */
+import { cacheName, isHtmlResponse, isNonImageContentType, isImagePath, mapPool } from "./js/cache/offline-shared.js";
+
 const MANIFEST_URL = "./cache-manifest.json";
 const JSON_404 = { "Content-Type": "application/json", "Cache-Control": "no-store" };
 
@@ -40,10 +42,6 @@ async function handleFetch(request, url) {
   }
 }
 
-function cacheName(version) {
-  return `starhaven-${version || "dev"}`;
-}
-
 function isHTML(request, url) {
   if (request.mode === "navigate") return true;
   const path = url.pathname;
@@ -69,23 +67,9 @@ function isDocumentRequest(request, url) {
   return isHTML(request, url);
 }
 
-function looksLikeHtml(res) {
-  if (!res) return false;
-  const ct = (res.headers.get("content-type") || "").toLowerCase();
-  return ct.includes("text/html");
-}
-
-function isImagePath(url) {
-  return /\.(png|jpe?g|webp|gif)$/i.test(url.pathname || "");
-}
-
 function looksLikeNonImage(res, url) {
-  if (!res || !isImagePath(url)) return false;
-  const ct = (res.headers.get("content-type") || "").toLowerCase();
-  if (!ct) return false;
-  if (ct.startsWith("image/")) return false;
-  if (ct.includes("octet-stream") || ct.includes("binary")) return false;
-  return true;
+  if (!res || !isImagePath(url.pathname)) return false;
+  return isNonImageContentType(res.headers.get("content-type"));
 }
 
 function toKey(request) {
@@ -104,7 +88,7 @@ function missingResponse(request, url) {
 }
 
 async function dropHtml(cache, key, res, request, url) {
-  const badHtml = looksLikeHtml(res) && !isDocumentRequest(request, url);
+  const badHtml = isHtmlResponse(res) && !isDocumentRequest(request, url);
   const badImage = looksLikeNonImage(res, url);
   if (!res || (!badHtml && !badImage)) return res;
   if (cache && key) {
@@ -116,7 +100,7 @@ async function dropHtml(cache, key, res, request, url) {
 async function readManifest() {
   try {
     const res = await fetch(MANIFEST_URL, { cache: "no-cache" });
-    if (!res.ok || looksLikeHtml(res)) return { version: "dev", files: [] };
+    if (!res.ok || isHtmlResponse(res)) return { version: "dev", files: [] };
     return await res.json();
   } catch {
     return { version: "dev", files: [] };
@@ -132,14 +116,14 @@ async function precache() {
 
 async function putIfMissing(cache, href) {
   const hit = await cache.match(href);
-  if (hit && !looksLikeHtml(hit) && !looksLikeNonImage(hit, new URL(href))) return;
+  if (hit && !isHtmlResponse(hit) && !looksLikeNonImage(hit, new URL(href))) return;
   if (hit) {
     try { await cache.delete(href); } catch { /* ignore */ }
   }
   try {
     const res = await fetch(href);
     const url = new URL(href);
-    if (res.ok && !looksLikeHtml(res) && !looksLikeNonImage(res, url)) await cache.put(href, res);
+    if (res.ok && !isHtmlResponse(res) && !looksLikeNonImage(res, url)) await cache.put(href, res);
   } catch {
     /* skip missing files so one 404 does not fail install */
   }
@@ -156,7 +140,7 @@ async function cacheFirst(request) {
     if (clean && clean.ok) return clean;
   }
   const res = await fetch(request);
-  if ((looksLikeHtml(res) && !isDocumentRequest(request, url)) || looksLikeNonImage(res, url)) {
+  if ((isHtmlResponse(res) && !isDocumentRequest(request, url)) || looksLikeNonImage(res, url)) {
     return missingResponse(request, url);
   }
   if (res.ok) await cache.put(key, res.clone()).catch(() => {});
@@ -170,7 +154,7 @@ async function networkFirst(request) {
   const key = toKey(request);
   try {
     const res = await fetch(request, { cache: "no-cache" });
-    if ((looksLikeHtml(res) && !isDocumentRequest(request, url)) || looksLikeNonImage(res, url)) {
+    if ((isHtmlResponse(res) && !isDocumentRequest(request, url)) || looksLikeNonImage(res, url)) {
       await cache.delete(key).catch(() => {});
       return missingResponse(request, url);
     }
@@ -178,7 +162,7 @@ async function networkFirst(request) {
     return res;
   } catch (err) {
     const hit = await cache.match(key, { ignoreSearch: true });
-    if (hit && !(looksLikeHtml(hit) && !isDocumentRequest(request, url))) return hit;
+    if (hit && !(isHtmlResponse(hit) && !isDocumentRequest(request, url))) return hit;
     throw err;
   }
 }
@@ -189,13 +173,3 @@ function readManifestCached() {
   return manifestMemo;
 }
 
-async function mapPool(items, limit, fn) {
-  let i = 0;
-  async function worker() {
-    while (i < items.length) {
-      const idx = i++;
-      await fn(items[idx], idx);
-    }
-  }
-  await Promise.all(Array.from({ length: Math.min(limit, items.length) }, () => worker()));
-}

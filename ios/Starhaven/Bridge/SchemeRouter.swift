@@ -29,13 +29,12 @@ public final class StarhavenSchemeRouter: @unchecked Sendable {
         var files: [String: Data] = [:]
         let manifestURL = rootURL.appending(path: "dist-hashes.json")
         if let manifestData = try? Data(contentsOf: manifestURL),
-           let object = try? JSONSerialization.jsonObject(with: manifestData) as? [String: Any],
-           let entries = object["files"] as? [[String: Any]] {
+           let manifest = try? JSONDecoder().decode(StarhavenPackManifest.self, from: manifestData) {
             files["dist-hashes.json"] = manifestData
-            for entry in entries {
-                guard let path = entry["path"] as? String, StarhavenPackVerifier.isSafeRelativePath(path) else { continue }
-                if let data = try? Data(contentsOf: rootURL.appending(path: path)) {
-                    files[path] = data
+            for file in manifest.files {
+                guard StarhavenPackVerifier.isSafeRelativePath(file.path) else { continue }
+                if let data = try? Data(contentsOf: rootURL.appending(path: file.path)) {
+                    files[file.path] = data
                 }
             }
         }

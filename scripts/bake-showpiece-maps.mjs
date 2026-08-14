@@ -4,7 +4,7 @@
 import { writeFileSync, mkdirSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { BIOME, biomeCharFromIndex, BIOME_RGB } from "../js/data/map-biomes.js";
+import { BIOME, biomeCharFromIndex, terrainSvg } from "../js/data/map-biomes.js";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const SIZE = 96;
@@ -156,18 +156,7 @@ const maps = [
 ];
 
 function writeSvg(terrainStr) {
-  const px = 3;
-  const n = SIZE;
-  let rects = "";
-  for (let z = 0; z < n; z += 1) {
-    for (let x = 0; x < n; x += 1) {
-      const ch = terrainStr[z * n + x];
-      const biome = { s: "sand", d: "dirt", g: "grass", r: "rock", c: "cliff", v: "void" }[ch] || "sand";
-      const [r, g, b] = BIOME_RGB[biome];
-      rects += `<rect x="${x * px}" y="${z * px}" width="${px}" height="${px}" fill="rgb(${r},${g},${b})"/>`;
-    }
-  }
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${n * px} ${n * px}" width="${n * px}" height="${n * px}">${rects}</svg>\n`;
+  return terrainSvg(terrainStr, SIZE, 3);
 }
 
 mkdirSync(join(root, "maps"), { recursive: true });

@@ -40,10 +40,13 @@ export function biomeCharFromIndex(idx) {
   return BIOME_CHAR[idx] ?? "s";
 }
 
+export function biomeNameFromChar(ch) {
+  const idx = BIOME_FROM_CHAR[ch];
+  return idx == null ? "sand" : Object.keys(BIOME)[idx];
+}
+
 export function biomeRgb(idx) {
-  const name = BIOME_CHAR[idx] ?? "s";
-  const key = { s: "sand", d: "dirt", g: "grass", r: "rock", c: "cliff", v: "void" }[name];
-  return BIOME_RGB[key] || BIOME_RGB.sand;
+  return BIOME_RGB[biomeNameFromChar(BIOME_CHAR[idx] ?? "s")];
 }
 
 export function parseTerrainLayer(raw, size) {
@@ -64,4 +67,17 @@ export function parseWalkLayer(raw, size) {
   const out = new Uint8Array(expect);
   for (let i = 0; i < expect; i += 1) out[i] = raw[i] === "1" ? 1 : 0;
   return out;
+}
+
+export function terrainSvg(terrainStr, size, px, fillOverrides = {}) {
+  let rects = "";
+  for (let z = 0; z < size; z += 1) {
+    for (let x = 0; x < size; x += 1) {
+      const ch = terrainStr[z * size + x];
+      const override = fillOverrides[ch];
+      const fill = override ?? `rgb(${BIOME_RGB[biomeNameFromChar(ch)].join(",")})`;
+      rects += `<rect x="${x * px}" y="${z * px}" width="${px}" height="${px}" fill="${fill}"/>`;
+    }
+  }
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${size * px} ${size * px}" width="${size * px}" height="${size * px}">${rects}</svg>\n`;
 }

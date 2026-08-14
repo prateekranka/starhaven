@@ -447,8 +447,8 @@ final class NativeHostModel: NSObject, ObservableObject {
     }
 
     var buildIdentity: String {
-        guard let data = try? Data(contentsOf: stagedRootURL.appending(path: "build-info.json")), let object = try? JSONSerialization.jsonObject(with: data) as? [String: Any] else { return "unknown" }
-        return object["displaySha"] as? String ?? "unknown"
+        guard let data = try? Data(contentsOf: stagedRootURL.appending(path: "build-info.json")), let info = try? JSONDecoder().decode(StarhavenBuildInfo.self, from: data) else { return "unknown" }
+        return info.displaySha
     }
 }
 

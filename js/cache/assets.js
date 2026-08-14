@@ -1,6 +1,6 @@
 import { audio } from "../audio/engine.js";
+import { cacheName, isHtmlResponse, isNonImageContentType, isImagePath, mapPool } from "./offline-shared.js";
 
-const IMAGE_EXT = /\.(png|jpe?g|webp|gif)$/i;
 const PLAYABLE_CIVS = ["sunwoven", "gravemark", "cogforged", "ashvein", "stormveil"];
 const CIV_PREFIX = {
   sunwoven: "sun",
@@ -69,7 +69,7 @@ export function registerServiceWorker() {
     host === "127.0.0.1" ||
     host === "[::1]";
   if (!ok) return Promise.resolve(null);
-  return navigator.serviceWorker.register("./sw.js", { updateViaCache: "none" }).catch(() => null);
+  return navigator.serviceWorker.register("./sw.js", { type: "module", updateViaCache: "none" }).catch(() => null);
 }
 
 export function startBackgroundWarm(onProgress) {
@@ -156,7 +156,7 @@ async function matchCriticalUrls(opts, manifest) {
     urls.push("maps/manifest.json", "maps/bright-mesa.json", "maps/training-flat.json");
   }
   const known = new Set(unique([...(manifest.match || []), ...(manifest.files || []), ...MATCH_FALLBACK]));
-  return unique(urls).filter((url) => !IMAGE_EXT.test(url) || known.has(url) || url.startsWith("maps/"));
+  return unique(urls).filter((url) => !isImagePath(url) || known.has(url) || url.startsWith("maps/"));
 }
 
 async function readJson(url) {
@@ -174,28 +174,6 @@ function normalize(url) {
 
 function unique(list) {
   return Array.from(new Set(list.map(normalize).filter(Boolean)));
-}
-
-function cacheName(version) {
-  return `starhaven-${version || "dev"}`;
-}
-
-function isImage(url) {
-  return IMAGE_EXT.test(url);
-}
-
-function isHtmlResponse(res) {
-  if (!res) return false;
-  const ct = (res.headers.get("content-type") || "").toLowerCase();
-  return ct.includes("text/html");
-}
-
-function isNonImageType(type) {
-  const ct = String(type || "").toLowerCase();
-  if (!ct) return false;
-  if (ct.startsWith("image/")) return false;
-  if (ct.includes("octet-stream") || ct.includes("binary")) return false;
-  return true;
 }
 
 async function openCache(manifest) {
@@ -237,7 +215,7 @@ async function warmFiles(urls, onProgress, manifest, {
     if (yieldCrit) await yieldToCritical();
     const key = normalize(url);
     try {
-      await warmOne(key, cache, decodeImages && isImage(key));
+      await warmOne(key, cache, decodeImages && isImagePath(key));
     } catch (err) {
       if (required) throw err;
       console.warn("cache skip", url, err);
@@ -249,7 +227,7 @@ async function warmFiles(urls, onProgress, manifest, {
 
 function warmOne(url, cache, decode) {
   const key = normalize(url);
-  if (complete.has(key) && (!decode || images.has(key) || !isImage(key))) {
+  if (complete.has(key) && (!decode || images.has(key) || !isImagePath(key))) {
     return Promise.resolve();
   }
   const existing = inflight.get(key);
@@ -257,8 +235,8 @@ function warmOne(url, cache, decode) {
 
   const work = (async () => {
     const blob = await loadBlob(key, cache);
-    if (decode && isImage(key) && !images.has(key) && blob) {
-      if (isNonImageType(blob.type)) {
+    if (decode && isImagePath(key) && !images.has(key) && blob) {
+      if (isNonImageContentType(blob.type)) {
         throw new Error(`Failed to cache ${key} (blob ${blob.type})`);
       }
       const img = new Image();
@@ -308,7 +286,7 @@ async function loadBlob(url, cache) {
   if (cache) {
     const hit = await cache.match(href, { ignoreSearch: true });
     if (hit) {
-      if (isHtmlResponse(hit) || (isImage(url) && isNonImageType(hit.headers.get("content-type")))) {
+      if (isHtmlResponse(hit) || (isImagePath(url) && isNonImageContentType(hit.headers.get("content-type")))) {
         cache.delete(href).catch(() => {});
       } else {
         return hit.blob();
@@ -318,24 +296,13 @@ async function loadBlob(url, cache) {
   const res = await fetch(href);
   if (!res.ok) throw new Error(`Failed to cache ${url} (${res.status})`);
   if (isHtmlResponse(res)) throw new Error(`Failed to cache ${url} (html fallback)`);
-  if (isImage(url) && isNonImageType(res.headers.get("content-type"))) {
+  if (isImagePath(url) && isNonImageContentType(res.headers.get("content-type"))) {
     throw new Error(`Failed to cache ${url} (non-image content-type)`);
   }
   if (cache) {
     cache.put(href, res.clone()).catch(() => {});
   }
   return res.blob();
-}
-
-async function mapPool(items, limit, fn) {
-  let i = 0;
-  async function worker() {
-    while (i < items.length) {
-      const idx = i++;
-      await fn(items[idx], idx);
-    }
-  }
-  await Promise.all(Array.from({ length: Math.min(limit, Math.max(1, items.length)) }, () => worker()));
 }
 
 function sleep(ms) {

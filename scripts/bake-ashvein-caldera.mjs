@@ -4,7 +4,7 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { BIOME_RGB } from "../js/data/map-biomes.js";
+import { terrainSvg } from "../js/data/map-biomes.js";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const base = JSON.parse(readFileSync(join(root, "maps/bright-mesa.json"), "utf8"));
@@ -31,21 +31,17 @@ writeFileSync(join(root, "maps/ashvein-caldera.json"), `${JSON.stringify(base, n
 
 const n = base.size;
 const px = 4;
-let rects = "";
-for (let z = 0; z < n; z += 1) {
-  for (let x = 0; x < n; x += 1) {
-    const ch = base.terrain[z * n + x];
-    const biome = { s: "sand", d: "dirt", g: "grass", r: "rock", c: "cliff", v: "void" }[ch] || "sand";
-    const [r, g, b] = BIOME_RGB[biome];
-    let fill = `rgb(${r},${g},${b})`;
-    const prop = base.props.find((p) => p.cx === x && p.cz === z);
-    if (prop?.kind === "lava-vent") fill = "#dc4018";
-    if (prop?.kind === "tunnel-entrance") fill = "#4a3020";
-    if (prop?.kind === "tunnel") fill = "#2a1810";
-    rects += `<rect x="${x * px}" y="${z * px}" width="${px}" height="${px}" fill="${fill}"/>`;
-  }
+const propFill = {
+  "lava-vent": ["L", "#dc4018"],
+  "tunnel-entrance": ["E", "#4a3020"],
+  tunnel: ["T", "#2a1810"],
+};
+const cells = base.terrain.split("");
+for (const p of base.props) {
+  const hit = propFill[p.kind];
+  if (hit) cells[p.cz * n + p.cx] = hit[0];
 }
-const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${n * px} ${n * px}" width="${n * px}" height="${n * px}">${rects}</svg>\n`;
+const svg = terrainSvg(cells.join(""), n, px, { L: "#dc4018", E: "#4a3020", T: "#2a1810" });
 writeFileSync(join(root, "media/maps/ashvein-caldera.svg"), svg);
 
 const manifest = JSON.parse(readFileSync(join(root, "maps/manifest.json"), "utf8"));
