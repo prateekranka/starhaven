@@ -27,6 +27,8 @@ public enum StarhavenProtocol {
         "match.ended",
         "returnMenu.requested",
         "restore.completed",
-        "protocol.error"
+        "protocol.error",
+        "pack.channel",
+        "pack.reload"
     ]
 }

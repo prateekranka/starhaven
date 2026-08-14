@@ -2,6 +2,7 @@ import { createMatch, updateWorld, commandGround, tryPlace, queueUnit, tryAgeUp,
 import { displayName } from "../data/catalog.js";
 import { createRenderer } from "./render.js";
 import { beep, haptic, loadSave, showScreen } from "../boot.js";
+import { bridgeSend, setBridgeMatchId } from "../bridge.js";
 import { createFramePacer, isQaMode, setText, resolveQuality } from "../perf.js";
 import { ensureMatchAssets } from "../cache/assets.js";
 
@@ -34,12 +35,20 @@ let emptyTap = null;
 let emptyTapTimer = 0;
 let lastMatchOpts = null;
 let resultsShown = false;
+let combatHapticAt = 0;
+const hpWatch = new Map();
 
 export async function startMatch(opts) {
   await ensureMatchAssets();
   stopMatch();
   const save = loadSave();
+  lastMatchOpts = { ...opts };
+  resultsShown = false;
+  combatHapticAt = 0;
+  hpWatch.clear();
   world = createMatch(opts);
+  setBridgeMatchId(String(world.seed >>> 0));
+  bridgeSend("match.started", { route: "pixel-mesa", faction: opts.playerFaction || "sunwoven" });
 
   showScreen("game");
   document.getElementById("end-banner").classList.add("hidden");
@@ -87,6 +96,8 @@ export function stopMatch() {
   pointers.clear();
   hideBox();
   clearEmptyTap(false);
+  setBridgeMatchId(null);
+  hpWatch.clear();
 }
 
 export function togglePause(on) {
@@ -153,6 +164,21 @@ if (isQaMode()) {
   };
 }
 
+function trackCombatHaptics() {
+  if (!world) return;
+  for (const e of [...world.units, ...world.buildings]) {
+    const prev = hpWatch.get(e.id);
+    hpWatch.set(e.id, e.hp);
+    if (prev == null || e.hp >= prev) continue;
+    if (e.owner !== "player" && e.owner !== "enemy") continue;
+    const now = performance.now();
+    if (now - combatHapticAt < 120) continue;
+    combatHapticAt = now;
+    haptic(8, "combatHit");
+    break;
+  }
+}
+
 function loop(now) {
   raf = requestAnimationFrame(loop);
   const dt = Math.min(0.05, (now - last) / 1000);
@@ -172,6 +198,7 @@ function loop(now) {
       steps++;
     }
     lastSimMs = performance.now() - simT0;
+    trackCombatHaptics();
   }
 
   const drawT0 = performance.now();
@@ -223,6 +250,14 @@ function showResults(world) {
   setText("stat-lost", String(stats.unitsLost));
   setText("stat-razed", String(stats.buildingsRazed));
   setText("stat-score", String(stats.score));
+  haptic(20, "matchEnded");
+  bridgeSend("match.ended", {
+    faction: world.players.player.faction,
+    outcome: won ? "Victory" : "Defeat",
+    duration: formatDuration(stats.duration),
+    seed: String(world.seed >>> 0),
+    checksum: String(world.t),
+  });
   modal.classList.remove("hidden");
   document.body.classList.add("match-paused");
 }
@@ -529,6 +564,7 @@ function onUp(e) {
       clearEmptyTap(false);
       world.selection = e.shiftKey ? [...new Set([...world.selection, hit.id])] : [hit.id];
       beep(490, 0.05);
+      haptic(8, "select");
     } else if (hit && hit.owner !== "player") {
       clearEmptyTap(false);
       if (world.selection.length) {
@@ -561,7 +597,7 @@ function onEmptyGround(e, g) {
     world.selection = ids;
     commandGround(world, g.x, g.z, attackMove || e.shiftKey);
     beep(240, 0.05);
-    haptic(8);
+    haptic(8, "orderAccepted");
     return;
   }
   const snap = world.selection.slice();

@@ -1,4 +1,5 @@
-import { loadSave, writeSave, showScreen, beep, haptic, native, postNative } from "../boot.js";
+import { loadSave, writeSave, showScreen, beep, haptic, native } from "../boot.js";
+import { sendPackChannel, sendPackReload } from "../bridge.js";
 import { detectDefaultQuality } from "../perf.js";
 import { startBackgroundWarm, ensureMatchAssets, matchAssetsReady } from "../cache/assets.js";
 import { initKit, bindSlider, bindToggle, bindDropdown } from "./kit.js";
@@ -21,6 +22,7 @@ export function initUi() {
   initTitleVista();
   initPauseSettings();
   if (native) document.body.classList.add("native");
+  initNativeHostSettings();
   watchCacheWarm();
 
   document.body.addEventListener("click", (e) => {
@@ -56,6 +58,8 @@ export function initUi() {
         stopMatch();
         showScreen("title");
       });
+    } else if (action === "reload-pack") {
+      sendPackReload();
     }
   });
 
@@ -70,6 +74,11 @@ export function initUi() {
 
   document.getElementById("settings-form").addEventListener("change", onSettingsChange);
   document.getElementById("pause-settings-form")?.addEventListener("change", onSettingsChange);
+  document.getElementById("native-pack-channel")?.addEventListener("change", (e) => {
+    const channel = e.target.value;
+    localStorage.setItem("starhaven.packChannel", channel);
+    sendPackChannel(channel);
+  });
 
   document.getElementById("pause-settings-btn")?.addEventListener("click", () => {
     document.getElementById("pause-menu")?.classList.add("hidden");
@@ -140,7 +149,6 @@ function onSettingsChange() {
   }
   writeSave(s);
   applySettingsForm(s);
-  postNative("settings", s.settings);
   loadGame().then(({ applyLiveSettings }) => applyLiveSettings?.(s.settings));
 }
 
@@ -216,6 +224,15 @@ function applySettingsForm(save) {
       if (name && f[name]) bindDropdown(el, { value: f[name].value });
     });
   }
+}
+
+function initNativeHostSettings() {
+  const section = document.getElementById("native-host-settings");
+  if (!section) return;
+  section.hidden = !native;
+  const select = document.getElementById("native-pack-channel");
+  if (!select) return;
+  select.value = localStorage.getItem("starhaven.packChannel") || "development";
 }
 
 initUi();

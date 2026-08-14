@@ -14,6 +14,7 @@
   <link rel="preload" href="media/fonts/orbitron-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="media/fonts/rajdhani-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="modulepreload" href="js/ui/app.js" />
+  <link rel="modulepreload" href="js/bridge.js" />
   <link rel="modulepreload" href="js/boot.js" />
   <link rel="modulepreload" href="js/perf.js" />
   <link rel="modulepreload" href="js/cache/assets.js" />
@@ -243,7 +244,18 @@
             </div>
           </div>
         </section>
-        <p class="hint settings-foot">Settings store on this device and pass into the Swift wrapper when running natively.</p>
+        <section id="native-host-settings" class="ui-panel settings-group native-host-only" hidden aria-labelledby="settings-native-heading">
+          <h3 id="settings-native-heading" class="ui-panel-title">Native host</h3>
+          <div class="ui-field">
+            <span class="ui-field-label">Pack channel</span>
+            <select id="native-pack-channel" class="ui-text-field" aria-label="Pack channel">
+              <option value="production">Production</option>
+              <option value="development">Dev</option>
+            </select>
+          </div>
+          <button type="button" class="ui-btn ui-btn-secondary wide" data-action="reload-pack">Reload pack</button>
+        </section>
+        <p class="hint settings-foot">Settings store on this device. Pack channel and reload apply only inside the Starhaven iPad shell.</p>
       </form>
     </div>
   </section>

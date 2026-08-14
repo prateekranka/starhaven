@@ -1,3 +1,5 @@
+import { bridgeHaptic, bridgeSend, initBridge, isNativeHost } from "./bridge.js";
+
 export const SAVE_KEY = "starhaven.bright-frontier.v1";
 
 export const defaultSave = () => ({
@@ -25,11 +27,13 @@ export function writeSave(save) {
   localStorage.setItem(SAVE_KEY, JSON.stringify(save));
 }
 
-export const native = typeof window !== "undefined" && new URLSearchParams(location.search).has("native");
+export const native = isNativeHost();
 
+initBridge();
+
+/** @deprecated Prefer bridgeSend from ./bridge.js */
 export function postNative(type, payload = {}) {
-  const handler = window.webkit?.messageHandlers?.starhaven;
-  if (handler) handler.postMessage({ type, ...payload });
+  bridgeSend(type, payload);
 }
 
 let audioCtx = null;
@@ -51,13 +55,18 @@ export function beep(freq = 440, dur = 0.08, gain = 0.04) {
   }
 }
 
-export function haptic(ms = 10) {
-  if (loadSave().settings.haptics && navigator.vibrate) navigator.vibrate(ms);
+/** @param {number} [ms] @param {string} [kind] */
+export function haptic(ms = 10, kind = "select") {
+  if (!loadSave().settings.haptics) return;
+  bridgeHaptic(kind);
+  if (navigator.vibrate) {
+    const pattern = kind === "matchEnded" ? [20, 30, 60] : kind === "combatHit" ? 8 : ms;
+    navigator.vibrate(pattern);
+  }
 }
 
 export function showScreen(id) {
   document.querySelectorAll(".screen").forEach((el) => {
     el.classList.toggle("active", el.dataset.screen === id);
   });
-  postNative("screen", { id });
 }
