@@ -1,14 +1,17 @@
 #!/usr/bin/env node
 /** Bright Line interaction audit across all five playable civs (#31). */
 
-import { civBuff, getCiv } from "../js/data/civ-schema.js";
+import { civBuff } from "../js/data/civ-schema.js";
 import "../js/data/civs.js";
+import { civMechanics } from "../js/sim/civs/index.js";
+import "../js/sim/civs/cogforged.js";
+import "../js/sim/civs/stormveil.js";
+import "../js/sim/civs/ashvein.js";
 
 const civs = ["sunwoven", "gravemark", "cogforged", "stormveil", "ashvein"];
 
 const rows = civs.map((id) => {
-  const civ = getCiv(id);
-  const immune = Boolean(civ?.buffs?.brightLineImmune);
+  const immune = Boolean(civMechanics(id).brightLineImmune);
   const light = civBuff(id, true);
   const dark = civBuff(id, false);
   return {

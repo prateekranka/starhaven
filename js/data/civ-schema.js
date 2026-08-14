@@ -1,9 +1,12 @@
 /**
  * Civ definition schema and lookup helpers.
  *
- * Each civ exports: identity, roster, statOverrides, techs, buffs, names,
+ * Each civ exports: identity, roster, techs, buffs, names,
  * sprites, ai, and an optional renderKey for the renderer asset bucket.
+ * Sim facts (usesFood, brightLineImmune) live in js/sim/civs/index.js.
  */
+
+import { civMechanics } from "../sim/civs/index.js";
 
 const DEFAULT_BUFF = { speed: 1000, dmg: 1000, armor: 1000 };
 
@@ -91,7 +94,5 @@ export function civUnitStillSprite(civId, unitType) {
 }
 
 export function civUsesFood(civId) {
-  const civ = getCiv(civId);
-  if (civ?.economy?.usesFood === false) return false;
-  return true;
+  return civMechanics(civId).usesFood;
 }

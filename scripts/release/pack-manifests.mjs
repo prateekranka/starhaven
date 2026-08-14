@@ -8,32 +8,18 @@
  */
 import { execFileSync } from "node:child_process";
 import { createHash } from "node:crypto";
-import { readFileSync, readdirSync, statSync, writeFileSync } from "node:fs";
-import { join, relative, resolve, sep } from "node:path";
+import { readFileSync, writeFileSync } from "node:fs";
+import { join, resolve } from "node:path";
+import { listPackFiles, isPackPath } from "./pack-layout.mjs";
 
 const repoRoot = resolve(import.meta.dirname, "../..");
-const PACK_ROOT_FILES = ["404.html", "cache-manifest.json", "index.html", "sw.js"];
-const PACK_DIRS = ["css", "js", "maps", "media", "vendor"];
 
 const sha256 = (bytes) => createHash("sha256").update(bytes).digest("hex");
 const git = (args) => execFileSync("git", args, { cwd: repoRoot, encoding: "utf8" }).trim();
 
-function payloadPaths() {
-  const paths = [...PACK_ROOT_FILES];
-  const walk = (dir) => {
-    for (const entry of readdirSync(join(repoRoot, dir), { withFileTypes: true })) {
-      const rel = `${dir}/${entry.name}`;
-      if (entry.isSymbolicLink()) throw new Error(`pack contains a symbolic link: ${rel}`);
-      if (entry.isDirectory()) walk(rel);
-      else if (entry.isFile()) paths.push(rel.split(sep).join("/"));
-      else throw new Error(`pack contains an unsupported entry: ${rel}`);
-    }
-  };
-  for (const dir of PACK_DIRS) walk(dir);
-  return paths.sort((a, b) => a.localeCompare(b));
-}
+const paths = listPackFiles(repoRoot);
 
-const files = payloadPaths().map((path) => {
+const files = paths.map((path) => {
   const bytes = readFileSync(join(repoRoot, path));
   return { path, bytes: bytes.length, sha256: sha256(bytes) };
 });
@@ -46,12 +32,11 @@ const manifest = {
 const manifestText = `${JSON.stringify(manifest, null, 2)}\n`;
 writeFileSync(join(repoRoot, "dist-hashes.json"), manifestText);
 
-const isPayload = (path) => PACK_ROOT_FILES.includes(path) || PACK_DIRS.some((dir) => path.startsWith(`${dir}/`));
 const dirtyPayload = git(["status", "--porcelain=v1", "--untracked-files=all"])
   .split("\n")
   .map((line) => line.slice(3).trim())
   .filter(Boolean)
-  .filter(isPayload);
+  .filter(isPackPath);
 const clean = dirtyPayload.length === 0;
 const sourceSha = git(["rev-parse", "HEAD"]);
 const shortSha = sourceSha.slice(0, 9);

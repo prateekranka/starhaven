@@ -204,18 +204,23 @@ export function initUi() {
   }
 }
 
-function onSettingsChange() {
-  const s = loadSave();
-  for (const formId of ["settings-form", "pause-settings-form"]) {
-    const f = document.getElementById(formId);
-    if (!f) continue;
-    s.settings.music = Number(f.music.value);
-    s.settings.sfx = Number(f.sfx.value);
-    s.settings.quality = f.quality.value;
-    s.settings.reduceMotion = f.reduceMotion.checked;
-    s.settings.haptics = f.haptics.checked;
-    s.settings.showDebug = f.showDebug.checked;
+const SETTINGS_FIELDS = ["music", "sfx", "quality", "reduceMotion", "haptics", "showDebug"];
+
+function readSettingsForm(form) {
+  const out = {};
+  for (const name of SETTINGS_FIELDS) {
+    const el = form.elements[name];
+    if (!el) continue;
+    out[name] = el.type === "checkbox" ? el.checked : el.type === "range" ? Number(el.value) : el.value;
   }
+  return out;
+}
+
+function onSettingsChange(e) {
+  const f = e.target.form;
+  if (!f || (f.id !== "settings-form" && f.id !== "pause-settings-form")) return;
+  const s = loadSave();
+  s.settings = { ...s.settings, ...readSettingsForm(f) };
   writeSave(s);
   applySettingsForm(s);
   audio.applyVolumes();
@@ -299,12 +304,12 @@ function applySettingsForm(save) {
   for (const formId of ["settings-form", "pause-settings-form"]) {
     const f = document.getElementById(formId);
     if (!f) continue;
-    if (f.music) f.music.value = save.settings.music;
-    if (f.sfx) f.sfx.value = save.settings.sfx;
-    if (f.quality) f.quality.value = save.settings.quality;
-    if (f.reduceMotion) f.reduceMotion.checked = save.settings.reduceMotion;
-    if (f.haptics) f.haptics.checked = save.settings.haptics;
-    if (f.showDebug) f.showDebug.checked = !!save.settings.showDebug;
+    for (const name of SETTINGS_FIELDS) {
+      const el = f.elements[name];
+      if (!el) continue;
+      if (el.type === "checkbox") el.checked = !!save.settings[name];
+      else el.value = save.settings[name];
+    }
     f.querySelectorAll(".ui-slider").forEach((el) => {
       const input = el.querySelector('input[type="range"]');
       bindSlider(el, { value: Number(input?.value ?? 0) });

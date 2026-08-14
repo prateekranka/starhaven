@@ -2,12 +2,11 @@
 /**
  * Report pixel-mesa pack size against GameCache download budgets.
  */
-import { readdirSync, statSync } from "node:fs";
+import { statSync } from "node:fs";
 import { join, resolve } from "node:path";
+import { listPackFiles } from "./pack-layout.mjs";
 
 const repoRoot = resolve(import.meta.dirname, "../..");
-const PACK_DIRS = ["css", "js", "maps", "media", "vendor"];
-const PACK_ROOT_FILES = ["cache-manifest.json", "index.html", "sw.js"];
 
 const LIMITS = {
   totalBytes: 120 * 1024 * 1024,
@@ -24,20 +23,6 @@ const civPatterns = {
   cogforged: /(?:^|\/)media\/sprites\/(?:sheet-cogforged|sheet-cog-|bldg-cog-|unit-cog-|portrait-cog|icon-(?:train|build|age)-cog|cog-(?:walk|guard|strider|siege))/,
 };
 
-function walkFiles() {
-  const files = [];
-  const walk = (dir) => {
-    for (const entry of readdirSync(join(repoRoot, dir), { withFileTypes: true })) {
-      const rel = `${dir}/${entry.name}`;
-      if (entry.isDirectory()) walk(rel);
-      else if (entry.isFile()) files.push(rel);
-    }
-  };
-  for (const f of PACK_ROOT_FILES) files.push(f);
-  for (const d of PACK_DIRS) walk(d);
-  return files.sort();
-}
-
 function bytesOf(path) {
   return statSync(join(repoRoot, path)).size;
 }
@@ -46,7 +31,7 @@ function fmt(bytes) {
   return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
 }
 
-const files = walkFiles();
+const files = listPackFiles(repoRoot);
 let total = 0;
 let audio = 0;
 const civ = Object.fromEntries(Object.keys(civPatterns).map((id) => [id, 0]));

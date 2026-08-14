@@ -129,7 +129,6 @@ export const SUNWOVEN = {
     },
   },
   roster: sharedRoster(),
-  statOverrides: {},
   techs: sharedTechs(),
   buffs: {
     inLight: { speed: 1140, dmg: 1100, armor: 1000 },
@@ -195,7 +194,6 @@ export const GRAVEMARK = {
     },
   },
   roster: sharedRoster(),
-  statOverrides: {},
   techs: sharedTechs(),
   buffs: {
     inLight: { speed: 980, dmg: 960, armor: 1000 },
@@ -260,16 +258,13 @@ export const COGFORGED = {
       ],
     },
   },
-  economy: { usesFood: false },
   roster: {
     units: Object.keys(UNITS),
     buildings: Object.keys(BUILDINGS).filter((t) => t !== "mill"),
     villagerBuild: VILLAGER_BUILD_LIST.filter((t) => t !== "mill"),
   },
-  statOverrides: {},
   techs: sharedTechs(),
   buffs: {
-    brightLineImmune: true,
     inLight: { speed: 1020, dmg: 1030, armor: 1000 },
     inDark: { speed: 1020, dmg: 1030, armor: 1000 },
   },
@@ -347,7 +342,6 @@ export const ASHVEIN = {
     },
   },
   roster: sharedRoster(),
-  statOverrides: {},
   techs: sharedTechs(),
   buffs: {
     inLight: { speed: 980, dmg: 1020, armor: 1000 },
@@ -412,7 +406,6 @@ export const QA_STUB = {
     },
   },
   roster: sharedRoster(),
-  statOverrides: {},
   techs: sharedTechs(),
   buffs: {
     inLight: { speed: 1000, dmg: 1000, armor: 1000 },
@@ -491,7 +484,6 @@ export const STORMVEIL = {
     },
   },
   roster: sharedRoster(),
-  statOverrides: {},
   techs: sharedTechs(),
   buffs: { inLight: { speed: 1000, dmg: 1000, armor: 1000 }, inDark: { speed: 1080, dmg: 1050, armor: 960 } },
   names: {

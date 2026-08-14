@@ -59,7 +59,3 @@ export function resolveBuildingCost(civId, type, baseCost) {
 export function resolveAgeCost(civId, nextAge, baseCost) {
   return civMechanics(civId).resolveAgeCost(nextAge, baseCost);
 }
-
-export function civUsesFood(civId) {
-  return civMechanics(civId).usesFood;
-}

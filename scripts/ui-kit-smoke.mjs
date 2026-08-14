@@ -93,8 +93,8 @@ async function main() {
     await cdp.eval(`document.querySelector('.title-settings[data-action="settings"]').click()`);
     await sleep(250);
     results.settingsVisible = await cdp.eval(`!!document.querySelector('#screen-settings.active')`);
-    results.noNativeSelect = await cdp.eval(`document.querySelectorAll('select').length === 0`);
-    results.musicHidden = await cdp.eval(`(()=>{const m=document.querySelector('[name="music"]');if(!m||m.type!=='hidden')return false;return ![...document.querySelectorAll('.ui-field-label,.ui-panel-title')].some(el=>/music/i.test(el.textContent));})()`);
+    results.noNativeSelect = await cdp.eval(`document.querySelectorAll('select:not(#native-pack-channel)').length === 0`);
+    results.musicControl = await cdp.eval(`(()=>{const m=document.querySelector('[name="music"]');return !!m&&m.type==='range'&&!!m.closest('.ui-slider');})()`);
     results.kitDropdown = await cdp.eval(`!!document.querySelector('#settings-form .ui-dropdown')`);
     results.kitSlider = await cdp.eval(`!!document.querySelector('#settings-form .ui-slider')`);
     results.kitToggle = await cdp.eval(`!!document.querySelector('#settings-form .ui-toggle')`);
@@ -116,7 +116,12 @@ async function main() {
     results.persistHaptics = afterReload.settings?.haptics === false;
     results.persistMusic = typeof afterReload.settings?.music === "number";
 
-    await cdp.eval(`document.querySelector('.menu-btn[data-action="skirmish"]').click()`);
+    await cdp.eval(`(()=>{const f=document.querySelector('#pause-settings-form');const q=f.querySelector('[name="quality"]');q.value='low';q.dispatchEvent(new Event('change',{bubbles:true}));})()`);
+    await sleep(200);
+    const pauseFormSaved = await cdp.eval(`JSON.parse(localStorage.getItem('${SAVE_KEY}')||'{}')`);
+    results.pauseFormQualityPersists = pauseFormSaved.settings?.quality === "low";
+
+    await cdp.eval(`document.querySelector('.ui-menu-btn[data-action="skirmish"]').click()`);
     await sleep(250);
     results.skirmishVisible = await cdp.eval(`!!document.querySelector('#screen-skirmish.active')`);
     results.skirmishDropdowns = await cdp.eval(`document.querySelectorAll('#screen-skirmish .ui-dropdown').length===2`);
