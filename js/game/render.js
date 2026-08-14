@@ -10,6 +10,7 @@ import {
   litMap,
   setLitMap,
 } from "./bright-lit.js";
+import { createParticleSystem } from "./particles.js";
 
 const MAP = N * CELL;
 THREE.Cache.enabled = true;
@@ -339,7 +340,7 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
   fitWhenReady(ghost, bldg.sun.house, 4.2);
   scene.add(ghost);
 
-  const vfx = makeVfx(scene, q.vfx);
+  const vfx = createParticleSystem(scene, sampleH, Math.max(160, q.vfx * 5), MAP);
   let rockProps = null;
 
   const raycaster = new THREE.Raycaster();
@@ -556,7 +557,7 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
     if (!rockProps) rockProps = addRockProps(scene, world);
     syncBrightLineUniforms(scene, world, MAP);
     paintFog(fogCtx, fogTex, fogImg, world, terrainFogLut);
-    vfx.tick(world);
+    vfx.tick(world, dt);
 
     if (world.placing) {
       ghost.visible = true;
@@ -912,49 +913,4 @@ function addPlanet(scene, hi = false) {
   ring.position.copy(p.position);
   ring.rotation.x = Math.PI / 2.5;
   scene.add(ring);
-}
-
-function makeVfx(scene, n = 80) {
-  if (!n) {
-    return { tick() {} };
-  }
-  const geo = new THREE.BufferGeometry();
-  const pos = new Float32Array(n * 3);
-  geo.setAttribute("position", new THREE.BufferAttribute(pos, 3));
-  const mat = new THREE.PointsMaterial({
-    color: 0x66e0ff,
-    size: 0.28,
-    transparent: true,
-    opacity: 0.75,
-    blending: THREE.AdditiveBlending,
-    depthWrite: false,
-    sizeAttenuation: true,
-    toneMapped: false,
-  });
-  const cloud = new THREE.Points(geo, mat);
-  cloud.frustumCulled = false;
-  scene.add(cloud);
-  return {
-    tick(world) {
-      let i = 0;
-      for (const r of world.resources) {
-        if (r.kind !== "crystal" && r.kind !== "void") continue;
-        if (i >= n) break;
-        const t = world.t;
-        pos[i * 3] = r.x + Math.sin(t * 2 + r.id) * 0.35;
-        pos[i * 3 + 1] = sampleH(r.x, r.z) + 1.2 + Math.abs(Math.sin(t * 3 + r.id));
-        pos[i * 3 + 2] = r.z + Math.cos(t * 2 + r.id) * 0.35;
-        i++;
-      }
-      for (const p of world.projectiles) {
-        if (i >= n) break;
-        pos[i * 3] = p.x;
-        pos[i * 3 + 1] = sampleH(p.x, p.z) + 1.2;
-        pos[i * 3 + 2] = p.z;
-        i++;
-      }
-      geo.setDrawRange(0, i);
-      geo.attributes.position.needsUpdate = true;
-    },
-  };
 }

@@ -371,6 +371,10 @@ export function inLight(world, x) {
   return x < lineX(world);
 }
 
+export function emitVfx(world, kind, x, z, opts = {}) {
+  (world.vfxEvents ||= []).push({ kind, x, z, ...opts });
+}
+
 function factionBuff(world, u) {
   const light = inLight(world, u.x);
   if (u.faction === "sunwoven") return light ? { speed: 1.14, dmg: 1.1, armor: 1 } : { speed: 1, dmg: 1, armor: 1 };
@@ -510,6 +514,7 @@ function gatherTick(world, u, spec, dt) {
   u.carry += take;
   u.carryKind = res.kind;
   world.players[u.owner].rates[res.kind] += rate;
+  if (take > 0.01) emitVfx(world, "gather", res.x, res.z, { sub: res.kind });
   if (u.carry >= spec.carry - 0.01 || res.amount <= 0) startReturn(world, u);
 }
 
@@ -569,6 +574,11 @@ function buildTick(world, u, dt) {
   const spec = BUILDINGS[b.type];
   b.built = Math.min(1, b.built + dt / spec.time);
   b.hp = Math.min(spec.hp, b.hp + (spec.hp / spec.time) * dt);
+  b._dustAcc = (b._dustAcc || 0) + dt;
+  if (b.built < 1 && b._dustAcc >= 0.22) {
+    b._dustAcc = 0;
+    emitVfx(world, "build", b.x, b.z);
+  }
   if (b.built >= 1) {
     u.state = "idle";
     u.build = null;
@@ -644,6 +654,7 @@ function tickProjectiles(world, dt) {
 function hit(world, t, dmg, src) {
   const buff = t.kind === "unit" ? factionBuff(world, t) : { armor: 1 };
   t.hp -= dmg * (buff.armor || 1);
+  emitVfx(world, "hit", t.x, t.z, { dmg });
   if (t.kind === "unit" && t.state === "idle" && t.type === "villager") {
     /* keep gathering unless dying */
   }
