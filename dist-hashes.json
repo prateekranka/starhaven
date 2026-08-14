@@ -8,8 +8,8 @@
     },
     {
       "path": "cache-manifest.json",
-      "bytes": 26848,
-      "sha256": "35ffc6b67749357db59255466d42275d5ced04c53e6749f045cb31f7f9690fd3"
+      "bytes": 26904,
+      "sha256": "be5043f5f1de96275910070d11e2b80867013e9a04b10f65c2978e219ccc303c"
     },
     {
       "path": "css/app.css",
@@ -53,8 +53,8 @@
     },
     {
       "path": "js/cache/assets.js",
-      "bytes": 10486,
-      "sha256": "858660d1b3d53bb910abb4b4b53514566777b9e244c52d0c31daa5559f059742"
+      "bytes": 10972,
+      "sha256": "f3a2f6e331a35f4773309aa5aa56593eacd3df419b604fe42a6512776674270b"
     },
     {
       "path": "js/cache/offline-shared.js",
@@ -138,8 +138,8 @@
     },
     {
       "path": "js/sim/civs/ashvein.js",
-      "bytes": 13404,
-      "sha256": "d1baaffa57dd06eace4653928800c97ae411c7735484df2d5ea776dc09928f98"
+      "bytes": 13452,
+      "sha256": "bc83aca268d9ba50718f5d25f203b0a53186118ffc822b15b018417bdfba4be0"
     },
     {
       "path": "js/sim/civs/cogforged.js",
@@ -158,8 +158,8 @@
     },
     {
       "path": "js/sim/engine.js",
-      "bytes": 42474,
-      "sha256": "46d54146df4c26ac0375152a079fb48694c27eb1146aba43394519c17922c909"
+      "bytes": 42553,
+      "sha256": "ed81c406a9967659e590be6cc3e77537831ce5623ab0116ffd02f36849e50e14"
     },
     {
       "path": "js/sim/fixed.js",
@@ -1798,5 +1798,5 @@
     }
   ],
   "fileCount": 359,
-  "totalBytes": 133570956
+  "totalBytes": 133571625
 }
