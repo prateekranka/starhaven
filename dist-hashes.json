@@ -503,8 +503,8 @@
     },
     {
       "path": "media/sprites/bldg-ash-tc.png",
-      "bytes": 1745207,
-      "sha256": "8828fe9d2bb6360e6979012e907d0c6f1249533de0e18fdf4e3f7abb740bd787"
+      "bytes": 1208549,
+      "sha256": "6d80c85b3d4dfac68fa5ff7dcef689411124162e7e157b57152f5d380abf1172"
     },
     {
       "path": "media/sprites/bldg-ash-tunnel-mouth.png",
@@ -813,8 +813,8 @@
     },
     {
       "path": "media/sprites/icon-age-ash.png",
-      "bytes": 34092,
-      "sha256": "cebddd6778238df361949a566564a4a8e7bbf296acafab077cbbd0232914ba57"
+      "bytes": 28566,
+      "sha256": "f21b1662faaee7793e0127d02b3057180fd90e6fb1950444853d109e2d9a8fa0"
     },
     {
       "path": "media/sprites/icon-age-cog.png",
@@ -1788,5 +1788,5 @@
     }
   ],
   "fileCount": 357,
-  "totalBytes": 139495467
+  "totalBytes": 138953283
 }
