@@ -6,16 +6,22 @@ import { UNITS } from "../../data/catalog.js";
 import { isBuilt } from "../fixed.js";
 import { registerCivMechanics } from "./index.js";
 
-export const COGFORGED_AI = {
-  villagers: { settler: 7, chieftain: 10, emperor: 13 },
-  waveTickSec: { settler: 130, chieftain: 88, emperor: 65 },
-  emperorExtraStock: 60,
-  buildPriority: ["house", "barracks", "lumber", "mine", "workshop", "spire", "den"],
-};
-
 export const COGFORGED_AGE_COSTS = {
   2: { crystal: 220 },
   3: { crystal: 450, ore: 200 },
+};
+
+export const COGFORGED_AI = {
+  villagers: { settler: 8, chieftain: 11, emperor: 14 },
+  waveTickSec: { settler: 118, chieftain: 76, emperor: 56 },
+  emperorExtraStock: 75,
+  buildPriority: ["house", "barracks", "lumber", "mine", "workshop", "spire", "den"],
+  waveArmyMin: { settler: 7, chieftain: 4, emperor: 4 },
+  ageCosts: COGFORGED_AGE_COSTS,
+  gatherPriority: ["wood", "crystal", "ore"],
+  usesAssembly: true,
+  barracksAtVillagers: 5,
+  minFoodToQueueVillager: 0,
 };
 
 const UNIT_COSTS = {
