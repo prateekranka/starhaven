@@ -1,7 +1,8 @@
 import { createMatch, updateWorld, commandGround, tryPlace, queueUnit, tryAgeUp, idleVillager, selectedEntities, villagerBuildOptions, BUILDINGS, UNITS } from "../sim/engine.js";
 import { displayName } from "../data/catalog.js";
 import { createRenderer } from "./render.js";
-import { beep, haptic, loadSave, showScreen } from "../boot.js";
+import { audio, haptic, loadSave, showScreen } from "../boot.js";
+import { createMatchAudio } from "../audio/match-audio.js";
 import { createFramePacer, isQaMode, setText, resolveQuality } from "../perf.js";
 import { ensureMatchAssets } from "../cache/assets.js";
 
@@ -26,6 +27,7 @@ let cursorY = -1;
 const heldKeys = new Set();
 let pacer = null;
 let qualityName = "ultra";
+let matchAudio = null;
 const SIM_DT = 1 / 60;
 const ZOOM_STEP = 4;
 const DBL_MS = 400;
@@ -38,6 +40,8 @@ export async function startMatch(opts) {
   stopMatch();
   const save = loadSave();
   world = createMatch(opts);
+  matchAudio = createMatchAudio();
+  matchAudio.reset(world);
 
   showScreen("game");
   document.getElementById("end-banner").classList.add("hidden");
@@ -67,10 +71,13 @@ export async function startMatch(opts) {
   drawHud(world, true);
   drawMinimap(world, view);
   paintDebugState();
+  audio.startMusic();
 }
 
 export function stopMatch() {
   cancelAnimationFrame(raf);
+  audio.stopMusic(false);
+  matchAudio = null;
   inputAbort?.abort();
   inputAbort = null;
   view?.dispose?.();
@@ -194,6 +201,8 @@ function loop(now) {
       world.winner === "player" ? "The mesa is yours. The Bright Line keeps moving." : "Your Town Center is ash."
     );
   }
+
+  matchAudio?.tick(world, view);
 }
 
 function paintPerf() {
@@ -318,7 +327,7 @@ function bindInput(viewport) {
       const g = view.groundPick(e.clientX, e.clientY);
       if (g) {
         commandGround(world, g.x, g.z, true);
-        beep(220, 0.05);
+        audio.play("attack");
         clearEmptyTap(false);
       }
     },
@@ -338,7 +347,7 @@ function bindInput(viewport) {
     const u = idleVillager(world);
     if (u) {
       view.lookAt(u.x, u.z);
-      beep(520);
+      audio.play("select");
       renderSelection();
     }
   };
@@ -475,10 +484,10 @@ function onUp(e) {
     const res = tryPlace(world, "player", world.placing, g.x, g.z);
     world.tip = res.ok ? "Builders inbound." : res.why;
     if (res.ok) {
-      beep(380);
+      audio.play("build", { x: g.x, z: g.z });
       haptic();
       world.placing = null;
-    } else beep(140, 0.1, 0.06);
+    } else audio.play("build_fail");
     hideBox();
     renderSelection();
     return;
@@ -488,12 +497,12 @@ function onUp(e) {
     if (hit && hit.owner === "player") {
       clearEmptyTap(false);
       world.selection = e.shiftKey ? [...new Set([...world.selection, hit.id])] : [hit.id];
-      beep(490, 0.05);
+      audio.play("select", { x: hit.x, z: hit.z });
     } else if (hit && hit.owner !== "player") {
       clearEmptyTap(false);
       if (world.selection.length) {
         commandGround(world, g.x, g.z);
-        beep(200, 0.06);
+        audio.play("attack", { x: g.x, z: g.z });
       }
     } else {
       onEmptyGround(e, g);
@@ -520,7 +529,7 @@ function onEmptyGround(e, g) {
     clearEmptyTap(false);
     world.selection = ids;
     commandGround(world, g.x, g.z, attackMove || e.shiftKey);
-    beep(240, 0.05);
+    audio.play(attackMove || e.shiftKey ? "attack" : "move", { x: g.x, z: g.z });
     haptic(8);
     return;
   }
@@ -661,7 +670,7 @@ function renderSelection() {
         iconBtn(BUILDINGS[t].name, bldgThumb(t, faction), () => {
           world.placing = t;
           world.tip = `Place ${BUILDINGS[t].name}. Tap the mesa.`;
-          beep(300, 0.05);
+          audio.play("build");
         })
       );
     }
@@ -673,7 +682,7 @@ function renderSelection() {
         btn(UNITS[t].name, () => {
           const r = queueUnit(world, e, t);
           world.tip = r.ok ? `Training ${UNITS[t].name}` : r.why;
-          beep(r.ok ? 400 : 140);
+          audio.play(r.ok ? "train" : "train_fail");
           renderSelection();
         })
       );
@@ -683,7 +692,8 @@ function renderSelection() {
         btn("Age Up", () => {
           const r = tryAgeUp(world, "player");
           world.tip = r.ok ? "The Town Center chants. Age up begun." : r.why;
-          beep(r.ok ? 260 : 140, 0.12);
+          if (r.ok) audio.play("age_up");
+          else audio.play("train_fail");
         })
       );
     }

@@ -1,3 +1,5 @@
+import { audio } from "../audio/engine.js";
+
 const IMAGE_EXT = /\.(png|jpe?g|webp|gif)$/i;
 
 const images = new Map();
@@ -42,6 +44,25 @@ const MATCH_FALLBACK = [
   "js/sim/path.js",
   "js/sim/ai.js",
   "js/data/catalog.js",
+  "js/audio/engine.js",
+  "js/audio/match-audio.js",
+  "media/audio/ui.wav",
+  "media/audio/select.wav",
+  "media/audio/move.wav",
+  "media/audio/attack.wav",
+  "media/audio/train.wav",
+  "media/audio/train_fail.wav",
+  "media/audio/build.wav",
+  "media/audio/build_fail.wav",
+  "media/audio/gather.wav",
+  "media/audio/hit.wav",
+  "media/audio/hit_heavy.wav",
+  "media/audio/death_unit.wav",
+  "media/audio/death_building.wav",
+  "media/audio/victory.wav",
+  "media/audio/defeat.wav",
+  "media/audio/age_up.wav",
+  "media/audio/music_mesa.wav",
 ];
 
 export function cachedImage(url) {
@@ -83,6 +104,7 @@ export function startBackgroundWarm(onProgress) {
       const manifest = await loadManifest();
       const ordered = unique([...(manifest.shell || []), ...(manifest.match || []), ...(manifest.files || [])]);
       await warmFiles(ordered, onProgress, manifest);
+      await audio.preload();
     })();
   }
   return warmPromise;
@@ -94,7 +116,15 @@ export function ensureMatchAssets(onProgress) {
       registerServiceWorker();
       const manifest = await loadManifest();
       const urls = unique(manifest.match?.length ? manifest.match : MATCH_FALLBACK);
-      await warmFiles(urls, onProgress, manifest, { decodeImages: true });
+      let fileDone = 0;
+      const fileTotal = urls.length;
+      await warmFiles(urls, (done, total, url) => {
+        fileDone = done;
+        onProgress?.(done, total + 1, url);
+      }, manifest, { decodeImages: true });
+      await audio.preload((done, total) => {
+        onProgress?.(fileDone + done, fileTotal + total);
+      });
       matchReady = true;
     })();
   }

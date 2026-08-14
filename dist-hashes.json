@@ -3,8 +3,8 @@
   "files": [
     {
       "path": "cache-manifest.json",
-      "bytes": 5103,
-      "sha256": "fc7d532272b989684f9755d0cc02c70cdad15eb044531f23eecaafb5599e47d0"
+      "bytes": 6271,
+      "sha256": "cb46fae0586e806c31bd710a178b78fc1fb7a2442e34a076f567268d7f28445d"
     },
     {
       "path": "css/app.css",
@@ -13,18 +13,28 @@
     },
     {
       "path": "index.html",
-      "bytes": 13429,
-      "sha256": "fbad44576941540624369b7035def11b7aaf1cf1a751e29f1b364c6bb231d3db"
+      "bytes": 13486,
+      "sha256": "f62bc1dd3a3c6ff51d18cdbc1bef478ef09b8b8cd08ce48edb5d0bcb93c4e68c"
+    },
+    {
+      "path": "js/audio/engine.js",
+      "bytes": 6909,
+      "sha256": "efc75308f7392b41013dbb336dbd1c2e766bbe8ff497051ee41b094676ed309e"
+    },
+    {
+      "path": "js/audio/match-audio.js",
+      "bytes": 1790,
+      "sha256": "f0c00146006406a2a7359b68dcc232aa11006c4a281a6fba9fd75468523b5223"
     },
     {
       "path": "js/boot.js",
-      "bytes": 1673,
-      "sha256": "67e7d72265e879c717707279264056ad3ebe9958f516fc8db35e9e2f1dfcd95a"
+      "bytes": 1266,
+      "sha256": "2a1bbf2433402401069b4b1ed738ea49ed594334b94a255292d2927a9f4b9b4f"
     },
     {
       "path": "js/cache/assets.js",
-      "bytes": 5923,
-      "sha256": "8e6928b28752e336d7d92aad8e7c7de83f7b2d9252fd49e21e2c5b837f478512"
+      "bytes": 6807,
+      "sha256": "b2e9df68a8fd9f8109ae06c62f7b463366464b6552da7e906a54b0e80d560184"
     },
     {
       "path": "js/data/catalog.js",
@@ -33,8 +43,8 @@
     },
     {
       "path": "js/game/main.js",
-      "bytes": 24093,
-      "sha256": "8cf9df46fb7ac78d91e5ffb5ae8331143740eb7d43d6adfe02584869879bf4dd"
+      "bytes": 24573,
+      "sha256": "8144d06e8efabb3a608ec3db6f58925db4e2f69b7c255ddeae6718e75eb5794b"
     },
     {
       "path": "js/game/render.js",
@@ -63,8 +73,93 @@
     },
     {
       "path": "js/ui/app.js",
-      "bytes": 5481,
-      "sha256": "62f24049788c09e6e0b2dc9ae4b06d1ead7be521da3703be62ee3990bbaae1a5"
+      "bytes": 6295,
+      "sha256": "44464b165def14924e376b65b9b1d10b58d4a9419830b461f522292ad709ebdc"
+    },
+    {
+      "path": "media/audio/age_up.wav",
+      "bytes": 24298,
+      "sha256": "dbf7cdd6f9f9efed5973986994e3690a8822dfd25bf3c89f4f1b381f51a73d25"
+    },
+    {
+      "path": "media/audio/attack.wav",
+      "bytes": 6218,
+      "sha256": "62bd86be2980a2ba68f75b0921e0f52aa1d320be48c240c2df94807452d42c5b"
+    },
+    {
+      "path": "media/audio/build_fail.wav",
+      "bytes": 5336,
+      "sha256": "ba800e7c456a243484256d3bc042e24402b2fe348b1ea88dfd19badb0056ce51"
+    },
+    {
+      "path": "media/audio/build.wav",
+      "bytes": 7982,
+      "sha256": "c736139b2812e3020144cc924be6ab6fb84fbea07eb21fca8783feaf3fd110ea"
+    },
+    {
+      "path": "media/audio/death_building.wav",
+      "bytes": 19888,
+      "sha256": "04195910ddf5a4d52aadc8c238a3d55f679b9b7bfc0feee584bc1371d04ef418"
+    },
+    {
+      "path": "media/audio/death_unit.wav",
+      "bytes": 15478,
+      "sha256": "1ef0ba4902574bddc399ce631cbdf1074f7c6ced04c981a05abd20b475209f69"
+    },
+    {
+      "path": "media/audio/defeat.wav",
+      "bytes": 35324,
+      "sha256": "c7bc0693a8e0113b6d9067ab4024a88023030b4ee4f32d3e4a5a73e48f90d1b0"
+    },
+    {
+      "path": "media/audio/gather.wav",
+      "bytes": 5776,
+      "sha256": "9fff5ebc2f2bc57f2ad206d312332bcd34e8f80c63f5acc81bd4ebcb670a75cd"
+    },
+    {
+      "path": "media/audio/hit_heavy.wav",
+      "bytes": 5336,
+      "sha256": "c90cf036801b6f67e612ec694cb3c18ca6d8e327488f2ab7539777452da20d05"
+    },
+    {
+      "path": "media/audio/hit.wav",
+      "bytes": 3572,
+      "sha256": "d2dbbb35624eb49eae873e1b5be3fca7e17d3d60efd40f5cc0809489b256fd90"
+    },
+    {
+      "path": "media/audio/move.wav",
+      "bytes": 4894,
+      "sha256": "c8d00ae743d452754c987b2969ccfc49a05752cf7b50e0d112ed2eb850f5a9c7"
+    },
+    {
+      "path": "media/audio/music_mesa.wav",
+      "bytes": 705644,
+      "sha256": "7ec6136fbffb362f1cd445b9497eba365341b558ae62ba56901b6eb88529a869"
+    },
+    {
+      "path": "media/audio/select.wav",
+      "bytes": 4012,
+      "sha256": "3c82f028162516ce36955a97872fb61fedf4b8856035162605b10fd92f33b48a"
+    },
+    {
+      "path": "media/audio/train_fail.wav",
+      "bytes": 7100,
+      "sha256": "64c72abd8a54f461438f387f1674dbe5a31e3ef6f3dadae2db9993aef1386471"
+    },
+    {
+      "path": "media/audio/train.wav",
+      "bytes": 9746,
+      "sha256": "e19d4489e56785275bb9d033009c36eadfee25d8909d6ede1ed492a6ab9e23bb"
+    },
+    {
+      "path": "media/audio/ui.wav",
+      "bytes": 3130,
+      "sha256": "6966e813f4ef2c541b3b7c789f6bc1031c3719a1add3e7dd64eeb270acbaa8f9"
+    },
+    {
+      "path": "media/audio/victory.wav",
+      "bytes": 39734,
+      "sha256": "6e2521b3409f68eecd67cb9e19522029fdaa2944ad5794e3bc6101d482854627"
     },
     {
       "path": "media/fonts/orbitron-latin-700-normal.woff2",
@@ -382,6 +477,6 @@
       "sha256": "ce1fa418de16a19495a9f72495580e3015d7745c296d3ce0485897f902ddedfb"
     }
   ],
-  "fileCount": 76,
-  "totalBytes": 40626365
+  "fileCount": 95,
+  "totalBytes": 41541528
 }
