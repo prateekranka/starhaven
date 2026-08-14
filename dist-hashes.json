@@ -523,58 +523,58 @@
     },
     {
       "path": "media/sprites/bldg-cog-den.png",
-      "bytes": 1723942,
-      "sha256": "9918e5bb335f80b7b79d652e8cbc6f6b91dc187aabf78b88dbca2b99b26b12d9"
+      "bytes": 1582178,
+      "sha256": "6ea99e19b19670f710a2014f68844d8f9c3776b6ca662e0bb140d80697145f25"
     },
     {
       "path": "media/sprites/bldg-cog-grid-pylon.png",
-      "bytes": 1828528,
-      "sha256": "51c0c7c68ea906f012faff51ead3dc653bbac9e2503b12db19eee905048f63f5"
+      "bytes": 1398112,
+      "sha256": "ce33040a53bf9be63d6d842fcced1ac4a0081ab99954c3e899f2c18aee96bc91"
     },
     {
       "path": "media/sprites/bldg-cog-house.png",
-      "bytes": 1560994,
-      "sha256": "a2efa00cfc2b28655d8d180d79bfe751c476ef2cb6139defab4848861c4c1de1"
+      "bytes": 1380156,
+      "sha256": "5ac94c0e332a2b7e18d431c36669ec08472e6ad4f8f9f4d6d7ac64a672b3ed22"
     },
     {
       "path": "media/sprites/bldg-cog-lumber.png",
-      "bytes": 473099,
-      "sha256": "1d90deed2530917cf18149cd76f5b0eeb6998ee2e88b1b2575247390a2966bea"
+      "bytes": 438872,
+      "sha256": "e4e9ac9cee9766f53b7de9ab124ff508f8fec09c890a0ad46439b88ae4cdf322"
     },
     {
       "path": "media/sprites/bldg-cog-mill.png",
-      "bytes": 1740125,
-      "sha256": "f348e08cb6ba2f590909107cb33b44bd1aa97dba2156b8898711f3b3be83ba71"
+      "bytes": 1570105,
+      "sha256": "951db9563cb7d0a0c188c74eab1b095c87a3a595ba43f4791ee8efbb79460e18"
     },
     {
       "path": "media/sprites/bldg-cog-mine.png",
-      "bytes": 448949,
-      "sha256": "43fcf9089ab0283d734f3be62d830ed77252f8c40eacf3072fa79a5e279d4cbe"
+      "bytes": 412127,
+      "sha256": "9fe2ba6fbb812879868ecb2f47eaf7d87f07c5c5e65f71736ace546012d73fdd"
     },
     {
       "path": "media/sprites/bldg-cog-rax.png",
-      "bytes": 1677256,
-      "sha256": "f64b333ad2f328f6e147b68845406ecba428e4c289be26d839895ac02f896198"
+      "bytes": 1522765,
+      "sha256": "826e8cc63be6e4808d8bd976a207cf4f85c596362e5ed18651750ccbe95f48dc"
     },
     {
       "path": "media/sprites/bldg-cog-spire.png",
-      "bytes": 348570,
-      "sha256": "c0e5f934b6baed2bc40d6a3a6a7fe30ea2ed7184bf138c8a572929a33de13a6e"
+      "bytes": 294653,
+      "sha256": "2bb48dafbf5ced38135fccc4501d03605db4c1c5187041b2c14550d35a29f657"
     },
     {
       "path": "media/sprites/bldg-cog-tc.png",
-      "bytes": 1859273,
-      "sha256": "c1a5cc3dfc1107b23a930b337360cf08acbfa8ac787d5cb16051ad329758934a"
+      "bytes": 1697768,
+      "sha256": "059bad0cb3846b13242206ff812423ad52fc627d36f8c5f4aebe298f90f5b77c"
     },
     {
       "path": "media/sprites/bldg-cog-wonder.png",
-      "bytes": 1813699,
-      "sha256": "b117b9a9c50888eea68c6acb142d1babd1ed145b092b404ab3c31611597cd92f"
+      "bytes": 1666126,
+      "sha256": "8012c2cc9d58923b47a36eb30ad7c84462e7e647069b95d4309532462afdc5da"
     },
     {
       "path": "media/sprites/bldg-cog-workshop.png",
-      "bytes": 436977,
-      "sha256": "6ddb73996aea1407bdbd3e744f18db432d40689512d0e152bc1422570bff4086"
+      "bytes": 411258,
+      "sha256": "1ed3521294a5adb8d2f55ead832663651007533caa842cd651e31be560c408f5"
     },
     {
       "path": "media/sprites/bldg-grave-den.png",
@@ -734,42 +734,42 @@
     {
       "path": "media/sprites/cog-guard.atlas.json",
       "bytes": 48678,
-      "sha256": "faea65be9b89c7f460d168535def84566f921b722fe483b833725e56c9533431"
+      "sha256": "7bf8228b008b23ae9028e56a3078ad7aa0146dc93a93be5849158c81fd9500be"
     },
     {
       "path": "media/sprites/cog-guard.atlas.png",
-      "bytes": 3131777,
-      "sha256": "741d974710eb13f680fdc1d64bff807fa7ddec0bef636c7ab379fa6522816a4f"
+      "bytes": 2418097,
+      "sha256": "079ea82e23a0a7f3da51790d4088585db956656645278b16149fdc9bd74c728a"
     },
     {
       "path": "media/sprites/cog-siege.atlas.json",
       "bytes": 41531,
-      "sha256": "3dad74783a49ac2b1845a5631e34ca3985e0e17a7da6145df14d3340be234974"
+      "sha256": "cfd36c9e168ff2b4146b2ee6651fac46e6d30996288e05b774629a63b53aae46"
     },
     {
       "path": "media/sprites/cog-siege.atlas.png",
-      "bytes": 115450,
-      "sha256": "5b2a3093d9b346fd52f145af7cb447bcd02a801567b7429fb7c502d1d4745ac2"
+      "bytes": 107635,
+      "sha256": "1de294ade7fc75b8abe57e94cd88a22cbc801b8bad65c7d94b0adfaef3f6a7a7"
     },
     {
       "path": "media/sprites/cog-strider.atlas.json",
       "bytes": 41855,
-      "sha256": "fa5da8345091532d41120e441accabea1dd74beafc0356da1d2c6c58022ad134"
+      "sha256": "95b25db83a8879d82a38fafa4b7d64f86528164d72e3fb0d4d6d59126e8aaa20"
     },
     {
       "path": "media/sprites/cog-strider.atlas.png",
-      "bytes": 544458,
-      "sha256": "05803f3456aa7c56eae054c96e9bf4f3fffa2b951c627ca8626a24ea2546bae0"
+      "bytes": 521642,
+      "sha256": "22d7edee5b6680530a52fcc63c3de9be2999198218bcde1d34e8f43e766e1e26"
     },
     {
       "path": "media/sprites/cog-walk.atlas.json",
       "bytes": 48516,
-      "sha256": "808d3518b711666d4a3e0a3d77ae7e65857de21ecddb3fef79268046cf4c968f"
+      "sha256": "f883e137b5f7d63c576cd0ba144dcffbd8b310a8212e989e9692a5a4d4a6b2f1"
     },
     {
       "path": "media/sprites/cog-walk.atlas.png",
-      "bytes": 3262050,
-      "sha256": "43f41687b0fb8f40da408c81a354f0784ed708482b30417aaacbbdd90c02652f"
+      "bytes": 2589542,
+      "sha256": "c86b4a6cec765fe52869dc32cbfb43adadfec26d8ce9181e8afccac33841aa4e"
     },
     {
       "path": "media/sprites/grave-guard.atlas.json",
@@ -1648,13 +1648,13 @@
     },
     {
       "path": "media/sprites/unit-cog-siege.png",
-      "bytes": 110369,
-      "sha256": "b5fb57e12f9c1e382edfb2990b5f5b2a446811ad694703bfef39834a78726856"
+      "bytes": 104359,
+      "sha256": "cccd793b3d9bbb8903c3d7f5a6dbaba2a7828b6cbe3c88d6a8067c7f90549dfd"
     },
     {
       "path": "media/sprites/unit-cog-strider.png",
-      "bytes": 897736,
-      "sha256": "5290babf66af94eebec6d237ab0717a2574b491fab51cc393e0c418259652b1e"
+      "bytes": 837563,
+      "sha256": "3d64cb54d1273395b6b7e34b16fa0b20796b807e2019e3cd83fd59d3353c3cdc"
     },
     {
       "path": "media/sprites/unit-grave-siege.png",
@@ -1788,5 +1788,5 @@
     }
   ],
   "fileCount": 357,
-  "totalBytes": 139385799
+  "totalBytes": 136365505
 }
