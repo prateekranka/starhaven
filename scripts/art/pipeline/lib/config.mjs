@@ -35,7 +35,7 @@ export function loadUnitSources(unitId) {
 }
 
 export const DIRECTIONS = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
-export const SOURCE_DIRECTIONS = ["N", "NE", "E", "SE", "S"];
-export const MIRROR_SOURCE = { SW: "SE", W: "E", NW: "NE" };
+export const SOURCE_DIRECTIONS = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
+export const MIRROR_SOURCE = {};
 
 export const PNG_OPTS = { compressionLevel: 9, adaptiveFiltering: false, palette: false };

@@ -17,27 +17,56 @@ function loadShared(name) {
   return JSON.parse(readFileSync(repoPath("assets", "provenance", "units", name), "utf8"));
 }
 
+const TRUECYCLE = new Set(["cogforged", "ashvein", "stormveil"]);
+
+function clipSheets(walkSheet, faction) {
+  if (!TRUECYCLE.has(faction)) {
+    return { walk: walkSheet, attack: walkSheet, death: walkSheet, gather: walkSheet, build: walkSheet };
+  }
+  if (walkSheet.includes("-walk.png")) {
+    return {
+      walk: walkSheet,
+      attack: walkSheet.replace("-walk.png", "-attack.png"),
+      death: walkSheet.replace("-walk.png", "-death.png"),
+      gather: walkSheet,
+      build: walkSheet,
+    };
+  }
+  const base = walkSheet.replace(/\.png$/, "");
+  return {
+    walk: walkSheet,
+    attack: `${base}-attack.png`,
+    death: `${base}-death.png`,
+    gather: walkSheet,
+    build: walkSheet,
+  };
+}
+
 export function guardSources(unitId, faction, sheet) {
+  const clips = TRUECYCLE.has(faction) ? "_truecycle.guard-clips.json" : "_shared.guard-clips.json";
   return {
     id: `${unitId}.sources.v1`,
     unitId,
     faction,
     sheet,
+    sheets: clipSheets(sheet, faction),
     cellSize: 128,
     directionRows: DIRECTION_ROWS,
-    clips: loadShared("_shared.guard-clips.json"),
+    clips: loadShared(clips),
   };
 }
 
 export function walkSources(unitId, faction, sheet) {
+  const clips = TRUECYCLE.has(faction) ? "_truecycle.walk-clips.json" : "_shared.walk-clips.json";
   return {
     id: `${unitId}.sources.v1`,
     unitId,
     faction,
     sheet,
+    sheets: clipSheets(sheet, faction),
     cellSize: 128,
     directionRows: DIRECTION_ROWS,
-    clips: loadShared("_shared.walk-clips.json"),
+    clips: loadShared(clips),
   };
 }
 

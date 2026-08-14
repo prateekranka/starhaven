@@ -3,6 +3,13 @@
   "unitId": "cog-walk",
   "faction": "cogforged",
   "sheet": "media/sprites/sheet-cogforged-walk.png",
+  "sheets": {
+    "walk": "media/sprites/sheet-cogforged-walk.png",
+    "attack": "media/sprites/sheet-cogforged-attack.png",
+    "death": "media/sprites/sheet-cogforged-death.png",
+    "gather": "media/sprites/sheet-cogforged-walk.png",
+    "build": "media/sprites/sheet-cogforged-walk.png"
+  },
   "cellSize": 128,
   "directionRows": {
     "S": 0,
@@ -28,13 +35,12 @@
     "attack": {
       "poses": {
         "A": {
-          "col": 2
+          "col": 0
         },
         "B": {
-          "col": 6
+          "col": 4
         }
-      },
-      "note": "temporary: attack frames extracted from walk sheet"
+      }
     },
     "gather": {
       "poses": {
@@ -45,7 +51,7 @@
           "col": 5
         }
       },
-      "note": "temporary: derived from walk sheet mid-stride"
+      "note": "walk mid-stride until a dedicated gather sheet"
     },
     "build": {
       "poses": {
@@ -56,7 +62,7 @@
           "col": 7
         }
       },
-      "note": "temporary: derived from walk sheet"
+      "note": "walk until a dedicated build sheet"
     },
     "death": {
       "poses": {
@@ -64,10 +70,9 @@
           "col": 0
         },
         "B": {
-          "col": 3
+          "col": 4
         }
-      },
-      "note": "temporary: collapse from walk idle frames"
+      }
     }
   }
 }

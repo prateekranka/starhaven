@@ -3,8 +3,8 @@
   "frameSize": { "width": 128, "height": 128 },
   "pivot": { "x": 64, "y": 112 },
   "directions": ["N", "NE", "E", "SE", "S", "SW", "W", "NW"],
-  "sourceDirections": ["N", "NE", "E", "SE", "S"],
-  "mirrorSource": { "SW": "SE", "W": "E", "NW": "NE" },
+  "sourceDirections": ["N", "NE", "E", "SE", "S", "SW", "W", "NW"],
+  "mirrorSource": {},
   "clips": {
     "walk": { "frames": 4, "durationMs": 110, "loop": true },
     "attack": { "frames": 4, "durationMs": 100, "loop": false },

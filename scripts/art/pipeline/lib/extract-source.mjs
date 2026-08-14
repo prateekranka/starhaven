@@ -36,8 +36,9 @@ export async function extractPoseFrame({ sources, action, direction, pose, outPa
   const cell = sources.cellSize;
   const row = sheetRowForDirection(sources, direction);
   const col = poseSpec.col;
+  const sheetPath = sources.sheets?.[action] || clip.sheet || sources.sheet;
   mkdirSync(dirname(outPath), { recursive: true });
-  await sharp(repoPath(sources.sheet))
+  await sharp(repoPath(sheetPath))
     .extract({ left: col * cell, top: row * cell, width: cell, height: cell })
     .png(PNG_OPTS)
     .toFile(outPath);
