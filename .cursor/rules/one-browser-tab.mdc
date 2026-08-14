@@ -1,0 +1,35 @@
+---
+description: Never open extra Cursor in-app browser tabs; list first, reuse one, never Simple Browser
+alwaysApply: true
+---
+
+# One in-app browser tab
+
+This repo’s agents keep spawning Cursor Browser / Simple Browser tabs (`127.0.0.1 :8080`, `Browser`) that `browser_tabs` list cannot see or close. **Never open another one.**
+
+## Required
+
+1. Call `cursor-ide-browser` `browser_tabs` with `action: "list"` **before** any navigate/lock/snapshot.
+2. If a tab exists, reuse it: `browser_lock` on that `viewId`, then `browser_navigate` with that `viewId` only.
+3. Keep **at most one** tab. When done, `browser_tabs` `close` extras from **highest index down to 1**. Leave index 0 if you still need a preview.
+4. Prefer local files, `curl`, or the user’s already-open tab over opening a browser.
+
+## Forbidden
+
+- `newTab: true`
+- `position: "active"` or `position: "side"` (unless the user explicitly asks to reveal the browser)
+- `browser_tabs` `action: "new"`
+- `browser_navigate` when list is empty (do **not** create a tab to “fix” an empty list)
+- `cursor-app-control` `open_resource` with `http://` or `https://` URLs — the workbench opener spawns **Simple Browser** tabs MCP cannot list or close
+- Opening `http://127.0.0.1:8080` (or any localhost) in Simple Browser / a new Browser view
+
+```text
+# ❌ BAD
+browser_navigate url=http://127.0.0.1:8080/ newTab=true position=active
+open_resource uri=http://127.0.0.1:8080/
+
+# ✅ GOOD
+browser_tabs action=list
+# reuse listed viewId; if list is empty, do not open a tab — use the existing editor tab or curl
+browser_navigate url=http://127.0.0.1:8080/ viewId=<existing>
+```
