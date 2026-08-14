@@ -1,4 +1,29 @@
 import { AGES, UNITS, BUILDINGS, VILLAGER_BUILD_LIST } from "../data/catalog.js";
+import { civBuff, DEFAULT_CIV_ID, opponentCivId } from "../data/civ-schema.js";
+import "../data/civs.js";
+import {
+  civMechanics,
+  resolveAgeCost,
+  resolveBuildingCost,
+  resolveUnitCost,
+} from "./civs/index.js";
+import {
+  initStormveil,
+  tickStormveil,
+  effectiveInLight,
+  windLaneSpeedPermille,
+  getUnitSpec,
+} from "./civs/stormveil.js";
+import "./civs/stormveil.js";
+import {
+  initAshveinWorld,
+  tickAshvein,
+  skipSurfaceVision,
+  ashveinResolvePath,
+  ashveinPlanSurfacePath,
+  onUnitStep,
+  isAshveinUnit,
+} from "./civs/ashvein.js";
 import { astar } from "./path.js";
 import { runAI } from "./ai.js";
 import { MatchPrng } from "./prng.js";
@@ -44,7 +69,7 @@ const COMMAND_RES_SQ = q10RangeSq(2.2);
 const COMMAND_FOE_SQ = q10RangeSq(2.4);
 const TITAN_WAKE_SQ = q10RangeSq(5);
 const PROJECTILE_SPEED_Q10_PER_TICK = Math.trunc(q10FromWorld(14) / TICKS_PER_SEC);
-const VIS_RECOMPUTE_TICKS = 5;
+const VIS_ENTITY_BATCH = 12;
 const INTEGER_ASSERT_EVERY = 60;
 const REPATH_GATHER_TICKS = secToTicks(0.5);
 const REPATH_BUILD_TICKS = secToTicks(0.5);
@@ -68,6 +93,20 @@ function pay(stock, cost) {
   for (const [k, v] of Object.entries(cost || {})) stock[k] -= v;
 }
 
+export function canPayStock(stock, cost) {
+  return canPay(stock, cost);
+}
+
+export function payStock(stock, cost) {
+  pay(stock, cost);
+}
+
+function effectiveBuff(world, unit) {
+  const mech = civMechanics(unit.faction);
+  if (mech.brightLineImmune) return { speed: 1000, dmg: 1000, armor: 1000 };
+  return civBuff(unit.faction, effectiveInLight(world, unit.xQ10, unit.zQ10));
+}
+
 function refund(stock, cost) {
   for (const [k, v] of Object.entries(cost || {})) stock[k] += v;
 }
@@ -75,22 +114,23 @@ function refund(stock, cost) {
 export function createMatch(opts = {}) {
   nextId = 1;
   const {
-    playerFaction = "sunwoven",
+    playerFaction = DEFAULT_CIV_ID,
     difficulty = "chieftain",
     tutorial = false,
     campaign = false,
   } = opts;
   const seed = resolveSeed(opts);
 
-  const enemyFaction = playerFaction === "sunwoven" ? "gravemark" : "sunwoven";
-  const walk = new Uint8Array(N * N).fill(1);
+  const enemyFaction = opts.enemyFaction || opponentCivId(playerFaction);
+  const gridN = opts.map?.size || N;
+  const walk = new Uint8Array(gridN * gridN).fill(1);
   const explored = {
-    player: new Uint8Array(N * N),
-    enemy: new Uint8Array(N * N),
+    player: new Uint8Array(gridN * gridN),
+    enemy: new Uint8Array(gridN * gridN),
   };
   const visible = {
-    player: new Uint8Array(N * N),
-    enemy: new Uint8Array(N * N),
+    player: new Uint8Array(gridN * gridN),
+    enemy: new Uint8Array(gridN * gridN),
   };
 
   const world = {
@@ -98,7 +138,7 @@ export function createMatch(opts = {}) {
     seed,
     prng: new MatchPrng(seed),
     mapId: opts.mapId || opts.map?.id || "bright-mesa",
-    N,
+    N: gridN,
     CELL,
     walk,
     explored,
@@ -108,11 +148,17 @@ export function createMatch(opts = {}) {
     tutorial,
     campaign,
     difficulty,
+    aiVsAi: Boolean(opts.aiVsAi),
+    batchSim: Boolean(opts.batchSim || opts.aiVsAi),
     speed: 1,
     winner: null,
     brightQ10: brightQ10(0),
     titanAwake: false,
-    tip: tutorial ? "Select your weavers, then tap the glowing fruit." : "Scout early. Food first, then timber, then a barracks.",
+    tip: tutorial
+      ? "Select your weavers, then tap the glowing fruit."
+      : playerFaction === "cogforged"
+        ? "Link buildings to your Foundry Core. Assemble units on-site — no food economy."
+        : "Scout early. Food first, then timber, then a barracks.",
     objective: tutorial ? "Boom a tiny economy" : campaign ? "Hold the mesa" : "Destroy the rival Town Center",
     players: {
       player: makePlayer("player", playerFaction, campaign),
@@ -127,8 +173,11 @@ export function createMatch(opts = {}) {
     selection: [],
     placing: null,
     events: [],
+    assemblies: [],
     _tickAcc: 0,
-    _visAccTicks: 0,
+    _visCycle: false,
+    _visCursor: 0,
+    _visList: null,
   };
 
   if (opts.map) {
@@ -143,12 +192,14 @@ export function createMatch(opts = {}) {
     if (!tutorial) revealAround(world, "enemy", 40, 7, 12);
   }
   recomputeVision(world);
+  initStormveil(world);
+  initAshveinWorld(world);
   return world;
 }
 
 function makePlayer(idKey, faction, campaign) {
   const mul = campaign ? 0.75 : 1;
-  return {
+  const player = {
     id: idKey,
     faction,
     alive: true,
@@ -167,29 +218,32 @@ function makePlayer(idKey, faction, campaign) {
     stats: { unitsTrained: 0, unitsLost: 0, buildingsRazed: 0 },
     attackWaveAtTick: secToTicks(90),
   };
+  civMechanics(faction).adjustStartingStock(player.stock);
+  return player;
 }
 
-function blockRect(walk, cx, cz, size) {
+function blockRect(walk, cx, cz, size, gridN = Math.round(Math.sqrt(walk.length))) {
   for (let z = cz; z < cz + size; z++) {
     for (let x = cx; x < cx + size; x++) {
-      if (x >= 0 && z >= 0 && x < N && z < N) walk[z * N + x] = 0;
+      if (x >= 0 && z >= 0 && x < gridN && z < gridN) walk[z * gridN + x] = 0;
     }
   }
 }
 
-function freeRect(walk, cx, cz, size) {
+function freeRect(walk, cx, cz, size, gridN = Math.round(Math.sqrt(walk.length))) {
   for (let z = cz; z < cz + size; z++) {
     for (let x = cx; x < cx + size; x++) {
-      if (x >= 0 && z >= 0 && x < N && z < N) walk[z * N + x] = 1;
+      if (x >= 0 && z >= 0 && x < gridN && z < gridN) walk[z * gridN + x] = 1;
     }
   }
 }
 
 function seedTerrain(world) {
-  for (let z = 0; z < N; z++) {
-    for (let x = 0; x < N; x++) {
-      if (terrainHashPermille(x, z) > 930 && x > 8 && z > 8 && x < N - 8 && z < N - 8) {
-        world.walk[z * N + x] = 0;
+  const gridN = world.N;
+  for (let z = 0; z < gridN; z++) {
+    for (let x = 0; x < gridN; x++) {
+      if (terrainHashPermille(x, z) > 930 && x > 8 && z > 8 && x < gridN - 8 && z < gridN - 8) {
+        world.walk[z * gridN + x] = 0;
         world.resources.push({
           id: id(),
           kind: "rockblock",
@@ -208,20 +262,21 @@ function seedTerrain(world) {
 
 function scatter(world, kind, count, amount) {
   const rng = world.prng.event;
+  const gridN = world.N;
   let n = 0;
   let tries = 0;
   while (n < count && tries++ < 400) {
-    const cx = rng.nextInt(2, N - 3);
-    const cz = rng.nextInt(2, N - 3);
-    if (!world.walk[cz * N + cx]) continue;
-    if (nearStart(cx, cz)) continue;
+    const cx = rng.nextInt(2, gridN - 3);
+    const cz = rng.nextInt(2, gridN - 3);
+    if (!world.walk[cz * gridN + cx]) continue;
+    if (nearStart(cx, cz, gridN)) continue;
     const [xQ10, zQ10] = worldOfCellQ10(cx, cz, CELL);
     world.resources.push({ id: id(), kind, xQ10, zQ10, amount: amount + rng.nextInt(0, 39), cx, cz });
     n++;
   }
 }
 
-function nearStart(cx, cz) {
+function nearStart(cx, cz, gridN = N) {
   const d1 = (cx - 6) * (cx - 6) + (cz - 40) * (cz - 40);
   const d2 = (cx - 40) * (cx - 40) + (cz - 7) * (cz - 7);
   return d1 < 25 || d2 < 25;
@@ -238,6 +293,7 @@ function placeStart(world, owner, cx, cz) {
 }
 
 function seedStartNodes(world, cx, cz) {
+  const gridN = world.N;
   const spots = [
     ["food", 5, 1],
     ["food", 6, 1],
@@ -251,9 +307,9 @@ function seedStartNodes(world, cx, cz) {
     ["ore", -3, -1],
   ];
   for (const [kind, dx, dz] of spots) {
-    const gx = clampCell(cx + dx);
-    const gz = clampCell(cz + dz);
-    if (!world.walk[gz * N + gx]) continue;
+    const gx = clampCell(cx + dx, gridN);
+    const gz = clampCell(cz + dz, gridN);
+    if (!world.walk[gz * gridN + gx]) continue;
     const [xQ10, zQ10] = worldOfCellQ10(gx, gz, CELL);
     world.resources.push({
       id: id(),
@@ -267,8 +323,8 @@ function seedStartNodes(world, cx, cz) {
   }
 }
 
-function clampCell(v) {
-  return Math.max(1, Math.min(N - 2, v));
+function clampCell(v, gridN = N) {
+  return Math.max(1, Math.min(gridN - 2, v));
 }
 
 function placeRelic(world) {
@@ -299,6 +355,7 @@ function spawnBuilding(world, owner, type, cx, cz, instant) {
     rally: { xQ10: xQ10 + q10FromWorld(spec.size), zQ10: zQ10 + q10FromWorld(spec.size) },
     attackCdTicks: 0,
     wonderTicks: 0,
+    powered: type === "towncenter",
   };
   world.buildings.push(b);
   blockRect(world.walk, cx, cz, spec.size);
@@ -324,6 +381,7 @@ function spawnUnit(world, owner, type, xQ10, zQ10) {
     carry: 0,
     carryKind: null,
     build: null,
+    assemble: null,
     attackCdTicks: 0,
     repathTicks: 0,
     gatherRemainder: 0,
@@ -337,42 +395,96 @@ function spawnUnit(world, owner, type, xQ10, zQ10) {
 }
 
 function revealAround(world, owner, cx, cz, r) {
+  const gridN = world.N;
   const exp = world.explored[owner];
   for (let z = cz - r; z <= cz + r; z++) {
     for (let x = cx - r; x <= cx + r; x++) {
-      if (x < 0 || z < 0 || x >= N || z >= N) continue;
-      if ((x - cx) * (x - cx) + (z - cz) * (z - cz) <= r * r) exp[z * N + x] = 1;
+      if (x < 0 || z < 0 || x >= gridN || z >= gridN) continue;
+      if ((x - cx) * (x - cx) + (z - cz) * (z - cz) <= r * r) exp[z * gridN + x] = 1;
+    }
+  }
+}
+
+function collectVisionEntities(world) {
+  const list = [];
+  for (const owner of ["player", "enemy"]) {
+    for (const u of world.units) {
+      if (u.owner === owner && !skipSurfaceVision(u)) list.push({ owner, e: u, kind: "unit" });
+    }
+    for (const b of world.buildings) {
+      if (b.owner === owner && isBuilt(b)) list.push({ owner, e: b, kind: "building" });
+    }
+  }
+  return list;
+}
+
+function applyEntityVision(world, owner, e, kind, cell, gridN) {
+  const spec = kind === "unit" ? UNITS[e.type] : BUILDINGS[e.type];
+  const r = spec.los || 5;
+  const [cx, cz] = cellOfQ10(e.xQ10, e.zQ10, cell);
+  revealAround(world, owner, cx, cz, r);
+  const vis = world.visible[owner];
+  for (let z = cz - r; z <= cz + r; z++) {
+    for (let x = cx - r; x <= cx + r; x++) {
+      if (x < 0 || z < 0 || x >= gridN || z >= gridN) continue;
+      if ((x - cx) * (x - cx) + (z - cz) * (z - cz) <= r * r) vis[z * gridN + x] = 1;
     }
   }
 }
 
 function recomputeVision(world) {
+  world.visible.player.fill(0);
+  world.visible.enemy.fill(0);
   const cell = world.CELL;
   const gridN = world.N;
-  for (const owner of ["player", "enemy"]) {
-    world.visible[owner].fill(0);
-    const losEntities = [...world.units.filter((u) => u.owner === owner), ...world.buildings.filter((b) => b.owner === owner && isBuilt(b))];
-    for (const e of losEntities) {
-      const spec = e.kind === "unit" ? UNITS[e.type] : BUILDINGS[e.type];
-      const r = spec.los || 5;
-      const [cx, cz] = cellOfQ10(e.xQ10, e.zQ10, cell);
-      revealAround(world, owner, cx, cz, r);
-      const vis = world.visible[owner];
-      for (let z = cz - r; z <= cz + r; z++) {
-        for (let x = cx - r; x <= cx + r; x++) {
-          if (x < 0 || z < 0 || x >= N || z >= N) continue;
-          if ((x - cx) * (x - cx) + (z - cz) * (z - cz) <= r * r) vis[z * N + x] = 1;
-        }
-      }
-    }
+  for (const { owner, e, kind } of collectVisionEntities(world)) {
+    applyEntityVision(world, owner, e, kind, cell, gridN);
   }
   world.fogDirty = true;
+  world._visCycle = false;
+  world._visCursor = 0;
+  world._visList = null;
+}
+
+function beginVisionCycle(world) {
+  world.visible.player.fill(0);
+  world.visible.enemy.fill(0);
+  world._visList = collectVisionEntities(world);
+  world._visCursor = 0;
+  world._visCycle = true;
+}
+
+function tickVision(world) {
+  if (world.fogDirty === undefined) {
+    recomputeVision(world);
+    return;
+  }
+  if (!world._visCycle) beginVisionCycle(world);
+  const list = world._visList || [];
+  const cell = world.CELL;
+  const gridN = world.N;
+  const end = Math.min(list.length, world._visCursor + VIS_ENTITY_BATCH);
+  for (let i = world._visCursor; i < end; i += 1) {
+    const { owner, e, kind } = list[i];
+    applyEntityVision(world, owner, e, kind, cell, gridN);
+  }
+  world._visCursor = end;
+  if (world._visCursor >= list.length) {
+    world._visCycle = false;
+    world._visCursor = 0;
+    world._visList = null;
+    world.fogDirty = true;
+  }
 }
 
 function popOf(world, owner) {
   let used = 0;
   let cap = 0;
-  for (const u of world.units) if (u.owner === owner) used += UNITS[u.type].pop || 0;
+  const faction = world.players[owner].faction;
+  for (const u of world.units) {
+    if (u.owner !== owner) continue;
+    used += (UNITS[u.type] || getUnitSpec(u.type))?.pop || 0;
+  }
   for (const b of world.buildings) {
     if (b.owner === owner && isBuilt(b)) cap += BUILDINGS[b.type].pop || 0;
   }
@@ -380,8 +492,14 @@ function popOf(world, owner) {
     if (b.owner !== owner) continue;
     for (const q of b.queue) used += UNITS[q.type]?.pop || 0;
   }
+  used += civMechanics(faction).assemblyPop(world, owner);
   cap = Math.min(50, cap);
   return { used, cap };
+}
+
+export function popHeadroom(world, owner) {
+  const pop = popOf(world, owner);
+  return pop.cap - pop.used;
 }
 
 export function updateWorld(world, dt) {
@@ -400,17 +518,17 @@ function simTick(world) {
     p.rates = { food: 0, wood: 0, crystal: 0, ore: 0 };
   }
   tickAging(world);
+  tickCivMechanics(world);
+  tickStormveil(world);
+  tickAshvein(world);
   tickBuildings(world);
   tickUnits(world);
   tickProjectiles(world);
   tickTitan(world);
   tickWonders(world);
+  finishAssemblies(world);
   separate(world);
-  world._visAccTicks = (world._visAccTicks || 0) + 1;
-  if (world._visAccTicks >= VIS_RECOMPUTE_TICKS || world.fogDirty === undefined) {
-    recomputeVision(world);
-    world._visAccTicks = 0;
-  }
+  tickVision(world);
   const pp = popOf(world, "player");
   const ep = popOf(world, "enemy");
   world.players.player.pop = pp.used;
@@ -426,7 +544,8 @@ function simTick(world) {
 }
 
 function lineXQ10(world) {
-  return q10FromWorld(4) + Math.trunc((world.brightQ10 * q10FromWorld(MAP - 8)) / Q10);
+  const mapWorld = world.N * world.CELL;
+  return q10FromWorld(4) + Math.trunc((world.brightQ10 * q10FromWorld(mapWorld - 8)) / Q10);
 }
 
 export function lineX(world) {
@@ -441,15 +560,33 @@ export function emitVfx(world, kind, x, z, opts = {}) {
   (world.vfxEvents ||= []).push({ kind, x, z, ...opts });
 }
 
-function factionBuff(world, u) {
-  const light = inLight(world, u.xQ10);
-  if (u.faction === "sunwoven") {
-    return light ? { speed: 1140, dmg: 1100, armor: 1000 } : { speed: 1000, dmg: 1000, armor: 1000 };
+function tickCivMechanics(world) {
+  for (const owner of ["player", "enemy"]) {
+    const mech = civMechanics(world.players[owner].faction);
+    if (mech.usesPowerGrid) mech.tick(world, owner);
+    mech.tickAssemblies(world);
   }
-  if (u.faction === "gravemark") {
-    return light ? { speed: 1000, dmg: 1000, armor: 1000 } : { speed: 1060, dmg: 1080, armor: 820 };
+}
+
+function finishAssemblies(world) {
+  if (!world.assemblies?.length) return;
+  const keep = [];
+  for (const site of world.assemblies) {
+    if (site.buildTicks < site.buildTotalTicks) {
+      keep.push(site);
+      continue;
+    }
+    const b = world.buildings.find((x) => x.id === site.buildingId);
+    const u = spawnUnit(world, site.owner, site.type, site.xQ10, site.zQ10);
+    if (b) issueMove(world, u, b.rally.xQ10, b.rally.zQ10);
+    for (const worker of world.units) {
+      if (worker.assemble === site.id) {
+        worker.assemble = null;
+        worker.state = "idle";
+      }
+    }
   }
-  return { speed: 1000, dmg: 1000, armor: 1000 };
+  world.assemblies = keep;
 }
 
 function tickAging(world) {
@@ -468,8 +605,9 @@ function tickAging(world) {
 function tickBuildings(world) {
   for (const b of world.buildings) {
     if (!isBuilt(b)) continue;
+    if (!civMechanics(b.faction).isBuildingActive(world, b)) continue;
     const spec = BUILDINGS[b.type];
-    if (spec.attacks && b.hp > 0) {
+    if (spec.attacks && b.hp > 0 && !world.batchSim) {
       if (b.attackCdTicks > 0) b.attackCdTicks -= 1;
       if (b.attackCdTicks <= 0) {
         const foe = closestFoe(world, b, spec.attacks.range);
@@ -501,16 +639,29 @@ function tickUnits(world) {
       }
       continue;
     }
-    const spec = UNITS[u.type];
-    const buff = factionBuff(world, u);
+    const spec = UNITS[u.type] || getUnitSpec(u.type);
+    if (!spec) continue;
+    const buff = effectiveBuff(world, u);
+    const speedMul = permilleMul(buff.speed, windLaneSpeedPermille(world, u));
+    civMechanics(u.faction).tickUnit(world, u);
     if (u.attackCdTicks > 0) u.attackCdTicks -= 1;
-    if (u.state === "walk" || u.state === "return" || u.state === "gatherwalk" || u.state === "buildwalk" || u.state === "attackmove") {
-      followPath(world, u, spec.speed, buff.speed);
+    if (u.state === "build" || u.state === "buildwalk") {
+      const site = world.buildings.find((x) => x.id === u.build);
+      if (!site || site.hp <= 0) {
+        u.state = "idle";
+        u.build = null;
+        u.path = [];
+      }
+    }
+    if (u.state === "walk" || u.state === "return" || u.state === "gatherwalk" || u.state === "buildwalk" || u.state === "attackmove" || u.state === "assemblewalk") {
+      followPath(world, u, spec.speed, speedMul);
     }
     if (u.state === "gather") gatherTick(world, u, spec);
     if (u.state === "build") buildTick(world, u);
+    if (u.state === "assemble" || u.state === "assemblewalk") assembleWalkTick(world, u);
     if (u.state === "attack" || u.state === "attackmove") attackTick(world, u, spec, buff);
-    if (u.type !== "villager" && u.state === "idle") {
+    if (u.type !== "villager" && u.type !== "wagon" && u.state === "idle") {
+      if (world.batchSim && u.type === "scout") continue;
       const foe = closestFoe(world, u, spec.range + 1.5);
       if (foe) {
         u.state = "attack";
@@ -548,11 +699,20 @@ function followPath(world, u, speed, speedPermille) {
       u.state = "build";
       return;
     }
+    if (b && !u.path.length) {
+      if (u.repathTicks > 0) u.repathTicks -= 1;
+      if (u.repathTicks <= 0) {
+        setPath(world, u, b.xQ10, b.zQ10);
+        u.repathTicks = REPATH_BUILD_TICKS;
+      }
+      return;
+    }
   }
   if (!u.path.length) {
     if (u.state === "gatherwalk") u.state = "gather";
     else if (u.state === "return") arriveDrop(world, u);
     else if (u.state === "buildwalk") u.state = "build";
+    else if (u.state === "assemblewalk") u.state = "assemble";
     else if (u.state === "attackmove") u.state = "attack";
     else u.state = "idle";
     return;
@@ -578,6 +738,7 @@ function followPath(world, u, speed, speedPermille) {
       u.zQ10 = tzQ10;
       u.remainderX = 0;
       u.remainderZ = 0;
+      onUnitStep(world, u, cx, cz);
       u.path.shift();
     }
     return;
@@ -658,6 +819,25 @@ function nearestDrop(world, u, kind) {
     }
   }
   return best;
+}
+
+function assembleWalkTick(world, u) {
+  const site = world.assemblies?.find((s) => s.id === u.assemble);
+  if (!site) {
+    u.state = "idle";
+    u.assemble = null;
+    return;
+  }
+  if (distanceSquaredQ10(u, site) <= q10RangeSq(2.4)) {
+    u.state = "assemble";
+    u.path = [];
+    return;
+  }
+  if (u.repathTicks > 0) u.repathTicks -= 1;
+  if (u.repathTicks <= 0) {
+    setPath(world, u, site.xQ10, site.zQ10);
+    u.repathTicks = REPATH_BUILD_TICKS;
+  }
 }
 
 function buildTick(world, u) {
@@ -767,7 +947,7 @@ function tickProjectiles(world) {
 }
 
 function hit(world, t, dmg, src) {
-  const buff = t.kind === "unit" ? factionBuff(world, t) : { armor: 1000 };
+  const buff = t.kind === "unit" ? effectiveBuff(world, t) : { armor: 1000 };
   t.hp -= permilleMul(dmg, buff.armor || 1000);
   emitVfx(world, "hit", worldFromQ10(t.xQ10), worldFromQ10(t.zQ10), { dmg });
   if (t.kind === "unit" && t.state === "idle" && t.type === "villager") {
@@ -818,7 +998,13 @@ function findById(world, fid) {
 function setPath(world, u, xQ10, zQ10) {
   const [sx, sz] = cellOfQ10(u.xQ10, u.zQ10, world.CELL);
   const [gx, gz] = cellOfQ10(xQ10, zQ10, world.CELL);
-  u.path = astar(world.walk, N, sx, sz, gx, gz);
+  if (isAshveinUnit(u)) {
+    u.path = u.layer === "tunnel"
+      ? ashveinResolvePath(world, u, xQ10, zQ10) || []
+      : ashveinPlanSurfacePath(world, u, xQ10, zQ10) || astar(world.walk, world.N, sx, sz, gx, gz);
+    return;
+  }
+  u.path = astar(world.walk, world.N, sx, sz, gx, gz);
 }
 
 export function issueMove(world, u, xQ10, zQ10, facingOctant = null) {
@@ -848,8 +1034,11 @@ function issueFormationMove(world, units, xQ10, zQ10, attackMove = false) {
 
 export function issueGather(world, u, res) {
   if (u.type !== "villager") return;
+  const kind = civMechanics(u.faction).filterGatherKind(u.owner, res.kind);
+  if (!kind) return;
   u.resource = res.id;
   u.build = null;
+  u.assemble = null;
   u.state = "gatherwalk";
   setPath(world, u, res.xQ10, res.zQ10);
 }
@@ -864,19 +1053,30 @@ export function issueBuild(world, u, building) {
   if (u.type !== "villager") return;
   u.build = building.id;
   u.resource = null;
+  u.assemble = null;
   u.state = "buildwalk";
   setPath(world, u, building.xQ10, building.zQ10);
+}
+
+export function issueAssemble(world, u, site) {
+  if (u.type !== "villager") return;
+  u.assemble = site.id;
+  u.build = null;
+  u.resource = null;
+  u.state = "assemblewalk";
+  setPath(world, u, site.xQ10, site.zQ10);
 }
 
 export function tryPlace(world, owner, type, wx, wz) {
   const spec = BUILDINGS[type];
   const p = world.players[owner];
   if (p.age < spec.age) return { ok: false, why: "Advance in age first." };
-  if (!canPay(p.stock, spec.cost)) return { ok: false, why: "Not enough resources." };
+  const cost = resolveBuildingCost(p.faction, type, spec.cost);
+  if (!canPay(p.stock, cost)) return { ok: false, why: "Not enough resources." };
   const wxQ10 = q10FromWorld(wx); const wzQ10 = q10FromWorld(wz);
   const [cx, cz] = cellOfQ10(wxQ10 - q10FromWorld((spec.size * CELL) / 2), wzQ10 - q10FromWorld((spec.size * CELL) / 2), world.CELL);
   if (!canPlace(world, cx, cz, spec.size, owner)) return { ok: false, why: "Cannot place there." };
-  pay(p.stock, spec.cost);
+  pay(p.stock, cost);
   const b = spawnBuilding(world, owner, type, cx, cz, false);
   const villagers = selectedVillagers(world, owner);
   if (!villagers.length) {
@@ -887,34 +1087,67 @@ export function tryPlace(world, owner, type, wx, wz) {
 }
 
 function canPlace(world, cx, cz, size, owner) {
-  if (cx < 1 || cz < 1 || cx + size >= N - 1 || cz + size >= N - 1) return false;
+  const gridN = world.N;
+  if (cx < 1 || cz < 1 || cx + size >= gridN - 1 || cz + size >= gridN - 1) return false;
   for (let z = cz; z < cz + size; z++) {
     for (let x = cx; x < cx + size; x++) {
-      if (!world.walk[z * N + x]) return false;
-      if (owner === "player" && !world.explored.player[z * N + x]) return false;
+      if (!world.walk[z * gridN + x]) return false;
+      if (owner === "player" && !world.explored.player[z * gridN + x]) return false;
     }
   }
   return true;
 }
 
 export function queueUnit(world, building, type) {
+  const mech = civMechanics(world.players[building.owner].faction);
+  if (!mech.usesTrainingQueue) return queueAssembly(world, building, type);
   const spec = UNITS[type];
   if (!spec || spec.from !== building.type) return { ok: false, why: "Wrong building." };
   const p = world.players[building.owner];
   if (p.age < spec.age) return { ok: false, why: "Need a later age." };
+  if (!mech.isBuildingActive(world, building)) return { ok: false, why: "Building unpowered." };
   const pop = popOf(world, building.owner);
   if (pop.used + spec.pop > pop.cap) return { ok: false, why: "Build more houses." };
-  if (!canPay(p.stock, spec.cost)) return { ok: false, why: "Not enough resources." };
-  pay(p.stock, spec.cost);
+  const cost = resolveUnitCost(p.faction, type, spec.cost);
+  if (!canPay(p.stock, cost)) return { ok: false, why: "Not enough resources." };
+  pay(p.stock, cost);
   building.queue.push({ type, leftTicks: secToTicks(spec.time) });
   return { ok: true };
+}
+
+export function queueAssembly(world, building, type) {
+  const spec = UNITS[type];
+  if (!spec || spec.from !== building.type) return { ok: false, why: "Wrong building." };
+  const p = world.players[building.owner];
+  const mech = civMechanics(p.faction);
+  if (!mech.isBuildingActive(world, building)) return { ok: false, why: "Building unpowered." };
+  if (p.age < spec.age) return { ok: false, why: "Need a later age." };
+  const pop = popOf(world, building.owner);
+  if (pop.used + spec.pop > pop.cap) return { ok: false, why: "Build more houses." };
+  const cost = resolveUnitCost(p.faction, type, spec.cost);
+  if (!canPay(p.stock, cost)) return { ok: false, why: "Not enough resources." };
+  pay(p.stock, cost);
+  const site = {
+    id: id(),
+    owner: building.owner,
+    type,
+    buildingId: building.id,
+    xQ10: building.rally.xQ10,
+    zQ10: building.rally.zQ10,
+    buildTicks: 0,
+    buildTotalTicks: secToTicks(spec.time),
+  };
+  world.assemblies.push(site);
+  const idle = world.units.filter((u) => u.owner === building.owner && u.type === "villager" && u.state === "idle");
+  for (const v of idle.slice(0, 2)) issueAssemble(world, v, site);
+  return { ok: true, site };
 }
 
 export function tryAgeUp(world, owner) {
   const p = world.players[owner];
   if (p.agingTicks > 0 || p.age >= 3) return { ok: false, why: "Already advancing." };
   const next = AGES[p.age];
-  const cost = { food: next.food, crystal: next.crystal, ore: next.ore };
+  const cost = resolveAgeCost(p.faction, next, { food: next.food, crystal: next.crystal, ore: next.ore });
   if (!canPay(p.stock, cost)) return { ok: false, why: "Need more stockpiles to age up." };
   pay(p.stock, cost);
   p.agingTicks = secToTicks(next.time);
@@ -1038,7 +1271,8 @@ export function idleVillager(world) {
 
 export function villagerBuildOptions(world) {
   const age = world.players.player.age;
-  return VILLAGER_BUILD_LIST.filter((t) => BUILDINGS[t].age <= age);
+  const base = VILLAGER_BUILD_LIST.filter((t) => BUILDINGS[t].age <= age);
+  return civMechanics(world.players.player.faction).villagerBuildList(base);
 }
 
 export function matchStats(world, owner = "player") {

@@ -5,12 +5,52 @@
       "id": "bright-mesa",
       "name": "Bright Mesa",
       "file": "maps/bright-mesa.json",
+      "blurb": "Classic 48×48 duel arena with a solar Bright Line and balanced mesa starts.",
+      "preview": "media/maps/bright-mesa.svg",
       "default": true
+    },
+    {
+      "id": "void-rift-crossing",
+      "name": "Void Rift Crossing",
+      "file": "maps/void-rift-crossing.json",
+      "blurb": "A diagonal void rift splits the mesa — only two narrow crossings join the halves.",
+      "preview": "media/maps/void-rift-crossing.svg"
+    },
+    {
+      "id": "highland-chokes",
+      "name": "Highland Chokes",
+      "file": "maps/highland-chokes.json",
+      "blurb": "Central cliff spine with twin chokes — high ground rewards map control, not water.",
+      "preview": "media/maps/highland-chokes.svg"
+    },
+    {
+      "id": "crystal-basin",
+      "name": "Crystal Basin",
+      "file": "maps/crystal-basin.json",
+      "blurb": "A glittering crystal bowl at the heart — rich nodes, open flanks, void rim.",
+      "preview": "media/maps/crystal-basin.svg"
+    },
+    {
+      "id": "ashvein-caldera",
+      "name": "Ashvein Caldera",
+      "file": "maps/ashvein-caldera.json",
+      "blurb": "Central caldera vents and a staged tunnel spine — Ashvein's lava bridges reshape the choke mid-game.",
+      "preview": "media/maps/ashvein-caldera.svg"
+    },
+    {
+      "id": "random",
+      "name": "Random Map",
+      "procgen": true,
+      "size": 96,
+      "cell": 2,
+      "blurb": "Seeded 96×96 skirmish with mirrored starts, void rims, and mesa/verdant/crystal biomes."
     },
     {
       "id": "training-flat",
       "name": "Training Flat",
-      "file": "maps/training-flat.json"
+      "file": "maps/training-flat.json",
+      "blurb": "Open flat grid for drills and input checks.",
+      "preview": "media/maps/training-flat.svg"
     }
   ]
 }

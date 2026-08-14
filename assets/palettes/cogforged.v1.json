@@ -1,0 +1,7 @@
+{
+  "id": "cogforged.v1",
+  "faction": "cogforged",
+  "colors": ["#C9885A", "#B87333", "#6B7280", "#FFD080", "#3A3A48", "#151820"],
+  "dither": 0,
+  "colorSpace": "sRGB"
+}

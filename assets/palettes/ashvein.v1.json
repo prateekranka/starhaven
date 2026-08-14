@@ -1,0 +1,7 @@
+{
+  "id": "ashvein.v1",
+  "faction": "ashvein",
+  "colors": ["#E85A28", "#C43818", "#8B6B5A", "#FFD080", "#2A1A24", "#1A0E12"],
+  "dither": 0,
+  "colorSpace": "sRGB"
+}

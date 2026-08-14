@@ -1,9 +1,13 @@
 import * as THREE from "three";
 import { N, CELL, inLight, q10FromWorld, lineX, buildRatio } from "../sim/engine.js";
-import { worldFromQ10, Q10, FACING_MILLIRAD, TICKS_PER_SEC } from "../sim/fixed.js";
-import { pixelRatioFor, resolveQuality, backingLabel, isSoftwareGL, glRendererName } from "../perf.js";
+import { worldFromQ10, Q10, FACING_MILLIRAD, TICKS_PER_SEC, secToTicks } from "../sim/fixed.js";
+import { pixelRatioFor, resolveQuality, backingLabel, isSoftwareGL, glRendererName, isQaMode } from "../perf.js";
 import { cachedImage } from "../cache/assets.js";
 import { BIOME_HEX } from "../data/map-biomes.js";
+import { effectiveBiome, unitInTunnelLayer } from "../sim/civs/ashvein.js";
+import { listPlayableCivs, DEFAULT_CIV_ID } from "../data/civ-schema.js";
+import "../data/civs.js";
+import { windLaneCells } from "../sim/civs/stormveil.js";
 import {
   createLitBillboard,
   syncBrightLineUniforms,
@@ -93,16 +97,16 @@ function smoothstep(e0, e1, x) {
   return t * t * (3 - 2 * t);
 }
 
-export function landH(x, z) {
-  const nx = Math.min(x, MAP - x);
-  const nz = Math.min(z, MAP - z);
+export function landH(x, z, mapWorld = MAP) {
+  const nx = Math.min(x, mapWorld - x);
+  const nz = Math.min(z, mapWorld - z);
   const rim = Math.min(nx, nz);
   const wx = x + fbm(x * 0.04, z * 0.04, 3) * 5;
   const wz = z + fbm(x * 0.04 + 19, z * 0.04 - 11, 3) * 5;
   let h = 1.9 * smoothstep(2.4, 10, rim);
   h += (fbm(wx * 0.055, wz * 0.055, 4) - 0.42) * 0.4;
   if (rim > 11) {
-    const crater = Math.hypot(x / MAP - 0.48, z / MAP - 0.44);
+    const crater = Math.hypot(x / mapWorld - 0.48, z / mapWorld - 0.44);
     h -= Math.max(0, 0.16 - crater * 6.5) * 0.55;
   }
   return Math.max(0, h);
@@ -110,20 +114,24 @@ export function landH(x, z) {
 
 const HS = 160;
 let heightLUT = null;
-function buildHeightLut() {
+let heightLUTWorld = 0;
+function buildHeightLut(mapWorld = MAP) {
+  if (heightLUT && heightLUTWorld === mapWorld) return;
+  heightLUTWorld = mapWorld;
   heightLUT = new Float32Array((HS + 1) * (HS + 1));
   const stride = HS + 1;
   for (let z = 0; z <= HS; z++) {
     for (let x = 0; x <= HS; x++) {
-      heightLUT[z * stride + x] = landH((x / HS) * MAP, (z / HS) * MAP);
+      heightLUT[z * stride + x] = landH((x / HS) * mapWorld, (z / HS) * mapWorld, mapWorld);
     }
   }
 }
 
-export function sampleH(x, z) {
-  if (!heightLUT) buildHeightLut();
-  const u = Math.max(0, Math.min(HS, (x / MAP) * HS));
-  const v = Math.max(0, Math.min(HS, (z / MAP) * HS));
+export function sampleH(x, z, mapWorld) {
+  const mw = mapWorld != null ? mapWorld : heightLUTWorld || MAP;
+  if (!heightLUT || heightLUTWorld !== mw) buildHeightLut(mw);
+  const u = Math.max(0, Math.min(HS, (x / mw) * HS));
+  const v = Math.max(0, Math.min(HS, (z / mw) * HS));
   const x0 = u | 0;
   const z0 = v | 0;
   const x1 = Math.min(HS, x0 + 1);
@@ -203,7 +211,10 @@ function fitWhenReady(mesh, map, height) {
 }
 
 export function createRenderer(container, quality = "ultra", opts = {}) {
-  if (!heightLUT) buildHeightLut();
+  const gridN = opts.map?.size || N;
+  const mapWorld = gridN * (opts.map?.cell || CELL);
+  buildHeightLut(mapWorld);
+  const MAP = mapWorld;
   let q = resolveQuality(quality);
   const reduceMotion = !!(opts.reduceMotion || (typeof window !== "undefined" && window.matchMedia?.("(prefers-reduced-motion: reduce)").matches));
 
@@ -214,7 +225,7 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
   const aspect = container.clientWidth / Math.max(1, container.clientHeight);
   const frustum = 22;
   const FRUSTUM_MIN = 14;
-  const FRUSTUM_MAX = 48;
+  const FRUSTUM_MAX = Math.min(64, 24 + Math.round(gridN / 4));
   const camera = new THREE.OrthographicCamera(
     (-frustum * aspect) / 2,
     (frustum * aspect) / 2,
@@ -263,32 +274,7 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
   const sandMap = pix("media/textures/pixel-mesa.png", 16);
   const waterMap = pix("media/textures/pixel-water.png", 18);
   const atlasTex = Object.fromEntries(ATLAS_IDS.map((id) => [id, pix(`media/sprites/${id}.atlas.png`)]));
-  const bldg = {
-    sun: {
-      towncenter: pix("media/sprites/bldg-sun-tc.png"),
-      house: pix("media/sprites/bldg-sun-house.png"),
-      barracks: pix("media/sprites/bldg-sun-rax.png"),
-      mill: pix("media/sprites/bldg-sun-mill.png"),
-      lumber: pix("media/sprites/bldg-sun-lumber.png"),
-      mine: pix("media/sprites/bldg-sun-mine.png"),
-      spire: pix("media/sprites/bldg-sun-spire.png"),
-      den: pix("media/sprites/bldg-sun-den.png"),
-      workshop: pix("media/sprites/bldg-sun-workshop.png"),
-      wonder: pix("media/sprites/bldg-sun-wonder.png"),
-    },
-    grave: {
-      towncenter: pix("media/sprites/bldg-grave-tc.png"),
-      house: pix("media/sprites/bldg-grave-house.png"),
-      barracks: pix("media/sprites/bldg-grave-rax.png"),
-      mill: pix("media/sprites/bldg-grave-mill.png"),
-      lumber: pix("media/sprites/bldg-grave-lumber.png"),
-      mine: pix("media/sprites/bldg-grave-mine.png"),
-      spire: pix("media/sprites/bldg-grave-spire.png"),
-      den: pix("media/sprites/bldg-grave-den.png"),
-      workshop: pix("media/sprites/bldg-grave-workshop.png"),
-      wonder: pix("media/sprites/bldg-grave-wonder.png"),
-    },
-  };
+  const { bldg } = buildRendererAssets(pix);
   const nodes = {
     food: pix("media/sprites/node-food.png"),
     wood: pix("media/sprites/node-trees.png"),
@@ -305,22 +291,22 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
   water.position.set(MAP / 2, -0.28, MAP / 2);
   scene.add(water);
 
-  const terrain = buildMesa(sandMap, q.terrain, true, opts.map);
+  const terrain = buildMesa(sandMap, q.terrain, true, opts.map, mapWorld);
   scene.add(terrain);
 
   addSky(scene, true);
   addPlanet(scene, q.terrain >= 72);
 
   const fogCanvas = document.createElement("canvas");
-  fogCanvas.width = N;
-  fogCanvas.height = N;
+  fogCanvas.width = gridN;
+  fogCanvas.height = gridN;
   const fogCtx = fogCanvas.getContext("2d", { willReadFrequently: true });
-  const fogImg = fogCtx.createImageData(N, N);
+  const fogImg = fogCtx.createImageData(gridN, gridN);
   const fogTex = new THREE.CanvasTexture(fogCanvas);
   fogTex.magFilter = THREE.LinearFilter;
   fogTex.minFilter = THREE.LinearFilter;
   fogTex.generateMipmaps = false;
-  const terrainFogLut = buildTerrainFogLut();
+  const terrainFogLut = buildTerrainFogLut(gridN, opts.map?.cell || CELL, mapWorld);
   const fogPlane = new THREE.Mesh(
     new THREE.PlaneGeometry(MAP, MAP),
     new THREE.MeshBasicMaterial({ map: fogTex, transparent: true, opacity: 1, depthWrite: false, toneMapped: false })
@@ -344,6 +330,38 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
   brightLine.position.y = 1.15;
   scene.add(brightLine);
 
+  const windLaneGroup = new THREE.Group();
+  scene.add(windLaneGroup);
+  let windLanesDrawn = false;
+  const darknessFx = [];
+  function ensureWindLanes(world) {
+    if (windLanesDrawn || !world.stormveil?.windLanes) return;
+    windLanesDrawn = true;
+    const cell = world.CELL || CELL;
+    for (const { cx, cz } of windLaneCells(world)) {
+      const lane = new THREE.Mesh(new THREE.PlaneGeometry(cell * 0.9, cell * 0.9), new THREE.MeshBasicMaterial({ color: 0x8ed4ff, transparent: true, opacity: 0.2, depthWrite: false, toneMapped: false }));
+      lane.rotation.x = -Math.PI / 2;
+      lane.position.set(cx * cell + cell * 0.5, 0.14, cz * cell + cell * 0.5);
+      windLaneGroup.add(lane);
+    }
+  }
+  function syncDarkness(world) {
+    const zones = world.stormveil?.darkness || [];
+    while (darknessFx.length < zones.length) {
+      const disc = new THREE.Mesh(new THREE.CircleGeometry(1, 28), new THREE.MeshBasicMaterial({ color: 0x1a1038, transparent: true, opacity: 0.42, depthWrite: false, toneMapped: false }));
+      disc.rotation.x = -Math.PI / 2; scene.add(disc); darknessFx.push(disc);
+    }
+    for (let i = 0; i < darknessFx.length; i += 1) {
+      const disc = darknessFx[i]; const zone = zones[i];
+      if (!zone) { disc.visible = false; continue; }
+      disc.visible = true;
+      const r = worldFromQ10(zone.radiusQ10);
+      disc.scale.set(r, r, 1);
+      disc.position.set(worldFromQ10(zone.xQ10), 0.22, worldFromQ10(zone.zQ10));
+      disc.material.opacity = 0.28 + 0.22 * Math.min(1, zone.leftTicks / secToTicks(12));
+    }
+  }
+
   const meshes = new Map();
   const ringMat = new THREE.MeshBasicMaterial({ color: 0xd4af37, side: THREE.DoubleSide, transparent: true, opacity: 0.95, toneMapped: false });
   const ringGeo = new THREE.RingGeometry(0.5, 0.72, 32);
@@ -358,9 +376,10 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
   const shadowMat = new THREE.MeshBasicMaterial({ color: 0x120c08, transparent: true, opacity: 0.52, depthWrite: false, toneMapped: false });
   const corpses = new Map();
 
-  const ghost = createLitBillboard(bldg.sun.house, { pivotY: 0.12, opacity: 0.45, glow: 0.15 });
+  const ghostHouse = bldg[DEFAULT_CIV_ID]?.house || bldg.sunwoven?.house;
+  const ghost = createLitBillboard(ghostHouse, { pivotY: 0.12, opacity: 0.45, glow: 0.15 });
   ghost.visible = false;
-  fitWhenReady(ghost, bldg.sun.house, 4.2);
+  fitWhenReady(ghost, ghostHouse, 4.2);
   scene.add(ghost);
 
   const vfx = createParticleSystem(scene, sampleH, Math.max(160, q.vfx * 5), MAP);
@@ -488,8 +507,9 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
       const base = (m.userData.baseScale || buildingScale(b.type)) * (0.55 + 0.45 * built);
       const a = m.userData.aspect || 1;
       m.scale.set(base * a, base, 1);
-      m.userData.opacity = 0.55 + 0.45 * built;
-      m.userData.glow = built >= 0.35 ? 0.55 + built * 0.45 : 0;
+      const powered = b.powered !== false;
+      m.userData.opacity = powered ? 0.55 + 0.45 * built : 0.22 + 0.18 * built;
+      m.userData.glow = powered && built >= 0.35 ? 0.55 + built * 0.45 : 0;
       m.visible = seen(world, wx(b), wz(b)) || b.owner === "player";
     }
     for (const u of world.units) {
@@ -504,7 +524,7 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
       m.position.set(wx(u), y, wz(u));
       animateUnit(m, u, world, dt);
       m.userData.lastFacing = (FACING_MILLIRAD[u.facingOctant || 0] || 0) / 1000;
-      m.visible = u.owner === "player" || vis(world, wx(u), wz(u));
+      m.visible = u.owner === "player" || (!unitInTunnelLayer(u) && vis(world, wx(u), wz(u)));
       keep.add("sh" + u.id);
       let sh = meshes.get("sh" + u.id);
       if (!sh) {
@@ -618,6 +638,8 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
     const brightNorm = world.brightQ10 / Q10;
     brightLine.position.set(lx, 1.1, MAP / 2);
     brightLine.material.opacity = 0.22 + Math.sin((world.t / TICKS_PER_SEC) * 2.2) * 0.08;
+    ensureWindLanes(world);
+    syncDarkness(world);
     sun.position.set(20 + brightNorm * 50, 50, 20);
     sun.color.set(inLight(world, q10FromWorld(camTarget.x)) ? 0xfff3d0 : 0xb8c8ff);
     hemi.color.set(inLight(world, q10FromWorld(camTarget.x)) ? 0xd8ecff : 0x9aa8d8);
@@ -625,12 +647,16 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
     if (!rockProps) rockProps = addRockProps(scene, world);
     syncBrightLineUniforms(scene, world, MAP);
     paintFog(fogCtx, fogTex, fogImg, world, terrainFogLut);
+    if (world.ashvein?.terrainDirty && world.map?.terrain) {
+      patchTerrainColors(terrain, world, mapWorld);
+      world.ashvein.terrainDirty = false;
+    }
     vfx.tick(world, dt);
 
     if (world.placing) {
       ghost.visible = true;
-      const fac = world.players.player.faction === "gravemark" ? "grave" : "sun";
-      const map = bldg[fac][world.placing] || bldg[fac].house;
+      const playerCiv = world.players.player.faction;
+      const map = bldg[playerCiv]?.[world.placing] || bldg[playerCiv]?.house || bldg[DEFAULT_CIV_ID].house;
       if (litMap(ghost) !== map) {
         setLitMap(ghost, map);
         fitWhenReady(ghost, map, buildingScale(world.placing));
@@ -644,11 +670,15 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
   }
 
   function cameraInfo() {
+    const w = Math.max(1, container.clientWidth);
+    const h = Math.max(1, container.clientHeight);
     return {
       x: camTarget.x,
       z: camTarget.z,
       frustum: frustumLive,
       frustumDesired,
+      aspect: w / h,
+      mapWorld,
       min: FRUSTUM_MIN,
       max: FRUSTUM_MAX,
     };
@@ -711,10 +741,31 @@ function buildingScale(type) {
   return 5.2;
 }
 
+function buildRendererAssets(pix) {
+  const sheets = {};
+  const stills = {};
+  const bldg = {};
+  for (const civ of listPlayableCivs({ qa: isQaMode() })) {
+    sheets[civ.id] = {
+      walk: pix(civ.sprites.walkSheet),
+      guard: pix(civ.sprites.guardSheet),
+    };
+    stills[civ.id] = {
+      strider: pix(civ.sprites.strider),
+      siege: pix(civ.sprites.siege),
+      ...(civ.sprites.wagon ? { wagon: pix(civ.sprites.wagon) } : {}),
+    };
+    bldg[civ.id] = Object.fromEntries(
+      Object.entries(civ.sprites.buildings).map(([type, path]) => [type, pix(path)])
+    );
+  }
+  return { sheets, stills, bldg };
+}
+
 function makeBuildingSprite(b, bldg) {
-  const fac = b.faction === "gravemark" ? "grave" : "sun";
-  const map = bldg[fac][b.type] || bldg[fac].house;
-  const glowColor = fac === "grave" ? [0.48, 0.62, 1] : [1, 0.82, 0.38];
+  const bucket = bldg[b.faction] || bldg[DEFAULT_CIV_ID];
+  const map = bucket[b.type] || bucket.house;
+  const glowColor = b.faction === "gravemark" ? [0.48, 0.62, 1] : [1, 0.82, 0.38];
   const s = createLitBillboard(map, { pivotY: 0.07, glow: 0.85, glowColor });
   fitWhenReady(s, map, buildingScale(b.type));
   return s;
@@ -816,16 +867,16 @@ const MESA_MAT = {
 };
 const FOG_TINT = { r: 104, g: 136, b: 168 };
 
-function mesaHeightAt(x, z) {
-  let y = landH(x, z);
-  const rim = Math.min(Math.min(x, MAP - x), Math.min(z, MAP - z));
+function mesaHeightAt(x, z, mapWorld = MAP) {
+  let y = landH(x, z, mapWorld);
+  const rim = Math.min(Math.min(x, mapWorld - x), Math.min(z, mapWorld - z));
   if (rim < 1.8) y = -2.2;
   else if (rim < 8.5) y = THREE.MathUtils.lerp(-1.55, Math.max(0.35, y), smoothstep(1.8, 8.5, rim));
   return { y, rim };
 }
 
-function mesaMaterialAt(x, z, out = new THREE.Color()) {
-  const { y, rim } = mesaHeightAt(x, z);
+function mesaMaterialAt(x, z, out = new THREE.Color(), mapWorld = MAP) {
+  const { y, rim } = mesaHeightAt(x, z, mapWorld);
   const macro = fbm(x * 0.028, z * 0.028, 4);
   const detail = fbm(x * 0.11 + 17, z * 0.11 - 9, 3);
   const patch = fbm(x * 0.062, z * 0.062, 2);
@@ -837,12 +888,12 @@ function mesaMaterialAt(x, z, out = new THREE.Color()) {
   return out.copy(MESA_MAT.sand);
 }
 
-function buildTerrainFogLut() {
-  const lut = new Uint8Array(N * N * 3);
-  for (let z = 0; z < N; z++) {
-    for (let x = 0; x < N; x++) {
-      const c = mesaMaterialAt((x + 0.5) * CELL, (z + 0.5) * CELL);
-      const i = (z * N + x) * 3;
+function buildTerrainFogLut(gridN = N, cell = CELL, mapWorld = MAP) {
+  const lut = new Uint8Array(gridN * gridN * 3);
+  for (let z = 0; z < gridN; z++) {
+    for (let x = 0; x < gridN; x++) {
+      const c = mesaMaterialAt((x + 0.5) * cell, (z + 0.5) * cell, undefined, mapWorld);
+      const i = (z * gridN + x) * 3;
       lut[i] = (c.r * 255) | 0;
       lut[i + 1] = (c.g * 255) | 0;
       lut[i + 2] = (c.b * 255) | 0;
@@ -864,13 +915,14 @@ function fogShade(tr, tg, tb, sat = 0.28, dark = 0.48, tint = 0.34) {
 
 function paintFog(ctx, tex, img, world, terrainFogLut) {
   if (!world.fogDirty && world._fogPainted) return;
+  const n = world.N || N;
   const data = img.data;
-  for (let z = 0; z < N; z++) {
-    for (let x = 0; x < N; x++) {
-      const i = (z * N + x) * 4;
-      const li = (z * N + x) * 3;
-      const vis = world.visible.player[z * N + x];
-      const exp = world.explored.player[z * N + x];
+  for (let z = 0; z < n; z++) {
+    for (let x = 0; x < n; x++) {
+      const i = (z * n + x) * 4;
+      const li = (z * n + x) * 3;
+      const vis = world.visible.player[z * n + x];
+      const exp = world.explored.player[z * n + x];
       if (vis) {
         data[i + 3] = 0;
         continue;
@@ -895,8 +947,42 @@ function paintFog(ctx, tex, img, world, terrainFogLut) {
   world._fogPainted = true;
 }
 
-function buildMesa(sandMap, seg = 64, lit = true, map = null) {
-  const geo = new THREE.PlaneGeometry(MAP, MAP, seg, seg);
+function patchTerrainColors(mesh, world, mapWorld) {
+  const geo = mesh.geometry;
+  const pos = geo.attributes.position;
+  const colors = geo.attributes.color;
+  if (!colors || !world.map?.terrain) return;
+  const map = world.map;
+  const cell = world.CELL || 2;
+  const palette = {
+    sand: new THREE.Color(BIOME_HEX.sand),
+    dirt: new THREE.Color(BIOME_HEX.dirt),
+    grass: new THREE.Color(BIOME_HEX.grass),
+    rock: new THREE.Color(BIOME_HEX.rock),
+    cliff: new THREE.Color(BIOME_HEX.cliff),
+    void: new THREE.Color(BIOME_HEX.void),
+  };
+  const biomeKeys = ["sand", "dirt", "grass", "rock", "cliff", "void"];
+  const lava = new THREE.Color("#dc4018");
+  const cool = new THREE.Color("#783020");
+  for (let i = 0; i < pos.count; i++) {
+    const x = pos.getX(i) + mapWorld / 2;
+    const z = pos.getZ(i) + mapWorld / 2;
+    const cx = Math.max(0, Math.min(map.size - 1, (x / cell) | 0));
+    const cz = Math.max(0, Math.min(map.size - 1, (z / cell) | 0));
+    const idx = cz * map.size + cx;
+    const mut = world.ashvein?.cellMutation?.[idx] ?? 0;
+    let c;
+    if (mut === 1) c = lava.clone();
+    else if (mut === 2) c = cool.clone();
+    else c = palette[biomeKeys[effectiveBiome(world, idx)] || "sand"].clone();
+    colors.setXYZ(i, c.r, c.g, c.b);
+  }
+  colors.needsUpdate = true;
+}
+
+function buildMesa(sandMap, seg = 64, lit = true, map = null, mapWorld = N * CELL) {
+  const geo = new THREE.PlaneGeometry(mapWorld, mapWorld, seg, seg);
   geo.rotateX(-Math.PI / 2);
   const pos = geo.attributes.position;
   const colors = new Float32Array(pos.count * 3);
@@ -911,9 +997,12 @@ function buildMesa(sandMap, seg = 64, lit = true, map = null) {
   const biomeKeys = ["sand", "dirt", "grass", "rock", "cliff", "void"];
   const c = new THREE.Color();
   for (let i = 0; i < pos.count; i++) {
-    const x = pos.getX(i) + MAP / 2;
-    const z = pos.getZ(i) + MAP / 2;
-    const { y } = mesaHeightAt(x, z);
+    const x = pos.getX(i) + mapWorld / 2;
+    const z = pos.getZ(i) + mapWorld / 2;
+    let y = landH(x, z, mapWorld);
+    const rim = Math.min(Math.min(x, mapWorld - x), Math.min(z, mapWorld - z));
+    if (rim < 1.8) y = -2.2;
+    else if (rim < 8.5) y = THREE.MathUtils.lerp(-1.55, Math.max(0.35, y), smoothstep(1.8, 8.5, rim));
     pos.setY(i, y);
     if (map?.terrain) {
       const cx = Math.max(0, Math.min(map.size - 1, (x / CELL) | 0));
@@ -933,7 +1022,7 @@ function buildMesa(sandMap, seg = 64, lit = true, map = null) {
     ? new THREE.MeshLambertMaterial({ map: sandMap, vertexColors: true, color: 0xffffff })
     : new THREE.MeshBasicMaterial({ map: sandMap, vertexColors: true, color: 0xffffff, toneMapped: false });
   const mesh = new THREE.Mesh(geo, mat);
-  mesh.position.set(MAP / 2, 0, MAP / 2);
+  mesh.position.set(mapWorld / 2, 0, mapWorld / 2);
   return mesh;
 }
 

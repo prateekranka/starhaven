@@ -1,11 +1,11 @@
 import { createMatch, updateWorld, commandGround, tryPlace, queueUnit, tryAgeUp, idleVillager, selectedEntities, villagerBuildOptions, matchStats, formatDuration, BUILDINGS, UNITS, worldFromQ10, q10FromWorld, isBuilt } from "../sim/engine.js";
+import { canPackBuilding, isStormveilFaction, tryPackBuilding, trySummonDarkness } from "../sim/civs/stormveil.js";
 import { distanceSquaredQ10, q10RangeSq, ticksToSec } from "../sim/fixed.js";
-
-const wx = (e) => worldFromQ10(e.xQ10);
-const wz = (e) => worldFromQ10(e.zQ10);
-import { displayName } from "../data/catalog.js";
+import { civDisplayName, civSelectionPortrait, civBuildThumb } from "../data/civ-schema.js";
+import { civMechanics } from "../sim/civs/index.js";
+import "../data/civs.js";
 import { createRenderer } from "./render.js";
-import { audio, haptic, loadSave, showScreen } from "../boot.js";
+import { audio, haptic, loadSave, showScreen, beep } from "../boot.js";
 import { bridgeSend, setBridgeMatchId } from "../bridge.js";
 import { createMatchAudio } from "../audio/match-audio.js";
 import { score } from "../audio/score.js";
@@ -13,7 +13,11 @@ import { createFramePacer, isQaMode, setText, resolveQuality } from "../perf.js"
 import { ensureMatchAssets } from "../cache/assets.js";
 import { loadMap } from "../data/maps.js";
 import { biomeRgb } from "../data/map-biomes.js";
+import { minimapCellColor } from "../sim/civs/ashvein.js";
 import { checksumWorld, mapLayoutFingerprint } from "../sim/checksum.js";
+
+const wx = (e) => worldFromQ10(e.xQ10);
+const wz = (e) => worldFromQ10(e.zQ10);
 
 let world = null;
 let view = null;
@@ -57,7 +61,7 @@ export async function startMatch(opts = {}) {
   combatHapticAt = 0;
   hpWatch.clear();
   const mapId = opts.mapId || save.mapId || "bright-mesa";
-  const map = await loadMap(mapId);
+  const map = await loadMap(mapId, opts.seed ?? save.seed);
   world = createMatch({ ...opts, map, mapId });
   setBridgeMatchId(String(world.seed >>> 0));
   bridgeSend("match.started", { route: "pixel-mesa", faction: opts.playerFaction || "sunwoven" });
@@ -597,6 +601,15 @@ function onUp(e) {
     renderSelection();
     return;
   }
+  if (world.placingDarkness && g && dist < 12) {
+    const res = trySummonDarkness(world, "player", g.x, g.z);
+    world.tip = res.ok ? "Dark veil summoned." : res.why;
+    beep(res.ok ? 220 : 140, res.ok ? 0.12 : 0.06);
+    world.placingDarkness = false;
+    hideBox();
+    renderSelection();
+    return;
+  }
   if (dist < 14 && g) {
     const hit = pickEntity(world, g.x, g.z);
     if (hit && hit.owner === "player") {
@@ -702,12 +715,15 @@ function pickEntity(world, x, z) {
 
 function drawHud(world) {
   const p = world.players.player;
-  setText("res-food", p.stock.food | 0);
+  const showFood = civUsesFood(p.faction);
+  const foodRow = document.querySelector('.resources li[title="Lumenfruit"]');
+  if (foodRow) foodRow.hidden = !showFood;
+  if (showFood) setText("res-food", p.stock.food | 0);
   setText("res-wood", p.stock.wood | 0);
   setText("res-crystal", p.stock.crystal | 0);
   setText("res-ore", p.stock.ore | 0);
   setText("res-pop", `${p.pop}/${p.popCap}`);
-  setText("rate-food", p.rates.food ? `+${p.rates.food.toFixed(1)}/s` : "");
+  if (showFood) setText("rate-food", p.rates.food ? `+${p.rates.food.toFixed(1)}/s` : "");
   setText("rate-wood", p.rates.wood ? `+${p.rates.wood.toFixed(1)}/s` : "");
   setText("rate-crystal", p.rates.crystal ? `+${p.rates.crystal.toFixed(1)}/s` : "");
   setText("rate-ore", p.rates.ore ? `+${p.rates.ore.toFixed(1)}/s` : "");
@@ -728,14 +744,17 @@ function renderSelection() {
   box.classList.remove("hidden");
   const e = sel[0];
   const faction = e.faction || world.players.player.faction;
-  const name = e.kind === "unit" ? displayName(e.type, faction, "unit") : displayName(e.type, faction, "building");
+  const name = e.kind === "unit" ? civDisplayName(faction, e.type, "unit") : civDisplayName(faction, e.type, "building");
   document.getElementById("sel-name").textContent = sel.length > 1 ? `${sel.length} SELECTED` : name;
   document.getElementById("sel-meta").textContent = e.kind === "unit" ? UNITS[e.type].role : BUILDINGS[e.type].name;
   const hp = e.hp / e.maxHp;
   document.getElementById("sel-hp-bar").style.width = `${Math.max(0, hp) * 100}%`;
   document.getElementById("sel-hp-text").textContent = `${e.hp | 0}/${e.maxHp | 0}`;
   const portrait = document.getElementById("sel-portrait");
-  if (portrait) portrait.src = selectionPortrait(e, faction);
+  if (portrait) {
+    const src = civSelectionPortrait(faction, e) || selectionPortrait(e, faction);
+    if (src) portrait.src = src;
+  }
   cmds.innerHTML = "";
   queue.innerHTML = "";
 
@@ -764,13 +783,26 @@ function renderSelection() {
       );
     }
   }
+  if (e.kind === "unit" && e.type === "wagon" && e.owner === "player") {
+    cmds.appendChild(btn("Deploy", () => { world.tip = "Tap ground to deploy packed structure (20 wood)."; }));
+  }
+  if (isStormveilFaction(world.players.player.faction) && e.owner === "player") {
+    cmds.appendChild(btn("Dark Veil", () => { world.placingDarkness = true; world.placing = null; world.tip = "Tap ground to summon darkness (60 crystal)."; beep(220, 0.08); }));
+  }
+  if (e.kind === "building" && e.owner === "player" && isBuilt(e) && isStormveilFaction(faction) && canPackBuilding(world, "player", e).ok) {
+    cmds.appendChild(btn("Pack", () => { const r = tryPackBuilding(world, "player", e.id); world.tip = r.ok ? `Packing ${BUILDINGS[e.type].name}… (4s, 30 wood).` : r.why; beep(r.ok ? 360 : 140); renderSelection(); }));
+  }
   if (e.kind === "building" && e.owner === "player" && isBuilt(e)) {
+    const mech = civMechanics(faction);
+    if (e.powered === false) cmds.appendChild(btn("UNPOWERED", () => { world.tip = "Relay this structure to your Foundry Core grid."; }));
     const produces = BUILDINGS[e.type].produces || [];
+    const verb = mech.usesTrainingQueue ? "Training" : "Assembling";
     for (const t of produces) {
+      const label = civDisplayName(faction, t, "unit");
       cmds.appendChild(
-        iconBtn(UNITS[t].name, trainIcon(t, faction), () => {
+        iconBtn(label, trainIcon(t, faction), () => {
           const r = queueUnit(world, e, t);
-          world.tip = r.ok ? `Training ${UNITS[t].name}` : r.why;
+          world.tip = r.ok ? `${verb} ${label}` : r.why;
           audio.play(r.ok ? "train" : "train_fail");
           renderSelection();
         })
@@ -792,8 +824,15 @@ function renderSelection() {
       chip.style.cssText = "border:1px solid #a8883a;padding:4px 6px;font-size:11px";
       queue.appendChild(chip);
     }
+    for (const site of world.assemblies || []) {
+      if (site.buildingId !== e.id) continue;
+      const chip = document.createElement("span");
+      const label = civDisplayName(faction, site.type, "unit");
+      chip.textContent = `${label} ${Math.ceil(ticksToSec(Math.max(0, site.buildTotalTicks - site.buildTicks)))}s`;
+      chip.style.cssText = "border:1px solid #8a6a2a;padding:4px 6px;font-size:11px";
+      queue.appendChild(chip);
+    }
   }
-}
 
 function iconBtn(label, icon, fn) {
   const b = document.createElement("button");
@@ -813,7 +852,11 @@ function iconBtn(label, icon, fn) {
 }
 
 function facPrefix(faction) {
-  return faction === "gravemark" ? "grave" : "sun";
+  if (faction === "gravemark") return "grave";
+  if (faction === "stormveil") return "storm";
+  if (faction === "ashvein") return "ash";
+  if (faction === "cogforged") return "cog";
+  return "sun";
 }
 
 function bldgSpriteKey(type) {
@@ -843,8 +886,7 @@ function ageIcon(faction) {
 }
 
 function bldgThumb(type, faction) {
-  const fac = facPrefix(faction);
-  return `media/sprites/bldg-${fac}-${bldgSpriteKey(type)}.png`;
+  return civBuildThumb(faction, type) || `media/sprites/bldg-${facPrefix(faction)}-${bldgSpriteKey(type)}.png`;
 }
 
 function btn(label, fn) {
@@ -867,7 +909,9 @@ function drawMinimap(world, view) {
         ctx.fillStyle = "#071422";
         ctx.fillRect(x * s, z * s, s + 0.5, s + 0.5);
       } else {
-        if (terrain) {
+        const mutColor = minimapCellColor(world, idx, true);
+        if (mutColor) ctx.fillStyle = `rgb(${mutColor[0]},${mutColor[1]},${mutColor[2]})`;
+        else if (terrain) {
           const [r, g, b] = biomeRgb(terrain[idx]);
           ctx.fillStyle = `rgb(${r},${g},${b})`;
         } else {
@@ -883,31 +927,27 @@ function drawMinimap(world, view) {
   }
   for (const r of world.resources) {
     if (r.kind === "rockblock" || r.amount <= 0) continue;
-    const rx = wx(r);
-    const rz = wz(r);
-    const [cx, cz] = [(rx / world.CELL) | 0, (rz / world.CELL) | 0];
+    const [cx, cz] = [(wx(r) / world.CELL) | 0, (wz(r) / world.CELL) | 0];
     if (!world.explored.player[cz * n + cx]) continue;
     ctx.fillStyle = r.kind === "food" ? "#4c8" : r.kind === "wood" ? "#385" : r.kind === "crystal" ? "#6cf" : "#fc6";
-    ctx.fillRect(rx * s * (1 / world.CELL) - 1, rz * s * (1 / world.CELL) - 1, 3, 3);
+    ctx.fillRect(wx(r) * s * (1 / world.CELL) - 1, wz(r) * s * (1 / world.CELL) - 1, 3, 3);
   }
   for (const b of world.buildings) {
-    const bx = wx(b);
-    const bz = wz(b);
-    const [cx, cz] = [(bx / world.CELL) | 0, (bz / world.CELL) | 0];
+    const [cx, cz] = [(wx(b) / world.CELL) | 0, (wz(b) / world.CELL) | 0];
     if (b.owner !== "player" && !world.explored.player[cz * n + cx]) continue;
     ctx.fillStyle = b.owner === "player" ? "#4af" : b.owner === "enemy" ? "#f45" : "#eee";
-    ctx.fillRect(bx * s * (1 / world.CELL) - 2, bz * s * (1 / world.CELL) - 2, 5, 5);
+    ctx.fillRect(wx(b) * s * (1 / world.CELL) - 2, wz(b) * s * (1 / world.CELL) - 2, 5, 5);
   }
   for (const u of world.units) {
-    const ux = wx(u);
-    const uz = wz(u);
-    const [cx, cz] = [(ux / world.CELL) | 0, (uz / world.CELL) | 0];
-    if (u.owner !== "player" && !world.visible.player[cz * n + cx]) continue;
+    const [cx, cz] = [(wx(u) / world.CELL) | 0, (wz(u) / world.CELL) | 0];
+    if (u.owner !== "player" && (u.layer === "tunnel" || !world.visible.player[cz * n + cx])) continue;
     ctx.fillStyle = u.owner === "player" ? "#9df" : u.owner === "enemy" ? "#f88" : "#8ff";
-    ctx.fillRect(ux * s * (1 / world.CELL) - 1, uz * s * (1 / world.CELL) - 1, 2, 2);
+    ctx.fillRect(wx(u) * s * (1 / world.CELL) - 1, wz(u) * s * (1 / world.CELL) - 1, 2, 2);
   }
   const cam = view.cameraInfo();
-  const mapWorld = n * world.CELL;
+  const mapWorld = cam.mapWorld || n * world.CELL;
+  const viewW = ((cam.frustum * 2 * (cam.aspect || 1)) / mapWorld) * c.width;
+  const viewH = ((cam.frustum * 2) / mapWorld) * c.height;
   ctx.strokeStyle = "#fff";
-  ctx.strokeRect((cam.x / mapWorld) * c.width - 18, (cam.z / mapWorld) * c.height - 12, 36, 24);
+  ctx.strokeRect((cam.x / mapWorld) * c.width - viewW / 2, (cam.z / mapWorld) * c.height - viewH / 2, viewW, viewH);
 }

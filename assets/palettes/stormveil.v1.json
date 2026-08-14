@@ -1,0 +1,7 @@
+{
+  "id": "stormveil.v1",
+  "faction": "stormveil",
+  "colors": ["#7BA7C9", "#C9A56C", "#6B5B95", "#E8DCC8", "#2E4053", "#0F1520"],
+  "dither": 0,
+  "colorSpace": "sRGB"
+}

@@ -1,0 +1,17 @@
+{
+  "unitId": "ash-guard",
+  "faction": "ashvein",
+  "clips": [
+    "walk",
+    "attack",
+    "gather",
+    "build",
+    "death"
+  ],
+  "atlas": "media/sprites/ash-guard.atlas.png",
+  "sha256": "daefd8cc5705b9ef183677eab8785880966e8f51a452dfb80355764755ab52f8",
+  "bytes": 31417,
+  "sourceCount": 50,
+  "generator": "starhaven-pixel-pipeline-v1",
+  "libvips": "8.17.1"
+}

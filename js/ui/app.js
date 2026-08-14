@@ -7,6 +7,9 @@ import { parseSeed } from "../sim/seed.js";
 import { populateMapSelect } from "../data/maps.js";
 import { initKit, bindSlider, bindToggle, bindDropdown } from "./kit.js";
 import { initTitleVista } from "./title-vista.js";
+import { renderFactionPicks, renderLoreGrid, DEFAULT_CIV_ID } from "../data/civ-ui.js";
+import { getCiv } from "../data/civ-schema.js";
+import "../data/civs.js";
 
 /** Non-deterministic seed for blank setup fields (UI only — never in js/sim/). */
 function pickRandomSeed() {
@@ -49,7 +52,21 @@ export function initUi() {
   initKit(document);
   initTitleVista();
   initPauseSettings();
-  populateMapSelect(document.getElementById("map-select"), save.mapId)
+  mountCivScreens(save);
+  populateMapSelect(document.getElementById("map-select"), save.mapId, (info) => {
+    const img = document.getElementById("map-preview-img");
+    const blurb = document.getElementById("map-preview-blurb");
+    if (blurb) blurb.textContent = info.blurb || "";
+    if (img) {
+      if (info.preview) {
+        img.src = info.preview;
+        img.hidden = false;
+      } else {
+        img.hidden = true;
+        img.removeAttribute("src");
+      }
+    }
+  })
     .then((id) => bindDropdown(document.getElementById("map-select"), { value: id || "bright-mesa" }))
     .catch((err) => {
       console.warn("map manifest load failed", err);
@@ -74,19 +91,23 @@ export function initUi() {
         showScreen("title");
         score.startTitle();
       });
-    } else if (action === "skirmish") showScreen("skirmish");
-    else if (action === "factions") showScreen("factions");
-    else if (action === "settings") showScreen("settings");
+    } else if (action === "skirmish") {
+      mountCivScreens(save);
+      showScreen("skirmish");
+    } else if (action === "factions") {
+      renderLoreGrid(document.getElementById("lore-grid"));
+      showScreen("factions");
+    } else if (action === "settings") showScreen("settings");
     else if (action === "tutorial") showScreen("tutorial");
     else if (action === "campaign") {
       playMatch({
-        playerFaction: save.faction || "sunwoven",
+        playerFaction: save.faction || DEFAULT_CIV_ID,
         difficulty: "chieftain",
         campaign: true,
         mapId: save.mapId || "bright-mesa",
       });
     } else if (action === "start-skirmish") {
-      const faction = document.querySelector(".faction-pick.selected")?.dataset.faction || "sunwoven";
+      const faction = document.querySelector(".faction-pick.selected")?.dataset.faction || DEFAULT_CIV_ID;
       const difficulty = dropdownValue("diff-select") || "chieftain";
       const mapId = dropdownValue("map-select") || "bright-mesa";
       save.faction = faction;
@@ -95,7 +116,7 @@ export function initUi() {
       writeSave(save);
       playMatch({ playerFaction: faction, difficulty, mapId });
     } else if (action === "start-tutorial") {
-      playMatch({ playerFaction: save.faction || "sunwoven", tutorial: true, difficulty: "settler" });
+      playMatch({ playerFaction: save.faction || DEFAULT_CIV_ID, tutorial: true, difficulty: "settler" });
     } else if (action === "pause-abandon-confirm") {
       loadGame().then(({ togglePause, stopMatch }) => {
         togglePause(false);
@@ -107,14 +128,7 @@ export function initUi() {
     }
   });
 
-  document.querySelectorAll(".faction-pick").forEach((el) => {
-    el.addEventListener("click", () => {
-      document.querySelectorAll(".faction-pick").forEach((x) => x.classList.remove("selected"));
-      el.classList.add("selected");
-      save.faction = el.dataset.faction;
-      writeSave(save);
-    });
-  });
+  mountCivScreens(save);
 
   document.getElementById("settings-form").addEventListener("change", onSettingsChange);
   document.getElementById("pause-settings-form")?.addEventListener("change", onSettingsChange);
@@ -189,7 +203,7 @@ export function initUi() {
   if (params.get("kit") === "1") showScreen("kit");
   if (params.get("play") === "1") {
     playMatch({
-      playerFaction: params.get("faction") || save.faction || "sunwoven",
+      playerFaction: params.get("faction") || save.faction || DEFAULT_CIV_ID,
       difficulty: params.get("diff") || save.difficulty || "chieftain",
       tutorial: params.get("tutorial") === "1",
     });
@@ -221,6 +235,19 @@ function initPauseSettings() {
   panel.querySelectorAll(".ui-slider").forEach((el) => bindSlider(el));
   panel.querySelectorAll(".ui-toggle").forEach((el) => bindToggle(el));
   panel.querySelectorAll(".ui-dropdown").forEach((el) => bindDropdown(el));
+}
+
+function mountCivScreens(save) {
+  const selected = getCiv(save.faction)?.id || DEFAULT_CIV_ID;
+  renderFactionPicks(document.getElementById("faction-picks"), {
+    selectedId: selected,
+    onSelect: (civId) => {
+      const s = loadSave();
+      s.faction = civId;
+      writeSave(s);
+    },
+  });
+  renderLoreGrid(document.getElementById("lore-grid"));
 }
 
 async function playMatch(opts = {}) {

@@ -9,6 +9,19 @@ export const ATLAS_IDS = [
   "grave-strider",
   "sun-siege",
   "grave-siege",
+  "storm-guard",
+  "storm-walk",
+  "storm-strider",
+  "storm-siege",
+  "storm-wagon",
+  "ash-guard",
+  "ash-walk",
+  "ash-strider",
+  "ash-siege",
+  "cog-guard",
+  "cog-walk",
+  "cog-strider",
+  "cog-siege",
 ];
 
 export const DEFAULT_ATLAS_META = {
@@ -44,19 +57,26 @@ export function loadAtlasManifests() {
 
 /** Maps sim unit to committed atlas id (shared atlases OK). */
 export function unitAtlasId(u) {
-  const grave = u.faction === "gravemark";
+  const prefix = {
+    gravemark: "grave",
+    stormveil: "storm",
+    ashvein: "ash",
+    cogforged: "cog",
+  }[u.faction] || "sun";
   switch (u.type) {
     case "guard":
     case "archer":
-      return grave ? "grave-guard" : "sun-guard";
+      return `${prefix}-guard`;
     case "strider":
-      return grave ? "grave-strider" : "sun-strider";
+      return `${prefix}-strider`;
     case "siege":
-      return grave ? "grave-siege" : "sun-siege";
+      return `${prefix}-siege`;
+    case "wagon":
+      return prefix === "storm" ? "storm-wagon" : `${prefix}-strider`;
     case "titan":
       return "grave-strider";
     default:
-      return grave ? "grave-walk" : "sun-walk";
+      return `${prefix}-walk`;
   }
 }
 
@@ -72,7 +92,7 @@ export function unitSouthFirst(u) {
   return u.faction === "gravemark" && u.type !== "guard" && u.type !== "archer";
 }
 
-const WALK_STATES = new Set(["walk", "gatherwalk", "return", "buildwalk", "attackmove"]);
+const WALK_STATES = new Set(["walk", "gatherwalk", "return", "buildwalk", "attackmove", "assemblewalk"]);
 
 /** Sim-driven clip selection: idle | walk | attack | gather | build | death */
 export function pipelineAction(u, moving, dying) {

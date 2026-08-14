@@ -1,0 +1,17 @@
+{
+  "unitId": "storm-walk",
+  "faction": "stormveil",
+  "clips": [
+    "walk",
+    "attack",
+    "gather",
+    "build",
+    "death"
+  ],
+  "atlas": "media/sprites/storm-walk.atlas.png",
+  "sha256": "ef232e2b153570bc71505bd3c034977bf91f213695129f501bd431140182a3c5",
+  "bytes": 34997,
+  "sourceCount": 50,
+  "generator": "starhaven-pixel-pipeline-v1",
+  "libvips": "8.17.1"
+}

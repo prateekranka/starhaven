@@ -1,0 +1,17 @@
+{
+  "unitId": "storm-guard",
+  "faction": "stormveil",
+  "clips": [
+    "walk",
+    "attack",
+    "gather",
+    "build",
+    "death"
+  ],
+  "atlas": "media/sprites/storm-guard.atlas.png",
+  "sha256": "7bc3048b686588ea89108da0b29efcc699c0ebf6953084eac75a1d0841c4076b",
+  "bytes": 32126,
+  "sourceCount": 50,
+  "generator": "starhaven-pixel-pipeline-v1",
+  "libvips": "8.17.1"
+}

@@ -1,0 +1,17 @@
+{
+  "unitId": "cog-guard",
+  "faction": "cogforged",
+  "clips": [
+    "walk",
+    "attack",
+    "gather",
+    "build",
+    "death"
+  ],
+  "atlas": "media/sprites/cog-guard.atlas.png",
+  "sha256": "11259883e943f0638da68902617583de9f517a4823908ab55c5da65975e0f5ae",
+  "bytes": 34140,
+  "sourceCount": 50,
+  "generator": "starhaven-pixel-pipeline-v1",
+  "libvips": "8.17.1"
+}

@@ -1,0 +1,17 @@
+{
+  "unitId": "ash-strider",
+  "faction": "ashvein",
+  "clips": [
+    "walk",
+    "attack",
+    "gather",
+    "build",
+    "death"
+  ],
+  "atlas": "media/sprites/ash-strider.atlas.png",
+  "sha256": "4b1790c85969464eb6fad6c6d89994012093e411bb7b5f9fe0ec02c13d5368b8",
+  "bytes": 47074,
+  "sourceCount": 50,
+  "generator": "starhaven-pixel-pipeline-v1",
+  "libvips": "8.17.1"
+}

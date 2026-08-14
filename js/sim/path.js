@@ -1,7 +1,12 @@
-/** Grid A* for the mesa. Buildings block; units do not. Integer costs. */
+/** Grid A* for the mesa. Buildings block; units do not. Integer costs + binary heap open set. */
 
 const STRAIGHT = 1_000;
 const DIAG = 1_414;
+const MAX_GRID = 96;
+
+const heap = new Int32Array(MAX_GRID * MAX_GRID);
+const fScore = new Int32Array(MAX_GRID * MAX_GRID);
+let heapLen = 0;
 
 export function idx(x, z, n) {
   return z * n + x;
@@ -21,6 +26,43 @@ function min(a, b) {
   return a < b ? a : b;
 }
 
+function max(a, b) {
+  return a > b ? a : b;
+}
+
+function heapPush(cell) {
+  let i = heapLen++;
+  heap[i] = cell;
+  while (i > 0) {
+    const parent = (i - 1) >> 1;
+    if (fScore[heap[parent]] <= fScore[cell]) break;
+    heap[i] = heap[parent];
+    i = parent;
+  }
+  heap[i] = cell;
+}
+
+function heapPop() {
+  const top = heap[0];
+  const cell = heap[--heapLen];
+  if (heapLen === 0) return top;
+  let i = 0;
+  while (true) {
+    let best = i;
+    const left = i * 2 + 1;
+    const right = left + 1;
+    if (left < heapLen && fScore[heap[left]] < fScore[heap[best]]) best = left;
+    if (right < heapLen && fScore[heap[right]] < fScore[heap[best]]) best = right;
+    if (best === i) break;
+    const tmp = heap[i];
+    heap[i] = heap[best];
+    heap[best] = tmp;
+    i = best;
+  }
+  heap[i] = cell;
+  return top;
+}
+
 export function astar(walk, n, sx, sz, gx, gz) {
   sx = clamp(sx | 0, 0, n - 1);
   sz = clamp(sz | 0, 0, n - 1);
@@ -38,27 +80,24 @@ export function astar(walk, n, sx, sz, gx, gz) {
     sx = ncell[0];
     sz = ncell[1];
   }
-  const open = [[sx, sz]];
-  const came = new Int32Array(n * n).fill(-1);
-  const gScore = new Int32Array(n * n).fill(0x7fffffff);
+
+  const cells = n * n;
+  const came = new Int32Array(cells).fill(-1);
+  const gScore = new Int32Array(cells).fill(0x7fffffff);
+  const closed = new Uint8Array(cells);
   const start = idx(sx, sz, n);
   gScore[start] = 0;
-  const closed = new Uint8Array(n * n);
+  heapLen = 0;
+  fScore[start] = heuristic(sx, sz, gx, gz);
+  heapPush(start);
+
+  const maxIter = cells * 2;
   let guard = 0;
-  while (open.length && guard++ < 8000) {
-    let bi = 0;
-    let best = 0x7fffffff;
-    for (let i = 0; i < open.length; i++) {
-      const [x, z] = open[i];
-      const f = gScore[idx(x, z, n)] + heuristic(x, z, gx, gz);
-      if (f < best) {
-        best = f;
-        bi = i;
-      }
-    }
-    const [x, z] = open.splice(bi, 1)[0];
-    if (x === gx && z === gz) return reconstruct(came, n, gx, gz, sx, sz);
-    const ci = idx(x, z, n);
+  while (heapLen && guard++ < maxIter) {
+    const ci = heapPop();
+    const x = ci % n;
+    const z = (ci / n) | 0;
+    if (x === gx && z === gz) return reconstruct(came, n, gx, gz, sx, sz, cells);
     if (closed[ci]) continue;
     closed[ci] = 1;
     for (let dz = -1; dz <= 1; dz++) {
@@ -75,7 +114,8 @@ export function astar(walk, n, sx, sz, gx, gz) {
         if (ng < gScore[ni]) {
           gScore[ni] = ng;
           came[ni] = ci;
-          open.push([nx, nz]);
+          fScore[ni] = ng + heuristic(nx, nz, gx, gz);
+          heapPush(ni);
         }
       }
     }
@@ -83,12 +123,12 @@ export function astar(walk, n, sx, sz, gx, gz) {
   return [];
 }
 
-function reconstruct(came, n, gx, gz, sx, sz) {
+function reconstruct(came, n, gx, gz, sx, sz, maxCells) {
   const path = [];
   let i = idx(gx, gz, n);
   const start = idx(sx, sz, n);
   let hops = 0;
-  while (i !== start && hops++ < 4000) {
+  while (i !== start && hops++ < maxCells) {
     path.push([i % n, (i / n) | 0]);
     i = came[i];
     if (i < 0) break;
@@ -98,7 +138,8 @@ function reconstruct(came, n, gx, gz, sx, sz) {
 }
 
 export function nearestWalkable(walk, n, x, z) {
-  for (let r = 0; r < 12; r++) {
+  const maxR = min(24, max(12, (n / 4) | 0));
+  for (let r = 0; r < maxR; r++) {
     for (let dz = -r; dz <= r; dz++) {
       for (let dx = -r; dx <= r; dx++) {
         const nx = x + dx;

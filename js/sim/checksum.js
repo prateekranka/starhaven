@@ -1,5 +1,8 @@
 /** Stable world snapshots and FNV-1a checksums for harness/replay. */
 
+import { stormveilChecksum } from "./civs/stormveil.js";
+
+
 export function checksumSnapshot(snapshot) {
   let hash = 0x811c9dc5;
   const source = JSON.stringify(snapshot);
@@ -87,6 +90,7 @@ export function snapshotWorld(world) {
     resources: world.resources.map(resourceSnap).sort((a, b) => a.id - b.id),
     projectiles: world.projectiles.length,
     prng: world.prng?.snapshot?.() ?? null,
+    stormveil: stormveilChecksum(world),
   };
 }
 

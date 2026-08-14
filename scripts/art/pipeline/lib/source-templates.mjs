@@ -57,12 +57,25 @@ export function stillSources(unitId, faction, still) {
 export const UNIT_SOURCE_SPECS = [
   { unitId: "sun-guard", faction: "sunwoven", kind: "guard", sheet: "media/sprites/sheet-sun-guard.png" },
   { unitId: "grave-guard", faction: "gravemark", kind: "guard", sheet: "media/sprites/sheet-grave-guard.png" },
+  { unitId: "storm-guard", faction: "stormveil", kind: "guard", sheet: "media/sprites/sheet-storm-guard.png" },
+  { unitId: "ash-guard", faction: "ashvein", kind: "guard", sheet: "media/sprites/sheet-ash-guard.png" },
+  { unitId: "cog-guard", faction: "cogforged", kind: "guard", sheet: "media/sprites/sheet-cog-guard.png" },
   { unitId: "sun-walk", faction: "sunwoven", kind: "walk", sheet: "media/sprites/sheet-sunwoven-walk.png" },
   { unitId: "grave-walk", faction: "gravemark", kind: "walk", sheet: "media/sprites/sheet-gravemark-walk.png" },
+  { unitId: "storm-walk", faction: "stormveil", kind: "walk", sheet: "media/sprites/sheet-stormveil-walk.png" },
+  { unitId: "ash-walk", faction: "ashvein", kind: "walk", sheet: "media/sprites/sheet-ashvein-walk.png" },
+  { unitId: "cog-walk", faction: "cogforged", kind: "walk", sheet: "media/sprites/sheet-cogforged-walk.png" },
   { unitId: "sun-strider", faction: "sunwoven", kind: "still", still: "media/sprites/unit-sun-strider.png" },
   { unitId: "grave-strider", faction: "gravemark", kind: "still", still: "media/sprites/unit-grave-strider.png" },
+  { unitId: "storm-strider", faction: "stormveil", kind: "still", still: "media/sprites/unit-storm-strider.png" },
+  { unitId: "ash-strider", faction: "ashvein", kind: "still", still: "media/sprites/unit-ash-strider.png" },
+  { unitId: "cog-strider", faction: "cogforged", kind: "still", still: "media/sprites/unit-cog-strider.png" },
   { unitId: "sun-siege", faction: "sunwoven", kind: "still", still: "media/sprites/unit-sun-siege.png" },
   { unitId: "grave-siege", faction: "gravemark", kind: "still", still: "media/sprites/unit-grave-siege.png" },
+  { unitId: "storm-siege", faction: "stormveil", kind: "still", still: "media/sprites/unit-storm-siege.png" },
+  { unitId: "ash-siege", faction: "ashvein", kind: "still", still: "media/sprites/unit-ash-siege.png" },
+  { unitId: "cog-siege", faction: "cogforged", kind: "still", still: "media/sprites/unit-cog-siege.png" },
+  { unitId: "storm-wagon", faction: "stormveil", kind: "still", still: "media/sprites/unit-storm-wagon.png" },
 ];
 
 export function writeUnitSources(spec) {

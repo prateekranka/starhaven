@@ -1,0 +1,17 @@
+{
+  "unitId": "cog-strider",
+  "faction": "cogforged",
+  "clips": [
+    "walk",
+    "attack",
+    "gather",
+    "build",
+    "death"
+  ],
+  "atlas": "media/sprites/cog-strider.atlas.png",
+  "sha256": "e1e2762e9fc6563ca776068450bf1022fd720cd81c9198df15269d4a3b860181",
+  "bytes": 44613,
+  "sourceCount": 50,
+  "generator": "starhaven-pixel-pipeline-v1",
+  "libvips": "8.17.1"
+}
