@@ -1,0 +1,17 @@
+{
+  "unitId": "grave-strider",
+  "faction": "gravemark",
+  "clips": [
+    "walk",
+    "attack",
+    "gather",
+    "build",
+    "death"
+  ],
+  "atlas": "media/sprites/grave-strider.atlas.png",
+  "sha256": "ccf9b06e472b921ef1c2fb5a1ce54f370ce160cf77232287460305bf1d83ba56",
+  "bytes": 98030,
+  "sourceCount": 50,
+  "generator": "starhaven-pixel-pipeline-v1",
+  "libvips": "8.17.1"
+}

@@ -30,3 +30,5 @@ release-metadata/
 
 # OS
 .DS_Store
+scripts/art/pipeline/node_modules/
+pipeline-tmp/

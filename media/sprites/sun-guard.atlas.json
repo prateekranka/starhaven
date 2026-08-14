@@ -4,10 +4,10 @@
   "faction": "sunwoven",
   "path": "media/sprites/sun-guard.atlas.png",
   "width": 2048,
-  "height": 768,
+  "height": 1280,
   "cell": 128,
   "cols": 16,
-  "rows": 6,
+  "rows": 10,
   "clips": [
     {
       "id": "walk",
@@ -22,14 +22,26 @@
       "loop": false
     },
     {
+      "id": "gather",
+      "frames": 4,
+      "durationMs": 140,
+      "loop": true
+    },
+    {
+      "id": "build",
+      "frames": 4,
+      "durationMs": 140,
+      "loop": true
+    },
+    {
       "id": "death",
       "frames": 4,
       "durationMs": 100,
       "loop": false
     }
   ],
-  "sha256": "012ff437d9e603d447cbdc3af0f48836079d49bc5496da91d517f93c791f037c",
-  "bytes": 135499,
+  "sha256": "12444c41ecaebacf537467bf11cc8c8ea7eef665ae61f44148e0c5dc54e30267",
+  "bytes": 225834,
   "frames": [
     {
       "id": "sun-guard.walk.N.0",
@@ -928,6 +940,902 @@
       "row": 3
     },
     {
+      "id": "sun-guard.gather.N.0",
+      "action": "gather",
+      "facing": "N",
+      "frame": 0,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 0,
+      "row": 4
+    },
+    {
+      "id": "sun-guard.gather.N.1",
+      "action": "gather",
+      "facing": "N",
+      "frame": 1,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 1,
+      "row": 4
+    },
+    {
+      "id": "sun-guard.gather.N.2",
+      "action": "gather",
+      "facing": "N",
+      "frame": 2,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 0,
+      "row": 5
+    },
+    {
+      "id": "sun-guard.gather.N.3",
+      "action": "gather",
+      "facing": "N",
+      "frame": 3,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 1,
+      "row": 5
+    },
+    {
+      "id": "sun-guard.gather.NE.0",
+      "action": "gather",
+      "facing": "NE",
+      "frame": 0,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 2,
+      "row": 4
+    },
+    {
+      "id": "sun-guard.gather.NE.1",
+      "action": "gather",
+      "facing": "NE",
+      "frame": 1,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 3,
+      "row": 4
+    },
+    {
+      "id": "sun-guard.gather.NE.2",
+      "action": "gather",
+      "facing": "NE",
+      "frame": 2,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 2,
+      "row": 5
+    },
+    {
+      "id": "sun-guard.gather.NE.3",
+      "action": "gather",
+      "facing": "NE",
+      "frame": 3,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 3,
+      "row": 5
+    },
+    {
+      "id": "sun-guard.gather.E.0",
+      "action": "gather",
+      "facing": "E",
+      "frame": 0,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 4,
+      "row": 4
+    },
+    {
+      "id": "sun-guard.gather.E.1",
+      "action": "gather",
+      "facing": "E",
+      "frame": 1,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 5,
+      "row": 4
+    },
+    {
+      "id": "sun-guard.gather.E.2",
+      "action": "gather",
+      "facing": "E",
+      "frame": 2,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 4,
+      "row": 5
+    },
+    {
+      "id": "sun-guard.gather.E.3",
+      "action": "gather",
+      "facing": "E",
+      "frame": 3,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 5,
+      "row": 5
+    },
+    {
+      "id": "sun-guard.gather.SE.0",
+      "action": "gather",
+      "facing": "SE",
+      "frame": 0,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 6,
+      "row": 4
+    },
+    {
+      "id": "sun-guard.gather.SE.1",
+      "action": "gather",
+      "facing": "SE",
+      "frame": 1,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 7,
+      "row": 4
+    },
+    {
+      "id": "sun-guard.gather.SE.2",
+      "action": "gather",
+      "facing": "SE",
+      "frame": 2,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 6,
+      "row": 5
+    },
+    {
+      "id": "sun-guard.gather.SE.3",
+      "action": "gather",
+      "facing": "SE",
+      "frame": 3,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 7,
+      "row": 5
+    },
+    {
+      "id": "sun-guard.gather.S.0",
+      "action": "gather",
+      "facing": "S",
+      "frame": 0,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 8,
+      "row": 4
+    },
+    {
+      "id": "sun-guard.gather.S.1",
+      "action": "gather",
+      "facing": "S",
+      "frame": 1,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 9,
+      "row": 4
+    },
+    {
+      "id": "sun-guard.gather.S.2",
+      "action": "gather",
+      "facing": "S",
+      "frame": 2,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 8,
+      "row": 5
+    },
+    {
+      "id": "sun-guard.gather.S.3",
+      "action": "gather",
+      "facing": "S",
+      "frame": 3,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 9,
+      "row": 5
+    },
+    {
+      "id": "sun-guard.gather.SW.0",
+      "action": "gather",
+      "facing": "SW",
+      "frame": 0,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 10,
+      "row": 4
+    },
+    {
+      "id": "sun-guard.gather.SW.1",
+      "action": "gather",
+      "facing": "SW",
+      "frame": 1,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 11,
+      "row": 4
+    },
+    {
+      "id": "sun-guard.gather.SW.2",
+      "action": "gather",
+      "facing": "SW",
+      "frame": 2,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 10,
+      "row": 5
+    },
+    {
+      "id": "sun-guard.gather.SW.3",
+      "action": "gather",
+      "facing": "SW",
+      "frame": 3,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 11,
+      "row": 5
+    },
+    {
+      "id": "sun-guard.gather.W.0",
+      "action": "gather",
+      "facing": "W",
+      "frame": 0,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 12,
+      "row": 4
+    },
+    {
+      "id": "sun-guard.gather.W.1",
+      "action": "gather",
+      "facing": "W",
+      "frame": 1,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 13,
+      "row": 4
+    },
+    {
+      "id": "sun-guard.gather.W.2",
+      "action": "gather",
+      "facing": "W",
+      "frame": 2,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 12,
+      "row": 5
+    },
+    {
+      "id": "sun-guard.gather.W.3",
+      "action": "gather",
+      "facing": "W",
+      "frame": 3,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 13,
+      "row": 5
+    },
+    {
+      "id": "sun-guard.gather.NW.0",
+      "action": "gather",
+      "facing": "NW",
+      "frame": 0,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 14,
+      "row": 4
+    },
+    {
+      "id": "sun-guard.gather.NW.1",
+      "action": "gather",
+      "facing": "NW",
+      "frame": 1,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 15,
+      "row": 4
+    },
+    {
+      "id": "sun-guard.gather.NW.2",
+      "action": "gather",
+      "facing": "NW",
+      "frame": 2,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 14,
+      "row": 5
+    },
+    {
+      "id": "sun-guard.gather.NW.3",
+      "action": "gather",
+      "facing": "NW",
+      "frame": 3,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 15,
+      "row": 5
+    },
+    {
+      "id": "sun-guard.build.N.0",
+      "action": "build",
+      "facing": "N",
+      "frame": 0,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 0,
+      "row": 6
+    },
+    {
+      "id": "sun-guard.build.N.1",
+      "action": "build",
+      "facing": "N",
+      "frame": 1,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 1,
+      "row": 6
+    },
+    {
+      "id": "sun-guard.build.N.2",
+      "action": "build",
+      "facing": "N",
+      "frame": 2,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 0,
+      "row": 7
+    },
+    {
+      "id": "sun-guard.build.N.3",
+      "action": "build",
+      "facing": "N",
+      "frame": 3,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 1,
+      "row": 7
+    },
+    {
+      "id": "sun-guard.build.NE.0",
+      "action": "build",
+      "facing": "NE",
+      "frame": 0,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 2,
+      "row": 6
+    },
+    {
+      "id": "sun-guard.build.NE.1",
+      "action": "build",
+      "facing": "NE",
+      "frame": 1,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 3,
+      "row": 6
+    },
+    {
+      "id": "sun-guard.build.NE.2",
+      "action": "build",
+      "facing": "NE",
+      "frame": 2,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 2,
+      "row": 7
+    },
+    {
+      "id": "sun-guard.build.NE.3",
+      "action": "build",
+      "facing": "NE",
+      "frame": 3,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 3,
+      "row": 7
+    },
+    {
+      "id": "sun-guard.build.E.0",
+      "action": "build",
+      "facing": "E",
+      "frame": 0,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 4,
+      "row": 6
+    },
+    {
+      "id": "sun-guard.build.E.1",
+      "action": "build",
+      "facing": "E",
+      "frame": 1,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 5,
+      "row": 6
+    },
+    {
+      "id": "sun-guard.build.E.2",
+      "action": "build",
+      "facing": "E",
+      "frame": 2,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 4,
+      "row": 7
+    },
+    {
+      "id": "sun-guard.build.E.3",
+      "action": "build",
+      "facing": "E",
+      "frame": 3,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 5,
+      "row": 7
+    },
+    {
+      "id": "sun-guard.build.SE.0",
+      "action": "build",
+      "facing": "SE",
+      "frame": 0,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 6,
+      "row": 6
+    },
+    {
+      "id": "sun-guard.build.SE.1",
+      "action": "build",
+      "facing": "SE",
+      "frame": 1,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 7,
+      "row": 6
+    },
+    {
+      "id": "sun-guard.build.SE.2",
+      "action": "build",
+      "facing": "SE",
+      "frame": 2,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 6,
+      "row": 7
+    },
+    {
+      "id": "sun-guard.build.SE.3",
+      "action": "build",
+      "facing": "SE",
+      "frame": 3,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 7,
+      "row": 7
+    },
+    {
+      "id": "sun-guard.build.S.0",
+      "action": "build",
+      "facing": "S",
+      "frame": 0,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 8,
+      "row": 6
+    },
+    {
+      "id": "sun-guard.build.S.1",
+      "action": "build",
+      "facing": "S",
+      "frame": 1,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 9,
+      "row": 6
+    },
+    {
+      "id": "sun-guard.build.S.2",
+      "action": "build",
+      "facing": "S",
+      "frame": 2,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 8,
+      "row": 7
+    },
+    {
+      "id": "sun-guard.build.S.3",
+      "action": "build",
+      "facing": "S",
+      "frame": 3,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 9,
+      "row": 7
+    },
+    {
+      "id": "sun-guard.build.SW.0",
+      "action": "build",
+      "facing": "SW",
+      "frame": 0,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 10,
+      "row": 6
+    },
+    {
+      "id": "sun-guard.build.SW.1",
+      "action": "build",
+      "facing": "SW",
+      "frame": 1,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 11,
+      "row": 6
+    },
+    {
+      "id": "sun-guard.build.SW.2",
+      "action": "build",
+      "facing": "SW",
+      "frame": 2,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 10,
+      "row": 7
+    },
+    {
+      "id": "sun-guard.build.SW.3",
+      "action": "build",
+      "facing": "SW",
+      "frame": 3,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 11,
+      "row": 7
+    },
+    {
+      "id": "sun-guard.build.W.0",
+      "action": "build",
+      "facing": "W",
+      "frame": 0,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 12,
+      "row": 6
+    },
+    {
+      "id": "sun-guard.build.W.1",
+      "action": "build",
+      "facing": "W",
+      "frame": 1,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 13,
+      "row": 6
+    },
+    {
+      "id": "sun-guard.build.W.2",
+      "action": "build",
+      "facing": "W",
+      "frame": 2,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 12,
+      "row": 7
+    },
+    {
+      "id": "sun-guard.build.W.3",
+      "action": "build",
+      "facing": "W",
+      "frame": 3,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 13,
+      "row": 7
+    },
+    {
+      "id": "sun-guard.build.NW.0",
+      "action": "build",
+      "facing": "NW",
+      "frame": 0,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 14,
+      "row": 6
+    },
+    {
+      "id": "sun-guard.build.NW.1",
+      "action": "build",
+      "facing": "NW",
+      "frame": 1,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 15,
+      "row": 6
+    },
+    {
+      "id": "sun-guard.build.NW.2",
+      "action": "build",
+      "facing": "NW",
+      "frame": 2,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 14,
+      "row": 7
+    },
+    {
+      "id": "sun-guard.build.NW.3",
+      "action": "build",
+      "facing": "NW",
+      "frame": 3,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 15,
+      "row": 7
+    },
+    {
       "id": "sun-guard.death.N.0",
       "action": "death",
       "facing": "N",
@@ -939,7 +1847,7 @@
       },
       "mirrored": false,
       "col": 0,
-      "row": 4
+      "row": 8
     },
     {
       "id": "sun-guard.death.N.1",
@@ -953,7 +1861,7 @@
       },
       "mirrored": false,
       "col": 1,
-      "row": 4
+      "row": 8
     },
     {
       "id": "sun-guard.death.N.2",
@@ -967,7 +1875,7 @@
       },
       "mirrored": false,
       "col": 0,
-      "row": 5
+      "row": 9
     },
     {
       "id": "sun-guard.death.N.3",
@@ -981,7 +1889,7 @@
       },
       "mirrored": false,
       "col": 1,
-      "row": 5
+      "row": 9
     },
     {
       "id": "sun-guard.death.NE.0",
@@ -995,7 +1903,7 @@
       },
       "mirrored": false,
       "col": 2,
-      "row": 4
+      "row": 8
     },
     {
       "id": "sun-guard.death.NE.1",
@@ -1009,7 +1917,7 @@
       },
       "mirrored": false,
       "col": 3,
-      "row": 4
+      "row": 8
     },
     {
       "id": "sun-guard.death.NE.2",
@@ -1023,7 +1931,7 @@
       },
       "mirrored": false,
       "col": 2,
-      "row": 5
+      "row": 9
     },
     {
       "id": "sun-guard.death.NE.3",
@@ -1037,7 +1945,7 @@
       },
       "mirrored": false,
       "col": 3,
-      "row": 5
+      "row": 9
     },
     {
       "id": "sun-guard.death.E.0",
@@ -1051,7 +1959,7 @@
       },
       "mirrored": false,
       "col": 4,
-      "row": 4
+      "row": 8
     },
     {
       "id": "sun-guard.death.E.1",
@@ -1065,7 +1973,7 @@
       },
       "mirrored": false,
       "col": 5,
-      "row": 4
+      "row": 8
     },
     {
       "id": "sun-guard.death.E.2",
@@ -1079,7 +1987,7 @@
       },
       "mirrored": false,
       "col": 4,
-      "row": 5
+      "row": 9
     },
     {
       "id": "sun-guard.death.E.3",
@@ -1093,7 +2001,7 @@
       },
       "mirrored": false,
       "col": 5,
-      "row": 5
+      "row": 9
     },
     {
       "id": "sun-guard.death.SE.0",
@@ -1107,7 +2015,7 @@
       },
       "mirrored": false,
       "col": 6,
-      "row": 4
+      "row": 8
     },
     {
       "id": "sun-guard.death.SE.1",
@@ -1121,7 +2029,7 @@
       },
       "mirrored": false,
       "col": 7,
-      "row": 4
+      "row": 8
     },
     {
       "id": "sun-guard.death.SE.2",
@@ -1135,7 +2043,7 @@
       },
       "mirrored": false,
       "col": 6,
-      "row": 5
+      "row": 9
     },
     {
       "id": "sun-guard.death.SE.3",
@@ -1149,7 +2057,7 @@
       },
       "mirrored": false,
       "col": 7,
-      "row": 5
+      "row": 9
     },
     {
       "id": "sun-guard.death.S.0",
@@ -1163,7 +2071,7 @@
       },
       "mirrored": false,
       "col": 8,
-      "row": 4
+      "row": 8
     },
     {
       "id": "sun-guard.death.S.1",
@@ -1177,7 +2085,7 @@
       },
       "mirrored": false,
       "col": 9,
-      "row": 4
+      "row": 8
     },
     {
       "id": "sun-guard.death.S.2",
@@ -1191,7 +2099,7 @@
       },
       "mirrored": false,
       "col": 8,
-      "row": 5
+      "row": 9
     },
     {
       "id": "sun-guard.death.S.3",
@@ -1205,7 +2113,7 @@
       },
       "mirrored": false,
       "col": 9,
-      "row": 5
+      "row": 9
     },
     {
       "id": "sun-guard.death.SW.0",
@@ -1219,7 +2127,7 @@
       },
       "mirrored": true,
       "col": 10,
-      "row": 4
+      "row": 8
     },
     {
       "id": "sun-guard.death.SW.1",
@@ -1233,7 +2141,7 @@
       },
       "mirrored": true,
       "col": 11,
-      "row": 4
+      "row": 8
     },
     {
       "id": "sun-guard.death.SW.2",
@@ -1247,7 +2155,7 @@
       },
       "mirrored": true,
       "col": 10,
-      "row": 5
+      "row": 9
     },
     {
       "id": "sun-guard.death.SW.3",
@@ -1261,7 +2169,7 @@
       },
       "mirrored": true,
       "col": 11,
-      "row": 5
+      "row": 9
     },
     {
       "id": "sun-guard.death.W.0",
@@ -1275,7 +2183,7 @@
       },
       "mirrored": true,
       "col": 12,
-      "row": 4
+      "row": 8
     },
     {
       "id": "sun-guard.death.W.1",
@@ -1289,7 +2197,7 @@
       },
       "mirrored": true,
       "col": 13,
-      "row": 4
+      "row": 8
     },
     {
       "id": "sun-guard.death.W.2",
@@ -1303,7 +2211,7 @@
       },
       "mirrored": true,
       "col": 12,
-      "row": 5
+      "row": 9
     },
     {
       "id": "sun-guard.death.W.3",
@@ -1317,7 +2225,7 @@
       },
       "mirrored": true,
       "col": 13,
-      "row": 5
+      "row": 9
     },
     {
       "id": "sun-guard.death.NW.0",
@@ -1331,7 +2239,7 @@
       },
       "mirrored": true,
       "col": 14,
-      "row": 4
+      "row": 8
     },
     {
       "id": "sun-guard.death.NW.1",
@@ -1345,7 +2253,7 @@
       },
       "mirrored": true,
       "col": 15,
-      "row": 4
+      "row": 8
     },
     {
       "id": "sun-guard.death.NW.2",
@@ -1359,7 +2267,7 @@
       },
       "mirrored": true,
       "col": 14,
-      "row": 5
+      "row": 9
     },
     {
       "id": "sun-guard.death.NW.3",
@@ -1373,7 +2281,7 @@
       },
       "mirrored": true,
       "col": 15,
-      "row": 5
+      "row": 9
     }
   ]
 }

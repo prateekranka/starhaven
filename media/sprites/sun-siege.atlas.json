@@ -1,0 +1,2287 @@
+{
+  "version": "unit-atlas.v1",
+  "id": "sun-siege",
+  "faction": "sunwoven",
+  "path": "media/sprites/sun-siege.atlas.png",
+  "width": 2048,
+  "height": 1280,
+  "cell": 128,
+  "cols": 16,
+  "rows": 10,
+  "clips": [
+    {
+      "id": "walk",
+      "frames": 4,
+      "durationMs": 110,
+      "loop": true
+    },
+    {
+      "id": "attack",
+      "frames": 4,
+      "durationMs": 100,
+      "loop": false
+    },
+    {
+      "id": "gather",
+      "frames": 4,
+      "durationMs": 140,
+      "loop": true
+    },
+    {
+      "id": "build",
+      "frames": 4,
+      "durationMs": 140,
+      "loop": true
+    },
+    {
+      "id": "death",
+      "frames": 4,
+      "durationMs": 100,
+      "loop": false
+    }
+  ],
+  "sha256": "59168ae53c454c9f16e70b2f3d2f2344cb5fd79d4a6836e4813ad2e9df42c060",
+  "bytes": 78587,
+  "frames": [
+    {
+      "id": "sun-siege.walk.N.0",
+      "action": "walk",
+      "facing": "N",
+      "frame": 0,
+      "durationMs": 110,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 0,
+      "row": 0
+    },
+    {
+      "id": "sun-siege.walk.N.1",
+      "action": "walk",
+      "facing": "N",
+      "frame": 1,
+      "durationMs": 110,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 1,
+      "row": 0
+    },
+    {
+      "id": "sun-siege.walk.N.2",
+      "action": "walk",
+      "facing": "N",
+      "frame": 2,
+      "durationMs": 110,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 0,
+      "row": 1
+    },
+    {
+      "id": "sun-siege.walk.N.3",
+      "action": "walk",
+      "facing": "N",
+      "frame": 3,
+      "durationMs": 110,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 1,
+      "row": 1
+    },
+    {
+      "id": "sun-siege.walk.NE.0",
+      "action": "walk",
+      "facing": "NE",
+      "frame": 0,
+      "durationMs": 110,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 2,
+      "row": 0
+    },
+    {
+      "id": "sun-siege.walk.NE.1",
+      "action": "walk",
+      "facing": "NE",
+      "frame": 1,
+      "durationMs": 110,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 3,
+      "row": 0
+    },
+    {
+      "id": "sun-siege.walk.NE.2",
+      "action": "walk",
+      "facing": "NE",
+      "frame": 2,
+      "durationMs": 110,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 2,
+      "row": 1
+    },
+    {
+      "id": "sun-siege.walk.NE.3",
+      "action": "walk",
+      "facing": "NE",
+      "frame": 3,
+      "durationMs": 110,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 3,
+      "row": 1
+    },
+    {
+      "id": "sun-siege.walk.E.0",
+      "action": "walk",
+      "facing": "E",
+      "frame": 0,
+      "durationMs": 110,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 4,
+      "row": 0
+    },
+    {
+      "id": "sun-siege.walk.E.1",
+      "action": "walk",
+      "facing": "E",
+      "frame": 1,
+      "durationMs": 110,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 5,
+      "row": 0
+    },
+    {
+      "id": "sun-siege.walk.E.2",
+      "action": "walk",
+      "facing": "E",
+      "frame": 2,
+      "durationMs": 110,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 4,
+      "row": 1
+    },
+    {
+      "id": "sun-siege.walk.E.3",
+      "action": "walk",
+      "facing": "E",
+      "frame": 3,
+      "durationMs": 110,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 5,
+      "row": 1
+    },
+    {
+      "id": "sun-siege.walk.SE.0",
+      "action": "walk",
+      "facing": "SE",
+      "frame": 0,
+      "durationMs": 110,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 6,
+      "row": 0
+    },
+    {
+      "id": "sun-siege.walk.SE.1",
+      "action": "walk",
+      "facing": "SE",
+      "frame": 1,
+      "durationMs": 110,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 7,
+      "row": 0
+    },
+    {
+      "id": "sun-siege.walk.SE.2",
+      "action": "walk",
+      "facing": "SE",
+      "frame": 2,
+      "durationMs": 110,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 6,
+      "row": 1
+    },
+    {
+      "id": "sun-siege.walk.SE.3",
+      "action": "walk",
+      "facing": "SE",
+      "frame": 3,
+      "durationMs": 110,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 7,
+      "row": 1
+    },
+    {
+      "id": "sun-siege.walk.S.0",
+      "action": "walk",
+      "facing": "S",
+      "frame": 0,
+      "durationMs": 110,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 8,
+      "row": 0
+    },
+    {
+      "id": "sun-siege.walk.S.1",
+      "action": "walk",
+      "facing": "S",
+      "frame": 1,
+      "durationMs": 110,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 9,
+      "row": 0
+    },
+    {
+      "id": "sun-siege.walk.S.2",
+      "action": "walk",
+      "facing": "S",
+      "frame": 2,
+      "durationMs": 110,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 8,
+      "row": 1
+    },
+    {
+      "id": "sun-siege.walk.S.3",
+      "action": "walk",
+      "facing": "S",
+      "frame": 3,
+      "durationMs": 110,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 9,
+      "row": 1
+    },
+    {
+      "id": "sun-siege.walk.SW.0",
+      "action": "walk",
+      "facing": "SW",
+      "frame": 0,
+      "durationMs": 110,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 10,
+      "row": 0
+    },
+    {
+      "id": "sun-siege.walk.SW.1",
+      "action": "walk",
+      "facing": "SW",
+      "frame": 1,
+      "durationMs": 110,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 11,
+      "row": 0
+    },
+    {
+      "id": "sun-siege.walk.SW.2",
+      "action": "walk",
+      "facing": "SW",
+      "frame": 2,
+      "durationMs": 110,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 10,
+      "row": 1
+    },
+    {
+      "id": "sun-siege.walk.SW.3",
+      "action": "walk",
+      "facing": "SW",
+      "frame": 3,
+      "durationMs": 110,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 11,
+      "row": 1
+    },
+    {
+      "id": "sun-siege.walk.W.0",
+      "action": "walk",
+      "facing": "W",
+      "frame": 0,
+      "durationMs": 110,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 12,
+      "row": 0
+    },
+    {
+      "id": "sun-siege.walk.W.1",
+      "action": "walk",
+      "facing": "W",
+      "frame": 1,
+      "durationMs": 110,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 13,
+      "row": 0
+    },
+    {
+      "id": "sun-siege.walk.W.2",
+      "action": "walk",
+      "facing": "W",
+      "frame": 2,
+      "durationMs": 110,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 12,
+      "row": 1
+    },
+    {
+      "id": "sun-siege.walk.W.3",
+      "action": "walk",
+      "facing": "W",
+      "frame": 3,
+      "durationMs": 110,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 13,
+      "row": 1
+    },
+    {
+      "id": "sun-siege.walk.NW.0",
+      "action": "walk",
+      "facing": "NW",
+      "frame": 0,
+      "durationMs": 110,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 14,
+      "row": 0
+    },
+    {
+      "id": "sun-siege.walk.NW.1",
+      "action": "walk",
+      "facing": "NW",
+      "frame": 1,
+      "durationMs": 110,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 15,
+      "row": 0
+    },
+    {
+      "id": "sun-siege.walk.NW.2",
+      "action": "walk",
+      "facing": "NW",
+      "frame": 2,
+      "durationMs": 110,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 14,
+      "row": 1
+    },
+    {
+      "id": "sun-siege.walk.NW.3",
+      "action": "walk",
+      "facing": "NW",
+      "frame": 3,
+      "durationMs": 110,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 15,
+      "row": 1
+    },
+    {
+      "id": "sun-siege.attack.N.0",
+      "action": "attack",
+      "facing": "N",
+      "frame": 0,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 0,
+      "row": 2
+    },
+    {
+      "id": "sun-siege.attack.N.1",
+      "action": "attack",
+      "facing": "N",
+      "frame": 1,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 1,
+      "row": 2
+    },
+    {
+      "id": "sun-siege.attack.N.2",
+      "action": "attack",
+      "facing": "N",
+      "frame": 2,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 0,
+      "row": 3
+    },
+    {
+      "id": "sun-siege.attack.N.3",
+      "action": "attack",
+      "facing": "N",
+      "frame": 3,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 1,
+      "row": 3
+    },
+    {
+      "id": "sun-siege.attack.NE.0",
+      "action": "attack",
+      "facing": "NE",
+      "frame": 0,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 2,
+      "row": 2
+    },
+    {
+      "id": "sun-siege.attack.NE.1",
+      "action": "attack",
+      "facing": "NE",
+      "frame": 1,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 3,
+      "row": 2
+    },
+    {
+      "id": "sun-siege.attack.NE.2",
+      "action": "attack",
+      "facing": "NE",
+      "frame": 2,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 2,
+      "row": 3
+    },
+    {
+      "id": "sun-siege.attack.NE.3",
+      "action": "attack",
+      "facing": "NE",
+      "frame": 3,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 3,
+      "row": 3
+    },
+    {
+      "id": "sun-siege.attack.E.0",
+      "action": "attack",
+      "facing": "E",
+      "frame": 0,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 4,
+      "row": 2
+    },
+    {
+      "id": "sun-siege.attack.E.1",
+      "action": "attack",
+      "facing": "E",
+      "frame": 1,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 5,
+      "row": 2
+    },
+    {
+      "id": "sun-siege.attack.E.2",
+      "action": "attack",
+      "facing": "E",
+      "frame": 2,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 4,
+      "row": 3
+    },
+    {
+      "id": "sun-siege.attack.E.3",
+      "action": "attack",
+      "facing": "E",
+      "frame": 3,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 5,
+      "row": 3
+    },
+    {
+      "id": "sun-siege.attack.SE.0",
+      "action": "attack",
+      "facing": "SE",
+      "frame": 0,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 6,
+      "row": 2
+    },
+    {
+      "id": "sun-siege.attack.SE.1",
+      "action": "attack",
+      "facing": "SE",
+      "frame": 1,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 7,
+      "row": 2
+    },
+    {
+      "id": "sun-siege.attack.SE.2",
+      "action": "attack",
+      "facing": "SE",
+      "frame": 2,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 6,
+      "row": 3
+    },
+    {
+      "id": "sun-siege.attack.SE.3",
+      "action": "attack",
+      "facing": "SE",
+      "frame": 3,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 7,
+      "row": 3
+    },
+    {
+      "id": "sun-siege.attack.S.0",
+      "action": "attack",
+      "facing": "S",
+      "frame": 0,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 8,
+      "row": 2
+    },
+    {
+      "id": "sun-siege.attack.S.1",
+      "action": "attack",
+      "facing": "S",
+      "frame": 1,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 9,
+      "row": 2
+    },
+    {
+      "id": "sun-siege.attack.S.2",
+      "action": "attack",
+      "facing": "S",
+      "frame": 2,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 8,
+      "row": 3
+    },
+    {
+      "id": "sun-siege.attack.S.3",
+      "action": "attack",
+      "facing": "S",
+      "frame": 3,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 9,
+      "row": 3
+    },
+    {
+      "id": "sun-siege.attack.SW.0",
+      "action": "attack",
+      "facing": "SW",
+      "frame": 0,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 10,
+      "row": 2
+    },
+    {
+      "id": "sun-siege.attack.SW.1",
+      "action": "attack",
+      "facing": "SW",
+      "frame": 1,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 11,
+      "row": 2
+    },
+    {
+      "id": "sun-siege.attack.SW.2",
+      "action": "attack",
+      "facing": "SW",
+      "frame": 2,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 10,
+      "row": 3
+    },
+    {
+      "id": "sun-siege.attack.SW.3",
+      "action": "attack",
+      "facing": "SW",
+      "frame": 3,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 11,
+      "row": 3
+    },
+    {
+      "id": "sun-siege.attack.W.0",
+      "action": "attack",
+      "facing": "W",
+      "frame": 0,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 12,
+      "row": 2
+    },
+    {
+      "id": "sun-siege.attack.W.1",
+      "action": "attack",
+      "facing": "W",
+      "frame": 1,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 13,
+      "row": 2
+    },
+    {
+      "id": "sun-siege.attack.W.2",
+      "action": "attack",
+      "facing": "W",
+      "frame": 2,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 12,
+      "row": 3
+    },
+    {
+      "id": "sun-siege.attack.W.3",
+      "action": "attack",
+      "facing": "W",
+      "frame": 3,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 13,
+      "row": 3
+    },
+    {
+      "id": "sun-siege.attack.NW.0",
+      "action": "attack",
+      "facing": "NW",
+      "frame": 0,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 14,
+      "row": 2
+    },
+    {
+      "id": "sun-siege.attack.NW.1",
+      "action": "attack",
+      "facing": "NW",
+      "frame": 1,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 15,
+      "row": 2
+    },
+    {
+      "id": "sun-siege.attack.NW.2",
+      "action": "attack",
+      "facing": "NW",
+      "frame": 2,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 14,
+      "row": 3
+    },
+    {
+      "id": "sun-siege.attack.NW.3",
+      "action": "attack",
+      "facing": "NW",
+      "frame": 3,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 15,
+      "row": 3
+    },
+    {
+      "id": "sun-siege.gather.N.0",
+      "action": "gather",
+      "facing": "N",
+      "frame": 0,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 0,
+      "row": 4
+    },
+    {
+      "id": "sun-siege.gather.N.1",
+      "action": "gather",
+      "facing": "N",
+      "frame": 1,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 1,
+      "row": 4
+    },
+    {
+      "id": "sun-siege.gather.N.2",
+      "action": "gather",
+      "facing": "N",
+      "frame": 2,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 0,
+      "row": 5
+    },
+    {
+      "id": "sun-siege.gather.N.3",
+      "action": "gather",
+      "facing": "N",
+      "frame": 3,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 1,
+      "row": 5
+    },
+    {
+      "id": "sun-siege.gather.NE.0",
+      "action": "gather",
+      "facing": "NE",
+      "frame": 0,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 2,
+      "row": 4
+    },
+    {
+      "id": "sun-siege.gather.NE.1",
+      "action": "gather",
+      "facing": "NE",
+      "frame": 1,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 3,
+      "row": 4
+    },
+    {
+      "id": "sun-siege.gather.NE.2",
+      "action": "gather",
+      "facing": "NE",
+      "frame": 2,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 2,
+      "row": 5
+    },
+    {
+      "id": "sun-siege.gather.NE.3",
+      "action": "gather",
+      "facing": "NE",
+      "frame": 3,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 3,
+      "row": 5
+    },
+    {
+      "id": "sun-siege.gather.E.0",
+      "action": "gather",
+      "facing": "E",
+      "frame": 0,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 4,
+      "row": 4
+    },
+    {
+      "id": "sun-siege.gather.E.1",
+      "action": "gather",
+      "facing": "E",
+      "frame": 1,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 5,
+      "row": 4
+    },
+    {
+      "id": "sun-siege.gather.E.2",
+      "action": "gather",
+      "facing": "E",
+      "frame": 2,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 4,
+      "row": 5
+    },
+    {
+      "id": "sun-siege.gather.E.3",
+      "action": "gather",
+      "facing": "E",
+      "frame": 3,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 5,
+      "row": 5
+    },
+    {
+      "id": "sun-siege.gather.SE.0",
+      "action": "gather",
+      "facing": "SE",
+      "frame": 0,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 6,
+      "row": 4
+    },
+    {
+      "id": "sun-siege.gather.SE.1",
+      "action": "gather",
+      "facing": "SE",
+      "frame": 1,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 7,
+      "row": 4
+    },
+    {
+      "id": "sun-siege.gather.SE.2",
+      "action": "gather",
+      "facing": "SE",
+      "frame": 2,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 6,
+      "row": 5
+    },
+    {
+      "id": "sun-siege.gather.SE.3",
+      "action": "gather",
+      "facing": "SE",
+      "frame": 3,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 7,
+      "row": 5
+    },
+    {
+      "id": "sun-siege.gather.S.0",
+      "action": "gather",
+      "facing": "S",
+      "frame": 0,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 8,
+      "row": 4
+    },
+    {
+      "id": "sun-siege.gather.S.1",
+      "action": "gather",
+      "facing": "S",
+      "frame": 1,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 9,
+      "row": 4
+    },
+    {
+      "id": "sun-siege.gather.S.2",
+      "action": "gather",
+      "facing": "S",
+      "frame": 2,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 8,
+      "row": 5
+    },
+    {
+      "id": "sun-siege.gather.S.3",
+      "action": "gather",
+      "facing": "S",
+      "frame": 3,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 9,
+      "row": 5
+    },
+    {
+      "id": "sun-siege.gather.SW.0",
+      "action": "gather",
+      "facing": "SW",
+      "frame": 0,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 10,
+      "row": 4
+    },
+    {
+      "id": "sun-siege.gather.SW.1",
+      "action": "gather",
+      "facing": "SW",
+      "frame": 1,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 11,
+      "row": 4
+    },
+    {
+      "id": "sun-siege.gather.SW.2",
+      "action": "gather",
+      "facing": "SW",
+      "frame": 2,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 10,
+      "row": 5
+    },
+    {
+      "id": "sun-siege.gather.SW.3",
+      "action": "gather",
+      "facing": "SW",
+      "frame": 3,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 11,
+      "row": 5
+    },
+    {
+      "id": "sun-siege.gather.W.0",
+      "action": "gather",
+      "facing": "W",
+      "frame": 0,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 12,
+      "row": 4
+    },
+    {
+      "id": "sun-siege.gather.W.1",
+      "action": "gather",
+      "facing": "W",
+      "frame": 1,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 13,
+      "row": 4
+    },
+    {
+      "id": "sun-siege.gather.W.2",
+      "action": "gather",
+      "facing": "W",
+      "frame": 2,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 12,
+      "row": 5
+    },
+    {
+      "id": "sun-siege.gather.W.3",
+      "action": "gather",
+      "facing": "W",
+      "frame": 3,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 13,
+      "row": 5
+    },
+    {
+      "id": "sun-siege.gather.NW.0",
+      "action": "gather",
+      "facing": "NW",
+      "frame": 0,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 14,
+      "row": 4
+    },
+    {
+      "id": "sun-siege.gather.NW.1",
+      "action": "gather",
+      "facing": "NW",
+      "frame": 1,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 15,
+      "row": 4
+    },
+    {
+      "id": "sun-siege.gather.NW.2",
+      "action": "gather",
+      "facing": "NW",
+      "frame": 2,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 14,
+      "row": 5
+    },
+    {
+      "id": "sun-siege.gather.NW.3",
+      "action": "gather",
+      "facing": "NW",
+      "frame": 3,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 15,
+      "row": 5
+    },
+    {
+      "id": "sun-siege.build.N.0",
+      "action": "build",
+      "facing": "N",
+      "frame": 0,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 0,
+      "row": 6
+    },
+    {
+      "id": "sun-siege.build.N.1",
+      "action": "build",
+      "facing": "N",
+      "frame": 1,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 1,
+      "row": 6
+    },
+    {
+      "id": "sun-siege.build.N.2",
+      "action": "build",
+      "facing": "N",
+      "frame": 2,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 0,
+      "row": 7
+    },
+    {
+      "id": "sun-siege.build.N.3",
+      "action": "build",
+      "facing": "N",
+      "frame": 3,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 1,
+      "row": 7
+    },
+    {
+      "id": "sun-siege.build.NE.0",
+      "action": "build",
+      "facing": "NE",
+      "frame": 0,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 2,
+      "row": 6
+    },
+    {
+      "id": "sun-siege.build.NE.1",
+      "action": "build",
+      "facing": "NE",
+      "frame": 1,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 3,
+      "row": 6
+    },
+    {
+      "id": "sun-siege.build.NE.2",
+      "action": "build",
+      "facing": "NE",
+      "frame": 2,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 2,
+      "row": 7
+    },
+    {
+      "id": "sun-siege.build.NE.3",
+      "action": "build",
+      "facing": "NE",
+      "frame": 3,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 3,
+      "row": 7
+    },
+    {
+      "id": "sun-siege.build.E.0",
+      "action": "build",
+      "facing": "E",
+      "frame": 0,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 4,
+      "row": 6
+    },
+    {
+      "id": "sun-siege.build.E.1",
+      "action": "build",
+      "facing": "E",
+      "frame": 1,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 5,
+      "row": 6
+    },
+    {
+      "id": "sun-siege.build.E.2",
+      "action": "build",
+      "facing": "E",
+      "frame": 2,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 4,
+      "row": 7
+    },
+    {
+      "id": "sun-siege.build.E.3",
+      "action": "build",
+      "facing": "E",
+      "frame": 3,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 5,
+      "row": 7
+    },
+    {
+      "id": "sun-siege.build.SE.0",
+      "action": "build",
+      "facing": "SE",
+      "frame": 0,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 6,
+      "row": 6
+    },
+    {
+      "id": "sun-siege.build.SE.1",
+      "action": "build",
+      "facing": "SE",
+      "frame": 1,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 7,
+      "row": 6
+    },
+    {
+      "id": "sun-siege.build.SE.2",
+      "action": "build",
+      "facing": "SE",
+      "frame": 2,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 6,
+      "row": 7
+    },
+    {
+      "id": "sun-siege.build.SE.3",
+      "action": "build",
+      "facing": "SE",
+      "frame": 3,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 7,
+      "row": 7
+    },
+    {
+      "id": "sun-siege.build.S.0",
+      "action": "build",
+      "facing": "S",
+      "frame": 0,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 8,
+      "row": 6
+    },
+    {
+      "id": "sun-siege.build.S.1",
+      "action": "build",
+      "facing": "S",
+      "frame": 1,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 9,
+      "row": 6
+    },
+    {
+      "id": "sun-siege.build.S.2",
+      "action": "build",
+      "facing": "S",
+      "frame": 2,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 8,
+      "row": 7
+    },
+    {
+      "id": "sun-siege.build.S.3",
+      "action": "build",
+      "facing": "S",
+      "frame": 3,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 9,
+      "row": 7
+    },
+    {
+      "id": "sun-siege.build.SW.0",
+      "action": "build",
+      "facing": "SW",
+      "frame": 0,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 10,
+      "row": 6
+    },
+    {
+      "id": "sun-siege.build.SW.1",
+      "action": "build",
+      "facing": "SW",
+      "frame": 1,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 11,
+      "row": 6
+    },
+    {
+      "id": "sun-siege.build.SW.2",
+      "action": "build",
+      "facing": "SW",
+      "frame": 2,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 10,
+      "row": 7
+    },
+    {
+      "id": "sun-siege.build.SW.3",
+      "action": "build",
+      "facing": "SW",
+      "frame": 3,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 11,
+      "row": 7
+    },
+    {
+      "id": "sun-siege.build.W.0",
+      "action": "build",
+      "facing": "W",
+      "frame": 0,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 12,
+      "row": 6
+    },
+    {
+      "id": "sun-siege.build.W.1",
+      "action": "build",
+      "facing": "W",
+      "frame": 1,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 13,
+      "row": 6
+    },
+    {
+      "id": "sun-siege.build.W.2",
+      "action": "build",
+      "facing": "W",
+      "frame": 2,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 12,
+      "row": 7
+    },
+    {
+      "id": "sun-siege.build.W.3",
+      "action": "build",
+      "facing": "W",
+      "frame": 3,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 13,
+      "row": 7
+    },
+    {
+      "id": "sun-siege.build.NW.0",
+      "action": "build",
+      "facing": "NW",
+      "frame": 0,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 14,
+      "row": 6
+    },
+    {
+      "id": "sun-siege.build.NW.1",
+      "action": "build",
+      "facing": "NW",
+      "frame": 1,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 15,
+      "row": 6
+    },
+    {
+      "id": "sun-siege.build.NW.2",
+      "action": "build",
+      "facing": "NW",
+      "frame": 2,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 14,
+      "row": 7
+    },
+    {
+      "id": "sun-siege.build.NW.3",
+      "action": "build",
+      "facing": "NW",
+      "frame": 3,
+      "durationMs": 140,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 15,
+      "row": 7
+    },
+    {
+      "id": "sun-siege.death.N.0",
+      "action": "death",
+      "facing": "N",
+      "frame": 0,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 0,
+      "row": 8
+    },
+    {
+      "id": "sun-siege.death.N.1",
+      "action": "death",
+      "facing": "N",
+      "frame": 1,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 1,
+      "row": 8
+    },
+    {
+      "id": "sun-siege.death.N.2",
+      "action": "death",
+      "facing": "N",
+      "frame": 2,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 0,
+      "row": 9
+    },
+    {
+      "id": "sun-siege.death.N.3",
+      "action": "death",
+      "facing": "N",
+      "frame": 3,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 1,
+      "row": 9
+    },
+    {
+      "id": "sun-siege.death.NE.0",
+      "action": "death",
+      "facing": "NE",
+      "frame": 0,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 2,
+      "row": 8
+    },
+    {
+      "id": "sun-siege.death.NE.1",
+      "action": "death",
+      "facing": "NE",
+      "frame": 1,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 3,
+      "row": 8
+    },
+    {
+      "id": "sun-siege.death.NE.2",
+      "action": "death",
+      "facing": "NE",
+      "frame": 2,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 2,
+      "row": 9
+    },
+    {
+      "id": "sun-siege.death.NE.3",
+      "action": "death",
+      "facing": "NE",
+      "frame": 3,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 3,
+      "row": 9
+    },
+    {
+      "id": "sun-siege.death.E.0",
+      "action": "death",
+      "facing": "E",
+      "frame": 0,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 4,
+      "row": 8
+    },
+    {
+      "id": "sun-siege.death.E.1",
+      "action": "death",
+      "facing": "E",
+      "frame": 1,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 5,
+      "row": 8
+    },
+    {
+      "id": "sun-siege.death.E.2",
+      "action": "death",
+      "facing": "E",
+      "frame": 2,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 4,
+      "row": 9
+    },
+    {
+      "id": "sun-siege.death.E.3",
+      "action": "death",
+      "facing": "E",
+      "frame": 3,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 5,
+      "row": 9
+    },
+    {
+      "id": "sun-siege.death.SE.0",
+      "action": "death",
+      "facing": "SE",
+      "frame": 0,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 6,
+      "row": 8
+    },
+    {
+      "id": "sun-siege.death.SE.1",
+      "action": "death",
+      "facing": "SE",
+      "frame": 1,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 7,
+      "row": 8
+    },
+    {
+      "id": "sun-siege.death.SE.2",
+      "action": "death",
+      "facing": "SE",
+      "frame": 2,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 6,
+      "row": 9
+    },
+    {
+      "id": "sun-siege.death.SE.3",
+      "action": "death",
+      "facing": "SE",
+      "frame": 3,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 7,
+      "row": 9
+    },
+    {
+      "id": "sun-siege.death.S.0",
+      "action": "death",
+      "facing": "S",
+      "frame": 0,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 8,
+      "row": 8
+    },
+    {
+      "id": "sun-siege.death.S.1",
+      "action": "death",
+      "facing": "S",
+      "frame": 1,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 9,
+      "row": 8
+    },
+    {
+      "id": "sun-siege.death.S.2",
+      "action": "death",
+      "facing": "S",
+      "frame": 2,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 8,
+      "row": 9
+    },
+    {
+      "id": "sun-siege.death.S.3",
+      "action": "death",
+      "facing": "S",
+      "frame": 3,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 9,
+      "row": 9
+    },
+    {
+      "id": "sun-siege.death.SW.0",
+      "action": "death",
+      "facing": "SW",
+      "frame": 0,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 10,
+      "row": 8
+    },
+    {
+      "id": "sun-siege.death.SW.1",
+      "action": "death",
+      "facing": "SW",
+      "frame": 1,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 11,
+      "row": 8
+    },
+    {
+      "id": "sun-siege.death.SW.2",
+      "action": "death",
+      "facing": "SW",
+      "frame": 2,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 10,
+      "row": 9
+    },
+    {
+      "id": "sun-siege.death.SW.3",
+      "action": "death",
+      "facing": "SW",
+      "frame": 3,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 11,
+      "row": 9
+    },
+    {
+      "id": "sun-siege.death.W.0",
+      "action": "death",
+      "facing": "W",
+      "frame": 0,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 12,
+      "row": 8
+    },
+    {
+      "id": "sun-siege.death.W.1",
+      "action": "death",
+      "facing": "W",
+      "frame": 1,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 13,
+      "row": 8
+    },
+    {
+      "id": "sun-siege.death.W.2",
+      "action": "death",
+      "facing": "W",
+      "frame": 2,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 12,
+      "row": 9
+    },
+    {
+      "id": "sun-siege.death.W.3",
+      "action": "death",
+      "facing": "W",
+      "frame": 3,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 13,
+      "row": 9
+    },
+    {
+      "id": "sun-siege.death.NW.0",
+      "action": "death",
+      "facing": "NW",
+      "frame": 0,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 14,
+      "row": 8
+    },
+    {
+      "id": "sun-siege.death.NW.1",
+      "action": "death",
+      "facing": "NW",
+      "frame": 1,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 15,
+      "row": 8
+    },
+    {
+      "id": "sun-siege.death.NW.2",
+      "action": "death",
+      "facing": "NW",
+      "frame": 2,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 14,
+      "row": 9
+    },
+    {
+      "id": "sun-siege.death.NW.3",
+      "action": "death",
+      "facing": "NW",
+      "frame": 3,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 15,
+      "row": 9
+    }
+  ]
+}

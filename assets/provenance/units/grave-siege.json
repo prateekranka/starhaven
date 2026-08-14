@@ -1,0 +1,17 @@
+{
+  "unitId": "grave-siege",
+  "faction": "gravemark",
+  "clips": [
+    "walk",
+    "attack",
+    "gather",
+    "build",
+    "death"
+  ],
+  "atlas": "media/sprites/grave-siege.atlas.png",
+  "sha256": "c233c1937e34581d662d58868e421efe8e00f4efb55d5c84cc9c7baee9d10551",
+  "bytes": 116946,
+  "sourceCount": 50,
+  "generator": "starhaven-pixel-pipeline-v1",
+  "libvips": "8.17.1"
+}

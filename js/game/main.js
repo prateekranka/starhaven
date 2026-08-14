@@ -654,20 +654,7 @@ function renderSelection() {
   document.getElementById("sel-hp-bar").style.width = `${Math.max(0, hp) * 100}%`;
   document.getElementById("sel-hp-text").textContent = `${e.hp | 0}/${e.maxHp | 0}`;
   const portrait = document.getElementById("sel-portrait");
-  if (portrait) {
-    const grave = faction === "gravemark";
-    if (e.kind === "building") {
-      const fac = grave ? "grave" : "sun";
-      const type = e.type === "towncenter" ? "tc" : e.type === "house" ? "house" : e.type === "wonder" ? "wonder" : e.type === "barracks" ? "rax" : "mill";
-      portrait.src = `media/sprites/bldg-${fac}-${type}.png`;
-    } else if (e.type === "strider") {
-      portrait.src = grave ? "media/sprites/unit-grave-strider.png" : "media/sprites/unit-sun-strider.png";
-    } else if (e.type === "siege" || e.type === "titan") {
-      portrait.src = grave ? "media/sprites/unit-grave-siege.png" : "media/sprites/unit-sun-siege.png";
-    } else {
-      portrait.src = grave ? "media/sprites/portrait-gravemark.png" : "media/sprites/portrait-sunwoven.png";
-    }
-  }
+  if (portrait) portrait.src = selectionPortrait(e, faction);
   cmds.innerHTML = "";
   queue.innerHTML = "";
 
@@ -688,7 +675,7 @@ function renderSelection() {
   if (e.kind === "unit" && e.type === "villager" && e.owner === "player") {
     for (const t of villagerBuildOptions(world)) {
       cmds.appendChild(
-        iconBtn(BUILDINGS[t].name, bldgThumb(t, faction), () => {
+        iconBtn(BUILDINGS[t].name, buildIcon(t, faction), () => {
           world.placing = t;
           world.tip = `Place ${BUILDINGS[t].name}. Tap the mesa.`;
           beep(300, 0.05);
@@ -700,7 +687,7 @@ function renderSelection() {
     const produces = BUILDINGS[e.type].produces || [];
     for (const t of produces) {
       cmds.appendChild(
-        btn(UNITS[t].name, () => {
+        iconBtn(UNITS[t].name, trainIcon(t, faction), () => {
           const r = queueUnit(world, e, t);
           world.tip = r.ok ? `Training ${UNITS[t].name}` : r.why;
           beep(r.ok ? 400 : 140);
@@ -710,7 +697,7 @@ function renderSelection() {
     }
     if (e.type === "towncenter") {
       cmds.appendChild(
-        btn("Age Up", () => {
+        iconBtn("Age Up", ageIcon(faction), () => {
           const r = tryAgeUp(world, "player");
           world.tip = r.ok ? "The Town Center chants. Age up begun." : r.why;
           beep(r.ok ? 260 : 140, 0.12);
@@ -743,10 +730,39 @@ function iconBtn(label, icon, fn) {
   return b;
 }
 
+function facPrefix(faction) {
+  return faction === "gravemark" ? "grave" : "sun";
+}
+
+function bldgSpriteKey(type) {
+  if (type === "towncenter") return "tc";
+  if (type === "barracks") return "rax";
+  return type;
+}
+
+function selectionPortrait(e, faction) {
+  const fac = facPrefix(faction);
+  if (e.kind === "building") return `media/sprites/bldg-${fac}-${bldgSpriteKey(e.type)}.png`;
+  const unit = e.type === "titan" ? "titan" : e.type;
+  return `media/sprites/portrait-${fac}-${unit}.png`;
+}
+
+function buildIcon(type, faction) {
+  const key = type === "barracks" ? "barracks" : type === "towncenter" ? "house" : type;
+  return `media/sprites/icon-build-${facPrefix(faction)}-${key}.png`;
+}
+
+function trainIcon(type, faction) {
+  return `media/sprites/icon-train-${facPrefix(faction)}-${type}.png`;
+}
+
+function ageIcon(faction) {
+  return `media/sprites/icon-age-${facPrefix(faction)}.png`;
+}
+
 function bldgThumb(type, faction) {
-  const fac = faction === "gravemark" ? "grave" : "sun";
-  const key = type === "towncenter" ? "tc" : type === "house" ? "house" : type === "wonder" ? "wonder" : type === "barracks" ? "rax" : "mill";
-  return `media/sprites/bldg-${fac}-${key}.png`;
+  const fac = facPrefix(faction);
+  return `media/sprites/bldg-${fac}-${bldgSpriteKey(type)}.png`;
 }
 
 function btn(label, fn) {
