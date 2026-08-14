@@ -326,7 +326,10 @@ function setCellMutation(world, cx, cz, state, tickLeft = 0) {
     world.walk[i] = 1;
     if (world.map?.terrain) world.map.terrain[i] = BIOME.rock;
     const rock = world.resources.find((r) => r.kind === "rockblock" && r.cx === cx && r.cz === cz);
-    if (rock) world.resources.splice(world.resources.indexOf(rock), 1);
+    if (rock) {
+      world.resources.splice(world.resources.indexOf(rock), 1);
+      world.byId.delete(rock.id);
+    }
   }
 }
 

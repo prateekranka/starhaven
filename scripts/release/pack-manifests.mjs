@@ -20,8 +20,11 @@ const git = (args) => execFileSync("git", args, { cwd: repoRoot, encoding: "utf8
 const paths = listPackFiles(repoRoot);
 
 const SW_IMPORTS = ["js/cache/offline-shared.js"];
+const cached = JSON.parse(readFileSync(join(repoRoot, "cache-manifest.json"), "utf8"));
+const cachedList = [...(cached.shell || []), ...(cached.files || [])];
 for (const required of SW_IMPORTS) {
   if (!paths.includes(required)) throw new Error(`pack is missing a service-worker import: ${required}`);
+  if (!cachedList.includes(required)) throw new Error(`cache-manifest.json is missing a service-worker import: ${required}`);
 }
 
 const files = paths.map((path) => {

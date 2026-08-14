@@ -62,7 +62,9 @@
     "media/sprites/portrait-sunwoven.png",
     "media/textures/title-sky.jpg",
     "media/textures/ui-panel.jpg",
-    "sw.js"
+    "sw.js",
+    "js/cache/offline-shared.js",
+    "js/sim/ids.js"
   ],
   "match": [
     "js/audio/engine.js",

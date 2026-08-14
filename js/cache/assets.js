@@ -61,6 +61,42 @@ export function loadManifest() {
   return manifestPromise;
 }
 
+let swRegPromise = null;
+function migrateSwThenRegister() {
+  const storageOk = (() => {
+    try {
+      return !!localStorage;
+    } catch {
+      return false;
+    }
+  })();
+  const alreadyMigrated = storageOk && localStorage.getItem(MIGRATED_SW_KEY) === "1";
+  return navigator.serviceWorker
+    .getRegistrations()
+    .then((regs) => {
+      const own = regs.filter((r) => r.active?.scriptURL?.endsWith("/sw.js") || r.installing?.scriptURL?.endsWith("/sw.js"));
+      if (own.length && !alreadyMigrated) {
+        return Promise.all(own.map((r) => r.unregister())).then(() =>
+          navigator.serviceWorker.register("./sw.js", { type: "module", updateViaCache: "none" }).then((reg) => {
+            if (storageOk) {
+              try {
+                localStorage.setItem(MIGRATED_SW_KEY, "1");
+              } catch {
+                /* migration still happened this session */
+              }
+            }
+            return reg;
+          })
+        );
+      }
+      return navigator.serviceWorker.register("./sw.js", { type: "module", updateViaCache: "none" });
+    })
+    .catch((err) => {
+      console.warn("service worker registration failed", err);
+      return null;
+    });
+}
+
 export function registerServiceWorker() {
   if (!("serviceWorker" in navigator)) return Promise.resolve(null);
   const host = location.hostname;
@@ -70,20 +106,8 @@ export function registerServiceWorker() {
     host === "127.0.0.1" ||
     host === "[::1]";
   if (!ok) return Promise.resolve(null);
-  return navigator.serviceWorker
-    .getRegistrations()
-    .then((regs) => {
-      // One-shot migration: the pack used to ship a classic SW; a classic
-      // registration never adopts the new module SW (the import is a syntax
-      // error under the old script type and the update check aborts silently),
-      // so unregister once before registering the module form.
-      if (regs.length && !localStorage.getItem(MIGRATED_SW_KEY)) {
-        localStorage.setItem(MIGRATED_SW_KEY, "1");
-        return Promise.all(regs.map((r) => r.unregister())).then(() => navigator.serviceWorker.register("./sw.js", { type: "module", updateViaCache: "none" }));
-      }
-      return navigator.serviceWorker.register("./sw.js", { type: "module", updateViaCache: "none" });
-    })
-    .catch(() => null);
+  if (!swRegPromise) swRegPromise = migrateSwThenRegister();
+  return swRegPromise;
 }
 
 export function startBackgroundWarm(onProgress) {

@@ -429,6 +429,7 @@ function collectVisionEntities(world) {
 
 function applyEntityVision(world, owner, e, kind, cell, gridN) {
   const spec = kind === "unit" ? UNITS[e.type] || getUnitSpec(e.type) : BUILDINGS[e.type];
+  if (!spec) return;
   const r = spec.los || 5;
   const [cx, cz] = cellOfQ10(e.xQ10, e.zQ10, cell);
   revealAround(world, owner, cx, cz, r);
@@ -668,7 +669,7 @@ function tickUnits(world) {
     if (u.state === "gather") gatherTick(world, u, spec);
     if (u.state === "build") buildTick(world, u);
     if (u.state === "assemble" || u.state === "assemblewalk") assembleWalkTick(world, u);
-    if (u.state === "attack" || u.state === "attackmove") attackTick(world, u, spec, buff);
+    if (u.state === "attack" || u.state === "attackmove") attackTick(world, u, spec, buff, speedMul);
     if (u.type !== "villager" && u.type !== "wagon" && u.state === "idle") {
       if (world.batchSim && u.type === "scout") continue;
       const foe = closestFoe(world, u, spec.range + 1.5);
@@ -885,13 +886,13 @@ function buildTick(world, u) {
   }
 }
 
-function attackTick(world, u, spec, buff) {
+function attackTick(world, u, spec, buff, speedMul) {
   const foe = findById(world, u.target) || closestFoe(world, u, spec.range + 6);
   if (!foe || foe.hp <= 0) {
     u.target = null;
     if (u.path?.length) {
       u.state = "attackmove";
-      followPath(world, u, spec.speed, buff.speed);
+      followPath(world, u, spec.speed, speedMul);
     } else {
       u.state = "idle";
     }
@@ -906,7 +907,7 @@ function attackTick(world, u, spec, buff) {
       u.repathTicks = REPATH_ATTACK_TICKS;
     }
     u.state = "attackmove";
-    followPath(world, u, spec.speed, buff.speed);
+    followPath(world, u, spec.speed, speedMul);
     return;
   }
   u.path = [];
@@ -1014,7 +1015,7 @@ function closestFoe(world, e, range) {
 function findById(world, fid) {
   if (!fid) return null;
   const e = world.byId.get(fid);
-  return e && e.kind !== "resource" ? e : null;
+  return e && (e.kind === "unit" || e.kind === "building") ? e : null;
 }
 
 function setPath(world, u, xQ10, zQ10) {
@@ -1097,7 +1098,7 @@ function setBuildApproachPath(world, u, b) {
     if (!world.walk[tz * world.N + tx]) continue;
     const [wx, wz] = worldOfCellQ10(tx, tz, world.CELL);
     setPath(world, u, wx, wz);
-    return true;
+    if (u.path.length) return true;
   }
   return false;
 }
