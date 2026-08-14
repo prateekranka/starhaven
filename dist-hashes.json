@@ -2,9 +2,14 @@
   "schema": 1,
   "files": [
     {
+      "path": "404.html",
+      "bytes": 142,
+      "sha256": "7a8016eb7fddfd3b6d07a911ac403cfb5f6d04587b92e6dad25b1a59831899ee"
+    },
+    {
       "path": "cache-manifest.json",
       "bytes": 24356,
-      "sha256": "16c094d8602607e02c0bb73ea404111079d8b19d00b339f1e22ec2f77df5969a"
+      "sha256": "db68cd471df3d3734173a867339f3969aee95c6e9fb697e8aa8393b66f3f76e5"
     },
     {
       "path": "css/app.css",
@@ -23,8 +28,8 @@
     },
     {
       "path": "js/audio/engine.js",
-      "bytes": 8622,
-      "sha256": "ca8fa433b98c493c258fbb551ced48afdb0121e3a03bb028aacec19ab1148c0f"
+      "bytes": 8888,
+      "sha256": "18766fdeacfdb0d09598e3664b003ea0fbbbb3467b71da9d509e1a5061c41f0d"
     },
     {
       "path": "js/audio/match-audio.js",
@@ -48,8 +53,8 @@
     },
     {
       "path": "js/cache/assets.js",
-      "bytes": 10942,
-      "sha256": "a3e059e66e9b052c927f33ee385432a0ee5261c85616229cbb3e003cf0c2df4b"
+      "bytes": 9123,
+      "sha256": "3f7e7607a3f84f0bccc8b187c6adfb0536c6051a532ff98cddb7a13ba330b99e"
     },
     {
       "path": "js/data/catalog.js",
@@ -83,8 +88,8 @@
     },
     {
       "path": "js/data/maps.js",
-      "bytes": 4166,
-      "sha256": "892f21629062f9793978e20a69f6ec987098d31abaa9cc6cece582a7494782de"
+      "bytes": 4835,
+      "sha256": "b5ed36adb7d65d8cb96f7c29276f5feeb49429e8cbc06d04e3e4f502d259146b"
     },
     {
       "path": "js/game/bright-lit.js",
@@ -93,8 +98,8 @@
     },
     {
       "path": "js/game/main.js",
-      "bytes": 36063,
-      "sha256": "00500ae2b9bdecd7cbd743322ff4e20615645d89425ee7be20b6e678a57cf439"
+      "bytes": 36178,
+      "sha256": "b27e1208cb7eb186774f11572ec7b6714881c7c5a35ef025da452fd5f373ac7a"
     },
     {
       "path": "js/game/particles.js",
@@ -198,8 +203,8 @@
     },
     {
       "path": "js/ui/app.js",
-      "bytes": 13583,
-      "sha256": "56f082067c4531eb3787e88a5fd2eb51bd31cd7650e842ac1cd6b97c84d89b9e"
+      "bytes": 13855,
+      "sha256": "9e5a955898aa2d9bc3c517997531d3577a57cdd1ea6efded5697eeac92e58082"
     },
     {
       "path": "js/ui/kit.js",
@@ -1818,8 +1823,8 @@
     },
     {
       "path": "sw.js",
-      "bytes": 3754,
-      "sha256": "b86b8915fd9cae49c62c97b64cc47221a0ff8848c2b22b8b63d29aef1470146d"
+      "bytes": 5823,
+      "sha256": "bd310b336eaaa1d4d18f14cc773a21a39e951c98e7d49deefdc6d67f18f26fb1"
     },
     {
       "path": "vendor/three.module.js",
@@ -1827,6 +1832,6 @@
       "sha256": "ce1fa418de16a19495a9f72495580e3015d7745c296d3ce0485897f902ddedfb"
     }
   ],
-  "fileCount": 365,
-  "totalBytes": 56911562
+  "fileCount": 366,
+  "totalBytes": 56913276
 }
