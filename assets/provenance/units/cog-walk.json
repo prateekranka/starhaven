@@ -1,0 +1,17 @@
+{
+  "unitId": "cog-walk",
+  "faction": "cogforged",
+  "clips": [
+    "walk",
+    "attack",
+    "gather",
+    "build",
+    "death"
+  ],
+  "atlas": "media/sprites/cog-walk.atlas.png",
+  "sha256": "560f780a2c46d36ace44fc1d833e7f6f44d7147d24a465ec41c1d6bbfeea1ded",
+  "bytes": 38983,
+  "sourceCount": 50,
+  "generator": "starhaven-pixel-pipeline-v1",
+  "libvips": "8.17.1"
+}

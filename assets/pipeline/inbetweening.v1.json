@@ -1,0 +1,13 @@
+{
+  "version": "inbetweening.v1",
+  "frames": 4,
+  "method": "integer-offset-rational-scale",
+  "patterns": {
+    "walk": ["A", "A:y101", "B", "B:y99"],
+    "attack": ["A", "A:y94", "B", "B:y101"],
+    "gather": ["A", "A:y104", "B", "B:y96"],
+    "build": ["A", "A:y104", "B", "B:y96"],
+    "death": ["A", "A:y90", "B", "B:y78"]
+  },
+  "forbidden": ["generative-interpolation", "floating-point-jitter"]
+}

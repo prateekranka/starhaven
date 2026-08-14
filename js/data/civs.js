@@ -42,16 +42,16 @@ const SUNWOVEN_BUILDINGS = {
 };
 
 const COGFORGED_BUILDINGS = {
-  towncenter: "media/sprites/bldg-grave-tc.png",
-  house: "media/sprites/bldg-grave-house.png",
-  barracks: "media/sprites/bldg-grave-rax.png",
-  mill: "media/sprites/bldg-grave-mill.png",
-  lumber: "media/sprites/bldg-grave-mill.png",
-  mine: "media/sprites/bldg-grave-mill.png",
-  spire: "media/sprites/bldg-grave-rax.png",
-  den: "media/sprites/bldg-grave-rax.png",
-  workshop: "media/sprites/bldg-grave-rax.png",
-  wonder: "media/sprites/bldg-grave-wonder.png",
+  towncenter: "media/sprites/bldg-cog-tc.png",
+  house: "media/sprites/bldg-cog-house.png",
+  barracks: "media/sprites/bldg-cog-rax.png",
+  mill: "media/sprites/bldg-cog-mill.png",
+  lumber: "media/sprites/bldg-cog-lumber.png",
+  mine: "media/sprites/bldg-cog-mine.png",
+  spire: "media/sprites/bldg-cog-spire.png",
+  den: "media/sprites/bldg-cog-den.png",
+  workshop: "media/sprites/bldg-cog-workshop.png",
+  wonder: "media/sprites/bldg-cog-wonder.png",
 };
 
 const GRAVEMARK_BUILDINGS = {
@@ -212,8 +212,8 @@ export const COGFORGED = {
   identity: {
     name: "Cogforged Assembly",
     tagline: "Grid power, on-site assembly, no harvest rations",
-    portrait: "media/sprites/portrait-gravemark.png",
-    banner: "media/textures/gravemark-banner.jpg",
+    portrait: "media/sprites/portrait-cogforged.png",
+    banner: "media/textures/cogforged-banner.jpg",
     lore: {
       blurb:
         "Brass automatons who weld legions in the field and feed cities through copper relay grids. They ignore the Bright Line entirely — neither boosted nor blunted — and never ration lumenfruit.",
@@ -261,11 +261,12 @@ export const COGFORGED = {
     },
   },
   sprites: {
-    walkSheet: "media/sprites/sheet-gravemark-walk.png",
-    guardSheet: "media/sprites/sheet-grave-guard.png",
-    strider: "media/sprites/unit-grave-strider.png",
-    siege: "media/sprites/unit-grave-siege.png",
-    portrait: "media/sprites/portrait-gravemark.png",
+    walkSheet: "media/sprites/sheet-cogforged-walk.png",
+    guardSheet: "media/sprites/sheet-cog-guard.png",
+    strider: "media/sprites/unit-cog-strider.png",
+    siege: "media/sprites/unit-cog-siege.png",
+    portrait: "media/sprites/portrait-cogforged.png",
+    gridPylon: "media/sprites/bldg-cog-grid-pylon.png",
     buildings: COGFORGED_BUILDINGS,
     units: {
       default: walkUnit(4.05, false),

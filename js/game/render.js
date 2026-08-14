@@ -449,7 +449,6 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
       m.scale.set(base * a, base, 1);
       const powered = b.powered !== false;
       m.material.opacity = powered ? 0.55 + 0.45 * built : 0.22 + 0.18 * built;
-      if (b.faction === "cogforged") m.material.color.setHex(powered ? 0xd4a574 : 0x666055);
       m.visible = seen(world, wx(b), wz(b)) || b.owner === "player";
     }
     for (const u of world.units) {
@@ -701,7 +700,6 @@ function makeUnitSprite(u, sheets, stills) {
     setFrame(map, 0, spec.southFirst ? 0 : 4);
     s.scale.set(spec.scale, spec.scale, 1);
   }
-  if (u.faction === "cogforged") s.material.color.setHex(0xc9885a);
   return s;
 }
 
