@@ -40,8 +40,8 @@
       "loop": false
     }
   ],
-  "sha256": "ef232e2b153570bc71505bd3c034977bf91f213695129f501bd431140182a3c5",
-  "bytes": 34997,
+  "sha256": "31855b9cb7daf59b4f7a63ab6a807f89e9c4efe7f95becd78355eb6c9eb17ca0",
+  "bytes": 1805864,
   "frames": [
     {
       "id": "storm-walk.walk.N.0",
@@ -944,7 +944,7 @@
       "action": "gather",
       "facing": "N",
       "frame": 0,
-      "durationMs": 140,
+      "durationMs": 100,
       "pivot": {
         "x": 64,
         "y": 112
@@ -958,7 +958,7 @@
       "action": "gather",
       "facing": "N",
       "frame": 1,
-      "durationMs": 140,
+      "durationMs": 100,
       "pivot": {
         "x": 64,
         "y": 112
@@ -972,7 +972,7 @@
       "action": "gather",
       "facing": "N",
       "frame": 2,
-      "durationMs": 140,
+      "durationMs": 100,
       "pivot": {
         "x": 64,
         "y": 112
@@ -986,7 +986,7 @@
       "action": "gather",
       "facing": "N",
       "frame": 3,
-      "durationMs": 140,
+      "durationMs": 100,
       "pivot": {
         "x": 64,
         "y": 112
@@ -1000,7 +1000,7 @@
       "action": "gather",
       "facing": "NE",
       "frame": 0,
-      "durationMs": 140,
+      "durationMs": 100,
       "pivot": {
         "x": 64,
         "y": 112
@@ -1014,7 +1014,7 @@
       "action": "gather",
       "facing": "NE",
       "frame": 1,
-      "durationMs": 140,
+      "durationMs": 100,
       "pivot": {
         "x": 64,
         "y": 112
@@ -1028,7 +1028,7 @@
       "action": "gather",
       "facing": "NE",
       "frame": 2,
-      "durationMs": 140,
+      "durationMs": 100,
       "pivot": {
         "x": 64,
         "y": 112
@@ -1042,7 +1042,7 @@
       "action": "gather",
       "facing": "NE",
       "frame": 3,
-      "durationMs": 140,
+      "durationMs": 100,
       "pivot": {
         "x": 64,
         "y": 112
@@ -1056,7 +1056,7 @@
       "action": "gather",
       "facing": "E",
       "frame": 0,
-      "durationMs": 140,
+      "durationMs": 100,
       "pivot": {
         "x": 64,
         "y": 112
@@ -1070,7 +1070,7 @@
       "action": "gather",
       "facing": "E",
       "frame": 1,
-      "durationMs": 140,
+      "durationMs": 100,
       "pivot": {
         "x": 64,
         "y": 112
@@ -1084,7 +1084,7 @@
       "action": "gather",
       "facing": "E",
       "frame": 2,
-      "durationMs": 140,
+      "durationMs": 100,
       "pivot": {
         "x": 64,
         "y": 112
@@ -1098,7 +1098,7 @@
       "action": "gather",
       "facing": "E",
       "frame": 3,
-      "durationMs": 140,
+      "durationMs": 100,
       "pivot": {
         "x": 64,
         "y": 112
@@ -1112,7 +1112,7 @@
       "action": "gather",
       "facing": "SE",
       "frame": 0,
-      "durationMs": 140,
+      "durationMs": 100,
       "pivot": {
         "x": 64,
         "y": 112
@@ -1126,7 +1126,7 @@
       "action": "gather",
       "facing": "SE",
       "frame": 1,
-      "durationMs": 140,
+      "durationMs": 100,
       "pivot": {
         "x": 64,
         "y": 112
@@ -1140,7 +1140,7 @@
       "action": "gather",
       "facing": "SE",
       "frame": 2,
-      "durationMs": 140,
+      "durationMs": 100,
       "pivot": {
         "x": 64,
         "y": 112
@@ -1154,7 +1154,7 @@
       "action": "gather",
       "facing": "SE",
       "frame": 3,
-      "durationMs": 140,
+      "durationMs": 100,
       "pivot": {
         "x": 64,
         "y": 112
@@ -1168,7 +1168,7 @@
       "action": "gather",
       "facing": "S",
       "frame": 0,
-      "durationMs": 140,
+      "durationMs": 100,
       "pivot": {
         "x": 64,
         "y": 112
@@ -1182,7 +1182,7 @@
       "action": "gather",
       "facing": "S",
       "frame": 1,
-      "durationMs": 140,
+      "durationMs": 100,
       "pivot": {
         "x": 64,
         "y": 112
@@ -1196,7 +1196,7 @@
       "action": "gather",
       "facing": "S",
       "frame": 2,
-      "durationMs": 140,
+      "durationMs": 100,
       "pivot": {
         "x": 64,
         "y": 112
@@ -1210,7 +1210,7 @@
       "action": "gather",
       "facing": "S",
       "frame": 3,
-      "durationMs": 140,
+      "durationMs": 100,
       "pivot": {
         "x": 64,
         "y": 112
@@ -1224,7 +1224,7 @@
       "action": "gather",
       "facing": "SW",
       "frame": 0,
-      "durationMs": 140,
+      "durationMs": 100,
       "pivot": {
         "x": 64,
         "y": 112
@@ -1238,7 +1238,7 @@
       "action": "gather",
       "facing": "SW",
       "frame": 1,
-      "durationMs": 140,
+      "durationMs": 100,
       "pivot": {
         "x": 64,
         "y": 112
@@ -1252,7 +1252,7 @@
       "action": "gather",
       "facing": "SW",
       "frame": 2,
-      "durationMs": 140,
+      "durationMs": 100,
       "pivot": {
         "x": 64,
         "y": 112
@@ -1266,7 +1266,7 @@
       "action": "gather",
       "facing": "SW",
       "frame": 3,
-      "durationMs": 140,
+      "durationMs": 100,
       "pivot": {
         "x": 64,
         "y": 112
@@ -1280,7 +1280,7 @@
       "action": "gather",
       "facing": "W",
       "frame": 0,
-      "durationMs": 140,
+      "durationMs": 100,
       "pivot": {
         "x": 64,
         "y": 112
@@ -1294,7 +1294,7 @@
       "action": "gather",
       "facing": "W",
       "frame": 1,
-      "durationMs": 140,
+      "durationMs": 100,
       "pivot": {
         "x": 64,
         "y": 112
@@ -1308,7 +1308,7 @@
       "action": "gather",
       "facing": "W",
       "frame": 2,
-      "durationMs": 140,
+      "durationMs": 100,
       "pivot": {
         "x": 64,
         "y": 112
@@ -1322,7 +1322,7 @@
       "action": "gather",
       "facing": "W",
       "frame": 3,
-      "durationMs": 140,
+      "durationMs": 100,
       "pivot": {
         "x": 64,
         "y": 112
@@ -1336,7 +1336,7 @@
       "action": "gather",
       "facing": "NW",
       "frame": 0,
-      "durationMs": 140,
+      "durationMs": 100,
       "pivot": {
         "x": 64,
         "y": 112
@@ -1350,7 +1350,7 @@
       "action": "gather",
       "facing": "NW",
       "frame": 1,
-      "durationMs": 140,
+      "durationMs": 100,
       "pivot": {
         "x": 64,
         "y": 112
@@ -1364,7 +1364,7 @@
       "action": "gather",
       "facing": "NW",
       "frame": 2,
-      "durationMs": 140,
+      "durationMs": 100,
       "pivot": {
         "x": 64,
         "y": 112
@@ -1378,7 +1378,7 @@
       "action": "gather",
       "facing": "NW",
       "frame": 3,
-      "durationMs": 140,
+      "durationMs": 100,
       "pivot": {
         "x": 64,
         "y": 112
@@ -1392,7 +1392,7 @@
       "action": "build",
       "facing": "N",
       "frame": 0,
-      "durationMs": 140,
+      "durationMs": 100,
       "pivot": {
         "x": 64,
         "y": 112
@@ -1406,7 +1406,7 @@
       "action": "build",
       "facing": "N",
       "frame": 1,
-      "durationMs": 140,
+      "durationMs": 100,
       "pivot": {
         "x": 64,
         "y": 112
@@ -1420,7 +1420,7 @@
       "action": "build",
       "facing": "N",
       "frame": 2,
-      "durationMs": 140,
+      "durationMs": 100,
       "pivot": {
         "x": 64,
         "y": 112
@@ -1434,7 +1434,7 @@
       "action": "build",
       "facing": "N",
       "frame": 3,
-      "durationMs": 140,
+      "durationMs": 100,
       "pivot": {
         "x": 64,
         "y": 112
@@ -1448,7 +1448,7 @@
       "action": "build",
       "facing": "NE",
       "frame": 0,
-      "durationMs": 140,
+      "durationMs": 100,
       "pivot": {
         "x": 64,
         "y": 112
@@ -1462,7 +1462,7 @@
       "action": "build",
       "facing": "NE",
       "frame": 1,
-      "durationMs": 140,
+      "durationMs": 100,
       "pivot": {
         "x": 64,
         "y": 112
@@ -1476,7 +1476,7 @@
       "action": "build",
       "facing": "NE",
       "frame": 2,
-      "durationMs": 140,
+      "durationMs": 100,
       "pivot": {
         "x": 64,
         "y": 112
@@ -1490,7 +1490,7 @@
       "action": "build",
       "facing": "NE",
       "frame": 3,
-      "durationMs": 140,
+      "durationMs": 100,
       "pivot": {
         "x": 64,
         "y": 112
@@ -1504,7 +1504,7 @@
       "action": "build",
       "facing": "E",
       "frame": 0,
-      "durationMs": 140,
+      "durationMs": 100,
       "pivot": {
         "x": 64,
         "y": 112
@@ -1518,7 +1518,7 @@
       "action": "build",
       "facing": "E",
       "frame": 1,
-      "durationMs": 140,
+      "durationMs": 100,
       "pivot": {
         "x": 64,
         "y": 112
@@ -1532,7 +1532,7 @@
       "action": "build",
       "facing": "E",
       "frame": 2,
-      "durationMs": 140,
+      "durationMs": 100,
       "pivot": {
         "x": 64,
         "y": 112
@@ -1546,7 +1546,7 @@
       "action": "build",
       "facing": "E",
       "frame": 3,
-      "durationMs": 140,
+      "durationMs": 100,
       "pivot": {
         "x": 64,
         "y": 112
@@ -1560,7 +1560,7 @@
       "action": "build",
       "facing": "SE",
       "frame": 0,
-      "durationMs": 140,
+      "durationMs": 100,
       "pivot": {
         "x": 64,
         "y": 112
@@ -1574,7 +1574,7 @@
       "action": "build",
       "facing": "SE",
       "frame": 1,
-      "durationMs": 140,
+      "durationMs": 100,
       "pivot": {
         "x": 64,
         "y": 112
@@ -1588,7 +1588,7 @@
       "action": "build",
       "facing": "SE",
       "frame": 2,
-      "durationMs": 140,
+      "durationMs": 100,
       "pivot": {
         "x": 64,
         "y": 112
@@ -1602,7 +1602,7 @@
       "action": "build",
       "facing": "SE",
       "frame": 3,
-      "durationMs": 140,
+      "durationMs": 100,
       "pivot": {
         "x": 64,
         "y": 112
@@ -1616,7 +1616,7 @@
       "action": "build",
       "facing": "S",
       "frame": 0,
-      "durationMs": 140,
+      "durationMs": 100,
       "pivot": {
         "x": 64,
         "y": 112
@@ -1630,7 +1630,7 @@
       "action": "build",
       "facing": "S",
       "frame": 1,
-      "durationMs": 140,
+      "durationMs": 100,
       "pivot": {
         "x": 64,
         "y": 112
@@ -1644,7 +1644,7 @@
       "action": "build",
       "facing": "S",
       "frame": 2,
-      "durationMs": 140,
+      "durationMs": 100,
       "pivot": {
         "x": 64,
         "y": 112
@@ -1658,7 +1658,7 @@
       "action": "build",
       "facing": "S",
       "frame": 3,
-      "durationMs": 140,
+      "durationMs": 100,
       "pivot": {
         "x": 64,
         "y": 112
@@ -1672,7 +1672,7 @@
       "action": "build",
       "facing": "SW",
       "frame": 0,
-      "durationMs": 140,
+      "durationMs": 100,
       "pivot": {
         "x": 64,
         "y": 112
@@ -1686,7 +1686,7 @@
       "action": "build",
       "facing": "SW",
       "frame": 1,
-      "durationMs": 140,
+      "durationMs": 100,
       "pivot": {
         "x": 64,
         "y": 112
@@ -1700,7 +1700,7 @@
       "action": "build",
       "facing": "SW",
       "frame": 2,
-      "durationMs": 140,
+      "durationMs": 100,
       "pivot": {
         "x": 64,
         "y": 112
@@ -1714,7 +1714,7 @@
       "action": "build",
       "facing": "SW",
       "frame": 3,
-      "durationMs": 140,
+      "durationMs": 100,
       "pivot": {
         "x": 64,
         "y": 112
@@ -1728,7 +1728,7 @@
       "action": "build",
       "facing": "W",
       "frame": 0,
-      "durationMs": 140,
+      "durationMs": 100,
       "pivot": {
         "x": 64,
         "y": 112
@@ -1742,7 +1742,7 @@
       "action": "build",
       "facing": "W",
       "frame": 1,
-      "durationMs": 140,
+      "durationMs": 100,
       "pivot": {
         "x": 64,
         "y": 112
@@ -1756,7 +1756,7 @@
       "action": "build",
       "facing": "W",
       "frame": 2,
-      "durationMs": 140,
+      "durationMs": 100,
       "pivot": {
         "x": 64,
         "y": 112
@@ -1770,7 +1770,7 @@
       "action": "build",
       "facing": "W",
       "frame": 3,
-      "durationMs": 140,
+      "durationMs": 100,
       "pivot": {
         "x": 64,
         "y": 112
@@ -1784,7 +1784,7 @@
       "action": "build",
       "facing": "NW",
       "frame": 0,
-      "durationMs": 140,
+      "durationMs": 100,
       "pivot": {
         "x": 64,
         "y": 112
@@ -1798,7 +1798,7 @@
       "action": "build",
       "facing": "NW",
       "frame": 1,
-      "durationMs": 140,
+      "durationMs": 100,
       "pivot": {
         "x": 64,
         "y": 112
@@ -1812,7 +1812,7 @@
       "action": "build",
       "facing": "NW",
       "frame": 2,
-      "durationMs": 140,
+      "durationMs": 100,
       "pivot": {
         "x": 64,
         "y": 112
@@ -1826,7 +1826,7 @@
       "action": "build",
       "facing": "NW",
       "frame": 3,
-      "durationMs": 140,
+      "durationMs": 100,
       "pivot": {
         "x": 64,
         "y": 112
