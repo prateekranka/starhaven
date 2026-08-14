@@ -93,6 +93,43 @@ export function togglePause(on) {
   document.getElementById("pause-modal").classList.toggle("hidden", !paused);
 }
 
+/* Command hooks for the QA harness. Only installed with ?qa=1 so playtest builds stay untouched. */
+if (new URLSearchParams(location.search).get("qa") === "1") {
+  window.__starhavenMove = function (unitIds, x, z, attackMove) {
+    if (!world) return { ok: false, why: "no-match-in-progress" };
+    const ids = Array.isArray(unitIds) ? unitIds : unitIds == null ? null : [unitIds];
+    let sel;
+    if (ids && ids.length) {
+      const set = new Set(ids);
+      sel = world.units.filter((u) => u.owner === "player" && u.kind === "unit" && set.has(u.id));
+    } else {
+      sel = selectedEntities(world).filter((e) => e.kind === "unit" && e.owner === "player");
+    }
+    if (!sel.length) return { ok: false, why: "no-player-units", selection: world.selection.slice() };
+    world.selection = sel.map((u) => u.id);
+    const round = (n) => Math.round(n * 100) / 100;
+    const before = sel.map((u) => ({ id: u.id, state: u.state, x: round(u.x), z: round(u.z) }));
+    commandGround(world, x, z, !!attackMove);
+    return {
+      ok: true,
+      issuedAt: Date.now(),
+      worldTick: world.t,
+      command: { x, z, attackMove: !!attackMove },
+      moved: sel.map((u) => u.id),
+      before,
+      after: sel.map((u) => ({ id: u.id, state: u.state, x: round(u.x), z: round(u.z) })),
+    };
+  };
+
+  window.__starhavenTrain = function (buildingId, type) {
+    if (!world) return { ok: false, why: "no-match-in-progress" };
+    const b = world.buildings.find((x) => x.id === buildingId);
+    if (!b) return { ok: false, why: "no-building", buildingId };
+    const res = queueUnit(world, b, type);
+    return { ok: !!res?.ok, why: res?.why, buildingId, type };
+  };
+}
+
 function loop(now) {
   raf = requestAnimationFrame(loop);
   const dt = Math.min(0.05, (now - last) / 1000);
