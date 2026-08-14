@@ -3,23 +3,23 @@
   "files": [
     {
       "path": "cache-manifest.json",
-      "bytes": 5070,
-      "sha256": "c7bf0f39ede74be72763f9f7d22dfff889e6a4d57284de82a9146ae4c9a6bb08"
+      "bytes": 5103,
+      "sha256": "fc7d532272b989684f9755d0cc02c70cdad15eb044531f23eecaafb5599e47d0"
     },
     {
       "path": "css/app.css",
-      "bytes": 16596,
-      "sha256": "c0a5a84f18c38553f3ae2eb087e891d458dcd4df18c736d036518ee2e92b40e8"
+      "bytes": 20137,
+      "sha256": "27ba90f07f90cc6265e1be614eb2edcf9191cf4f4b13ea603b7fab60e9a4b198"
     },
     {
       "path": "index.html",
-      "bytes": 13133,
-      "sha256": "098aa96f8b0b29b4a3dbcd8b7fb7442f9440ba875d00b62c0cdc38ce3bf0dcc4"
+      "bytes": 13305,
+      "sha256": "488075bacd3cb78d186230d71462f396bc7333cb8477978c532fb663778d7e88"
     },
     {
       "path": "js/boot.js",
-      "bytes": 1828,
-      "sha256": "109c26fec85474be4e06475b60eac4e5a7d29e1577897b2f43850fb3849e980a"
+      "bytes": 1651,
+      "sha256": "c949a6646ad5b2746df5217759402e77c652cf405c84ca35d317631a9a3198f3"
     },
     {
       "path": "js/cache/assets.js",
@@ -33,13 +33,13 @@
     },
     {
       "path": "js/game/main.js",
-      "bytes": 19461,
-      "sha256": "6e51f713a035d09dd6de1c763a25bfe261f5c28cf567ab5c814ac06e1758e82f"
+      "bytes": 23818,
+      "sha256": "d20e2e542aeea771bab81e63c8a8f4d248dba0a17a480e00ed9e2d283ea56d5c"
     },
     {
       "path": "js/game/render.js",
-      "bytes": 28379,
-      "sha256": "40efac8df973d7557cf334b98d022f4da3662c948f299b180896bce0bba00007"
+      "bytes": 29371,
+      "sha256": "60f793c37712755eb189c5a1ec9d5610046b30c032e0dee0604e01d67b889c63"
     },
     {
       "path": "js/perf.js",
@@ -53,8 +53,8 @@
     },
     {
       "path": "js/sim/engine.js",
-      "bytes": 25706,
-      "sha256": "31c2507e758a4124b503857216ee9ea8df13224664dd3e884c61159958e95c53"
+      "bytes": 25586,
+      "sha256": "bc53710e6223e656be4d38d9c345bf5fc6d63e3186e4cfba97ff2b127c1dea01"
     },
     {
       "path": "js/sim/path.js",
@@ -63,8 +63,8 @@
     },
     {
       "path": "js/ui/app.js",
-      "bytes": 6825,
-      "sha256": "c1b24e66558b50c98a71c24a6e890c7e8cd0fef94adc1800f04951ab671a9b6c"
+      "bytes": 5382,
+      "sha256": "0561fa044b7777d00e037b37a2e05f761f7d1d211632ee37e54c9e74a199e0f2"
     },
     {
       "path": "media/fonts/orbitron-latin-700-normal.woff2",
@@ -147,14 +147,14 @@
       "sha256": "8a3602c6cac5edf45eabb23bf998b36d1a86501596cb6c41323d21524cb26812"
     },
     {
-      "path": "media/sprites/icon-crystal.png",
-      "bytes": 289925,
-      "sha256": "1921a337d4b4ca8fe9e17f950b9b7846b95e0167c34207e57ca05efae9cdacb3"
+      "path": "media/sprites/icon-crystal.v2.png",
+      "bytes": 98911,
+      "sha256": "dd221aa93b30c979b0ef5d02825a0bc18ad673e78ef269fe366460e7551fffbe"
     },
     {
-      "path": "media/sprites/icon-food.png",
-      "bytes": 296564,
-      "sha256": "20df9888cfdc57736c1ceeb786ef8df4d94d1ce72c4da6fbe2cc3eb96758554e"
+      "path": "media/sprites/icon-food.v2.png",
+      "bytes": 101388,
+      "sha256": "82df127a31f4fc50b529da8ae3f42b91765cf29bb1c07b0441543cb88e2c8a5e"
     },
     {
       "path": "media/sprites/icon-hold.png",
@@ -167,9 +167,9 @@
       "sha256": "401e933a74b85bac7f0ef322538c4eb40250e6bdd4bf909a912fb843b66d2014"
     },
     {
-      "path": "media/sprites/icon-ore.png",
-      "bytes": 300782,
-      "sha256": "e2d13c056a3ce89a65bab785af2f9ad04e9ccb97bf47d42068bc2660699cf135"
+      "path": "media/sprites/icon-ore.v2.png",
+      "bytes": 98188,
+      "sha256": "cd79323b756807046e8564e067ecb7139c9a90081f66b6f61ebe02dc6548ed20"
     },
     {
       "path": "media/sprites/icon-patrol.png",
@@ -177,9 +177,9 @@
       "sha256": "e83ee05aa38e1aac6a061b2277d2f78c88b8d51fcf31e7c178f01c7006e30073"
     },
     {
-      "path": "media/sprites/icon-pop.png",
-      "bytes": 292305,
-      "sha256": "152ea0d2bb26c9c56ec613cf16eaf33d2d3355e6b5ec794d7c0bcef4d36284e2"
+      "path": "media/sprites/icon-pop.v2.png",
+      "bytes": 90580,
+      "sha256": "a3e3e2702af93b862f8f9625b5913c5dba251d34048440ccb1a05bc5125f3d28"
     },
     {
       "path": "media/sprites/icon-resources.png",
@@ -192,9 +192,9 @@
       "sha256": "a438b23663f81b87bf99f1509a5c5b5cad5fdb03d59610bd193277f86c1e5ed3"
     },
     {
-      "path": "media/sprites/icon-wood.png",
-      "bytes": 303979,
-      "sha256": "5046ecaaac0f3ef90f4c04d005a4e6cbc618c9e29adde50011aa936604722acc"
+      "path": "media/sprites/icon-wood.v2.png",
+      "bytes": 102313,
+      "sha256": "cf5e7d5959bce7f13cde33d951cf385cf52981bd04e9d0372c183912875d94db"
     },
     {
       "path": "media/sprites/menu-campaign.png",
@@ -383,5 +383,5 @@
     }
   ],
   "fileCount": 76,
-  "totalBytes": 41610097
+  "totalBytes": 40625277
 }
