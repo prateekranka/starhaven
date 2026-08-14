@@ -581,7 +581,7 @@ function finishAssemblies(world) {
     const u = spawnUnit(world, site.owner, site.type, site.xQ10, site.zQ10);
     if (b) issueMove(world, u, b.rally.xQ10, b.rally.zQ10);
     for (const worker of world.units) {
-      if (worker.assemble === site.id) {
+      if (worker.assemble === site.id && (worker.state === "assemble" || worker.state === "assemblewalk")) {
         worker.assemble = null;
         worker.state = "idle";
       }
@@ -654,7 +654,7 @@ function tickUnits(world) {
         u.path = [];
       }
     }
-    if (u.state === "walk" || u.state === "return" || u.state === "gatherwalk" || u.state === "buildwalk" || u.state === "attackmove" || u.state === "assemblewalk") {
+    if (u.state === "walk" || u.state === "return" || u.state === "gatherwalk" || u.state === "buildwalk" || u.state === "assemblewalk") {
       followPath(world, u, spec.speed, speedMul);
     }
     if (u.state === "gather") gatherTick(world, u, spec);
@@ -876,7 +876,12 @@ function attackTick(world, u, spec, buff) {
   const foe = findById(world, u.target) || closestFoe(world, u, spec.range + 6);
   if (!foe || foe.hp <= 0) {
     u.target = null;
-    u.state = u.path?.length ? "attackmove" : "idle";
+    if (u.path?.length) {
+      u.state = "attackmove";
+      followPath(world, u, spec.speed, buff.speed);
+    } else {
+      u.state = "idle";
+    }
     return;
   }
   u.target = foe.id;
@@ -1015,6 +1020,7 @@ export function issueMove(world, u, xQ10, zQ10, facingOctant = null) {
   u.target = null;
   u.resource = null;
   u.build = null;
+  u.assemble = null;
   u.formationFacingOctant = facingOctant;
   setPath(world, u, xQ10, zQ10);
 }

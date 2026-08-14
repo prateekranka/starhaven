@@ -76,7 +76,7 @@ function playerSnap(p) {
 
 export function snapshotWorld(world) {
   return {
-    simulationVersion: "pixel-sim.v3-int",
+    simulationVersion: "pixel-sim.v4-act",
     seed: world.seed >>> 0,
     t: world.t | 0,
     winner: world.winner,
