@@ -32,7 +32,20 @@ export function initUi() {
   applySettingsForm(save);
   const seedInput = document.getElementById("seed-input");
   if (seedInput && save.seed) seedInput.value = save.seed;
-  populateMapSelect(document.getElementById("map-select"), save.mapId).catch((err) => {
+  populateMapSelect(document.getElementById("map-select"), save.mapId, (info) => {
+    const img = document.getElementById("map-preview-img");
+    const blurb = document.getElementById("map-preview-blurb");
+    if (blurb) blurb.textContent = info.blurb || "";
+    if (img) {
+      if (info.preview) {
+        img.src = info.preview;
+        img.hidden = false;
+      } else {
+        img.hidden = true;
+        img.removeAttribute("src");
+      }
+    }
+  }).catch((err) => {
     console.warn("map manifest load failed", err);
   });
   if (native) document.body.classList.add("native");

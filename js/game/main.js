@@ -45,7 +45,7 @@ export async function startMatch(opts = {}) {
   stopMatch();
   const save = loadSave();
   const mapId = opts.mapId || save.mapId || "bright-mesa";
-  const map = await loadMap(mapId);
+  const map = await loadMap(mapId, opts.seed ?? save.seed);
   world = createMatch({ ...opts, map, mapId });
 
   showScreen("game");

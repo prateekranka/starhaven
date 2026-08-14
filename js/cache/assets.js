@@ -16,6 +16,7 @@ const MATCH_FALLBACK = [
   "js/data/map-biomes.js",
   "js/data/maps.js",
   "js/sim/map-loader.js",
+  "js/sim/procgen.js",
   "media/textures/pixel-mesa.png",
   "media/textures/pixel-water.png",
   "media/sprites/sheet-sunwoven-walk.png",
