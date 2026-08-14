@@ -81,7 +81,7 @@ export function startBackgroundWarm(onProgress) {
       await warmFiles(shell, onProgress, manifest, { concurrency: 8, yieldToCritical: true });
       const rest = unique([...(manifest.match || []), ...(manifest.files || []), ...MATCH_FALLBACK])
         .filter((url) => !shell.includes(url));
-      await warmFiles(rest, onProgress, manifest, { concurrency: 4, yieldToCritical: true });
+      await warmFiles(rest, onProgress, manifest, { concurrency: 12, yieldToCritical: true });
       await audio.preload().catch((err) => console.warn("audio preload", err));
     })().catch((err) => {
       warmPromise = null;
