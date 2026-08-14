@@ -1,0 +1,26 @@
+
+:root {
+  --color-navy: #071422; --color-navy-2: #0c1e36; --color-navy-3: #0c2038; --color-navy-deep: #081428; --color-navy-raised: #0a1a30;
+  --color-gold: #d4af37; --color-gold-dim: #a8883a; --color-gold-light: #f0d78a; --color-gold-mid: #c9a24a; --color-gold-highlight: #fff6c8; --color-gold-ink: #1a1408;
+  --color-teal: #3ec7c9; --color-teal-bright: #2aa7d4; --color-ivory: #f4efe2; --color-danger: #c45c5c; --color-ok: #6ecb8b;
+  --color-text: var(--color-ivory); --color-text-label: #cde; --color-text-secondary: #d8e4f4; --color-text-muted: #b9c8da; --color-text-dim: #9ab; --color-text-lore: #cfe;
+  --color-surface-panel: rgba(6,16,30,.88); --color-surface-page: rgba(7,20,34,.92); --color-surface-dropdown: rgba(8,20,40,.98);
+  --color-surface-dropdown-hover: rgba(28,58,98,.65); --color-surface-dropdown-selected: rgba(20,48,82,.55);
+  --color-surface-toggle: #1a2a42; --color-surface-toggle-on: rgba(28,58,98,.9); --color-surface-track: #1a2a42;
+  --color-surface-modal: var(--color-navy-2); --color-surface-scrim: rgba(0,0,0,.45); --color-surface-menu-hover: rgba(20,48,82,.9);
+  --color-border-gold: var(--color-gold); --color-border-gold-soft: rgba(224,195,106,.38); --color-border-gold-faint: rgba(224,195,106,.22);
+  --color-border-gold-medium: rgba(212,175,55,.55); --color-border-gold-light: rgba(212,175,55,.35); --color-border-gold-inset: rgba(212,175,55,.12); --color-border-gold-strong: rgba(212,175,55,.45);
+  --gradient-gold-btn: linear-gradient(180deg,var(--color-gold-light),var(--color-gold-mid)); --gradient-gold-knob: var(--gradient-gold-btn);
+  --gradient-dropdown: linear-gradient(180deg,var(--color-navy-3),var(--color-navy-deep)); --gradient-slider-fill: linear-gradient(90deg,var(--color-teal-bright),var(--color-gold));
+  --shadow-focus-teal: 0 0 12px rgba(62,199,201,.22); --shadow-focus-teal-strong: 0 0 16px rgba(62,199,201,.35);
+  --font-ui: Rajdhani,"Segoe UI",sans-serif; --font-display: Orbitron,Rajdhani,sans-serif;
+  --text-md: 11px; --text-base: 12px; --text-body: 14px; --text-lg: 16px; --text-xl: 18px;
+  --tracking-tight: .04em; --tracking-display: .12em; --tracking-panel: .14em; --tracking-heading: .16em; --tracking-title: .18em;
+  --weight-ui: 600; --weight-display: 800;
+  --space-1: 4px; --space-2: 6px; --space-3: 8px; --space-4: 10px; --space-5: 12px; --space-6: 14px; --space-7: 16px; --space-8: 18px; --space-9: 22px; --space-10: 24px; --space-11: 28px;
+  --touch-min: 44px; --touch-comfort: 48px; --frame: 10px; --sidebar: min(360px,38vw); --panel-texture: url("../media/textures/ui-panel.jpg");
+  --radius-sm: 4px; --radius-pill: 22px; --radius-full: 50%; --z-dropdown: 12; --z-frame: 50; --z-boot: 80; --motion-base: .15s;
+  --navy: var(--color-navy); --navy-2: var(--color-navy-2); --gold: var(--color-gold); --gold-dim: var(--color-gold-dim); --teal: var(--color-teal); --ivory: var(--color-ivory);
+  --obsidian: #121018; --danger: var(--color-danger); --ok: var(--color-ok); --ui: var(--font-ui); --display: var(--font-display);
+}
+@media (min-width:1600px){:root{--sidebar:min(420px,32vw);}}
