@@ -423,13 +423,13 @@
     },
     {
       "path": "media/sprites/ash-guard.atlas.json",
-      "bytes": 41530,
-      "sha256": "267a9b2c99c8922e6acfab1c01061ad9ebfda6d03e39432ebd443adf81086688"
+      "bytes": 48676,
+      "sha256": "e367c84c575a9dcbd7fd680b3d6ee18c5838b08010482f9ff7cf4ff78e8161be"
     },
     {
       "path": "media/sprites/ash-guard.atlas.png",
-      "bytes": 1681458,
-      "sha256": "7311c2fd3a8773bbed6048dc143d0d219bcc298ced74b0a9a6c4966a8c6c70aa"
+      "bytes": 2994230,
+      "sha256": "2c4ad1869e2bb78701a69603548638f5e06ead5f69cbf3a9d5e18464d3d3314a"
     },
     {
       "path": "media/sprites/ash-siege.atlas.json",
@@ -453,13 +453,13 @@
     },
     {
       "path": "media/sprites/ash-walk.atlas.json",
-      "bytes": 41368,
-      "sha256": "418b1de5ce535426a722d2302d650c1eb236461b74069b5c0a892d404244c5e7"
+      "bytes": 48514,
+      "sha256": "b1f458673c5812eec2d8164b7dd2ac4dffc921d9fcd6e35038849a829234883d"
     },
     {
       "path": "media/sprites/ash-walk.atlas.png",
-      "bytes": 1684625,
-      "sha256": "2667f87800352a6b5ad78b49a812bf5724622279a86b306333b126ef3cb136eb"
+      "bytes": 3476571,
+      "sha256": "d011cca6263c2ac0653c94e2fc3d8fa8e5e6a5b657d8f16b12751afbd5bc0f42"
     },
     {
       "path": "media/sprites/bldg-ash-den.png",
@@ -643,13 +643,13 @@
     },
     {
       "path": "media/sprites/bldg-storm-mill.png",
-      "bytes": 1440366,
-      "sha256": "7220e5400f8364d5430586c3803a82b428568a8a929f18816990bafd5f4085dd"
+      "bytes": 732363,
+      "sha256": "0e3ddc81f269bba2edfa8c0ad26468027648a07ea17085c33060486b9756b572"
     },
     {
       "path": "media/sprites/bldg-storm-mine.png",
-      "bytes": 1650526,
-      "sha256": "84445e5fa28d7ab5c74827d7450d22f90d71a605cac72842b2b42a5cca20e5a1"
+      "bytes": 1280944,
+      "sha256": "7ceb42c28361706b498776ddbe2dee9ae9e042b60fe54ae3f7452987c742103c"
     },
     {
       "path": "media/sprites/bldg-storm-rax.png",
@@ -733,13 +733,13 @@
     },
     {
       "path": "media/sprites/cog-guard.atlas.json",
-      "bytes": 41532,
-      "sha256": "17cb9a595d462701afa3ef13fd122ed882613525e49aa9445dbd891e1f62017b"
+      "bytes": 48678,
+      "sha256": "e409cd581b160e39efae86e95a8e6c43dca90a19525733a1c9121ca7811534d5"
     },
     {
       "path": "media/sprites/cog-guard.atlas.png",
-      "bytes": 2175247,
-      "sha256": "7f5a3f5db34d5bc55bd1b45ac54b82f72283078cfb689c55440b39525d63d009"
+      "bytes": 3205267,
+      "sha256": "33854fc5c148ef06b95cc5e70cc490e153eb0202724f2c2c0daf39e59f94fca1"
     },
     {
       "path": "media/sprites/cog-siege.atlas.json",
@@ -763,13 +763,13 @@
     },
     {
       "path": "media/sprites/cog-walk.atlas.json",
-      "bytes": 41370,
-      "sha256": "0d983171f3d4b31255ba2ce99ea747d51c9950675e031de77140616b84ab0531"
+      "bytes": 48516,
+      "sha256": "a83380e90dc6f835ca87dd2d208bcaffc670cc0ffb0c8307dbb33c3d2fad30f4"
     },
     {
       "path": "media/sprites/cog-walk.atlas.png",
-      "bytes": 2595671,
-      "sha256": "be2bf75d6e6c0faf70c214582b3b43d872ac17998f726c4e69956f9af6118451"
+      "bytes": 3129282,
+      "sha256": "e84987ae875e65d75448cdc93ed5befb80443b693896a6f8757c15ac36842976"
     },
     {
       "path": "media/sprites/grave-guard.atlas.json",
@@ -1008,13 +1008,13 @@
     },
     {
       "path": "media/sprites/icon-build-storm-mill.png",
-      "bytes": 36426,
-      "sha256": "29ccf6cfc2e7a80a699c3824a148908c9de990dbf553e6129519d94cba2c5175"
+      "bytes": 30674,
+      "sha256": "a741a826dd66a8c057de9f1e8d6aa4b8824aeebe9048b72bae32eb28fa146910"
     },
     {
       "path": "media/sprites/icon-build-storm-mine.png",
-      "bytes": 37643,
-      "sha256": "1641b42fda9473e0285bb522c2ab6520aab680b69c2fb4f6ab4b225573a88827"
+      "bytes": 37701,
+      "sha256": "8a29acae34ef2f22ac9d5bb14c9d2222099cc8f507558cc3c15226a95c78cc8d"
     },
     {
       "path": "media/sprites/icon-build-storm-spire.png",
@@ -1547,24 +1547,64 @@
       "sha256": "a78b7eb916eb15021ee107a388c13896b3eead51359297b2fef240424275d449"
     },
     {
+      "path": "media/sprites/sheet-ash-guard-attack.png",
+      "bytes": 1119019,
+      "sha256": "13980ca2d8b1c01cfa0cf7ad616d4f174d18ade2ad83853d876a3a2d063c4a10"
+    },
+    {
+      "path": "media/sprites/sheet-ash-guard-death.png",
+      "bytes": 930906,
+      "sha256": "36b32df32f42032742671a53dd320c9e41ebf90e8dce4745387c1f6e744fbcbe"
+    },
+    {
       "path": "media/sprites/sheet-ash-guard.png",
-      "bytes": 1263274,
-      "sha256": "50f9822ddb4fcea8091ecea0c25c997c6c2a86eb15690bc6c87978365777b3ef"
+      "bytes": 1225531,
+      "sha256": "3e7a941121ad2dee8cfd12887ed200120c4e78c39b75712b23f8694c7a7f1f47"
+    },
+    {
+      "path": "media/sprites/sheet-ashvein-attack.png",
+      "bytes": 1289470,
+      "sha256": "98300ab8bc275f52beb747bf8ac64dc95638cfe26d04b6c224f55ab775c29323"
+    },
+    {
+      "path": "media/sprites/sheet-ashvein-death.png",
+      "bytes": 1077253,
+      "sha256": "fd20d5128be38309bcf8c3390f0925cd0e3254e67374bfe6804c8d7954174fd5"
     },
     {
       "path": "media/sprites/sheet-ashvein-walk.png",
-      "bytes": 1279828,
-      "sha256": "8e458cfa0ad9bf5291091f3cf58412eb6a101b67e5bdca15d66fb251c1934224"
+      "bytes": 1472072,
+      "sha256": "d9ec441c1b145c3692fd875ff59167e8cec3c4c518f40b3d94afeb8bac35fe1d"
+    },
+    {
+      "path": "media/sprites/sheet-cog-guard-attack.png",
+      "bytes": 1204466,
+      "sha256": "45e9a1cb862536635ee778069c837679ebbe617964b3b8da608c585371fad65f"
+    },
+    {
+      "path": "media/sprites/sheet-cog-guard-death.png",
+      "bytes": 1040029,
+      "sha256": "501bdde8c2d9485a81dcd999c24fa68a1184d1062a030f0e6ddc025964036c3a"
     },
     {
       "path": "media/sprites/sheet-cog-guard.png",
-      "bytes": 1057784,
-      "sha256": "bd0dae2d2cc46f258f37cbe2c9dfa67eb44ef411571af40b4c609b3647a8e653"
+      "bytes": 1383844,
+      "sha256": "91c66a37bb9dd1f9e76987cae8cdec45ed7e4047416e9c77a7f03963d2512a8e"
+    },
+    {
+      "path": "media/sprites/sheet-cogforged-attack.png",
+      "bytes": 1294817,
+      "sha256": "9e9bab90d841c02a17d9e65d588f4ffdb80e054d4163877eade9e543c755dd1f"
+    },
+    {
+      "path": "media/sprites/sheet-cogforged-death.png",
+      "bytes": 902611,
+      "sha256": "9cad1a6b4798f126c5c16ccad99b88e2cb8293a440e4186c185a48bcbda60cb9"
     },
     {
       "path": "media/sprites/sheet-cogforged-walk.png",
-      "bytes": 1200555,
-      "sha256": "0892303a249f53c0ede58c935488cb9ee2398e17d110053626bce5ad3b022925"
+      "bytes": 1332519,
+      "sha256": "1700c61f728315f49a6df6e8f2ca1f382252a5f65e5ca5ee85cce2f2c35866bc"
     },
     {
       "path": "media/sprites/sheet-grave-guard.png",
@@ -1577,14 +1617,34 @@
       "sha256": "e25fddd922c709695eb61a3190b878c54a620e89d06adc864f5fbd803ca03922"
     },
     {
+      "path": "media/sprites/sheet-storm-guard-attack.png",
+      "bytes": 995843,
+      "sha256": "0e769b6c613a13ac1917c887bfdd19773695d7cd871d9dc6f2a481f9f9c57494"
+    },
+    {
+      "path": "media/sprites/sheet-storm-guard-death.png",
+      "bytes": 982052,
+      "sha256": "041b81f565a171bcd82b7d0e300946ad1882d1cec32c9a33e0861207f5f3f94d"
+    },
+    {
       "path": "media/sprites/sheet-storm-guard.png",
-      "bytes": 1248977,
-      "sha256": "337affa65495e5bfbbc82794f1b9b205ba4816a64d6152ee7213ebf0a2e5235a"
+      "bytes": 1180738,
+      "sha256": "7cf9a3ba645d045a460abc0ea71061e42755d56bd2f89ddfc86a142b195989f0"
+    },
+    {
+      "path": "media/sprites/sheet-stormveil-attack.png",
+      "bytes": 1111469,
+      "sha256": "ebb795717f8cf3cb20f38f8fea71a29c5bf824fefd48dd3c55c9261c4d0a89f5"
+    },
+    {
+      "path": "media/sprites/sheet-stormveil-death.png",
+      "bytes": 1048883,
+      "sha256": "bafc26650f73b446bf782f5afc99981b1ac20d501f89f3176ed08fe1de8575e3"
     },
     {
       "path": "media/sprites/sheet-stormveil-walk.png",
-      "bytes": 1283622,
-      "sha256": "d080f480796bd09cce1c4eaaf720749c0ed01d4f63785d54ee711cdcc8987c78"
+      "bytes": 1439062,
+      "sha256": "ca6f322f3c3d7ea97d4db101aa0364f4ff43141a500a7976a0923d5ce7f7a1b4"
     },
     {
       "path": "media/sprites/sheet-sun-guard.png",
@@ -1598,13 +1658,13 @@
     },
     {
       "path": "media/sprites/storm-guard.atlas.json",
-      "bytes": 41856,
-      "sha256": "3f5748140a0cdde67108b4f29ae913e5c7aadb8f31a7f856a05c62358b303361"
+      "bytes": 49002,
+      "sha256": "b7b23716884d00963ccf511ed04ca49bc9d4a4e131762e31086345c7de5d72c7"
     },
     {
       "path": "media/sprites/storm-guard.atlas.png",
-      "bytes": 1638376,
-      "sha256": "f9e11bddad8843885906d43b5b8b00d8fad8f0539f52c2eb25b87d4aa9be1308"
+      "bytes": 2772130,
+      "sha256": "7e98df02a58e57e96ba899ae3af8ba934b2726f5de8c3e837328c7b1db4d6964"
     },
     {
       "path": "media/sprites/storm-siege.atlas.json",
@@ -1638,13 +1698,13 @@
     },
     {
       "path": "media/sprites/storm-walk.atlas.json",
-      "bytes": 41694,
-      "sha256": "309c831307c02749b0ea8a1b086520cd283302ba0deb407479676c63a0e8d44d"
+      "bytes": 48840,
+      "sha256": "9b94c3e92ac6b4a61d8e83c49c64dc0009bd3911bd33b81a84630bfd1bc0869d"
     },
     {
       "path": "media/sprites/storm-walk.atlas.png",
-      "bytes": 1805864,
-      "sha256": "31855b9cb7daf59b4f7a63ab6a807f89e9c4efe7f95becd78355eb6c9eb17ca0"
+      "bytes": 3285799,
+      "sha256": "377bc8129d88d26803acd83ef207ae948dc91bedf8fd77c05f469f3b473a41f6"
     },
     {
       "path": "media/sprites/sun-guard.atlas.json",
@@ -1743,8 +1803,8 @@
     },
     {
       "path": "media/textures/ashvein-banner.jpg",
-      "bytes": 446127,
-      "sha256": "cb83ebba7217046847505973f5ab86e5060260165e3db02edfd6c21a17bd9cc6"
+      "bytes": 495899,
+      "sha256": "0c779d8e0ae0918d9b6c1addbb267c920a5d4ade7baa1e06aaddd02c03d9afd3"
     },
     {
       "path": "media/textures/biomass.jpg",
@@ -1793,8 +1853,8 @@
     },
     {
       "path": "media/textures/stormveil-banner.jpg",
-      "bytes": 404469,
-      "sha256": "105f0ff49510460977f7c179d476d40a005bf2b9350351daf68db24c21245362"
+      "bytes": 483174,
+      "sha256": "949b9f2845889efef808c28e59393e9defb8c7f55052f1de8b599e8b60ce96a4"
     },
     {
       "path": "media/textures/sunwoven-banner.jpg",
@@ -1837,6 +1897,6 @@
       "sha256": "ce1fa418de16a19495a9f72495580e3015d7745c296d3ce0485897f902ddedfb"
     }
   ],
-  "fileCount": 367,
-  "totalBytes": 133038482
+  "fileCount": 379,
+  "totalBytes": 153105138
 }
