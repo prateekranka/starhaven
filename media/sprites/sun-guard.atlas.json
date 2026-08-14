@@ -1,0 +1,1379 @@
+{
+  "version": "unit-atlas.v1",
+  "id": "sun-guard",
+  "faction": "sunwoven",
+  "path": "media/sprites/sun-guard.atlas.png",
+  "width": 2048,
+  "height": 768,
+  "cell": 128,
+  "cols": 16,
+  "rows": 6,
+  "clips": [
+    {
+      "id": "walk",
+      "frames": 4,
+      "durationMs": 110,
+      "loop": true
+    },
+    {
+      "id": "attack",
+      "frames": 4,
+      "durationMs": 100,
+      "loop": false
+    },
+    {
+      "id": "death",
+      "frames": 4,
+      "durationMs": 100,
+      "loop": false
+    }
+  ],
+  "sha256": "9598b603599bc2dfe613f35165f199baecd9f40b9a250b21f006c3902018c91b",
+  "bytes": 22567,
+  "frames": [
+    {
+      "id": "sun-guard.walk.N.0",
+      "action": "walk",
+      "facing": "N",
+      "frame": 0,
+      "durationMs": 110,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 0,
+      "row": 0
+    },
+    {
+      "id": "sun-guard.walk.N.1",
+      "action": "walk",
+      "facing": "N",
+      "frame": 1,
+      "durationMs": 110,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 1,
+      "row": 0
+    },
+    {
+      "id": "sun-guard.walk.N.2",
+      "action": "walk",
+      "facing": "N",
+      "frame": 2,
+      "durationMs": 110,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 0,
+      "row": 1
+    },
+    {
+      "id": "sun-guard.walk.N.3",
+      "action": "walk",
+      "facing": "N",
+      "frame": 3,
+      "durationMs": 110,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 1,
+      "row": 1
+    },
+    {
+      "id": "sun-guard.walk.NE.0",
+      "action": "walk",
+      "facing": "NE",
+      "frame": 0,
+      "durationMs": 110,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 2,
+      "row": 0
+    },
+    {
+      "id": "sun-guard.walk.NE.1",
+      "action": "walk",
+      "facing": "NE",
+      "frame": 1,
+      "durationMs": 110,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 3,
+      "row": 0
+    },
+    {
+      "id": "sun-guard.walk.NE.2",
+      "action": "walk",
+      "facing": "NE",
+      "frame": 2,
+      "durationMs": 110,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 2,
+      "row": 1
+    },
+    {
+      "id": "sun-guard.walk.NE.3",
+      "action": "walk",
+      "facing": "NE",
+      "frame": 3,
+      "durationMs": 110,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 3,
+      "row": 1
+    },
+    {
+      "id": "sun-guard.walk.E.0",
+      "action": "walk",
+      "facing": "E",
+      "frame": 0,
+      "durationMs": 110,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 4,
+      "row": 0
+    },
+    {
+      "id": "sun-guard.walk.E.1",
+      "action": "walk",
+      "facing": "E",
+      "frame": 1,
+      "durationMs": 110,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 5,
+      "row": 0
+    },
+    {
+      "id": "sun-guard.walk.E.2",
+      "action": "walk",
+      "facing": "E",
+      "frame": 2,
+      "durationMs": 110,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 4,
+      "row": 1
+    },
+    {
+      "id": "sun-guard.walk.E.3",
+      "action": "walk",
+      "facing": "E",
+      "frame": 3,
+      "durationMs": 110,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 5,
+      "row": 1
+    },
+    {
+      "id": "sun-guard.walk.SE.0",
+      "action": "walk",
+      "facing": "SE",
+      "frame": 0,
+      "durationMs": 110,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 6,
+      "row": 0
+    },
+    {
+      "id": "sun-guard.walk.SE.1",
+      "action": "walk",
+      "facing": "SE",
+      "frame": 1,
+      "durationMs": 110,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 7,
+      "row": 0
+    },
+    {
+      "id": "sun-guard.walk.SE.2",
+      "action": "walk",
+      "facing": "SE",
+      "frame": 2,
+      "durationMs": 110,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 6,
+      "row": 1
+    },
+    {
+      "id": "sun-guard.walk.SE.3",
+      "action": "walk",
+      "facing": "SE",
+      "frame": 3,
+      "durationMs": 110,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 7,
+      "row": 1
+    },
+    {
+      "id": "sun-guard.walk.S.0",
+      "action": "walk",
+      "facing": "S",
+      "frame": 0,
+      "durationMs": 110,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 8,
+      "row": 0
+    },
+    {
+      "id": "sun-guard.walk.S.1",
+      "action": "walk",
+      "facing": "S",
+      "frame": 1,
+      "durationMs": 110,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 9,
+      "row": 0
+    },
+    {
+      "id": "sun-guard.walk.S.2",
+      "action": "walk",
+      "facing": "S",
+      "frame": 2,
+      "durationMs": 110,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 8,
+      "row": 1
+    },
+    {
+      "id": "sun-guard.walk.S.3",
+      "action": "walk",
+      "facing": "S",
+      "frame": 3,
+      "durationMs": 110,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 9,
+      "row": 1
+    },
+    {
+      "id": "sun-guard.walk.SW.0",
+      "action": "walk",
+      "facing": "SW",
+      "frame": 0,
+      "durationMs": 110,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 10,
+      "row": 0
+    },
+    {
+      "id": "sun-guard.walk.SW.1",
+      "action": "walk",
+      "facing": "SW",
+      "frame": 1,
+      "durationMs": 110,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 11,
+      "row": 0
+    },
+    {
+      "id": "sun-guard.walk.SW.2",
+      "action": "walk",
+      "facing": "SW",
+      "frame": 2,
+      "durationMs": 110,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 10,
+      "row": 1
+    },
+    {
+      "id": "sun-guard.walk.SW.3",
+      "action": "walk",
+      "facing": "SW",
+      "frame": 3,
+      "durationMs": 110,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 11,
+      "row": 1
+    },
+    {
+      "id": "sun-guard.walk.W.0",
+      "action": "walk",
+      "facing": "W",
+      "frame": 0,
+      "durationMs": 110,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 12,
+      "row": 0
+    },
+    {
+      "id": "sun-guard.walk.W.1",
+      "action": "walk",
+      "facing": "W",
+      "frame": 1,
+      "durationMs": 110,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 13,
+      "row": 0
+    },
+    {
+      "id": "sun-guard.walk.W.2",
+      "action": "walk",
+      "facing": "W",
+      "frame": 2,
+      "durationMs": 110,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 12,
+      "row": 1
+    },
+    {
+      "id": "sun-guard.walk.W.3",
+      "action": "walk",
+      "facing": "W",
+      "frame": 3,
+      "durationMs": 110,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 13,
+      "row": 1
+    },
+    {
+      "id": "sun-guard.walk.NW.0",
+      "action": "walk",
+      "facing": "NW",
+      "frame": 0,
+      "durationMs": 110,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 14,
+      "row": 0
+    },
+    {
+      "id": "sun-guard.walk.NW.1",
+      "action": "walk",
+      "facing": "NW",
+      "frame": 1,
+      "durationMs": 110,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 15,
+      "row": 0
+    },
+    {
+      "id": "sun-guard.walk.NW.2",
+      "action": "walk",
+      "facing": "NW",
+      "frame": 2,
+      "durationMs": 110,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 14,
+      "row": 1
+    },
+    {
+      "id": "sun-guard.walk.NW.3",
+      "action": "walk",
+      "facing": "NW",
+      "frame": 3,
+      "durationMs": 110,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 15,
+      "row": 1
+    },
+    {
+      "id": "sun-guard.attack.N.0",
+      "action": "attack",
+      "facing": "N",
+      "frame": 0,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 0,
+      "row": 2
+    },
+    {
+      "id": "sun-guard.attack.N.1",
+      "action": "attack",
+      "facing": "N",
+      "frame": 1,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 1,
+      "row": 2
+    },
+    {
+      "id": "sun-guard.attack.N.2",
+      "action": "attack",
+      "facing": "N",
+      "frame": 2,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 0,
+      "row": 3
+    },
+    {
+      "id": "sun-guard.attack.N.3",
+      "action": "attack",
+      "facing": "N",
+      "frame": 3,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 1,
+      "row": 3
+    },
+    {
+      "id": "sun-guard.attack.NE.0",
+      "action": "attack",
+      "facing": "NE",
+      "frame": 0,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 2,
+      "row": 2
+    },
+    {
+      "id": "sun-guard.attack.NE.1",
+      "action": "attack",
+      "facing": "NE",
+      "frame": 1,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 3,
+      "row": 2
+    },
+    {
+      "id": "sun-guard.attack.NE.2",
+      "action": "attack",
+      "facing": "NE",
+      "frame": 2,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 2,
+      "row": 3
+    },
+    {
+      "id": "sun-guard.attack.NE.3",
+      "action": "attack",
+      "facing": "NE",
+      "frame": 3,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 3,
+      "row": 3
+    },
+    {
+      "id": "sun-guard.attack.E.0",
+      "action": "attack",
+      "facing": "E",
+      "frame": 0,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 4,
+      "row": 2
+    },
+    {
+      "id": "sun-guard.attack.E.1",
+      "action": "attack",
+      "facing": "E",
+      "frame": 1,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 5,
+      "row": 2
+    },
+    {
+      "id": "sun-guard.attack.E.2",
+      "action": "attack",
+      "facing": "E",
+      "frame": 2,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 4,
+      "row": 3
+    },
+    {
+      "id": "sun-guard.attack.E.3",
+      "action": "attack",
+      "facing": "E",
+      "frame": 3,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 5,
+      "row": 3
+    },
+    {
+      "id": "sun-guard.attack.SE.0",
+      "action": "attack",
+      "facing": "SE",
+      "frame": 0,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 6,
+      "row": 2
+    },
+    {
+      "id": "sun-guard.attack.SE.1",
+      "action": "attack",
+      "facing": "SE",
+      "frame": 1,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 7,
+      "row": 2
+    },
+    {
+      "id": "sun-guard.attack.SE.2",
+      "action": "attack",
+      "facing": "SE",
+      "frame": 2,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 6,
+      "row": 3
+    },
+    {
+      "id": "sun-guard.attack.SE.3",
+      "action": "attack",
+      "facing": "SE",
+      "frame": 3,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 7,
+      "row": 3
+    },
+    {
+      "id": "sun-guard.attack.S.0",
+      "action": "attack",
+      "facing": "S",
+      "frame": 0,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 8,
+      "row": 2
+    },
+    {
+      "id": "sun-guard.attack.S.1",
+      "action": "attack",
+      "facing": "S",
+      "frame": 1,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 9,
+      "row": 2
+    },
+    {
+      "id": "sun-guard.attack.S.2",
+      "action": "attack",
+      "facing": "S",
+      "frame": 2,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 8,
+      "row": 3
+    },
+    {
+      "id": "sun-guard.attack.S.3",
+      "action": "attack",
+      "facing": "S",
+      "frame": 3,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 9,
+      "row": 3
+    },
+    {
+      "id": "sun-guard.attack.SW.0",
+      "action": "attack",
+      "facing": "SW",
+      "frame": 0,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 10,
+      "row": 2
+    },
+    {
+      "id": "sun-guard.attack.SW.1",
+      "action": "attack",
+      "facing": "SW",
+      "frame": 1,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 11,
+      "row": 2
+    },
+    {
+      "id": "sun-guard.attack.SW.2",
+      "action": "attack",
+      "facing": "SW",
+      "frame": 2,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 10,
+      "row": 3
+    },
+    {
+      "id": "sun-guard.attack.SW.3",
+      "action": "attack",
+      "facing": "SW",
+      "frame": 3,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 11,
+      "row": 3
+    },
+    {
+      "id": "sun-guard.attack.W.0",
+      "action": "attack",
+      "facing": "W",
+      "frame": 0,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 12,
+      "row": 2
+    },
+    {
+      "id": "sun-guard.attack.W.1",
+      "action": "attack",
+      "facing": "W",
+      "frame": 1,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 13,
+      "row": 2
+    },
+    {
+      "id": "sun-guard.attack.W.2",
+      "action": "attack",
+      "facing": "W",
+      "frame": 2,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 12,
+      "row": 3
+    },
+    {
+      "id": "sun-guard.attack.W.3",
+      "action": "attack",
+      "facing": "W",
+      "frame": 3,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 13,
+      "row": 3
+    },
+    {
+      "id": "sun-guard.attack.NW.0",
+      "action": "attack",
+      "facing": "NW",
+      "frame": 0,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 14,
+      "row": 2
+    },
+    {
+      "id": "sun-guard.attack.NW.1",
+      "action": "attack",
+      "facing": "NW",
+      "frame": 1,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 15,
+      "row": 2
+    },
+    {
+      "id": "sun-guard.attack.NW.2",
+      "action": "attack",
+      "facing": "NW",
+      "frame": 2,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 14,
+      "row": 3
+    },
+    {
+      "id": "sun-guard.attack.NW.3",
+      "action": "attack",
+      "facing": "NW",
+      "frame": 3,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 15,
+      "row": 3
+    },
+    {
+      "id": "sun-guard.death.N.0",
+      "action": "death",
+      "facing": "N",
+      "frame": 0,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 0,
+      "row": 4
+    },
+    {
+      "id": "sun-guard.death.N.1",
+      "action": "death",
+      "facing": "N",
+      "frame": 1,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 1,
+      "row": 4
+    },
+    {
+      "id": "sun-guard.death.N.2",
+      "action": "death",
+      "facing": "N",
+      "frame": 2,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 0,
+      "row": 5
+    },
+    {
+      "id": "sun-guard.death.N.3",
+      "action": "death",
+      "facing": "N",
+      "frame": 3,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 1,
+      "row": 5
+    },
+    {
+      "id": "sun-guard.death.NE.0",
+      "action": "death",
+      "facing": "NE",
+      "frame": 0,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 2,
+      "row": 4
+    },
+    {
+      "id": "sun-guard.death.NE.1",
+      "action": "death",
+      "facing": "NE",
+      "frame": 1,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 3,
+      "row": 4
+    },
+    {
+      "id": "sun-guard.death.NE.2",
+      "action": "death",
+      "facing": "NE",
+      "frame": 2,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 2,
+      "row": 5
+    },
+    {
+      "id": "sun-guard.death.NE.3",
+      "action": "death",
+      "facing": "NE",
+      "frame": 3,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 3,
+      "row": 5
+    },
+    {
+      "id": "sun-guard.death.E.0",
+      "action": "death",
+      "facing": "E",
+      "frame": 0,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 4,
+      "row": 4
+    },
+    {
+      "id": "sun-guard.death.E.1",
+      "action": "death",
+      "facing": "E",
+      "frame": 1,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 5,
+      "row": 4
+    },
+    {
+      "id": "sun-guard.death.E.2",
+      "action": "death",
+      "facing": "E",
+      "frame": 2,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 4,
+      "row": 5
+    },
+    {
+      "id": "sun-guard.death.E.3",
+      "action": "death",
+      "facing": "E",
+      "frame": 3,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 5,
+      "row": 5
+    },
+    {
+      "id": "sun-guard.death.SE.0",
+      "action": "death",
+      "facing": "SE",
+      "frame": 0,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 6,
+      "row": 4
+    },
+    {
+      "id": "sun-guard.death.SE.1",
+      "action": "death",
+      "facing": "SE",
+      "frame": 1,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 7,
+      "row": 4
+    },
+    {
+      "id": "sun-guard.death.SE.2",
+      "action": "death",
+      "facing": "SE",
+      "frame": 2,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 6,
+      "row": 5
+    },
+    {
+      "id": "sun-guard.death.SE.3",
+      "action": "death",
+      "facing": "SE",
+      "frame": 3,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 7,
+      "row": 5
+    },
+    {
+      "id": "sun-guard.death.S.0",
+      "action": "death",
+      "facing": "S",
+      "frame": 0,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 8,
+      "row": 4
+    },
+    {
+      "id": "sun-guard.death.S.1",
+      "action": "death",
+      "facing": "S",
+      "frame": 1,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 9,
+      "row": 4
+    },
+    {
+      "id": "sun-guard.death.S.2",
+      "action": "death",
+      "facing": "S",
+      "frame": 2,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 8,
+      "row": 5
+    },
+    {
+      "id": "sun-guard.death.S.3",
+      "action": "death",
+      "facing": "S",
+      "frame": 3,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": false,
+      "col": 9,
+      "row": 5
+    },
+    {
+      "id": "sun-guard.death.SW.0",
+      "action": "death",
+      "facing": "SW",
+      "frame": 0,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 10,
+      "row": 4
+    },
+    {
+      "id": "sun-guard.death.SW.1",
+      "action": "death",
+      "facing": "SW",
+      "frame": 1,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 11,
+      "row": 4
+    },
+    {
+      "id": "sun-guard.death.SW.2",
+      "action": "death",
+      "facing": "SW",
+      "frame": 2,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 10,
+      "row": 5
+    },
+    {
+      "id": "sun-guard.death.SW.3",
+      "action": "death",
+      "facing": "SW",
+      "frame": 3,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 11,
+      "row": 5
+    },
+    {
+      "id": "sun-guard.death.W.0",
+      "action": "death",
+      "facing": "W",
+      "frame": 0,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 12,
+      "row": 4
+    },
+    {
+      "id": "sun-guard.death.W.1",
+      "action": "death",
+      "facing": "W",
+      "frame": 1,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 13,
+      "row": 4
+    },
+    {
+      "id": "sun-guard.death.W.2",
+      "action": "death",
+      "facing": "W",
+      "frame": 2,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 12,
+      "row": 5
+    },
+    {
+      "id": "sun-guard.death.W.3",
+      "action": "death",
+      "facing": "W",
+      "frame": 3,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 13,
+      "row": 5
+    },
+    {
+      "id": "sun-guard.death.NW.0",
+      "action": "death",
+      "facing": "NW",
+      "frame": 0,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 14,
+      "row": 4
+    },
+    {
+      "id": "sun-guard.death.NW.1",
+      "action": "death",
+      "facing": "NW",
+      "frame": 1,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 15,
+      "row": 4
+    },
+    {
+      "id": "sun-guard.death.NW.2",
+      "action": "death",
+      "facing": "NW",
+      "frame": 2,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 14,
+      "row": 5
+    },
+    {
+      "id": "sun-guard.death.NW.3",
+      "action": "death",
+      "facing": "NW",
+      "frame": 3,
+      "durationMs": 100,
+      "pivot": {
+        "x": 64,
+        "y": 112
+      },
+      "mirrored": true,
+      "col": 15,
+      "row": 5
+    }
+  ]
+}

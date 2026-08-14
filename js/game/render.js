@@ -126,6 +126,26 @@ export function sampleH(x, z) {
 }
 
 const WALK_STATES = new Set(["walk", "gatherwalk", "return", "buildwalk", "attackmove"]);
+const ATLAS_DIRECTIONS = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
+const SHEET_ROW_TO_FACING = ["S", "SE", "E", "NE", "N", "NW", "W", "SW"];
+const SUN_GUARD_ATLAS_META = {
+  id: "sun-guard",
+  cols: 16,
+  rows: 6,
+  clips: [
+    { id: "walk", frames: 4, durationMs: 110, loop: true },
+    { id: "attack", frames: 4, durationMs: 100, loop: false },
+    { id: "death", frames: 4, durationMs: 100, loop: false },
+  ],
+};
+
+let sunGuardAtlas = SUN_GUARD_ATLAS_META;
+fetch("media/sprites/sun-guard.atlas.json", { cache: "no-cache" })
+  .then((res) => (res.ok ? res.json() : null))
+  .then((json) => {
+    if (json?.id === "sun-guard") sunGuardAtlas = json;
+  })
+  .catch(() => {});
 
 function dirRow(facing, southFirst = false) {
   const two = Math.PI * 2;
@@ -138,10 +158,28 @@ function dirRow(facing, southFirst = false) {
 }
 
 function setFrame(tex, col, row, cols = 8, rows = 8) {
-  const pad = 0.5 / 1024;
+  const w = tex.image?.width || cols * 128;
+  const pad = 0.5 / w;
   tex.repeat.set(1 / cols - pad * 2, 1 / rows - pad * 2);
   tex.offset.set(col / cols + pad, 1 - (row + 1) / rows + pad);
   if (tex.matrixAutoUpdate) tex.updateMatrix();
+}
+
+function atlasCell(meta, action, sheetRow, frameIdx) {
+  const facing = SHEET_ROW_TO_FACING[sheetRow] || "S";
+  const directionIndex = ATLAS_DIRECTIONS.indexOf(facing);
+  const actionIndex = meta.clips.findIndex((c) => c.id === action);
+  return {
+    col: directionIndex * 2 + (frameIdx % 2),
+    row: actionIndex * 2 + Math.floor(frameIdx / 2),
+  };
+}
+
+function pipelineAction(u, moving, dying) {
+  if (dying) return "death";
+  if (u.state === "attack") return "attack";
+  if (moving || WALK_STATES.has(u.state)) return "walk";
+  return "walk";
 }
 
 function cloneSheet(base) {
@@ -238,6 +276,7 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
     sunWalk: pix("media/sprites/sheet-sunwoven-walk.png"),
     graveWalk: pix("media/sprites/sheet-gravemark-walk.png"),
     sunGuard: pix("media/sprites/sheet-sun-guard.png"),
+    sunGuardAtlas: pix("media/sprites/sun-guard.atlas.png"),
     graveGuard: pix("media/sprites/sheet-grave-guard.png"),
   };
   const stills = {
@@ -339,6 +378,7 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
   });
   const shadowGeo = new THREE.CircleGeometry(0.62, 22);
   const shadowMat = new THREE.MeshBasicMaterial({ color: 0x120c08, transparent: true, opacity: 0.52, depthWrite: false, toneMapped: false });
+  const corpses = new Map();
 
   const ghost = createLitBillboard(bldg.sun.house, { pivotY: 0.12, opacity: 0.45, glow: 0.15 });
   ghost.visible = false;
@@ -485,6 +525,7 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
       const y = sampleH(wx(u), wz(u));
       m.position.set(wx(u), y, wz(u));
       animateUnit(m, u, world, dt);
+      m.userData.lastFacing = (FACING_MILLIRAD[u.facingOctant || 0] || 0) / 1000;
       m.visible = u.owner === "player" || vis(world, wx(u), wz(u));
       keep.add("sh" + u.id);
       let sh = meshes.get("sh" + u.id);
@@ -496,6 +537,36 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
       }
       sh.position.set(wx(u), y + 0.04, wz(u));
       sh.visible = m.visible;
+    }
+    for (const [id, corpse] of corpses) {
+      corpse.t += dt;
+      if (corpse.t > 0.42) {
+        const k = "u" + id;
+        const m = meshes.get(k);
+        if (m) {
+          scene.remove(m);
+          disposeSprite(m);
+          meshes.delete(k);
+        }
+        const sh = meshes.get("sh" + id);
+        if (sh) {
+          scene.remove(sh);
+          meshes.delete(sh);
+        }
+        corpses.delete(id);
+        continue;
+      }
+      keep.add("u" + id);
+      keep.add("sh" + id);
+      const m = meshes.get("u" + id);
+      if (!m) continue;
+      animateUnit(m, { facing: corpse.facing, state: "idle" }, world, dt, { dying: true });
+      m.visible = true;
+      const sh = meshes.get("sh" + id);
+      if (sh) {
+        sh.position.set(m.position.x, m.position.y + 0.04, m.position.z);
+        sh.visible = true;
+      }
     }
     for (const p of world.projectiles) {
       keep.add("p" + p.id);
@@ -530,6 +601,12 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
     }
     for (const [k, m] of meshes) {
       if (!keep.has(k)) {
+        if (k.startsWith("u") && !k.startsWith("ush") && m.userData.pipelineAtlas && !corpses.has(k.slice(1))) {
+          corpses.set(k.slice(1), { t: 0, facing: m.userData.lastFacing || 0 });
+          keep.add(k);
+          keep.add("sh" + k.slice(1));
+          continue;
+        }
         scene.remove(m);
         disposeLitBillboard(m);
         meshes.delete(k);
@@ -673,6 +750,15 @@ function unitSheet(u, sheets, stills) {
   if (u.type === "siege") return { map: grave ? stills.graveSiege : stills.sunSiege, sheet: false, scale: 5.2 };
   if (u.type === "titan") return { map: stills.graveStrider, sheet: false, scale: 7.0 };
   if (u.type === "guard" || u.type === "archer") {
+    if (!grave && u.type === "guard") {
+      return {
+        map: sheets.sunGuardAtlas,
+        sheet: true,
+        scale: 4.15,
+        southFirst: false,
+        pipelineAtlas: sunGuardAtlas,
+      };
+    }
     return { map: grave ? sheets.graveGuard : sheets.sunGuard, sheet: true, scale: 4.15, southFirst: false };
   }
   return { map: grave ? sheets.graveWalk : sheets.sunWalk, sheet: true, scale: 4.05, southFirst: grave };
@@ -684,34 +770,60 @@ function makeUnitSprite(u, sheets, stills) {
   const s = createLitBillboard(map, { pivotY: 0.05 });
   s.userData.sheet = spec.sheet;
   s.userData.southFirst = !!spec.southFirst;
+  s.userData.pipelineAtlas = spec.pipelineAtlas || null;
   s.userData.baseScale = spec.scale;
   s.userData.aspect = spec.sheet ? 1 : 1;
   s.userData.walkT = 0;
   if (!spec.sheet) fitWhenReady(s, map, spec.scale);
   else {
-    setFrame(map, 0, spec.southFirst ? 0 : 4);
+    const startRow = spec.southFirst ? 0 : 4;
+    if (spec.pipelineAtlas) setFrame(map, 0, startRow, spec.pipelineAtlas.cols, spec.pipelineAtlas.rows);
+    else setFrame(map, 0, startRow);
     s.scale.set(spec.scale, spec.scale, 1);
   }
   return s;
 }
 
-function animateUnit(sprite, u, world, dt = 0.016) {
+function animateUnit(sprite, u, world, dt = 0.016, opts = {}) {
   const onPath = WALK_STATES.has(u.state) && Array.isArray(u.path) && u.path.length > 0;
   const dx = wx(u) - (sprite.userData.px ?? wx(u));
   const dz = wz(u) - (sprite.userData.pz ?? wz(u));
   sprite.userData.px = wx(u);
   sprite.userData.pz = wz(u);
   const moving = onPath || Math.hypot(dx, dz) > 0.0008;
+  const facing = (FACING_MILLIRAD[u.facingOctant || 0] || 0) / 1000;
+  sprite.userData.lastFacing = facing;
   const tex = litMap(sprite);
   if (sprite.userData.sheet && tex) {
-    if (moving) sprite.userData.walkT = (sprite.userData.walkT || 0) + dt;
-    else sprite.userData.walkT = 0;
-    const col = moving ? Math.floor(sprite.userData.walkT * 12) % 8 : 0;
-    const row = dirRow((FACING_MILLIRAD[u.facingOctant || 0] || 0) / 1000, sprite.userData.southFirst);
-    if (sprite.userData.col !== col || sprite.userData.row !== row) {
-      sprite.userData.col = col;
-      sprite.userData.row = row;
-      setFrame(tex, col, row);
+    const meta = sprite.userData.pipelineAtlas;
+    if (meta) {
+      const action = pipelineAction(u, moving, !!opts.dying);
+      const clip = meta.clips.find((c) => c.id === action) || meta.clips[0];
+      if (moving && action === "walk") sprite.userData.walkT = (sprite.userData.walkT || 0) + dt;
+      else if (action === "attack" || action === "death") sprite.userData.walkT = (sprite.userData.walkT || 0) + dt;
+      else sprite.userData.walkT = 0;
+      const frameDur = (clip?.durationMs || 110) / 1000;
+      let frameIdx = Math.floor((sprite.userData.walkT || 0) / frameDur);
+      if (!clip?.loop) frameIdx = Math.min(frameIdx, (clip?.frames || 4) - 1);
+      else frameIdx %= clip?.frames || 4;
+      const row = dirRow(facing, sprite.userData.southFirst);
+      const cell = atlasCell(meta, action, row, frameIdx);
+      if (sprite.userData.col !== cell.col || sprite.userData.row !== cell.row || sprite.userData.action !== action) {
+        sprite.userData.col = cell.col;
+        sprite.userData.row = cell.row;
+        sprite.userData.action = action;
+        setFrame(tex, cell.col, cell.row, meta.cols, meta.rows);
+      }
+    } else {
+      if (moving) sprite.userData.walkT = (sprite.userData.walkT || 0) + dt;
+      else sprite.userData.walkT = 0;
+      const col = moving ? Math.floor(sprite.userData.walkT * 12) % 8 : 0;
+      const row = dirRow(facing, sprite.userData.southFirst);
+      if (sprite.userData.col !== col || sprite.userData.row !== row) {
+        sprite.userData.col = col;
+        sprite.userData.row = row;
+        setFrame(tex, col, row);
+      }
     }
   }
   const bob = moving ? 1 + Math.sin((sprite.userData.walkT || 0) * 14) * 0.03 : 1;

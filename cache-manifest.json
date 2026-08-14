@@ -1,5 +1,5 @@
 {
-  "version": "crateless-0814a",
+  "version": "pipeline-sun-guard-v1",
   "shell": [
     "media/fonts/orbitron-latin-700-normal.woff2",
     "media/fonts/orbitron-latin-800-normal.woff2",
@@ -55,6 +55,8 @@
     "media/sprites/sheet-grave-guard.png",
     "media/sprites/sheet-gravemark-walk.png",
     "media/sprites/sheet-sun-guard.png",
+    "media/sprites/sun-guard.atlas.json",
+    "media/sprites/sun-guard.atlas.png",
     "media/sprites/sheet-sunwoven-walk.png",
     "media/sprites/unit-grave-siege.png",
     "media/sprites/unit-grave-strider.png",
@@ -119,6 +121,8 @@
     "media/sprites/sheet-grave-guard.png",
     "media/sprites/sheet-gravemark-walk.png",
     "media/sprites/sheet-sun-guard.png",
+    "media/sprites/sun-guard.atlas.json",
+    "media/sprites/sun-guard.atlas.png",
     "media/sprites/sheet-sunwoven-walk.png",
     "media/sprites/unit-grave-siege.png",
     "media/sprites/unit-grave-strider.png",

@@ -1,0 +1,7 @@
+{
+  "id": "meridian.v1",
+  "faction": "meridian",
+  "colors": ["#55E6F2", "#8C63FF"],
+  "dither": 0,
+  "colorSpace": "sRGB"
+}
