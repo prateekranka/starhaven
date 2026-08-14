@@ -525,19 +525,14 @@ function onEmptyGround(e, g) {
     return;
   }
   const snap = world.selection.slice();
-  if (emptyTapTimer) {
-    clearTimeout(emptyTapTimer);
-    emptyTapTimer = 0;
-  }
+  clearEmptyTap(false);
   emptyTap = { t: now, cx: e.clientX, cy: e.clientY, selection: snap };
   if (!snap.length) return;
+  /* Optimistic deselect: hide selection immediately; restore if a second tap arrives within DBL_MS. */
+  world.selection = [];
   emptyTapTimer = setTimeout(() => {
     emptyTapTimer = 0;
     emptyTap = null;
-    if (!world) return;
-    world.selection = [];
-    renderSelection();
-    paintDebugState();
   }, DBL_MS);
 }
 
