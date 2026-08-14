@@ -148,13 +148,13 @@
     },
     {
       "path": "js/sim/civs/stormveil.js",
-      "bytes": 13343,
-      "sha256": "22165398920a1eb4b5641d10304958909b6bbb885d83e217c7a73cf4df5df04d"
+      "bytes": 13385,
+      "sha256": "caff5cc461abb1603046b911d46797848afa6414ada6414086ce75ab8cb0be78"
     },
     {
       "path": "js/sim/engine.js",
-      "bytes": 41356,
-      "sha256": "d343bb7cb92af17b61d985cf4dfc643fa9cbccf4e3c0e4f28ecae6af8fce4a56"
+      "bytes": 41650,
+      "sha256": "bb71076dc972096bcf14ad0ed9c4351150d83e051f194f246980082e780137b0"
     },
     {
       "path": "js/sim/fixed.js",
@@ -167,9 +167,14 @@
       "sha256": "21e762938f83094070a92588748babae2ef920577ccaaff44f76e9feaad1aae6"
     },
     {
+      "path": "js/sim/ids.js",
+      "bytes": 208,
+      "sha256": "a4acca44ecba62bd539d911752db3f524a2deb362c99871528f29b519583cabe"
+    },
+    {
       "path": "js/sim/map-loader.js",
-      "bytes": 4668,
-      "sha256": "2f17b33a5bbd2d792ddce5bb1d66c46660df31a8e5467ff2e40fc793acd04102"
+      "bytes": 4792,
+      "sha256": "064b45e56842b0d175058649e25337c5697dd9ea65fd79868ae6c39ccc1910d3"
     },
     {
       "path": "js/sim/match-snapshot.js",
@@ -1787,6 +1792,6 @@
       "sha256": "ce1fa418de16a19495a9f72495580e3015d7745c296d3ce0485897f902ddedfb"
     }
   ],
-  "fileCount": 357,
-  "totalBytes": 133568320
+  "fileCount": 358,
+  "totalBytes": 133568988
 }
