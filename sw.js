@@ -75,6 +75,19 @@ function looksLikeHtml(res) {
   return ct.includes("text/html");
 }
 
+function isImagePath(url) {
+  return /\.(png|jpe?g|webp|gif)$/i.test(url.pathname || "");
+}
+
+function looksLikeNonImage(res, url) {
+  if (!res || !isImagePath(url)) return false;
+  const ct = (res.headers.get("content-type") || "").toLowerCase();
+  if (!ct) return false;
+  if (ct.startsWith("image/")) return false;
+  if (ct.includes("octet-stream") || ct.includes("binary")) return false;
+  return true;
+}
+
 function toKey(request) {
   const url = new URL(request.url);
   url.search = "";
@@ -91,7 +104,9 @@ function missingResponse(request, url) {
 }
 
 async function dropHtml(cache, key, res, request, url) {
-  if (!res || !looksLikeHtml(res) || isDocumentRequest(request, url)) return res;
+  const badHtml = looksLikeHtml(res) && !isDocumentRequest(request, url);
+  const badImage = looksLikeNonImage(res, url);
+  if (!res || (!badHtml && !badImage)) return res;
   if (cache && key) {
     try { await cache.delete(key); } catch { /* ignore */ }
   }
@@ -117,13 +132,14 @@ async function precache() {
 
 async function putIfMissing(cache, href) {
   const hit = await cache.match(href);
-  if (hit && !looksLikeHtml(hit)) return;
+  if (hit && !looksLikeHtml(hit) && !looksLikeNonImage(hit, new URL(href))) return;
   if (hit) {
     try { await cache.delete(href); } catch { /* ignore */ }
   }
   try {
     const res = await fetch(href);
-    if (res.ok && !looksLikeHtml(res)) await cache.put(href, res);
+    const url = new URL(href);
+    if (res.ok && !looksLikeHtml(res) && !looksLikeNonImage(res, url)) await cache.put(href, res);
   } catch {
     /* skip missing files so one 404 does not fail install */
   }
@@ -140,7 +156,7 @@ async function cacheFirst(request) {
     if (clean && clean.ok) return clean;
   }
   const res = await fetch(request);
-  if (looksLikeHtml(res) && !isDocumentRequest(request, url)) {
+  if ((looksLikeHtml(res) && !isDocumentRequest(request, url)) || looksLikeNonImage(res, url)) {
     return missingResponse(request, url);
   }
   if (res.ok) await cache.put(key, res.clone()).catch(() => {});
@@ -154,7 +170,7 @@ async function networkFirst(request) {
   const key = toKey(request);
   try {
     const res = await fetch(request, { cache: "no-cache" });
-    if (looksLikeHtml(res) && !isDocumentRequest(request, url)) {
+    if ((looksLikeHtml(res) && !isDocumentRequest(request, url)) || looksLikeNonImage(res, url)) {
       await cache.delete(key).catch(() => {});
       return missingResponse(request, url);
     }

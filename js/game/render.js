@@ -15,6 +15,7 @@ import {
   disposeLitBillboard,
   litMap,
   setLitMap,
+  syncLitMapUv,
 } from "./bright-lit.js";
 import { createParticleSystem } from "./particles.js";
 import {
@@ -40,8 +41,9 @@ const loader = new THREE.TextureLoader();
 
 function pix(url, repeat = 0) {
   const img = cachedImage(url);
-  const t = img ? new THREE.Texture(img) : loader.load(url);
-  if (img) {
+  const failed = !!(img && img.complete && !(img.naturalWidth || img.width));
+  const t = img && !failed ? new THREE.Texture(img) : loader.load(url);
+  if (img && !failed) {
     t.needsUpdate = !!img.complete;
     if (!img.complete) {
       img.addEventListener("load", () => {
@@ -793,6 +795,7 @@ function makeUnitSprite(u, atlasTex) {
   s.userData.action = "idle";
   setFrame(map, 0, 0, meta.cols, meta.rows);
   s.scale.set(s.userData.baseScale, s.userData.baseScale, 1);
+  syncLitMapUv(s);
   return s;
 }
 
@@ -839,8 +842,10 @@ function animateUnit(sprite, u, world, dt = 0.016, opts = {}) {
     sprite.userData.row = cell.row;
     sprite.userData.action = action;
     setFrame(tex, cell.col, cell.row, meta.cols, meta.rows);
+    syncLitMapUv(sprite);
   }
 
+  syncLitMapUv(sprite);
   const s = sprite.userData.baseScale || 2.4;
   sprite.scale.set(s, s, 1);
 }

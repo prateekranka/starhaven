@@ -42,8 +42,30 @@ def composite_top(base: Image.Image, overlay: Image.Image, y_frac: float = 0.08,
     return out
 
 
+def atlas_frame(src_name: str, facing: str = "S", frame: int = 0, action: str = "walk") -> Image.Image:
+    meta_path = SPR / src_name.replace(".atlas.png", ".atlas.json")
+    meta = json.loads(meta_path.read_text())
+    cell = int(meta.get("cell") or 128)
+    match = next(
+        (
+            f
+            for f in meta["frames"]
+            if f.get("action") == action and f.get("facing") == facing and int(f.get("frame") or 0) == frame
+        ),
+        None,
+    )
+    if match is None:
+        raise SystemExit(f"no {action}.{facing}.{frame} in {meta_path.name}")
+    src = load(src_name)
+    x = int(match["col"]) * cell
+    y = int(match["row"]) * cell
+    return src.crop((x, y, x + cell, y + cell))
+
+
 def crop_portrait(src: Image.Image, size: int = 256) -> Image.Image:
     w, h = src.size
+    if w <= 256 and h <= 256:
+        return src.resize((size, size), Image.Resampling.NEAREST) if (w, h) != (size, size) else src
     side = min(w, h, int(min(w, h) * 0.72))
     left = (w - side) // 2
     top = max(0, h - side - int(h * 0.06))
@@ -53,6 +75,8 @@ def crop_portrait(src: Image.Image, size: int = 256) -> Image.Image:
 
 def icon_from(img: Image.Image, size: int = 128, x_bias: float = 0.0) -> Image.Image:
     w, h = img.size
+    if w <= 256 and h <= 256:
+        return img.resize((size, size), Image.Resampling.NEAREST) if (w, h) != (size, size) else img
     side = min(w, h, int(min(w, h) * 0.72))
     left = (w - side) // 2 + int(side * x_bias)
     left = max(0, min(w - side, left))
@@ -108,22 +132,22 @@ def grave_buildings() -> None:
 
 def portraits() -> None:
     mapping = {
-        "portrait-sun-villager.png": "sun-walk.atlas.png",
-        "portrait-sun-scout.png": "sun-walk.atlas.png",
-        "portrait-sun-guard.png": "sun-guard.atlas.png",
-        "portrait-sun-archer.png": "sun-guard.atlas.png",
-        "portrait-sun-strider.png": "unit-sun-strider.png",
-        "portrait-sun-siege.png": "unit-sun-siege.png",
-        "portrait-grave-villager.png": "grave-walk.atlas.png",
-        "portrait-grave-scout.png": "grave-walk.atlas.png",
-        "portrait-grave-guard.png": "grave-guard.atlas.png",
-        "portrait-grave-archer.png": "grave-guard.atlas.png",
-        "portrait-grave-strider.png": "unit-grave-strider.png",
-        "portrait-grave-siege.png": "unit-grave-siege.png",
-        "portrait-grave-titan.png": "unit-grave-strider.png",
+        "portrait-sun-villager.png": ("sun-walk.atlas.png", "S"),
+        "portrait-sun-scout.png": ("sun-walk.atlas.png", "SE"),
+        "portrait-sun-guard.png": ("sun-guard.atlas.png", "S"),
+        "portrait-sun-archer.png": ("sun-guard.atlas.png", "SE"),
+        "portrait-sun-strider.png": ("unit-sun-strider.png", None),
+        "portrait-sun-siege.png": ("unit-sun-siege.png", None),
+        "portrait-grave-villager.png": ("grave-walk.atlas.png", "S"),
+        "portrait-grave-scout.png": ("grave-walk.atlas.png", "SE"),
+        "portrait-grave-guard.png": ("grave-guard.atlas.png", "S"),
+        "portrait-grave-archer.png": ("grave-guard.atlas.png", "SE"),
+        "portrait-grave-strider.png": ("unit-grave-strider.png", None),
+        "portrait-grave-siege.png": ("unit-grave-siege.png", None),
+        "portrait-grave-titan.png": ("unit-grave-strider.png", None),
     }
-    for out_name, src_name in mapping.items():
-        src = load(src_name)
+    for out_name, (src_name, facing) in mapping.items():
+        src = atlas_frame(src_name, facing=facing) if facing else load(src_name)
         save(crop_portrait(src, 256), out_name)
 
 
@@ -145,20 +169,20 @@ def command_icons() -> None:
             save(icon_from(src), f"icon-build-{fac}-{btype}.png")
 
     trains = [
-        ("villager", "walk", 0.0),
-        ("scout", "walk", 0.12),
-        ("guard", "guard", 0.0),
-        ("archer", "guard", 0.1),
-        ("strider", "strider", 0.0),
-        ("siege", "siege", 0.0),
+        ("villager", "walk", "S"),
+        ("scout", "walk", "SE"),
+        ("guard", "guard", "S"),
+        ("archer", "guard", "SE"),
+        ("strider", "strider", None),
+        ("siege", "siege", None),
     ]
     for fac in ("sun", "grave"):
-        for unit, atlas_key, bias in trains:
+        for unit, atlas_key, facing in trains:
             if atlas_key in ("strider", "siege"):
                 src = load(f"unit-{fac}-{atlas_key}.png")
             else:
-                src = load(f"{fac}-{atlas_key}.atlas.png")
-            save(icon_from(src, x_bias=bias), f"icon-train-{fac}-{unit}.png")
+                src = atlas_frame(f"{fac}-{atlas_key}.atlas.png", facing=facing)
+            save(icon_from(src), f"icon-train-{fac}-{unit}.png")
 
     save(icon_from(load("bldg-sun-tc.png")), "icon-age-sun.png")
     save(icon_from(load("bldg-grave-tc.png")), "icon-age-grave.png")

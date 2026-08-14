@@ -125,6 +125,13 @@ function civSpriteUrls(civId) {
   for (const b of ["tc", "house", "rax", "mill", "lumber", "mine", "spire", "den", "workshop", "wonder"]) {
     urls.push(`media/sprites/bldg-${p}-${b}.png`);
   }
+  const trains = ["villager", "scout", "guard", "archer", "strider", "siege"];
+  if (p === "storm") trains.push("wagon");
+  for (const unit of trains) {
+    urls.push(`media/sprites/icon-train-${p}-${unit}.png`);
+    urls.push(`media/sprites/portrait-${p}-${unit}.png`);
+  }
+  urls.push(`media/sprites/icon-age-${p}.png`);
   if (p === "ash") {
     urls.push("media/sprites/bldg-ash-tunnel-mouth.png", "media/sprites/bldg-ash-lava-vent.png");
   }
@@ -181,6 +188,14 @@ function isHtmlResponse(res) {
   if (!res) return false;
   const ct = (res.headers.get("content-type") || "").toLowerCase();
   return ct.includes("text/html");
+}
+
+function isNonImageType(type) {
+  const ct = String(type || "").toLowerCase();
+  if (!ct) return false;
+  if (ct.startsWith("image/")) return false;
+  if (ct.includes("octet-stream") || ct.includes("binary")) return false;
+  return true;
 }
 
 async function openCache(manifest) {
@@ -243,17 +258,35 @@ function warmOne(url, cache, decode) {
   const work = (async () => {
     const blob = await loadBlob(key, cache);
     if (decode && isImage(key) && !images.has(key) && blob) {
+      if (isNonImageType(blob.type)) {
+        throw new Error(`Failed to cache ${key} (blob ${blob.type})`);
+      }
       const img = new Image();
       img.decoding = "async";
-      img.src = URL.createObjectURL(blob);
-      images.set(key, img);
+      const objectUrl = URL.createObjectURL(blob);
+      img.src = objectUrl;
       const ready = img.decode
         ? img.decode()
         : new Promise((resolve, reject) => {
             img.onload = resolve;
             img.onerror = reject;
           });
-      await Promise.race([ready.catch(() => {}), sleep(1500)]);
+      try {
+        await Promise.race([
+          ready,
+          sleep(1500).then(() => Promise.reject(new Error(`decode timeout ${key}`))),
+        ]);
+      } catch (err) {
+        URL.revokeObjectURL(objectUrl);
+        images.delete(key);
+        throw err;
+      }
+      if (!(img.naturalWidth || img.width)) {
+        URL.revokeObjectURL(objectUrl);
+        images.delete(key);
+        throw new Error(`Failed to cache ${key} (empty image)`);
+      }
+      images.set(key, img);
     }
     complete.add(key);
     inflight.delete(key);
@@ -275,7 +308,7 @@ async function loadBlob(url, cache) {
   if (cache) {
     const hit = await cache.match(href, { ignoreSearch: true });
     if (hit) {
-      if (isHtmlResponse(hit)) {
+      if (isHtmlResponse(hit) || (isImage(url) && isNonImageType(hit.headers.get("content-type")))) {
         cache.delete(href).catch(() => {});
       } else {
         return hit.blob();
@@ -285,6 +318,9 @@ async function loadBlob(url, cache) {
   const res = await fetch(href);
   if (!res.ok) throw new Error(`Failed to cache ${url} (${res.status})`);
   if (isHtmlResponse(res)) throw new Error(`Failed to cache ${url} (html fallback)`);
+  if (isImage(url) && isNonImageType(res.headers.get("content-type"))) {
+    throw new Error(`Failed to cache ${url} (non-image content-type)`);
+  }
   if (cache) {
     cache.put(href, res.clone()).catch(() => {});
   }

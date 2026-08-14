@@ -10,12 +10,14 @@ const VERT = /* glsl */ `
 
 uniform vec2 uScale;
 uniform float uPivotY;
+uniform vec2 uMapRepeat;
+uniform vec2 uMapOffset;
 
 varying vec2 vUv;
 varying vec3 vWorldPos;
 
 void main() {
-  vUv = uv;
+  vUv = uv * uMapRepeat + uMapOffset;
   vec4 worldCenter = modelMatrix * vec4(0.0, 0.0, 0.0, 1.0);
   vWorldPos = worldCenter.xyz;
 
@@ -71,6 +73,8 @@ void main() {
 const template = new THREE.ShaderMaterial({
   uniforms: {
     map: { value: null },
+    uMapRepeat: { value: new THREE.Vector2(1, 1) },
+    uMapOffset: { value: new THREE.Vector2(0, 0) },
     uLineX: { value: 0 },
     uBlend: { value: 4.2 },
     uOpacity: { value: 1 },
@@ -103,12 +107,24 @@ function cloneLitMaterial(map) {
   return mat;
 }
 
+export function syncLitMapUv(mesh) {
+  const mat = mesh?.material;
+  const tex = mat?.uniforms?.map?.value;
+  if (!mat?.uniforms?.uMapRepeat || !tex?.repeat || !tex?.offset) return;
+  mat.uniforms.uMapRepeat.value.copy(tex.repeat);
+  mat.uniforms.uMapOffset.value.copy(tex.offset);
+}
+
 export function createLitBillboard(map, { glow = 0, pivotY = 0.1, opacity = 1, glowColor = [1, 0.82, 0.38] } = {}) {
   const mat = cloneLitMaterial(map);
   mat.uniforms.uGlow.value = glow;
   mat.uniforms.uOpacity.value = opacity;
   mat.uniforms.uPivotY.value = pivotY;
   mat.uniforms.uGlowColor.value.set(glowColor[0], glowColor[1], glowColor[2]);
+  if (map?.repeat && map?.offset) {
+    mat.uniforms.uMapRepeat.value.copy(map.repeat);
+    mat.uniforms.uMapOffset.value.copy(map.offset);
+  }
 
   const mesh = new THREE.Mesh(BILLBOARD_GEO, mat);
   mesh.userData.lit = true;
@@ -122,6 +138,7 @@ export function createLitBillboard(map, { glow = 0, pivotY = 0.1, opacity = 1, g
     mat.uniforms.uPivotY.value = mesh.userData.pivotY ?? pivotY;
     mat.uniforms.uGlow.value = mesh.userData.glow ?? glow;
     mat.uniforms.uOpacity.value = mesh.userData.opacity ?? opacity;
+    syncLitMapUv(mesh);
   };
   return mesh;
 }
