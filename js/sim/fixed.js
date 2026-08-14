@@ -43,13 +43,17 @@ export function permilleMul(value, permille) {
   return Math.trunc((value * permille) / PERMILLE);
 }
 
+/** Integer square root. JS `>>` coerces to int32, so Q10 distance-squared
+ *  values past ~45 world units overflowed and returned 0 — town centers and
+ *  scouts then treated the far base as point-blank. */
 export function isqrt(n) {
+  n = Math.trunc(n);
   if (n <= 0) return 0;
   let x = n;
-  let y = (x + 1) >> 1;
+  let y = Math.trunc((x + 1) / 2);
   while (y < x) {
     x = y;
-    y = (x + Math.trunc(n / x)) >> 1;
+    y = Math.trunc((x + Math.trunc(n / x)) / 2);
   }
   return x;
 }
