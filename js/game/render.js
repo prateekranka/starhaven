@@ -5,7 +5,7 @@ import { pixelRatioFor, resolveQuality, backingLabel, isSoftwareGL, glRendererNa
 import { cachedImage } from "../cache/assets.js";
 import { BIOME_HEX } from "../data/map-biomes.js";
 import { effectiveBiome, unitInTunnelLayer } from "../sim/civs/ashvein.js";
-import { listPlayableCivs, DEFAULT_CIV_ID } from "../data/civ-schema.js";
+import { listPlayableCivs, DEFAULT_CIV_ID, civUnitStillSprite } from "../data/civ-schema.js";
 import "../data/civs.js";
 import { windLaneCells } from "../sim/civs/stormveil.js";
 import {
@@ -39,7 +39,7 @@ const MAP = N * CELL;
 THREE.Cache.enabled = true;
 const loader = new THREE.TextureLoader();
 
-function pix(url, repeat = 0) {
+function pix(url, repeat = 0, filter = "nearest") {
   const img = cachedImage(url);
   const failed = !!(img && img.complete && !(img.naturalWidth || img.width));
   const t = img && !failed ? new THREE.Texture(img) : loader.load(url);
@@ -52,8 +52,9 @@ function pix(url, repeat = 0) {
     }
   }
   t.colorSpace = THREE.SRGBColorSpace;
-  t.magFilter = THREE.NearestFilter;
-  t.minFilter = THREE.NearestFilter;
+  const mag = filter === "linear" ? THREE.LinearFilter : THREE.NearestFilter;
+  t.magFilter = mag;
+  t.minFilter = mag;
   t.generateMipmaps = false;
   t.anisotropy = 1;
   if (repeat) {
@@ -276,7 +277,7 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
   const sandMap = pix("media/textures/pixel-mesa.png", 16);
   const waterMap = pix("media/textures/pixel-water.png", 18);
   const atlasTex = Object.fromEntries(ATLAS_IDS.map((id) => [id, pix(`media/sprites/${id}.atlas.png`)]));
-  const { bldg } = buildRendererAssets(pix);
+  const { bldg, stills } = buildRendererAssets(pix);
   const nodes = {
     food: pix("media/sprites/node-food.png"),
     wood: pix("media/sprites/node-trees.png"),
@@ -511,14 +512,17 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
       m.scale.set(base * a, base, 1);
       const powered = b.powered !== false;
       m.userData.opacity = powered ? 0.55 + 0.45 * built : 0.22 + 0.18 * built;
-      m.userData.glow = powered && built >= 0.35 ? 0.55 + built * 0.45 : 0;
+      const painted = b.faction === "ashvein" || b.faction === "stormveil" || b.faction === "cogforged";
+      m.userData.glow = powered && built >= 0.35
+        ? (painted ? 0.12 + built * 0.1 : 0.55 + built * 0.45)
+        : 0;
       m.visible = seen(world, wx(b), wz(b)) || b.owner === "player";
     }
     for (const u of world.units) {
       keep.add("u" + u.id);
       let m = meshes.get("u" + u.id);
       if (!m) {
-        m = makeUnitSprite(u, atlasTex);
+        m = makeUnitSprite(u, atlasTex, stills);
         meshes.set("u" + u.id, m);
         scene.add(m);
       }
@@ -745,19 +749,27 @@ function buildingScale(type) {
 
 function buildRendererAssets(pix) {
   const bldg = {};
+  const stills = {};
   for (const civ of listPlayableCivs({ qa: isQaMode() })) {
+    const painted = civ.id === "ashvein" || civ.id === "stormveil" || civ.id === "cogforged";
+    const filter = painted ? "linear" : "nearest";
     bldg[civ.id] = Object.fromEntries(
-      Object.entries(civ.sprites.buildings).map(([type, path]) => [type, pix(path)])
+      Object.entries(civ.sprites.buildings).map(([type, path]) => [type, pix(path, 0, filter)])
     );
+    stills[civ.id] = {};
+    for (const key of ["strider", "siege", "wagon"]) {
+      if (civ.sprites[key]) stills[civ.id][key] = pix(civ.sprites[key], 0, filter);
+    }
   }
-  return { bldg };
+  return { bldg, stills };
 }
 
 function makeBuildingSprite(b, bldg) {
   const bucket = bldg[b.faction] || bldg[DEFAULT_CIV_ID];
   const map = bucket[b.type] || bucket.house;
+  const painted = b.faction === "ashvein" || b.faction === "stormveil" || b.faction === "cogforged";
   const glowColor = b.faction === "gravemark" ? [0.48, 0.62, 1] : [1, 0.82, 0.38];
-  const s = createLitBillboard(map, { pivotY: 0.07, glow: 0.85, glowColor });
+  const s = createLitBillboard(map, { pivotY: 0.07, glow: painted ? 0.18 : 0.85, glowColor });
   fitWhenReady(s, map, buildingScale(b.type));
   return s;
 }
@@ -769,7 +781,17 @@ function makeNode(r, nodes) {
   return s;
 }
 
-function makeUnitSprite(u, atlasTex) {
+function makeUnitSprite(u, atlasTex, stills) {
+  const stillPath = civUnitStillSprite(u.faction, u.type);
+  const stillKey = u.type === "titan" ? "strider" : u.type === "wagon" ? "wagon" : u.type;
+  const stillMap = stillPath && stills?.[u.faction]?.[stillKey];
+  if (stillMap) {
+    const s = createLitBillboard(stillMap, { pivotY: 0.06, glow: 0.16 });
+    fitWhenReady(s, stillMap, unitDisplayScale(u.type));
+    s.userData.still = true;
+    s.userData.baseScale = unitDisplayScale(u.type);
+    return s;
+  }
   const atlasId = unitAtlasId(u);
   const meta = atlasMetaFor(atlasId);
   const base = atlasTex[atlasId];
@@ -802,6 +824,12 @@ function animateUnit(sprite, u, world, dt = 0.016, opts = {}) {
     ? (FACING_MILLIRAD[u.facingOctant || 0] || 0) / 1000
     : (u.facing || sprite.userData.lastFacing || 0);
   sprite.userData.lastFacing = facing;
+  if (sprite.userData.still) {
+    const s = sprite.userData.baseScale || unitDisplayScale(u.type);
+    const a = sprite.userData.aspect || 1;
+    sprite.scale.set(s * a, s, 1);
+    return;
+  }
   const meta = sprite.userData.pipelineAtlas;
   const tex = litMap(sprite);
   if (!meta || !tex) return;

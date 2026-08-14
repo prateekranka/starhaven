@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import sys
 from collections import deque
 from pathlib import Path
 
@@ -70,14 +71,13 @@ COPY_SPRITES = [
     "icon-age-storm.png",
 ]
 
-KNOCKOUT = [n for n in COPY_SPRITES if not n.startswith("portrait-")]
+KNOCKOUT = []
 
 
 def is_bg(r: int, g: int, b: int) -> bool:
-    lum = 0.2126 * r + 0.7152 * g + 0.0722 * b
-    mx, mn = max(r, g, b), min(r, g, b)
-    sat = (mx - mn) / max(mx, 1)
-    return lum < 26 and sat < 0.22
+    # Studio void only. Ashvein obsidian/dark stone sits well above this;
+    # a luminance key (lum<40) ate the fortress and left lava veins.
+    return max(r, g, b) < 12
 
 
 def knockout_clean(img: Image.Image) -> Image.Image:
@@ -247,6 +247,7 @@ def save_png(img: Image.Image, path: Path) -> None:
 
 
 def main() -> None:
+    sprites_only = "--sprites-only" in sys.argv
     missing = [n for n in COPY_SPRITES if not (SRC / n).exists()]
     if missing:
         raise SystemExit(f"missing generated files: {missing}")
@@ -346,6 +347,11 @@ def main() -> None:
         ("wagon", Image.open(SPR / "unit-storm-wagon.png")),
     ]:
         save_png(crop_icon(src), SPR / f"icon-train-storm-{unit}.png")
+
+    if sprites_only:
+        print("skip atlas pack (--sprites-only)")
+        print("done")
+        return
 
     print("Pack atlases…")
     pack_sheet_atlas(ash_walk, SPR / "ash-walk.atlas.png", SPR / "ash-walk.atlas.json", "ash-walk", "ashvein")

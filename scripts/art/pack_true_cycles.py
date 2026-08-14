@@ -87,10 +87,8 @@ UNITS = [
 
 
 def is_void(r: int, g: int, b: int) -> bool:
-    lum = 0.2126 * r + 0.7152 * g + 0.0722 * b
-    mx, mn = max(r, g, b), min(r, g, b)
-    sat = (mx - mn) / max(mx, 1)
-    return lum < 28 and sat < 0.25
+    # Studio void only — keep painted dark stone / armor.
+    return max(r, g, b) < 12
 
 
 def knockout_void(img: Image.Image) -> Image.Image:
@@ -263,6 +261,10 @@ def pack_unit(spec: dict) -> None:
 
 def main() -> None:
     units_only = "--units-only" in sys.argv
+    only = None
+    for arg in sys.argv[1:]:
+        if arg.startswith("--only="):
+            only = arg.split("=", 1)[1]
     if not units_only:
         print("Banners…")
         for banner in ("ashvein-banner.jpg", "stormveil-banner.jpg"):
@@ -280,6 +282,8 @@ def main() -> None:
 
     print("Pack 8-dir atlases…")
     for spec in UNITS:
+        if only and spec["faction"] != only and spec["id"] != only:
+            continue
         pack_unit(spec)
     print("done")
 

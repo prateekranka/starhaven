@@ -63,8 +63,8 @@
     },
     {
       "path": "js/data/civ-schema.js",
-      "bytes": 2626,
-      "sha256": "9194790ec90038318961b4c9e55c0cf67ca9602434620090f442c0750b1ec94c"
+      "bytes": 3172,
+      "sha256": "8e0e016a2676271c5025997736a8c8b3fe5b462b3e7047e083aee7ec31629f70"
     },
     {
       "path": "js/data/civ-ui.js",
@@ -108,8 +108,8 @@
     },
     {
       "path": "js/game/render.js",
-      "bytes": 38019,
-      "sha256": "5f5456c78fbd974343604d99a40d5d8a3eade7c60bcbe420d814b6e18136089d"
+      "bytes": 39414,
+      "sha256": "448c5ee19e8b7d55c0dc7be9b3342a9f829ac5d93a7f769c8c9ff517aa17886d"
     },
     {
       "path": "js/game/unit-atlas.js",
@@ -424,12 +424,12 @@
     {
       "path": "media/sprites/ash-guard.atlas.json",
       "bytes": 48676,
-      "sha256": "7c9a62402e154da2bcee7a814aa189a72bd8f4700e0289b2d830f1d75186e11b"
+      "sha256": "cf1a689f35911ccafd452a1cd617c10200e377e29144ac561b9acc9e3f6fae96"
     },
     {
       "path": "media/sprites/ash-guard.atlas.png",
-      "bytes": 3027928,
-      "sha256": "e7c6ae39400e73418184fa23014b80a3ba470718a55149ca4595c37b8ed360e1"
+      "bytes": 2368985,
+      "sha256": "98bcc887f4ceba8df665b5f5aa657a2f7b396f9bc1b67b97b2f6fc7b0e93b3fa"
     },
     {
       "path": "media/sprites/ash-siege.atlas.json",
@@ -454,72 +454,72 @@
     {
       "path": "media/sprites/ash-walk.atlas.json",
       "bytes": 48514,
-      "sha256": "789eb609487f430d1ad0d6fd2d4800615cbeee267f98bb451f2b9ae531429152"
+      "sha256": "344a585c4bf5bce88c40d2244172d158001818868145a052c8b91a88d0108b0a"
     },
     {
       "path": "media/sprites/ash-walk.atlas.png",
-      "bytes": 3394010,
-      "sha256": "5aa05f68e414b0967d2cca5285292f0d9cd75d14348b78f0650b5048b27cabf6"
+      "bytes": 3136062,
+      "sha256": "d90373cbff2563cb51ba114a322aaca1ff07262fb7f251fd368a8f8755d48f54"
     },
     {
       "path": "media/sprites/bldg-ash-den.png",
-      "bytes": 379140,
-      "sha256": "7a9daa4101315ebb0f23776defe26d3e5b797e4e85f46d6d87563ee5626be0b0"
+      "bytes": 1602575,
+      "sha256": "9a7e3ebb631cce168ee6ad0f418f7e5e1156135ff4fbec109cb41caf62dd39ef"
     },
     {
       "path": "media/sprites/bldg-ash-house.png",
-      "bytes": 868843,
-      "sha256": "7bc801483febc6f1154f06d1677a5a6cd834a77b2a05eba8efafb56128cbc1a5"
+      "bytes": 1513927,
+      "sha256": "25c461328678953ae1a8f09291e39abb69edf1bfea5a1dcc9eb87df2c0b618e1"
     },
     {
       "path": "media/sprites/bldg-ash-lava-vent.png",
-      "bytes": 731514,
-      "sha256": "bee66858a054e60d7588f56f2f3f4c1f76674df489aaa05e18479007c153f5c3"
+      "bytes": 1646376,
+      "sha256": "04e1f3dfbf5d9a5e59f4fc4842df89514cb8cf77ece3399ad23fe55395ab3b0e"
     },
     {
       "path": "media/sprites/bldg-ash-lumber.png",
-      "bytes": 890036,
-      "sha256": "fda95dfd2f92ec73d5f2d44ec46a793ad3bfde508b23c09e9e947e88386ff577"
+      "bytes": 1727420,
+      "sha256": "dbf6204d7c2d0e27bf81c45ca28fdb0a247e9e6d2a393a0202e26eb1961aae10"
     },
     {
       "path": "media/sprites/bldg-ash-mill.png",
-      "bytes": 1088125,
-      "sha256": "220e46c2e3908ae1f0ab6320650728ece77f0b8fd2091a5606033e6ecbaafdad"
+      "bytes": 1843792,
+      "sha256": "aafcae68afabd0a287cf1e7b17078f000ad174c564286fa5e30b8ee7de726454"
     },
     {
       "path": "media/sprites/bldg-ash-mine.png",
-      "bytes": 1369195,
-      "sha256": "8263b60886855f83b9437d945b232bcce7ad177a5dc9a097f5f5f1de2660082e"
+      "bytes": 1649368,
+      "sha256": "67482e1f98a74138a78ddfc71aa4606248a1b4f5a83f7181e8bc542a5c583a81"
     },
     {
       "path": "media/sprites/bldg-ash-rax.png",
-      "bytes": 1452557,
-      "sha256": "11c4e5b74eb981536f4b4453c594f8f6716c8b105745e00d5505c9b8360d36d5"
+      "bytes": 1704111,
+      "sha256": "f6da471d5ce76ba05da77e6bfaa34b3e2b9a36f294453344310aeae11cfcbcce"
     },
     {
       "path": "media/sprites/bldg-ash-spire.png",
-      "bytes": 778362,
-      "sha256": "1fb3715b8b4cc9be835a4c87e785f54c03f32bb5157cca1a55eca21b2f3863e2"
+      "bytes": 1213927,
+      "sha256": "3ca80a6ebe193a9e09a83ce55f5361377da6a13430c58ce0442e1c2be3d7bd21"
     },
     {
       "path": "media/sprites/bldg-ash-tc.png",
-      "bytes": 594547,
-      "sha256": "e2bb42e5f7ba69e2feeecdf3dcb09bf895fa953ea7d493bdda7769471aeac8bd"
+      "bytes": 1745207,
+      "sha256": "8828fe9d2bb6360e6979012e907d0c6f1249533de0e18fdf4e3f7abb740bd787"
     },
     {
       "path": "media/sprites/bldg-ash-tunnel-mouth.png",
-      "bytes": 867030,
-      "sha256": "dc16f426b90d93f2963ae49543cb0e04f60bbd6b8a2e7c6199d28940c48cd983"
+      "bytes": 1598002,
+      "sha256": "9b4feffd4a40d5fe9695cda498d1c96d66192669d83ed8d2fcca30902d6e9003"
     },
     {
       "path": "media/sprites/bldg-ash-wonder.png",
-      "bytes": 956214,
-      "sha256": "1b84d903026e73a2511dbb500e23e2072a02cb20b2508d2f59cc5217b2278e8b"
+      "bytes": 1751383,
+      "sha256": "75c3d69293daf71586621a48d325363a6fa1ba8d7d089a9456902ff7f5120418"
     },
     {
       "path": "media/sprites/bldg-ash-workshop.png",
-      "bytes": 722565,
-      "sha256": "4756adcfa1db554c378f630c8bf4bef2b9b7ac1be0b510d512b606ddd4dfc4ab"
+      "bytes": 1852943,
+      "sha256": "2a818f5319e78e593749ff81766f768dfc8190328ed219efede00ad2b62049b6"
     },
     {
       "path": "media/sprites/bldg-cog-den.png",
@@ -628,43 +628,43 @@
     },
     {
       "path": "media/sprites/bldg-storm-den.png",
-      "bytes": 1494799,
-      "sha256": "45eac5b27b48d2b568a43be866fd837bb8374f56ed5f334c5521e5ce203544a1"
+      "bytes": 1496518,
+      "sha256": "25812bc1538658ca284373125bbbef14153d89d837f8416aadd87777be1037cd"
     },
     {
       "path": "media/sprites/bldg-storm-house.png",
-      "bytes": 802885,
-      "sha256": "b6825022de4c0d55a32982bde97dc287786db3ab9e19e4419d5e48868d7440b2"
+      "bytes": 800962,
+      "sha256": "ea2afa609bd4db9bc8b1dc1a4f9e51f9e839d7bc206bfe62c33ce55cc880a179"
     },
     {
       "path": "media/sprites/bldg-storm-lumber.png",
-      "bytes": 1199467,
-      "sha256": "7810ee44e684234dd7362dd4ec703991828a6725e53a4cb0a393e32be74d7482"
+      "bytes": 1199614,
+      "sha256": "4d8f21af4b55a6a1f2041d2127e36702d0aa94b14b5e593f1be5323f1d5cb4ff"
     },
     {
       "path": "media/sprites/bldg-storm-mill.png",
-      "bytes": 732363,
-      "sha256": "0e3ddc81f269bba2edfa8c0ad26468027648a07ea17085c33060486b9756b572"
+      "bytes": 773510,
+      "sha256": "db98e8fc4958e0070794afb5355a76c2f22494da2717cb5a91794405517d12ff"
     },
     {
       "path": "media/sprites/bldg-storm-mine.png",
-      "bytes": 1280944,
-      "sha256": "7ceb42c28361706b498776ddbe2dee9ae9e042b60fe54ae3f7452987c742103c"
+      "bytes": 1372790,
+      "sha256": "12db2086249f71d257f6060d024790db647ced56af86bc884a673a0eb0e3c274"
     },
     {
       "path": "media/sprites/bldg-storm-rax.png",
-      "bytes": 1326422,
-      "sha256": "01e6f35892f20b258b8c703cdb0f2183ae857a4b5ac4e0ad11de6d637356def7"
+      "bytes": 1329540,
+      "sha256": "a1f529ed170c1a3fa17dbbea3df7b64565cf33127118cd65fa9e34bb0b87adec"
     },
     {
       "path": "media/sprites/bldg-storm-spire.png",
-      "bytes": 1209787,
-      "sha256": "f99ede5acac731a618689368c4fb8a54932b47554db0484aae093bbebde276ec"
+      "bytes": 1224515,
+      "sha256": "4a70506ae17da58624cb560981925f70d4157f1f915ce5643071496eb31444ef"
     },
     {
       "path": "media/sprites/bldg-storm-tc.png",
-      "bytes": 1346209,
-      "sha256": "733571b2e420b94df56e4ec19481a02a5d8c64a4c765d84dc4be62a39e21d19b"
+      "bytes": 1346206,
+      "sha256": "8fa243a777787a0532bac77f8d74952a921f6be5e60df0e326f77128daf0233a"
     },
     {
       "path": "media/sprites/bldg-storm-wagon.png",
@@ -673,13 +673,13 @@
     },
     {
       "path": "media/sprites/bldg-storm-wonder.png",
-      "bytes": 1455388,
-      "sha256": "7ed8ad05d1d638471b9512bc642b2e61c3903958659d2346456ea27b1a22ee97"
+      "bytes": 1453963,
+      "sha256": "31d1213dbd18576b456b63da9392167316744192d53ebbac58dc049c7d6a9da5"
     },
     {
       "path": "media/sprites/bldg-storm-workshop.png",
-      "bytes": 1607840,
-      "sha256": "79638332b7416eaafb68d5bf679555436fa16d3e30b5b4e99fb3ce17dd4ad04c"
+      "bytes": 1598740,
+      "sha256": "63c1ee959c1ab527da612026c3009781be599c15cf16f77d636b81598d877ae3"
     },
     {
       "path": "media/sprites/bldg-sun-den.png",
@@ -813,8 +813,8 @@
     },
     {
       "path": "media/sprites/icon-age-ash.png",
-      "bytes": 37767,
-      "sha256": "fec5be3d028dde0c5745fe706d93fdb4fb02ba2ba1389af89244f361fa7f6dc7"
+      "bytes": 34092,
+      "sha256": "cebddd6778238df361949a566564a4a8e7bbf296acafab077cbbd0232914ba57"
     },
     {
       "path": "media/sprites/icon-age-cog.png",
@@ -828,8 +828,8 @@
     },
     {
       "path": "media/sprites/icon-age-storm.png",
-      "bytes": 42589,
-      "sha256": "963b28e77a9d647a7cc609e97a1d1bca0b6b01cf0caa9ca391de14e168763b36"
+      "bytes": 41348,
+      "sha256": "6fd8ab0f592cc77d86a49d418343eb1a098c13cd9c25ba36e516825044c25d77"
     },
     {
       "path": "media/sprites/icon-age-sun.png",
@@ -838,38 +838,38 @@
     },
     {
       "path": "media/sprites/icon-build-ash-barracks.png",
-      "bytes": 40042,
-      "sha256": "cb581e5b771ce052e1292c1d9673ea55a28b8d568ed8bc767064ec6bbb78545f"
+      "bytes": 29929,
+      "sha256": "cdcc8557dea9e586d0b6f44a69b76b860bd498a80a807f33f2254a1b751aaa6f"
     },
     {
       "path": "media/sprites/icon-build-ash-den.png",
-      "bytes": 29805,
-      "sha256": "f91cd6892db6432fdb730b171a2b472519c313fbe0ba3aad2be9fe6d4a20628a"
+      "bytes": 29651,
+      "sha256": "481d2995c3d90e2832f7f07ee107f996cdae9fecab3d2a6b07f91756cca7e723"
     },
     {
       "path": "media/sprites/icon-build-ash-house.png",
-      "bytes": 39151,
-      "sha256": "3621bec007c499e41bc5d5f40cbbff976ac0e69e087e2fe472def838170bd14d"
+      "bytes": 28566,
+      "sha256": "67fc3e2217bf0864c57fb595ea9eb5a2014a2ccd1b4baace0af69ad6ce5de9d5"
     },
     {
       "path": "media/sprites/icon-build-ash-lava-vent.png",
-      "bytes": 37979,
-      "sha256": "66878cae4a7736b06a1306653be47e5853d2abbaf70cb071910cafaef6ff92b1"
+      "bytes": 28077,
+      "sha256": "2dc749df5742a870497dcad3425b8ab6ed74eac38cc22923d2a2a1dc397f76de"
     },
     {
       "path": "media/sprites/icon-build-ash-lumber.png",
-      "bytes": 41721,
-      "sha256": "970b7ee1915c396bdb3bd6b205ff6237be65102832bce2b3fcddc7656d5cca9c"
+      "bytes": 27782,
+      "sha256": "19bbae09c95535b8468726bc6fd2b74eb0b2b4396db969bcb56b98c1e60be55d"
     },
     {
       "path": "media/sprites/icon-build-ash-mill.png",
-      "bytes": 37857,
-      "sha256": "138804b212ec95cab433f00235b1deca0a95236a65b5ff80df28a3c953bcd881"
+      "bytes": 31740,
+      "sha256": "bb30df0011af130112e51e229de4c8c54b6d92bc25329384d8b4e48ca5f5d84b"
     },
     {
       "path": "media/sprites/icon-build-ash-mine.png",
-      "bytes": 42988,
-      "sha256": "df03e6851904328388d53e5f9d958bc1031dd85b1e1ce1e6fab37a9213874827"
+      "bytes": 30749,
+      "sha256": "ba3d68091e7e7b62a21caa46007fa9444d8d7b16b1239fdfe88f04e6e7c532ec"
     },
     {
       "path": "media/sprites/icon-build-ash-spire.png",
@@ -878,18 +878,18 @@
     },
     {
       "path": "media/sprites/icon-build-ash-tunnel-mouth.png",
-      "bytes": 43942,
-      "sha256": "82078a16398132bf82aeda4a94d3bd6c414cdc95de5c21935445303c9e1526b3"
+      "bytes": 31542,
+      "sha256": "ff2d5a3c23aa1ea6a82f9c98b24f74ddfa1273def2c7b37981f3cbf9173782e3"
     },
     {
       "path": "media/sprites/icon-build-ash-wonder.png",
-      "bytes": 37010,
-      "sha256": "2a5d40917d91076d3354de99d5b2fe11add7683cbf0f14e631b7b1fb3b19267b"
+      "bytes": 31684,
+      "sha256": "336389835cd6abb2226a316c26b966efaea2e96d06cfcd3ac5807d66819196c3"
     },
     {
       "path": "media/sprites/icon-build-ash-workshop.png",
-      "bytes": 39868,
-      "sha256": "c81b5866d660f375a3290326d1d221b7358cd939579104cecfea3cee52e37099"
+      "bytes": 33258,
+      "sha256": "60a7dbb5245ccf7a6b1c1d571c9b77d3a405d40102c890e202edee7e341e3305"
     },
     {
       "path": "media/sprites/icon-build-cog-barracks.png",
@@ -988,53 +988,53 @@
     },
     {
       "path": "media/sprites/icon-build-storm-barracks.png",
-      "bytes": 35654,
-      "sha256": "451310e1405b226f2e7dd89524ca40e25dc01be2a11944ab043f7bfdd944908c"
+      "bytes": 23275,
+      "sha256": "ed5a248e825b3dd81b338c52f4b653dc7288851c95a3d68b75c822871041bc80"
     },
     {
       "path": "media/sprites/icon-build-storm-den.png",
-      "bytes": 37815,
-      "sha256": "32a04c8c4f312140b3cbe163a76b42048b144bfdbd4eee63a6e46f2449b3ee69"
+      "bytes": 26598,
+      "sha256": "bdde98eaad31df0cfde895bddf9cdf1b93ca94a2d77946524ac813e50d0e1f9d"
     },
     {
       "path": "media/sprites/icon-build-storm-house.png",
-      "bytes": 28698,
-      "sha256": "b72485aee4b4ec0883755f4fe61e619258e411da65f66abad0c5aed1ebf50f69"
+      "bytes": 12924,
+      "sha256": "3518157901b5b768df5a1864b5d3081724e83a597ffccff8372b78b506c825f8"
     },
     {
       "path": "media/sprites/icon-build-storm-lumber.png",
-      "bytes": 33983,
-      "sha256": "d8185c6562b2056c481c60c54f8a58a4595a07c0357596bc3b97e9be110adecd"
+      "bytes": 20778,
+      "sha256": "017fc47f1a6f0357937200428ad861d17b45de790b7647c5b1189b6bc76027ed"
     },
     {
       "path": "media/sprites/icon-build-storm-mill.png",
-      "bytes": 30674,
-      "sha256": "a741a826dd66a8c057de9f1e8d6aa4b8824aeebe9048b72bae32eb28fa146910"
+      "bytes": 13028,
+      "sha256": "6584a99759d3639cc152bd55accb75318b53bb302644f34b8337b56bcd2fac23"
     },
     {
       "path": "media/sprites/icon-build-storm-mine.png",
-      "bytes": 37701,
-      "sha256": "8a29acae34ef2f22ac9d5bb14c9d2222099cc8f507558cc3c15226a95c78cc8d"
+      "bytes": 23408,
+      "sha256": "2c259ee1d3b7db7b87337b5f850498b005a085b063acace26b8ceed4a28a3920"
     },
     {
       "path": "media/sprites/icon-build-storm-spire.png",
-      "bytes": 35280,
-      "sha256": "d40bb5ce21a86217211df1857818e2d28a933e4d4d25451a3395f77d09980f3e"
+      "bytes": 21323,
+      "sha256": "fac74445fa5c2cabfe21b8c90d22757944c037d9f3354aa6af125fcf2d23119a"
     },
     {
       "path": "media/sprites/icon-build-storm-wagon.png",
-      "bytes": 36070,
-      "sha256": "1f3a556a2b0afa8c9f33cf5088e5ff6b564e03806fb0c18bfa376ca8bb275d54"
+      "bytes": 23455,
+      "sha256": "4390e8dc2729c0117cd33e05e634cf205a9801d8009c12cbb314042f6f04f4b6"
     },
     {
       "path": "media/sprites/icon-build-storm-wonder.png",
-      "bytes": 35731,
-      "sha256": "ce16285807921f32fba24b809b28094b7a4c6532ccd59efc562e7f9d755928f7"
+      "bytes": 23799,
+      "sha256": "9f820f1d40bb4f4ade2eb8a97c64a3818b3643fd69232f6db92d310e9e6def03"
     },
     {
       "path": "media/sprites/icon-build-storm-workshop.png",
-      "bytes": 37471,
-      "sha256": "5ca2dc27307e7dd677d20518073b465f4d982ae58520f892ab570ffe9dde7ef7"
+      "bytes": 27344,
+      "sha256": "214eaedc2711677a6b909c40c3a06ca7937c20f28192ef943f2b73b2bf5e7ca0"
     },
     {
       "path": "media/sprites/icon-build-sun-barracks.png",
@@ -1133,33 +1133,33 @@
     },
     {
       "path": "media/sprites/icon-train-ash-archer.png",
-      "bytes": 42713,
-      "sha256": "466146e362bd232d5d7e00199e4540f7f58e1906efebd7ecd3b32fe03158942a"
+      "bytes": 42149,
+      "sha256": "a4910572d63b82e57ea98e9e743af42f8d3e89b2ae8900489caff470c6130afb"
     },
     {
       "path": "media/sprites/icon-train-ash-guard.png",
-      "bytes": 42713,
-      "sha256": "466146e362bd232d5d7e00199e4540f7f58e1906efebd7ecd3b32fe03158942a"
+      "bytes": 42149,
+      "sha256": "a4910572d63b82e57ea98e9e743af42f8d3e89b2ae8900489caff470c6130afb"
     },
     {
       "path": "media/sprites/icon-train-ash-scout.png",
-      "bytes": 44017,
-      "sha256": "c29dacc915d488740146737eab2d0aa1ba8571188a91f7b0f049f153cbcc8b92"
+      "bytes": 43098,
+      "sha256": "cbda8d67b5f62325c2bc376dc463c5bb92ad98e2f803284ca043ebbb6c6cecef"
     },
     {
       "path": "media/sprites/icon-train-ash-siege.png",
-      "bytes": 37801,
-      "sha256": "9a9f849920316c570d0194bf8f584857066f22de12d799aca09ab68f530325b4"
+      "bytes": 27569,
+      "sha256": "11b0c815e2c55e9f96477ecfb76674c3c0354d73d13b945688ae0f7b5f815a24"
     },
     {
       "path": "media/sprites/icon-train-ash-strider.png",
-      "bytes": 35349,
-      "sha256": "deb58abd4ccd05d325adce3f580878232c58f29c7b42df28dc315f62e2c76874"
+      "bytes": 34875,
+      "sha256": "08d265e6c575826f3ffc1d81be7d1071ef15cca528d1d9ea41d1e3d742a52357"
     },
     {
       "path": "media/sprites/icon-train-ash-villager.png",
-      "bytes": 44017,
-      "sha256": "c29dacc915d488740146737eab2d0aa1ba8571188a91f7b0f049f153cbcc8b92"
+      "bytes": 43098,
+      "sha256": "cbda8d67b5f62325c2bc376dc463c5bb92ad98e2f803284ca043ebbb6c6cecef"
     },
     {
       "path": "media/sprites/icon-train-cog-archer.png",
@@ -1223,38 +1223,38 @@
     },
     {
       "path": "media/sprites/icon-train-storm-archer.png",
-      "bytes": 44509,
-      "sha256": "13879f68e7fabb7c3b8b0805c675d1130b0020ca3c076dc42f684eba67d866c2"
+      "bytes": 26842,
+      "sha256": "1623d1fbf5de87904e41c1ce8db7adefeb86d595582b86df68219c32b2a7a0c8"
     },
     {
       "path": "media/sprites/icon-train-storm-guard.png",
-      "bytes": 44509,
-      "sha256": "13879f68e7fabb7c3b8b0805c675d1130b0020ca3c076dc42f684eba67d866c2"
+      "bytes": 26842,
+      "sha256": "1623d1fbf5de87904e41c1ce8db7adefeb86d595582b86df68219c32b2a7a0c8"
     },
     {
       "path": "media/sprites/icon-train-storm-scout.png",
-      "bytes": 44575,
-      "sha256": "dfee4e4a4787f15942860843649ad067ef25ea40d02daa72ecddf3f6ac7a9fe2"
+      "bytes": 46381,
+      "sha256": "38ff5073c2de7721164cedf1683716319cbb37a4eadba6b02b9ee338be9cec46"
     },
     {
       "path": "media/sprites/icon-train-storm-siege.png",
-      "bytes": 35179,
-      "sha256": "2a6d72e71366ce0abd68793b2269361f933abc77dcdbee7d54c4eed194e798e2"
+      "bytes": 29902,
+      "sha256": "f38a485db36df57c9cfef8ff7700d301ecdac97d7b85669e48b586094f494cf8"
     },
     {
       "path": "media/sprites/icon-train-storm-strider.png",
-      "bytes": 31567,
-      "sha256": "c75432f2c800150cab38d3c31dacdcd0bd56e8e93ccef438f60f6100bfcbb9d4"
+      "bytes": 27623,
+      "sha256": "da0cd0355280098748ba333fdefbe69090595e52d3210f3666c9259d814e4a44"
     },
     {
       "path": "media/sprites/icon-train-storm-villager.png",
-      "bytes": 44575,
-      "sha256": "dfee4e4a4787f15942860843649ad067ef25ea40d02daa72ecddf3f6ac7a9fe2"
+      "bytes": 46381,
+      "sha256": "38ff5073c2de7721164cedf1683716319cbb37a4eadba6b02b9ee338be9cec46"
     },
     {
       "path": "media/sprites/icon-train-storm-wagon.png",
-      "bytes": 31825,
-      "sha256": "636856cabe0d1bcc8aa47e18a7bd6e5344ef234b49369221566a36d6033a4568"
+      "bytes": 27473,
+      "sha256": "28e7e658a103c76ba7d88fa0ea073d91dd581aa93a38208165446c494912663f"
     },
     {
       "path": "media/sprites/icon-train-sun-archer.png",
@@ -1348,38 +1348,38 @@
     },
     {
       "path": "media/sprites/portrait-ash-archer.png",
-      "bytes": 152754,
-      "sha256": "6b8bc63fa0d2467ab5bd4aa885a7100c4cd4a3b0863ac2b862abee12db39043c"
+      "bytes": 154797,
+      "sha256": "987ac6cd5d1b015ff5011e495864976164968d70fd689cd981093b719c72365d"
     },
     {
       "path": "media/sprites/portrait-ash-guard.png",
-      "bytes": 152754,
-      "sha256": "6b8bc63fa0d2467ab5bd4aa885a7100c4cd4a3b0863ac2b862abee12db39043c"
+      "bytes": 154797,
+      "sha256": "987ac6cd5d1b015ff5011e495864976164968d70fd689cd981093b719c72365d"
     },
     {
       "path": "media/sprites/portrait-ash-scout.png",
-      "bytes": 157778,
-      "sha256": "97b4861a2683226f385899bbe958c731218d73a883f406d7902492c1a90ef078"
+      "bytes": 157555,
+      "sha256": "b78e2fd893644257989622ed0a9fd00fd6488f6369560b4baf1c37521a921652"
     },
     {
       "path": "media/sprites/portrait-ash-siege.png",
-      "bytes": 153956,
-      "sha256": "df9790d99c1d3f0165fc8f4547e7a15d96f67a08a1f88931443060ad1622ae9b"
+      "bytes": 111777,
+      "sha256": "674c26053910803becd560aa5e49be89485d89f0c3ad6f0d89b717abc2a85060"
     },
     {
       "path": "media/sprites/portrait-ash-strider.png",
-      "bytes": 138907,
-      "sha256": "a6fb50abc9e09fa90f8e3941e818a08418aef356e0ada377d46fc43e2e432fba"
+      "bytes": 137667,
+      "sha256": "c233c6d57146da632ec5af8c82816e54e252fb6d966963e2a0b2cfaf194fee1c"
     },
     {
       "path": "media/sprites/portrait-ash-titan.png",
-      "bytes": 138907,
-      "sha256": "a6fb50abc9e09fa90f8e3941e818a08418aef356e0ada377d46fc43e2e432fba"
+      "bytes": 137667,
+      "sha256": "c233c6d57146da632ec5af8c82816e54e252fb6d966963e2a0b2cfaf194fee1c"
     },
     {
       "path": "media/sprites/portrait-ash-villager.png",
-      "bytes": 157778,
-      "sha256": "97b4861a2683226f385899bbe958c731218d73a883f406d7902492c1a90ef078"
+      "bytes": 157555,
+      "sha256": "b78e2fd893644257989622ed0a9fd00fd6488f6369560b4baf1c37521a921652"
     },
     {
       "path": "media/sprites/portrait-ashvein.png",
@@ -1468,38 +1468,38 @@
     },
     {
       "path": "media/sprites/portrait-storm-archer.png",
-      "bytes": 156914,
-      "sha256": "eea6260654c97c8fbad271ff38d8ff685f1a9f66f92c04c65abdc80fdf803e32"
+      "bytes": 94002,
+      "sha256": "177cc9c26f9030bf6252397100f19c5696f3e028406230be681b52e022f3b1be"
     },
     {
       "path": "media/sprites/portrait-storm-guard.png",
-      "bytes": 156914,
-      "sha256": "eea6260654c97c8fbad271ff38d8ff685f1a9f66f92c04c65abdc80fdf803e32"
+      "bytes": 94002,
+      "sha256": "177cc9c26f9030bf6252397100f19c5696f3e028406230be681b52e022f3b1be"
     },
     {
       "path": "media/sprites/portrait-storm-scout.png",
-      "bytes": 159674,
-      "sha256": "53ee7df86efea95971a96fc072e6f17cd389dcb064907ea2e484972b2ed8e654"
+      "bytes": 166960,
+      "sha256": "93683295afbf4b8981f9361f25f3b717d61b5cdab498b017f6941fb9f9b88a08"
     },
     {
       "path": "media/sprites/portrait-storm-siege.png",
-      "bytes": 137152,
-      "sha256": "9b0ee8576ac58255b1c886a0b39cf35f19473f8fd1a78e35a2406061bbf5ec97"
+      "bytes": 116389,
+      "sha256": "9543789d991513f97dba26681f52391a35d01525cbfae64f3e7551f7ed172d93"
     },
     {
       "path": "media/sprites/portrait-storm-strider.png",
-      "bytes": 121566,
-      "sha256": "bce1d673908d4fce353852685aadcd2382b68a7a3675f4bcdd4b92bcefd41fa3"
+      "bytes": 108625,
+      "sha256": "f282e4432622413b14a47ac52b9c5e0723981689d86898a6585f6039262f7cd1"
     },
     {
       "path": "media/sprites/portrait-storm-titan.png",
-      "bytes": 127835,
-      "sha256": "dc9f5794518578fa98c5a71b11e55a07b6e56e370af5bef7dd5d46ac7b88dfbe"
+      "bytes": 109869,
+      "sha256": "28578b4739d3bd5f17940b94b4ab66b8c94507a5a7334db16334be85ba33875f"
     },
     {
       "path": "media/sprites/portrait-storm-villager.png",
-      "bytes": 159674,
-      "sha256": "53ee7df86efea95971a96fc072e6f17cd389dcb064907ea2e484972b2ed8e654"
+      "bytes": 166960,
+      "sha256": "93683295afbf4b8981f9361f25f3b717d61b5cdab498b017f6941fb9f9b88a08"
     },
     {
       "path": "media/sprites/portrait-storm-wagon.png",
@@ -1638,13 +1638,13 @@
     },
     {
       "path": "media/sprites/unit-ash-siege.png",
-      "bytes": 857837,
-      "sha256": "4dbb2aed4dd6d98f2b63784091b7efc4dbcffd7db93263727b56847a574a3dd3"
+      "bytes": 1581978,
+      "sha256": "119a6a9af6bf315032e8aa0cd18307e66963f8bd3b085f131badfcb3e42d0ef0"
     },
     {
       "path": "media/sprites/unit-ash-strider.png",
-      "bytes": 599228,
-      "sha256": "4b821593b148f9f80078f928857ce12444c1e821700426352dfce55c34e54c2d"
+      "bytes": 1850127,
+      "sha256": "f96106ed9aae09f184ea49f4dd956af1b05888c75e8341d89a88360ea4904234"
     },
     {
       "path": "media/sprites/unit-cog-siege.png",
@@ -1668,18 +1668,18 @@
     },
     {
       "path": "media/sprites/unit-storm-siege.png",
-      "bytes": 1272118,
-      "sha256": "98cdb00c4f8fe013674234f70a966876d3fc5b85b35a5523950b1181111ecffb"
+      "bytes": 1836196,
+      "sha256": "541c4b952a601a9a61c2f7aef2474e24f4ff2ea5335ec5bbdafd23fbe2d85bc4"
     },
     {
       "path": "media/sprites/unit-storm-strider.png",
-      "bytes": 1031138,
-      "sha256": "bc6253c6feafc90cfc0510be13aa48aa1a68228877ae46107910c879797dabe7"
+      "bytes": 1606219,
+      "sha256": "47f165a2ff47fe6b0ef9751d06c00b0091faee6ce37b171e7e2ca2a8251f7279"
     },
     {
       "path": "media/sprites/unit-storm-wagon.png",
-      "bytes": 1053785,
-      "sha256": "17dad9ffad5319be0779587cb23c7f674806a5b39506a84f96275ae8b56afbf5"
+      "bytes": 1790567,
+      "sha256": "68642b36c6e4c8e4bf047b52d254f27ac2d76dbcd943ce99be34fa32dc100df9"
     },
     {
       "path": "media/sprites/unit-sun-siege.png",
@@ -1788,5 +1788,5 @@
     }
   ],
   "fileCount": 357,
-  "totalBytes": 127756633
+  "totalBytes": 139495467
 }

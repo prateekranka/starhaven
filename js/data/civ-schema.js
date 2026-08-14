@@ -78,6 +78,18 @@ export function civBuildThumb(civId, buildingType) {
   return civBuildingSprite(civId, buildingType);
 }
 
+/** Full painted still PNG for strider/siege/wagon/titan — not the 128px atlas stamp. */
+export function civUnitStillSprite(civId, unitType) {
+  const civ = getCiv(civId);
+  if (!civ) return null;
+  const spec = civ.sprites.units[unitType] || civ.sprites.units.default;
+  if (!spec || spec.sheet) return null;
+  if (spec.kind === "strider") return civ.sprites.strider || null;
+  if (spec.kind === "siege") return civ.sprites.siege || null;
+  if (spec.kind === "wagon") return civ.sprites.wagon || civ.sprites.strider || null;
+  return null;
+}
+
 export function civUsesFood(civId) {
   const civ = getCiv(civId);
   if (civ?.economy?.usesFood === false) return false;
