@@ -125,6 +125,7 @@ function makePlayer(idKey, faction, campaign) {
     popCap: 0,
     rates: { food: 0, wood: 0, crystal: 0, ore: 0 },
     gathered: { food: 0, wood: 0, crystal: 0, ore: 0 },
+    stats: { unitsTrained: 0, unitsLost: 0, buildingsRazed: 0 },
     attackWaveAt: 90,
   };
 }
@@ -412,6 +413,7 @@ function tickBuildings(world, dt) {
       b.queue.shift();
       const [rx, rz] = [b.rally.x, b.rally.z];
       const u = spawnUnit(world, b.owner, job.type, b.x + 1.2, b.z + spec.size);
+      world.players[b.owner].stats.unitsTrained++;
       issueMove(world, u, rx, rz);
     }
   }
@@ -419,7 +421,13 @@ function tickBuildings(world, dt) {
 
 function tickUnits(world, dt) {
   for (const u of world.units) {
-    if (u.hp <= 0) continue;
+    if (u.hp <= 0) {
+      if (!u.deathCounted && u.owner !== "gaia") {
+        u.deathCounted = true;
+        world.players[u.owner].stats.unitsLost++;
+      }
+      continue;
+    }
     const spec = UNITS[u.type];
     const buff = factionBuff(world, u);
     u.attackCd -= dt;
@@ -651,8 +659,14 @@ function hit(world, t, dmg, src) {
     t.state = "attack";
     t.target = src.id;
   }
-  if (t.hp <= 0 && t.kind === "building") {
-    freeRect(world.walk, t.cx, t.cz, t.size);
+  if (t.hp <= 0) {
+    if (t.kind === "building") {
+      freeRect(world.walk, t.cx, t.cz, t.size);
+      const killer = src?.owner;
+      if (killer && killer !== t.owner && killer !== "gaia" && world.players[killer]) {
+        world.players[killer].stats.buildingsRazed++;
+      }
+    }
   }
 }
 
@@ -889,4 +903,15 @@ export function villagerBuildOptions(world) {
   return VILLAGER_BUILD_LIST.filter((t) => BUILDINGS[t].age <= age);
 }
 
+export function matchStats(world, owner = "player") {
+  const p = world.players[owner];
+  const g = p.gathered;
+  const totalGathered = (g.food | 0) + (g.wood | 0) + (g.crystal | 0) + (g.ore | 0);
+  const score = Math.floor(totalGathered * 0.05) + p.stats.unitsTrained * 20 + p.stats.buildingsRazed * 150 - p.stats.unitsLost * 10 + (world.winner === owner ? 400 : 0) + p.age * 100;
+  return { duration: world.t, gathered: { ...g }, totalGathered, unitsTrained: p.stats.unitsTrained, unitsLost: p.stats.unitsLost, buildingsRazed: p.stats.buildingsRazed, score };
+}
+export function formatDuration(seconds) {
+  const s = Math.max(0, seconds | 0); const m = (s / 60) | 0; const r = s % 60;
+  return `${m}:${String(r).padStart(2, "0")}`;
+}
 export { lineX, canPay, BUILDINGS, UNITS };
