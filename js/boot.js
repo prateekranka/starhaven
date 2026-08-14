@@ -7,7 +7,6 @@ export const defaultSave = () => ({
   faction: "sunwoven",
   difficulty: "chieftain",
   seed: "",
-  campaignChapter: 4,
   settings: {
     music: 0.35,
     sfx: 0.7,

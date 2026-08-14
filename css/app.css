@@ -230,6 +230,23 @@ html, body {
 }
 .whats-new span { color: var(--gold); letter-spacing: 0.16em; font-size: 10px; }
 .whats-new p { margin-top: 4px; color: #c9d6e8; }
+.build-chip {
+  margin-top: 8px;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: var(--color-text-muted);
+}
+.build-chip span {
+  color: var(--gold);
+  font-family: var(--display);
+  letter-spacing: 0.16em;
+}
+.build-chip code {
+  font-family: var(--display);
+  color: var(--color-teal);
+  letter-spacing: 0.08em;
+  font-size: 11px;
+}
 
 .gold-btn,.ui-btn-primary{background:var(--gradient-gold-btn);color:var(--color-gold-ink);border:1px solid var(--color-gold-highlight);font-family:var(--font-display);font-weight:var(--weight-display);letter-spacing:var(--tracking-heading);padding:var(--space-4) var(--space-7);min-height:var(--touch-min);cursor:pointer;width:100%;text-transform:uppercase;touch-action:manipulation}
 .gold-btn:hover,.gold-btn:focus-visible,.ui-btn-primary:hover,.ui-btn-primary:focus-visible{box-shadow:var(--shadow-focus-teal);outline:none}
@@ -427,8 +444,14 @@ label { display: block; margin: var(--space-4) 0; color: var(--color-text-label)
 .ui-text-field:focus-visible { border-color: var(--color-gold); box-shadow: var(--shadow-focus-teal); outline: none; }
 .ui-modal { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: var(--color-surface-scrim); }
 .ui-modal-card { background: var(--color-surface-modal); border: 1px solid var(--color-border-gold); padding: var(--space-10); width: min(360px,90vw); }
-.settings-layout { display: grid; grid-template-columns: repeat(auto-fit,minmax(260px,1fr)); gap: var(--space-7); max-width: 920px; margin: 0 auto; }
-.settings-foot { grid-column: 1/-1; color: var(--color-text-muted); }
+.settings-layout { display: flex; flex-direction: column; gap: var(--space-7); max-width: 520px; margin: 0 auto; }
+.settings-foot, .settings-credit { color: var(--color-text-muted); }
+#screen-settings .panel-page {
+  background-color: rgba(4, 10, 20, 0.88);
+  background-blend-mode: soft-light;
+}
+.settings .ui-field-label { color: var(--color-ivory); }
+.settings .ui-panel-title { color: var(--color-gold); }
 .setup-battle .ui-field { margin-bottom: var(--space-7); } .setup-battle { width: min(100%,320px); }
 .kit-gallery { display: grid; grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); gap: var(--space-7); max-width: 1100px; margin: 0 auto; }
 .kit-section { display: flex; flex-direction: column; gap: var(--space-5); }

@@ -45,6 +45,8 @@ On **`dev`** (pixel pack):
    - Do not claim the live pack updated unless the deploy step succeeded.
 4. Tell the tester: title screen → **Dev** (or Production) → Reload pack (or force-quit and reopen). Confirm the BUILD sha in the footer.
 
+**Checkpoint gate:** a checkpoint is not done until a blind cold-player critique passes — title CTA honest (no fake campaign), BUILD `displaySha` matches live `build-info.json`, settings readable, maps load, no broken start path. Fail a lie or broken flow → hotfix on the same checkpoint before calling it shipped.
+
 On **`main`** (greybox only): `npm run typecheck` and `npm test` when the change is in TS, then `npm run build` and the Vite Cloudflare path (`npm run deploy:cloudflare`).
 
 ## Ship a native IPA (Swift / host)

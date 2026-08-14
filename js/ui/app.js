@@ -74,6 +74,7 @@ export function initUi() {
   if (native) document.body.classList.add("native");
   initNativeHostSettings();
   watchCacheWarm();
+  void mountBuildChip();
   void bootTitleScore();
 
   document.body.addEventListener("click", (e) => {
@@ -99,14 +100,7 @@ export function initUi() {
       showScreen("factions");
     } else if (action === "settings") showScreen("settings");
     else if (action === "tutorial") showScreen("tutorial");
-    else if (action === "campaign") {
-      playMatch({
-        playerFaction: save.faction || DEFAULT_CIV_ID,
-        difficulty: "chieftain",
-        campaign: true,
-        mapId: save.mapId || "bright-mesa",
-      });
-    } else if (action === "start-skirmish") {
+    else if (action === "start-skirmish") {
       const faction = document.querySelector(".faction-pick.selected")?.dataset.faction || DEFAULT_CIV_ID;
       const difficulty = dropdownValue("diff-select") || "chieftain";
       const mapId = dropdownValue("map-select") || "bright-mesa";
@@ -283,8 +277,9 @@ function watchCacheWarm() {
   const hud = document.getElementById("cache-hud");
   const label = document.getElementById("cache-hud-label");
   const bar = document.getElementById("cache-hud-bar");
+  const showHud = new URLSearchParams(location.search).get("qa") === "1";
   startBackgroundWarm((done, total) => {
-    if (!hud) return;
+    if (!hud || !showHud) return;
     hud.hidden = false;
     const pct = total ? Math.round((done / total) * 100) : 0;
     if (bar) bar.style.width = `${pct}%`;
@@ -328,6 +323,24 @@ function initNativeHostSettings() {
   const select = document.getElementById("native-pack-channel");
   if (!select) return;
   select.value = localStorage.getItem("starhaven.packChannel") || "development";
+}
+
+async function mountBuildChip() {
+  const chip = document.getElementById("build-chip");
+  const shaEl = document.getElementById("build-sha");
+  if (!chip || !shaEl) return;
+  let displaySha = "unknown";
+  try {
+    const res = await fetch("./build-info.json", { cache: "no-store" });
+    if (res.ok) {
+      const info = await res.json();
+      if (info.displaySha) displaySha = info.displaySha;
+    }
+  } catch (err) {
+    console.warn("build-info fetch failed", err);
+  }
+  shaEl.textContent = displaySha;
+  chip.hidden = false;
 }
 
 async function bootTitleScore() {
