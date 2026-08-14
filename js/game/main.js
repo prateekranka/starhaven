@@ -37,6 +37,9 @@ let pointers = new Map();
 let boxEl = null;
 let inputAbort = null;
 let pinch0 = 0;
+let pinchMid = null;
+let longPressTimer = 0;
+let boxFromHold = false;
 let attackMove = false;
 let lastSelKey = "";
 let simAcc = 0;
@@ -129,6 +132,10 @@ export function stopMatch() {
   if (viewport) viewport.innerHTML = "";
   view = null;
   pointers.clear();
+  pinch0 = 0;
+  pinchMid = null;
+  cancelLongPress();
+  boxFromHold = false;
   hideBox();
   clearEmptyTap(false);
   setBridgeMatchId(null);
@@ -602,6 +609,7 @@ function bindInput(viewport) {
   window.addEventListener(
     "pointermove",
     (e) => {
+      if (e.pointerType === "touch") return;
       cursorX = e.clientX;
       cursorY = e.clientY;
     },
@@ -629,13 +637,59 @@ function bindInput(viewport) {
   };
 }
 
+function cancelLongPress() {
+  if (longPressTimer) {
+    clearTimeout(longPressTimer);
+    longPressTimer = 0;
+  }
+}
+
+function isMousePointer(e) {
+  return e.pointerType === "mouse" || e.pointerType === "";
+}
+
+function panFromScreen(dx, dy) {
+  if (!view) return;
+  const info = view.cameraInfo?.();
+  const h = Math.max(1, innerHeight);
+  const k = (info?.frustum ?? 24) / h;
+  view.pan(-dx * k, -dy * k);
+}
+
 function onDown(e) {
   if (paused) return;
   if (e.button === 2) return;
-  pointers.set(e.pointerId, { x: e.clientX, y: e.clientY, sx: e.clientX, sy: e.clientY });
+  pointers.set(e.pointerId, {
+    x: e.clientX,
+    y: e.clientY,
+    sx: e.clientX,
+    sy: e.clientY,
+    type: e.pointerType,
+    panned: false,
+  });
   e.target.setPointerCapture?.(e.pointerId);
+  if (pointers.size >= 2) {
+    cancelLongPress();
+    hideBox();
+    boxFromHold = false;
+    return;
+  }
   if (pointers.size === 1 && !world.placing) {
-    ensureBox(e.clientX, e.clientY);
+    if (isMousePointer(e)) {
+      ensureBox(e.clientX, e.clientY);
+    } else {
+      boxFromHold = false;
+      cancelLongPress();
+      const sx = e.clientX;
+      const sy = e.clientY;
+      longPressTimer = setTimeout(() => {
+        longPressTimer = 0;
+        if (pointers.size !== 1 || world.placing) return;
+        boxFromHold = true;
+        ensureBox(sx, sy);
+        haptic(8, "select");
+      }, 320);
+    }
   }
 }
 
@@ -648,19 +702,24 @@ function onMove(e) {
   p.x = e.clientX;
   p.y = e.clientY;
   if (pointers.size >= 2) {
+    cancelLongPress();
     hideBox();
+    boxFromHold = false;
     const pts = [...pointers.values()];
     const distNow = Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y);
     if (!pinch0) pinch0 = distNow;
     else view.zoom((pinch0 - distNow) * 0.05);
     pinch0 = distNow;
-    const cx = (pts[0].x + pts[1].x) / 2;
-    const cy = (pts[0].y + pts[1].y) / 2;
-    view.pan(dx * -0.03, dy * -0.03);
-    void cx;
-    void cy;
+    const mx = (pts[0].x + pts[1].x) / 2;
+    const my = (pts[0].y + pts[1].y) / 2;
+    if (pinchMid) panFromScreen(mx - pinchMid.x, my - pinchMid.y);
+    pinchMid = { x: mx, y: my };
+    pts.forEach((pt) => {
+      pt.panned = true;
+    });
     return;
   }
+  pinchMid = null;
   if (world.placing) {
     const g = view.groundPick(e.clientX, e.clientY);
     if (g) {
@@ -677,16 +736,35 @@ function onMove(e) {
     boxEl.style.top = y + "px";
     boxEl.style.width = Math.abs(e.clientX - p.sx) + "px";
     boxEl.style.height = Math.abs(e.clientY - p.sy) + "px";
+    return;
+  }
+  if (pointers.size === 1 && !isMousePointer({ pointerType: p.type }) && !boxFromHold) {
+    const dist = Math.hypot(e.clientX - p.sx, e.clientY - p.sy);
+    if (dist > 10) {
+      cancelLongPress();
+      p.panned = true;
+      panFromScreen(dx, dy);
+    }
   }
 }
 
 function onUp(e) {
   if (paused) return;
+  cancelLongPress();
   const p = pointers.get(e.pointerId);
   pointers.delete(e.pointerId);
-  if (pointers.size < 2) pinch0 = 0;
+  if (pointers.size < 2) {
+    pinch0 = 0;
+    pinchMid = null;
+  }
   if (!p || !world) {
     hideBox();
+    boxFromHold = false;
+    return;
+  }
+  if (p.panned && !boxEl) {
+    hideBox();
+    boxFromHold = false;
     return;
   }
   const dist = Math.hypot(e.clientX - p.sx, e.clientY - p.sy);
@@ -780,6 +858,7 @@ function ensureBox(x, y) {
 function hideBox() {
   boxEl?.remove();
   boxEl = null;
+  boxFromHold = false;
 }
 
 function boxSelect(x0, y0, x1, y1) {

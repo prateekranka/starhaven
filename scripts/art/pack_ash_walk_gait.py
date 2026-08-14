@@ -64,6 +64,8 @@ def main() -> None:
             col = direction_index * 2 + (frame % 2)
             row = 0 * 2 + (frame // 2)
             tile = tiles[(direction, frame)]
+            empty = Image.new("RGBA", (CELL, CELL), (0, 0, 0, 0))
+            atlas.paste(empty, (col * CELL, row * CELL))
             atlas.paste(tile, (col * CELL, row * CELL), tile)
 
     SHEETS.mkdir(parents=True, exist_ok=True)
