@@ -1,4 +1,5 @@
 import { bridgeHaptic, bridgeSend, initBridge, isNativeHost } from "./bridge.js";
+import { audio } from "./audio/engine.js";
 
 export const SAVE_KEY = "starhaven.bright-frontier.v1";
 
@@ -38,24 +39,11 @@ export function postNative(type, payload = {}) {
   bridgeSend(type, payload);
 }
 
-let audioCtx = null;
-export function beep(freq = 440, dur = 0.08, gain = 0.04) {
-  const save = loadSave();
-  if (!save.settings.sfx) return;
-  try {
-    audioCtx = audioCtx || new AudioContext();
-    const o = audioCtx.createOscillator();
-    const g = audioCtx.createGain();
-    o.frequency.value = freq;
-    o.type = "triangle";
-    g.gain.value = gain * save.settings.sfx;
-    o.connect(g).connect(audioCtx.destination);
-    o.start();
-    o.stop(audioCtx.currentTime + dur);
-  } catch {
-    /* ignore */
-  }
+export function beep() {
+  audio.playUi();
 }
+
+export { audio };
 
 /** @param {number} [ms] @param {string} [kind] */
 export function haptic(ms = 10, kind = "select") {

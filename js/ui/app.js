@@ -1,4 +1,4 @@
-import { loadSave, writeSave, showScreen, beep, haptic, native } from "../boot.js";
+import { loadSave, writeSave, showScreen, beep, haptic, native, audio } from "../boot.js";
 import { sendPackChannel, sendPackReload } from "../bridge.js";
 import { detectDefaultQuality } from "../perf.js";
 import { startBackgroundWarm, ensureMatchAssets, matchAssetsReady } from "../cache/assets.js";
@@ -61,7 +61,7 @@ export function initUi() {
     const btn = e.target.closest("[data-action]");
     if (!btn) return;
     const action = btn.dataset.action;
-    beep(360, 0.05);
+    beep();
     haptic(8);
     if (action === "title") {
       loadGame().then(({ togglePause, stopMatch }) => {
@@ -138,6 +138,20 @@ export function initUi() {
     document.getElementById("pause-menu")?.classList.remove("hidden");
   });
 
+  document.getElementById("settings-form").addEventListener("input", (e) => {
+    if (e.target.name !== "music" && e.target.name !== "sfx") return;
+    const s = loadSave();
+    const f = document.getElementById("settings-form");
+    s.settings.music = Number(f.music.value);
+    s.settings.sfx = Number(f.sfx.value);
+    writeSave(s);
+    audio.applyVolumes();
+    if (e.target.name === "music" && document.getElementById("screen-game")?.classList.contains("active")) {
+      if (s.settings.music > 0) audio.startMusic();
+      else audio.stopMusic();
+    }
+  });
+
   window.addEventListener("keydown", (e) => {
     if (e.key === "Escape") {
       const pause = document.getElementById("pause-modal");
@@ -163,6 +177,7 @@ export function initUi() {
       s.settings = { ...s.settings, ...settings };
       writeSave(s);
       applySettingsForm(s);
+      audio.applyVolumes();
     },
   };
 
@@ -192,6 +207,11 @@ function onSettingsChange() {
   }
   writeSave(s);
   applySettingsForm(s);
+  audio.applyVolumes();
+  if (document.getElementById("screen-game")?.classList.contains("active")) {
+    if (s.settings.music > 0) audio.startMusic();
+    else audio.stopMusic();
+  }
   loadGame().then(({ applyLiveSettings }) => applyLiveSettings?.(s.settings));
 }
 
