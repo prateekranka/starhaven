@@ -1,6 +1,20 @@
 import { loadSave, writeSave, showScreen, beep, haptic, native, postNative } from "../boot.js";
 import { detectDefaultQuality } from "../perf.js";
 import { startBackgroundWarm, ensureMatchAssets, matchAssetsReady } from "../cache/assets.js";
+import { parseSeed } from "../sim/seed.js";
+
+/** Non-deterministic seed for blank setup fields (UI only — never in js/sim/). */
+function pickRandomSeed() {
+  return ((Date.now() ^ ((Math.random() * 0x100000000) | 0)) >>> 0);
+}
+
+/** URL ?seed= overrides; typed/saved seed is deterministic; blank → fresh hidden seed. */
+function resolveUiSeed(rawSeed) {
+  const urlSeed = new URLSearchParams(location.search).get("seed");
+  if (urlSeed != null && urlSeed !== "") return parseSeed(urlSeed);
+  if (rawSeed != null && rawSeed !== "") return parseSeed(rawSeed);
+  return pickRandomSeed();
+}
 
 let gameMod = null;
 function loadGame() {
@@ -50,7 +64,7 @@ export function initUi() {
       save.difficulty = difficulty;
       if (seedRaw) save.seed = seedRaw;
       writeSave(save);
-      playMatch({ playerFaction: faction, difficulty, seed: seedRaw || save.seed });
+      playMatch({ playerFaction: faction, difficulty, seed: seedRaw || save.seed || undefined });
     } else if (action === "start-tutorial") {
       playMatch({ playerFaction: save.faction || "sunwoven", tutorial: true, difficulty: "settler" });
     }
@@ -98,12 +112,14 @@ export function initUi() {
       playerFaction: params.get("faction") || save.faction || "sunwoven",
       difficulty: params.get("diff") || save.difficulty || "chieftain",
       tutorial: params.get("tutorial") === "1",
-      seed: params.get("seed") || save.seed,
+      seed: save.seed || undefined,
     });
   }
 }
 
-async function playMatch(opts) {
+async function playMatch(opts = {}) {
+  const seed = resolveUiSeed(opts.seed);
+  const matchOpts = { ...opts, seed };
   const veil = document.getElementById("boot-veil");
   const bar = document.getElementById("boot-veil-bar");
   const copy = document.getElementById("boot-veil-copy");
@@ -121,7 +137,7 @@ async function playMatch(opts) {
     });
     if (copy) copy.textContent = "Starting match";
     const { startMatch } = await loadGame();
-    await startMatch(opts);
+    await startMatch(matchOpts);
   } catch (err) {
     console.error(err);
     if (copy) copy.textContent = "Could not load match assets.";
