@@ -109,21 +109,37 @@
             </button>
           </div>
         </div>
-        <div class="setup-card setup-battle">
+        <div class="setup-card setup-battle ui-panel">
           <h3>Battle</h3>
-          <label>Map
-            <select id="map-select">
-              <option value="mesa">Bright Mesa</option>
-            </select>
-          </label>
-          <label>Difficulty
-            <select id="diff-select">
-              <option value="settler">Settler</option>
-              <option value="chieftain" selected>Chieftain</option>
-              <option value="emperor">Emperor</option>
-            </select>
-          </label>
-          <button class="gold-btn wide" data-action="start-skirmish">START MATCH</button>
+          <div class="ui-field">
+            <span class="ui-field-label">Map</span>
+            <div class="ui-dropdown" id="map-select" data-value="mesa">
+              <button type="button" class="ui-dropdown-trigger" aria-haspopup="listbox" aria-expanded="false">
+                <span class="ui-dropdown-label">Bright Mesa</span>
+                <span class="ui-dropdown-chevron" aria-hidden="true"></span>
+              </button>
+              <ul class="ui-dropdown-list" role="listbox" aria-label="Map">
+                <li class="ui-dropdown-option selected" role="option" data-value="mesa" aria-selected="true">Bright Mesa</li>
+              </ul>
+              <input type="hidden" name="map" value="mesa" />
+            </div>
+          </div>
+          <div class="ui-field">
+            <span class="ui-field-label">Difficulty</span>
+            <div class="ui-dropdown" id="diff-select" data-value="chieftain">
+              <button type="button" class="ui-dropdown-trigger" aria-haspopup="listbox" aria-expanded="false">
+                <span class="ui-dropdown-label">Chieftain</span>
+                <span class="ui-dropdown-chevron" aria-hidden="true"></span>
+              </button>
+              <ul class="ui-dropdown-list" role="listbox" aria-label="Difficulty">
+                <li class="ui-dropdown-option" role="option" data-value="settler">Settler</li>
+                <li class="ui-dropdown-option selected" role="option" data-value="chieftain" aria-selected="true">Chieftain</li>
+                <li class="ui-dropdown-option" role="option" data-value="emperor">Emperor</li>
+              </ul>
+              <input type="hidden" name="difficulty" value="chieftain" />
+            </div>
+          </div>
+          <button class="ui-btn gold-btn wide ui-btn-start" data-action="start-skirmish">START MATCH</button>
         </div>
       </div>
     </div>
@@ -166,21 +182,69 @@
         <button class="back-btn" data-action="title">←</button>
         <h2>SETTINGS</h2>
       </header>
-      <form id="settings-form" class="settings">
-        <label>Music <input type="range" name="music" min="0" max="1" step="0.05" value="0.35" /></label>
-        <label>Effects <input type="range" name="sfx" min="0" max="1" step="0.05" value="0.7" /></label>
-        <label>Quality
-          <select name="quality">
-            <option value="low">Low — 720p</option>
-            <option value="medium">Medium — 1080p</option>
-            <option value="high">High — 1440p</option>
-            <option value="ultra" selected>Ultra — 4K / 60 FPS</option>
-          </select>
-        </label>
-        <label class="check"><input type="checkbox" name="reduceMotion" /> Reduce camera motion</label>
-        <label class="check"><input type="checkbox" name="haptics" checked /> Haptics (iPad)</label>
-        <label class="check"><input type="checkbox" name="showDebug" /> Show debug HUD (FPS / backing store)</label>
-        <p class="hint">Settings store on this device and pass into the Swift wrapper when running natively.</p>
+      <form id="settings-form" class="settings settings-layout">
+        <input type="hidden" name="music" value="0.35" />
+        <section class="ui-panel settings-group" aria-labelledby="settings-audio-heading">
+          <h3 id="settings-audio-heading" class="ui-panel-title">Audio</h3>
+          <div class="ui-field">
+            <div class="ui-field-head">
+              <span class="ui-field-label">Effects</span>
+              <span class="ui-slider-value">70%</span>
+            </div>
+            <div class="ui-slider">
+              <div class="ui-slider-track" tabindex="0" role="slider" aria-label="Effects volume">
+                <div class="ui-slider-rail"></div>
+                <div class="ui-slider-fill"></div>
+                <div class="ui-slider-thumb"></div>
+              </div>
+              <input type="range" name="sfx" min="0" max="1" step="0.05" value="0.7" tabindex="-1" aria-hidden="true" />
+            </div>
+          </div>
+        </section>
+        <section class="ui-panel settings-group" aria-labelledby="settings-video-heading">
+          <h3 id="settings-video-heading" class="ui-panel-title">Video</h3>
+          <div class="ui-field">
+            <span class="ui-field-label">Quality</span>
+            <div class="ui-dropdown" data-value="ultra">
+              <button type="button" class="ui-dropdown-trigger" aria-haspopup="listbox" aria-expanded="false">
+                <span class="ui-dropdown-label">Ultra — 4K / 60 FPS</span>
+                <span class="ui-dropdown-chevron" aria-hidden="true"></span>
+              </button>
+              <ul class="ui-dropdown-list" role="listbox" aria-label="Quality">
+                <li class="ui-dropdown-option" role="option" data-value="low">Low — 720p</li>
+                <li class="ui-dropdown-option" role="option" data-value="medium">Medium — 1080p</li>
+                <li class="ui-dropdown-option" role="option" data-value="high">High — 1440p</li>
+                <li class="ui-dropdown-option selected" role="option" data-value="ultra" aria-selected="true">Ultra — 4K / 60 FPS</li>
+              </ul>
+              <input type="hidden" name="quality" value="ultra" />
+            </div>
+          </div>
+        </section>
+        <section class="ui-panel settings-group" aria-labelledby="settings-game-heading">
+          <h3 id="settings-game-heading" class="ui-panel-title">Game</h3>
+          <div class="ui-field ui-field-row">
+            <span class="ui-field-label">Reduce camera motion</span>
+            <div class="ui-toggle">
+              <button type="button" class="ui-toggle-btn" role="switch" aria-checked="false" aria-label="Reduce camera motion"></button>
+              <input type="checkbox" name="reduceMotion" tabindex="-1" aria-hidden="true" />
+            </div>
+          </div>
+          <div class="ui-field ui-field-row">
+            <span class="ui-field-label">Haptics (iPad)</span>
+            <div class="ui-toggle on">
+              <button type="button" class="ui-toggle-btn" role="switch" aria-checked="true" aria-label="Haptics"></button>
+              <input type="checkbox" name="haptics" checked tabindex="-1" aria-hidden="true" />
+            </div>
+          </div>
+          <div class="ui-field ui-field-row">
+            <span class="ui-field-label">Show debug HUD</span>
+            <div class="ui-toggle">
+              <button type="button" class="ui-toggle-btn" role="switch" aria-checked="false" aria-label="Show debug HUD"></button>
+              <input type="checkbox" name="showDebug" tabindex="-1" aria-hidden="true" />
+            </div>
+          </div>
+        </section>
+        <p class="hint settings-foot">Settings store on this device and pass into the Swift wrapper when running natively.</p>
       </form>
     </div>
   </section>
