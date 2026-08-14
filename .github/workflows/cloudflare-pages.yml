@@ -33,7 +33,10 @@ jobs:
           test -f _pack/maps/manifest.json
           test -f _pack/maps/void-rift-crossing.json
           grep -q "SKIRMISH VS AI" _pack/index.html
-          grep -qv "CONTINUE CAMPAIGN" _pack/index.html
+          if grep -q "CONTINUE CAMPAIGN" _pack/index.html; then
+            echo "CONTINUE CAMPAIGN must not ship" >&2
+            exit 1
+          fi
       - name: Deploy Cloudflare Pages
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
