@@ -8,6 +8,8 @@ let diffDropdown = null;
 function loadGame() { if (!gameMod) gameMod = import("../game/main.js"); return gameMod; }
 function dropdownValue(id) { const root = document.getElementById(id); return root?.querySelector('input[type="hidden"]')?.value || root?.dataset.value || ""; }
 
+function initKitGallery(){const s=document.getElementById("screen-kit");if(!s)return;initKit(s);bindDropdown(document.getElementById("kit-dropdown"));document.getElementById("kit-open-modal")?.addEventListener("click",()=>document.getElementById("kit-modal")?.classList.remove("hidden"));document.getElementById("kit-close-modal")?.addEventListener("click",()=>document.getElementById("kit-modal")?.classList.add("hidden"));}
+
 export function initUi() {
   const save = loadSave();
   if (!save.settings.quality || save.settings.quality === "medium") { save.settings.quality = detectDefaultQuality(); writeSave(save); }
@@ -58,6 +60,8 @@ export function initUi() {
     applySettings: (settings) => { const s = loadSave(); s.settings = { ...s.settings, ...settings }; writeSave(s); applySettingsForm(s); },
   };
   const params = new URLSearchParams(location.search);
+  initKitGallery();
+  if (params.get("kit") === "1") showScreen("kit");
   if (params.get("play") === "1") playMatch({ playerFaction: params.get("faction") || save.faction || "sunwoven", difficulty: params.get("diff") || save.difficulty || "chieftain", tutorial: params.get("tutorial") === "1" });
 }
 
