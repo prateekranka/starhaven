@@ -523,58 +523,58 @@
     },
     {
       "path": "media/sprites/bldg-cog-den.png",
-      "bytes": 2063,
-      "sha256": "220dbe82e6e04d1c12255626182c05e2d5afcbfca1615f6648774cadfeccf4fc"
+      "bytes": 1723942,
+      "sha256": "9918e5bb335f80b7b79d652e8cbc6f6b91dc187aabf78b88dbca2b99b26b12d9"
     },
     {
       "path": "media/sprites/bldg-cog-grid-pylon.png",
-      "bytes": 5190,
-      "sha256": "ee16b1609611dbeb9564c1aa683ff67f1b5778f47aacd7b3d796f958c52bcd76"
+      "bytes": 1828528,
+      "sha256": "51c0c7c68ea906f012faff51ead3dc653bbac9e2503b12db19eee905048f63f5"
     },
     {
       "path": "media/sprites/bldg-cog-house.png",
-      "bytes": 3075,
-      "sha256": "bd0a7ce9c33e1115196aee9e218571b3ceaed86b2d8829db4f2f114d930c93d3"
+      "bytes": 1560994,
+      "sha256": "a2efa00cfc2b28655d8d180d79bfe751c476ef2cb6139defab4848861c4c1de1"
     },
     {
       "path": "media/sprites/bldg-cog-lumber.png",
-      "bytes": 2943,
-      "sha256": "9de512bc089b06fee245880a3c3a4ca47b7ecad1bbe13ac3f1d2155e354198a0"
+      "bytes": 473099,
+      "sha256": "1d90deed2530917cf18149cd76f5b0eeb6998ee2e88b1b2575247390a2966bea"
     },
     {
       "path": "media/sprites/bldg-cog-mill.png",
-      "bytes": 3346,
-      "sha256": "70a5824a21d17a4cfddef90095bab6ba1895d68fc7f54c517b6875bff88cf33a"
+      "bytes": 1740125,
+      "sha256": "f348e08cb6ba2f590909107cb33b44bd1aa97dba2156b8898711f3b3be83ba71"
     },
     {
       "path": "media/sprites/bldg-cog-mine.png",
-      "bytes": 2330,
-      "sha256": "566fbd168c27ad38b1bbcd55bb59eb67a7c9d24496650eda2c3a5bdfc27369b7"
+      "bytes": 448949,
+      "sha256": "43fcf9089ab0283d734f3be62d830ed77252f8c40eacf3072fa79a5e279d4cbe"
     },
     {
       "path": "media/sprites/bldg-cog-rax.png",
-      "bytes": 2799,
-      "sha256": "9412f0d285d766b423587aac352ecc221588f323a65a3e00b04fce26feade636"
+      "bytes": 1677256,
+      "sha256": "f64b333ad2f328f6e147b68845406ecba428e4c289be26d839895ac02f896198"
     },
     {
       "path": "media/sprites/bldg-cog-spire.png",
-      "bytes": 2200,
-      "sha256": "80c989bc822f13b977bd00e5bc1958f78c57425b6580d4734f6fe8b66513fedf"
+      "bytes": 348570,
+      "sha256": "c0e5f934b6baed2bc40d6a3a6a7fe30ea2ed7184bf138c8a572929a33de13a6e"
     },
     {
       "path": "media/sprites/bldg-cog-tc.png",
-      "bytes": 4683,
-      "sha256": "b233033d55a0f04a248d76f26ab9008eca835ed76104a40c2b2a516ecbc49de2"
+      "bytes": 1859273,
+      "sha256": "c1a5cc3dfc1107b23a930b337360cf08acbfa8ac787d5cb16051ad329758934a"
     },
     {
       "path": "media/sprites/bldg-cog-wonder.png",
-      "bytes": 8841,
-      "sha256": "c08de9a188d81525dcc741acd026d1528280659d80dd6ea017d925faa6ac8da9"
+      "bytes": 1813699,
+      "sha256": "b117b9a9c50888eea68c6acb142d1babd1ed145b092b404ab3c31611597cd92f"
     },
     {
       "path": "media/sprites/bldg-cog-workshop.png",
-      "bytes": 2608,
-      "sha256": "86685cc022c46b5ee35b3c6ecc3d960bb9ffc84a3aa2ede75362f177d8d9ada6"
+      "bytes": 436977,
+      "sha256": "6ddb73996aea1407bdbd3e744f18db432d40689512d0e152bc1422570bff4086"
     },
     {
       "path": "media/sprites/bldg-grave-den.png",
@@ -733,43 +733,43 @@
     },
     {
       "path": "media/sprites/cog-guard.atlas.json",
-      "bytes": 41530,
-      "sha256": "1f0ef2a1642857392de7a02afe1487f46655857fe179a3d60f39b7f6465efd1a"
+      "bytes": 41532,
+      "sha256": "17cb9a595d462701afa3ef13fd122ed882613525e49aa9445dbd891e1f62017b"
     },
     {
       "path": "media/sprites/cog-guard.atlas.png",
-      "bytes": 34140,
-      "sha256": "11259883e943f0638da68902617583de9f517a4823908ab55c5da65975e0f5ae"
+      "bytes": 2175247,
+      "sha256": "7f5a3f5db34d5bc55bd1b45ac54b82f72283078cfb689c55440b39525d63d009"
     },
     {
       "path": "media/sprites/cog-siege.atlas.json",
-      "bytes": 41530,
-      "sha256": "b18951fa2a319a27237346bd9709c5ed45a3c47c3030a9ecff8a0911ff8db0c1"
+      "bytes": 41531,
+      "sha256": "3dad74783a49ac2b1845a5631e34ca3985e0e17a7da6145df14d3340be234974"
     },
     {
       "path": "media/sprites/cog-siege.atlas.png",
-      "bytes": 34906,
-      "sha256": "b70375220651dd595caf014cde339540d2d0b0cd65e2dd404009a085045069d8"
+      "bytes": 115450,
+      "sha256": "5b2a3093d9b346fd52f145af7cb447bcd02a801567b7429fb7c502d1d4745ac2"
     },
     {
       "path": "media/sprites/cog-strider.atlas.json",
-      "bytes": 41854,
-      "sha256": "53b1197b65eda72837f51876352e0db66dc43d6f292bd51be2bf85b381c99195"
+      "bytes": 41855,
+      "sha256": "fa5da8345091532d41120e441accabea1dd74beafc0356da1d2c6c58022ad134"
     },
     {
       "path": "media/sprites/cog-strider.atlas.png",
-      "bytes": 44613,
-      "sha256": "e1e2762e9fc6563ca776068450bf1022fd720cd81c9198df15269d4a3b860181"
+      "bytes": 544458,
+      "sha256": "05803f3456aa7c56eae054c96e9bf4f3fffa2b951c627ca8626a24ea2546bae0"
     },
     {
       "path": "media/sprites/cog-walk.atlas.json",
-      "bytes": 41368,
-      "sha256": "53b04f77e3744521404e1c24ac1c8b074b8eedd7122e451d185007e05671f72d"
+      "bytes": 41370,
+      "sha256": "0d983171f3d4b31255ba2ce99ea747d51c9950675e031de77140616b84ab0531"
     },
     {
       "path": "media/sprites/cog-walk.atlas.png",
-      "bytes": 38983,
-      "sha256": "560f780a2c46d36ace44fc1d833e7f6f44d7147d24a465ec41c1d6bbfeea1ded"
+      "bytes": 2595671,
+      "sha256": "be2bf75d6e6c0faf70c214582b3b43d872ac17998f726c4e69956f9af6118451"
     },
     {
       "path": "media/sprites/grave-guard.atlas.json",
@@ -813,8 +813,8 @@
     },
     {
       "path": "media/sprites/icon-age-cog.png",
-      "bytes": 979,
-      "sha256": "163ab05783ecbc732ece8c33420a065cdc6bf1007c6c574d2299fe3a61d1e1d9"
+      "bytes": 35442,
+      "sha256": "0dbe11def5db8aaad38f127140c4bf87f8018a4d40e0933a1efbcf97d21cba4f"
     },
     {
       "path": "media/sprites/icon-age-grave.png",
@@ -888,53 +888,53 @@
     },
     {
       "path": "media/sprites/icon-build-cog-barracks.png",
-      "bytes": 559,
-      "sha256": "35f4370e28344b562c35776e13d8b4bf7373841dfaacffb7b73386b82a96c334"
+      "bytes": 21896,
+      "sha256": "68374175add560eff9fbbf9741943ba56fcd57f72d0f7d5948e0fb399a79e877"
     },
     {
       "path": "media/sprites/icon-build-cog-den.png",
-      "bytes": 430,
-      "sha256": "82c50d6489f6fee5563f7c44dfc26a8e0e5f37aafeeb4d8866da2598b3a0327c"
+      "bytes": 22855,
+      "sha256": "17197857578829947ec3ef9298e0f93fb9d497183f6d6659ced313234a5f4ad3"
     },
     {
       "path": "media/sprites/icon-build-cog-grid-pylon.png",
-      "bytes": 890,
-      "sha256": "187507e241077a1e442ccd19ccbb44e3d08d653c5c3222d67f00b978568c8185"
+      "bytes": 14607,
+      "sha256": "f8f4618c0ea8a6cf96e4f9bfdd2e9226dcd172a3bad8cedc447caaaf6579106f"
     },
     {
       "path": "media/sprites/icon-build-cog-house.png",
-      "bytes": 596,
-      "sha256": "7435cbc77ec3d960dbf84620d92ef7b78116018be82831103266c8b5df750577"
+      "bytes": 21826,
+      "sha256": "7b89c046fc549cbe86e9b40fe1da4465476202eaad9cdd94b133a981f1a8654d"
     },
     {
       "path": "media/sprites/icon-build-cog-lumber.png",
-      "bytes": 576,
-      "sha256": "67d60cc65503e60b62841350db04c0eb0d4c1ef6c3c3295885ffc7a10ec76f12"
+      "bytes": 24277,
+      "sha256": "5df083b9514270a80f727fbd26e9982588404d3bdc3c0a2e4dc06a11506437f5"
     },
     {
       "path": "media/sprites/icon-build-cog-mill.png",
-      "bytes": 653,
-      "sha256": "e0e18db2c5190889879ca9f19243a4c87c914a5df9312ffe5ec0d80f98f935df"
+      "bytes": 23553,
+      "sha256": "eeac58f5fc9f56dbdc2ffe07be97f0b2fae2a2fa08cc5c344cc96714edbc624e"
     },
     {
       "path": "media/sprites/icon-build-cog-mine.png",
-      "bytes": 407,
-      "sha256": "b8f14c4d22fdd7190f980d4167eba92492b10bb8197e7d6c384f22c39f79d125"
+      "bytes": 24043,
+      "sha256": "81cce34428284c2d4365819fd7755e9b8bd44ef9269883160de24b0f09952f8d"
     },
     {
       "path": "media/sprites/icon-build-cog-spire.png",
-      "bytes": 391,
-      "sha256": "ef316ad1116c16fd749b905adadb46842f1d57f5f3100d7009725c60b6e0f2f4"
+      "bytes": 19436,
+      "sha256": "165d1b26a17e5eaede2c2e26dfd9907bf25e568ca1655962ff3d38784aeae440"
     },
     {
       "path": "media/sprites/icon-build-cog-wonder.png",
-      "bytes": 2148,
-      "sha256": "aecc5c1b6fd74213bb6dde225f6d92fe7718607ba4b62f070e8ea7cfa98f4fd7"
+      "bytes": 24189,
+      "sha256": "18d2f6bf1e797b9776560e4f6eb57ebaf29f1dc000b620de3f708b2679a4087c"
     },
     {
       "path": "media/sprites/icon-build-cog-workshop.png",
-      "bytes": 508,
-      "sha256": "4855e3dfcd0fc2466e95c0e340f02e4ca8b91e88bc779e11a9a628e67209c951"
+      "bytes": 22041,
+      "sha256": "b44803d6615f4a411ec7dd001ac6647671deed24a66954199dc1295ff31a71e2"
     },
     {
       "path": "media/sprites/icon-build-grave-barracks.png",
@@ -1158,33 +1158,33 @@
     },
     {
       "path": "media/sprites/icon-train-cog-archer.png",
-      "bytes": 1966,
-      "sha256": "5d8d9d68254eaa37e33da8e9792c30cb2ed0f99e178df1265dd8c0eeed21190a"
+      "bytes": 29723,
+      "sha256": "0b06dcb05a2334c498b3086a36369a016d95237993cfc7d5bcdfa4104670b69d"
     },
     {
       "path": "media/sprites/icon-train-cog-guard.png",
-      "bytes": 1966,
-      "sha256": "5d8d9d68254eaa37e33da8e9792c30cb2ed0f99e178df1265dd8c0eeed21190a"
+      "bytes": 33995,
+      "sha256": "e9153ed95d540724a7bec91218167e95080e154c7a8539440b59abef1fa240be"
     },
     {
       "path": "media/sprites/icon-train-cog-scout.png",
-      "bytes": 2091,
-      "sha256": "39f13ef4443122f653e0d6416274419276dcf333a1a9b531591450a88e8ad4b8"
+      "bytes": 30195,
+      "sha256": "9ac343bbae4318d985bab3a7c4f2a707994eb04297e400c2e8e0276735cc2088"
     },
     {
       "path": "media/sprites/icon-train-cog-siege.png",
-      "bytes": 744,
-      "sha256": "7dcc922fd469809f292694e124d5df8560726d21c96b1a427419ee7573698a15"
+      "bytes": 33285,
+      "sha256": "bcaf6e0403be8b93295f0728cf78c91e3a857296a882f4b1b9a7a47cc4b6fc88"
     },
     {
       "path": "media/sprites/icon-train-cog-strider.png",
-      "bytes": 798,
-      "sha256": "8021176b219e71d90a18f6faaa08a82c24b6c27d5183da01c0da722c49dfda1c"
+      "bytes": 25089,
+      "sha256": "e19e534981ea4d55bb79e5c753a4d92c6539fac4c811dcaaee88d94678f533e4"
     },
     {
       "path": "media/sprites/icon-train-cog-villager.png",
-      "bytes": 2091,
-      "sha256": "39f13ef4443122f653e0d6416274419276dcf333a1a9b531591450a88e8ad4b8"
+      "bytes": 32438,
+      "sha256": "8f9cd43a5d69317fd87a5b91d62a8c17114d0981d48ac72f4c5082faa00342cc"
     },
     {
       "path": "media/sprites/icon-train-grave-archer.png",
@@ -1383,43 +1383,43 @@
     },
     {
       "path": "media/sprites/portrait-cog-archer.png",
-      "bytes": 5132,
-      "sha256": "f265e5abf6414fef5f38bfb9ff7674ec7b465761f44a78695cf220074a9db894"
+      "bytes": 97223,
+      "sha256": "9b8b8de3d6bae7234a18fcd11e6406d51c27dcf06506ca529d267a50dd5793e6"
     },
     {
       "path": "media/sprites/portrait-cog-guard.png",
-      "bytes": 5132,
-      "sha256": "f265e5abf6414fef5f38bfb9ff7674ec7b465761f44a78695cf220074a9db894"
+      "bytes": 105835,
+      "sha256": "ae43070f319ec389f1fab7a15f154dae21329d8cab41f7d845385f204c9db61f"
     },
     {
       "path": "media/sprites/portrait-cog-scout.png",
-      "bytes": 5694,
-      "sha256": "1a01f7aa6337a75b5be24dda34bf87b529034c927448ee5fd279bc9b6032b800"
+      "bytes": 94442,
+      "sha256": "f04fb7522f2a388770bb8230f499cc632bee610d1a84550d65e307af7ea7e5a6"
     },
     {
       "path": "media/sprites/portrait-cog-siege.png",
-      "bytes": 1339,
-      "sha256": "a258c542afc77f4d1c3b8cf2475db0c7087650c25df8f1d723833e3de89612ed"
+      "bytes": 102960,
+      "sha256": "e65746734b24ac1735e68353db1fc7f6e1125eb9af33207998409aa080e9e583"
     },
     {
       "path": "media/sprites/portrait-cog-strider.png",
-      "bytes": 1267,
-      "sha256": "b4825e9cfa884288c9305f8a61ad96ba7b384766d274083fe11128dd753c92b4"
+      "bytes": 181726,
+      "sha256": "a82ad26f7c68a710ae09c739d329d9007e1c383b2e76dce01eba319d7c70130d"
     },
     {
       "path": "media/sprites/portrait-cog-titan.png",
-      "bytes": 1267,
-      "sha256": "b4825e9cfa884288c9305f8a61ad96ba7b384766d274083fe11128dd753c92b4"
+      "bytes": 98574,
+      "sha256": "7b894e1aba14bba09ddcf979559e927e9bfcd8bd5cb255ea641b409011414e53"
     },
     {
       "path": "media/sprites/portrait-cog-villager.png",
-      "bytes": 5694,
-      "sha256": "1a01f7aa6337a75b5be24dda34bf87b529034c927448ee5fd279bc9b6032b800"
+      "bytes": 80120,
+      "sha256": "39eb6d067aacc8bd1bc776374002adb5f3cc4b54f781766893a01822df91f655"
     },
     {
       "path": "media/sprites/portrait-cogforged.png",
-      "bytes": 5694,
-      "sha256": "1a01f7aa6337a75b5be24dda34bf87b529034c927448ee5fd279bc9b6032b800"
+      "bytes": 1740306,
+      "sha256": "354a9e9b41891a9bb1bc35e2e3657bcedacbe2b5743d1b43e947c8e18676857e"
     },
     {
       "path": "media/sprites/portrait-grave-archer.png",
@@ -1553,13 +1553,13 @@
     },
     {
       "path": "media/sprites/sheet-cog-guard.png",
-      "bytes": 17570,
-      "sha256": "88f0909bba38af7d84126ace78667035a2c03eeea43d01cb75695da55945b2c0"
+      "bytes": 1057784,
+      "sha256": "bd0dae2d2cc46f258f37cbe2c9dfa67eb44ef411571af40b4c609b3647a8e653"
     },
     {
       "path": "media/sprites/sheet-cogforged-walk.png",
-      "bytes": 19382,
-      "sha256": "0cea9da0f0a9c7c8f2e8fe35aec7d1504b0bbf405bf9bc6ddb5f491ee81574de"
+      "bytes": 1200555,
+      "sha256": "0892303a249f53c0ede58c935488cb9ee2398e17d110053626bce5ad3b022925"
     },
     {
       "path": "media/sprites/sheet-grave-guard.png",
@@ -1693,13 +1693,13 @@
     },
     {
       "path": "media/sprites/unit-cog-siege.png",
-      "bytes": 3169,
-      "sha256": "5ada5f6be838c1a454b5df72838d5ae2307febf7a9ce2f993fdcb17223420395"
+      "bytes": 110369,
+      "sha256": "b5fb57e12f9c1e382edfb2990b5f5b2a446811ad694703bfef39834a78726856"
     },
     {
       "path": "media/sprites/unit-cog-strider.png",
-      "bytes": 3005,
-      "sha256": "e597573ca69c03941fb7c2c25dd1090bc546942d5f6384ad62a19bb49ccc7433"
+      "bytes": 897736,
+      "sha256": "5290babf66af94eebec6d237ab0717a2574b491fab51cc393e0c418259652b1e"
     },
     {
       "path": "media/sprites/unit-grave-siege.png",
@@ -1748,8 +1748,8 @@
     },
     {
       "path": "media/textures/cogforged-banner.jpg",
-      "bytes": 26304,
-      "sha256": "8bd07c71b096ef39a2af9b81b5a8abb0dead987ddd7cc5658fed4ac4716ec178"
+      "bytes": 173714,
+      "sha256": "13a8bb9c3ad09a2c0c50a54fa2cebbce8b84284a11c26eda9a74084a19f73e3f"
     },
     {
       "path": "media/textures/crystal-blue.jpg",
@@ -1833,5 +1833,5 @@
     }
   ],
   "fileCount": 366,
-  "totalBytes": 56815432
+  "totalBytes": 82226748
 }
