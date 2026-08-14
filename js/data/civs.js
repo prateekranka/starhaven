@@ -4,6 +4,8 @@
 
 import { AGES, UNITS, BUILDINGS, VILLAGER_BUILD_LIST } from "./catalog.js";
 import { registerCiv } from "./civ-schema.js";
+import { COGFORGED_AI } from "../sim/civs/cogforged.js";
+import "../sim/civs/cogforged.js";
 
 export const SHARED_AI = {
   villagers: { settler: 8, chieftain: 11, emperor: 14 },
@@ -37,6 +39,19 @@ const SUNWOVEN_BUILDINGS = {
   den: "media/sprites/bldg-sun-rax.png",
   workshop: "media/sprites/bldg-sun-rax.png",
   wonder: "media/sprites/bldg-sun-wonder.png",
+};
+
+const COGFORGED_BUILDINGS = {
+  towncenter: "media/sprites/bldg-grave-tc.png",
+  house: "media/sprites/bldg-grave-house.png",
+  barracks: "media/sprites/bldg-grave-rax.png",
+  mill: "media/sprites/bldg-grave-mill.png",
+  lumber: "media/sprites/bldg-grave-mill.png",
+  mine: "media/sprites/bldg-grave-mill.png",
+  spire: "media/sprites/bldg-grave-rax.png",
+  den: "media/sprites/bldg-grave-rax.png",
+  workshop: "media/sprites/bldg-grave-rax.png",
+  wonder: "media/sprites/bldg-grave-wonder.png",
 };
 
 const GRAVEMARK_BUILDINGS = {
@@ -192,64 +207,57 @@ export const GRAVEMARK = {
   ai: SHARED_AI,
 };
 
-const ASHVEIN_BUILDINGS = {
-  towncenter: "media/sprites/bldg-grave-tc.png",
-  house: "media/sprites/bldg-grave-house.png",
-  barracks: "media/sprites/bldg-grave-rax.png",
-  mill: "media/sprites/bldg-grave-mill.png",
-  lumber: "media/sprites/bldg-grave-mill.png",
-  mine: "media/sprites/bldg-grave-mill.png",
-  spire: "media/sprites/bldg-grave-rax.png",
-  den: "media/sprites/bldg-grave-rax.png",
-  workshop: "media/sprites/bldg-grave-rax.png",
-  wonder: "media/sprites/bldg-grave-wonder.png",
-};
-
-export const ASHVEIN = {
-  id: "ashvein",
+export const COGFORGED = {
+  id: "cogforged",
   identity: {
-    name: "Ashvein Depths",
-    tagline: "Tunnel networks, lava bridges, unseen flanks",
+    name: "Cogforged Assembly",
+    tagline: "Grid power, on-site assembly, no harvest rations",
     portrait: "media/sprites/portrait-gravemark.png",
     banner: "media/textures/gravemark-banner.jpg",
     lore: {
       blurb:
-        "Magma masons who hollow the mesa into hidden arteries. Their delvers slip beneath rival scouts, while vent-calls pour molten rivers that cool into stone spans — reshaping the battlefield mid-siege.",
+        "Brass automatons who weld legions in the field and feed cities through copper relay grids. They ignore the Bright Line entirely — neither boosted nor blunted — and never ration lumenfruit.",
       ages: [
-        "Age I — Delver, Ventseer, Ember Guard, Tunnel Strider",
-        "Age II — Magmacore rigs, Ashrunners, Basalt Phalanx",
-        "Age III — Rift Furnace, Caldera Gate wonder",
+        "Age I — Assembler, Surveyor, Plate Guard, Gear Strider",
+        "Age II — Relay rigs, Cogrunners, Assembly Phalanx",
+        "Age III — Siege Calibrator, Foundry Engine wonder",
       ],
     },
   },
-  roster: sharedRoster(),
+  economy: { usesFood: false },
+  roster: {
+    units: Object.keys(UNITS),
+    buildings: Object.keys(BUILDINGS).filter((t) => t !== "mill"),
+    villagerBuild: VILLAGER_BUILD_LIST.filter((t) => t !== "mill"),
+  },
   statOverrides: {},
   techs: sharedTechs(),
   buffs: {
-    inLight: { speed: 980, dmg: 1020, armor: 1000 },
-    inDark: { speed: 1040, dmg: 1060, armor: 940 },
+    brightLineImmune: true,
+    inLight: { speed: 1000, dmg: 1000, armor: 1000 },
+    inDark: { speed: 1000, dmg: 1000, armor: 1000 },
   },
   names: {
     units: {
-      villager: "Delver",
-      scout: "Ventseer",
-      guard: "Ember Guard",
-      archer: "Cinder Bow",
-      strider: "Tunnel Strider",
-      siege: "Magma Lobber",
-      titan: "Caldera Titan",
+      villager: "Assembler",
+      scout: "Surveyor",
+      guard: "Plate Guard",
+      archer: "Rivet Bow",
+      strider: "Gear Strider",
+      siege: "Calibrator",
+      titan: "Mesa Titan",
     },
     buildings: {
-      towncenter: "Vent Keep",
-      house: "Ash Hut",
-      mill: "Ember Mill",
-      lumber: "Quarry Camp",
-      mine: "Magma Pit",
-      barracks: "Basalt Hall",
-      spire: "Vent Spire",
-      den: "Tunnel Den",
-      workshop: "Caldera Yard",
-      wonder: "Caldera Gate",
+      towncenter: "Foundry Core",
+      house: "Capacitor Hut",
+      mill: "Flux Mill",
+      lumber: "Timber Relay",
+      mine: "Ore Relay",
+      barracks: "Assembly Hall",
+      spire: "Optic Spire",
+      den: "Strider Bay",
+      workshop: "Siege Foundry",
+      wonder: "Foundry Engine",
     },
   },
   sprites: {
@@ -258,11 +266,11 @@ export const ASHVEIN = {
     strider: "media/sprites/unit-grave-strider.png",
     siege: "media/sprites/unit-grave-siege.png",
     portrait: "media/sprites/portrait-gravemark.png",
-    buildings: ASHVEIN_BUILDINGS,
+    buildings: COGFORGED_BUILDINGS,
     units: {
-      default: walkUnit(4.05, true),
-      villager: walkUnit(4.05, true),
-      scout: walkUnit(4.05, true),
+      default: walkUnit(4.05, false),
+      villager: walkUnit(4.05, false),
+      scout: walkUnit(4.05, false),
       guard: guardUnit(),
       archer: guardUnit(),
       strider: stillUnit("strider", 5.0),
@@ -270,7 +278,7 @@ export const ASHVEIN = {
       titan: stillUnit("strider", 7.0),
     },
   },
-  ai: { ...SHARED_AI, useTunnelFlank: true },
+  ai: COGFORGED_AI,
 };
 
 /** QA-only stub civ: data + placeholder art, no bespoke sim branches. */
@@ -340,5 +348,5 @@ export const QA_STUB = {
 
 registerCiv(SUNWOVEN);
 registerCiv(GRAVEMARK);
-registerCiv(ASHVEIN);
+registerCiv(COGFORGED);
 registerCiv(QA_STUB);

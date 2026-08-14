@@ -76,3 +76,9 @@ export function civSelectionPortrait(civId, entity) {
 export function civBuildThumb(civId, buildingType) {
   return civBuildingSprite(civId, buildingType);
 }
+
+export function civUsesFood(civId) {
+  const civ = getCiv(civId);
+  if (civ?.economy?.usesFood === false) return false;
+  return true;
+}
