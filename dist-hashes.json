@@ -8,8 +8,8 @@
     },
     {
       "path": "cache-manifest.json",
-      "bytes": 24356,
-      "sha256": "db68cd471df3d3734173a867339f3969aee95c6e9fb697e8aa8393b66f3f76e5"
+      "bytes": 24358,
+      "sha256": "a90c53ec69ba5cda0476919e81db399668ac92565198954d5ccfbb63b094a01d"
     },
     {
       "path": "css/app.css",
@@ -53,8 +53,8 @@
     },
     {
       "path": "js/cache/assets.js",
-      "bytes": 9123,
-      "sha256": "3f7e7607a3f84f0bccc8b187c6adfb0536c6051a532ff98cddb7a13ba330b99e"
+      "bytes": 10454,
+      "sha256": "f0ab2e65c8a79688a6bbebe03be515fa9258fdfee80832ad0d4362b378fa3c60"
     },
     {
       "path": "js/data/catalog.js",
@@ -93,8 +93,8 @@
     },
     {
       "path": "js/game/bright-lit.js",
-      "bytes": 4454,
-      "sha256": "7f0386c0041a09745f67a429be9f7f5f4ddfb2627b0df1a93bd458ea10eafd42"
+      "bytes": 5087,
+      "sha256": "0547a79847282934bd3c405dc20304e41a1f441633e18264ac2c003f209aa31b"
     },
     {
       "path": "js/game/main.js",
@@ -108,8 +108,8 @@
     },
     {
       "path": "js/game/render.js",
-      "bytes": 38183,
-      "sha256": "4ef0bf3fb8cc1c94667d36dc03b7ccb5338c088bac3674287106905cb4e0cc04"
+      "bytes": 38368,
+      "sha256": "d8325e6838b61fae6620509117b3ffba1bd6eaf9de87be35faff37d39bf6b21b"
     },
     {
       "path": "js/game/unit-atlas.js",
@@ -1253,18 +1253,18 @@
     },
     {
       "path": "media/sprites/icon-train-sun-archer.png",
-      "bytes": 8154,
-      "sha256": "1a463d75ee89bdf98f3f030db2a17ea644eaebfd3a6e46aeb990d3cab486288f"
+      "bytes": 4314,
+      "sha256": "2a37ad24b031eed705c5865bfa5a6a6ec3e31e3676084da8990607e1a3f974df"
     },
     {
       "path": "media/sprites/icon-train-sun-guard.png",
-      "bytes": 8474,
-      "sha256": "b3040015a7b9f7697b34b747bc6f66e12478a552bb99e10bbcfecb2fc1e70b8b"
+      "bytes": 4489,
+      "sha256": "95991462e0a1f4fa8cd943427b773708936468ef5a7956309de89d352d4af847"
     },
     {
       "path": "media/sprites/icon-train-sun-scout.png",
-      "bytes": 7716,
-      "sha256": "4ed86490cdd7ad6ffaec9f6796bf9d4ac41af2c058b1558d8bd133d1a907129c"
+      "bytes": 3889,
+      "sha256": "35ca440fe00739152f59d868890e4fe774804d937bc04a50d72625fd2e912046"
     },
     {
       "path": "media/sprites/icon-train-sun-siege.png",
@@ -1278,8 +1278,8 @@
     },
     {
       "path": "media/sprites/icon-train-sun-villager.png",
-      "bytes": 7886,
-      "sha256": "e20fba134640ba773f60fc353fb667597d9386dfd91e5e543077bfccb79c14b6"
+      "bytes": 3781,
+      "sha256": "d27203d1ad050944a3d9a10d97476fc08d788f23456dbdb58bb7722dbbccdcc6"
     },
     {
       "path": "media/sprites/icon-wood.v2.png",
@@ -1508,18 +1508,18 @@
     },
     {
       "path": "media/sprites/portrait-sun-archer.png",
-      "bytes": 28124,
-      "sha256": "4018e90b7df144a3e84dc5e08f64dee93453fa1dbe8b84345882c24446c28f6b"
+      "bytes": 5454,
+      "sha256": "bbd643d757def2240fee2b58c0b1be5978604e4a00107eec0012c19f5d49570a"
     },
     {
       "path": "media/sprites/portrait-sun-guard.png",
-      "bytes": 28124,
-      "sha256": "4018e90b7df144a3e84dc5e08f64dee93453fa1dbe8b84345882c24446c28f6b"
+      "bytes": 5525,
+      "sha256": "35dcb710b653db5680dab8d78acaf68d1c0871c790356d07fe00c06e21b69a2b"
     },
     {
       "path": "media/sprites/portrait-sun-scout.png",
-      "bytes": 24699,
-      "sha256": "3c412d3d1d3d264cc1d8702135b7a9260a66b5b19af6c5ec60d87fd89c938d84"
+      "bytes": 4926,
+      "sha256": "9178002ded3f1777a05e1b7144bfcee07dca6fa459b774aa40db3e7e169cdcb9"
     },
     {
       "path": "media/sprites/portrait-sun-siege.png",
@@ -1533,8 +1533,8 @@
     },
     {
       "path": "media/sprites/portrait-sun-villager.png",
-      "bytes": 24699,
-      "sha256": "3c412d3d1d3d264cc1d8702135b7a9260a66b5b19af6c5ec60d87fd89c938d84"
+      "bytes": 4832,
+      "sha256": "62c37465b1b2befada1f30e1c2915631bde8a9957993c81d0b4705132ca0f9e6"
     },
     {
       "path": "media/sprites/portrait-sunwoven.png",
@@ -1823,8 +1823,8 @@
     },
     {
       "path": "sw.js",
-      "bytes": 5823,
-      "sha256": "bd310b336eaaa1d4d18f14cc773a21a39e951c98e7d49deefdc6d67f18f26fb1"
+      "bytes": 6494,
+      "sha256": "80ce3e52f0dee9fc7a1d480ee96c40c5268ae68e6bf039b00a4dffad6ae63b43"
     },
     {
       "path": "vendor/three.module.js",
@@ -1833,5 +1833,5 @@
     }
   ],
   "fileCount": 366,
-  "totalBytes": 56913276
+  "totalBytes": 56815432
 }
