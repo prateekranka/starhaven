@@ -3,8 +3,8 @@
   "files": [
     {
       "path": "cache-manifest.json",
-      "bytes": 5103,
-      "sha256": "fc7d532272b989684f9755d0cc02c70cdad15eb044531f23eecaafb5599e47d0"
+      "bytes": 5275,
+      "sha256": "db47cb02823a0fe80e46682035b4dcff3694e4913f0408d178b46ce65c51c51a"
     },
     {
       "path": "css/app.css",
@@ -23,8 +23,8 @@
     },
     {
       "path": "js/cache/assets.js",
-      "bytes": 5923,
-      "sha256": "8e6928b28752e336d7d92aad8e7c7de83f7b2d9252fd49e21e2c5b837f478512"
+      "bytes": 6002,
+      "sha256": "efcd5d300fbef681f5a289294883a8f02370ab851c400f2e22d79a3dcad34453"
     },
     {
       "path": "js/data/catalog.js",
@@ -38,8 +38,8 @@
     },
     {
       "path": "js/game/render.js",
-      "bytes": 29371,
-      "sha256": "60f793c37712755eb189c5a1ec9d5610046b30c032e0dee0604e01d67b889c63"
+      "bytes": 33598,
+      "sha256": "02bd73fc81cc6ad9dcd586809be1db7b2f660a39ded3356b4d7bc1f9661d912f"
     },
     {
       "path": "js/perf.js",
@@ -282,6 +282,16 @@
       "sha256": "21a10c8c22e086a9a19946a21d97139bf02bf4d1a75d3c91f729e499c2a62f3b"
     },
     {
+      "path": "media/sprites/sun-guard.atlas.json",
+      "bytes": 25012,
+      "sha256": "c8e09be9ec5c607893aba15b69a027a8c8000fc587702dff7632091e665db0cb"
+    },
+    {
+      "path": "media/sprites/sun-guard.atlas.png",
+      "bytes": 22567,
+      "sha256": "9598b603599bc2dfe613f35165f199baecd9f40b9a250b21f006c3902018c91b"
+    },
+    {
       "path": "media/sprites/unit-grave-siege.png",
       "bytes": 733638,
       "sha256": "bdeb75c24de4b6ffb6cb775b357579d20ebf0923d8b5581b6d22c527c94a5131"
@@ -382,6 +392,6 @@
       "sha256": "ce1fa418de16a19495a9f72495580e3015d7745c296d3ce0485897f902ddedfb"
     }
   ],
-  "fileCount": 76,
-  "totalBytes": 40626365
+  "fileCount": 78,
+  "totalBytes": 40678422
 }

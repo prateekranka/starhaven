@@ -15,6 +15,8 @@ const MATCH_FALLBACK = [
   "media/sprites/sheet-sunwoven-walk.png",
   "media/sprites/sheet-gravemark-walk.png",
   "media/sprites/sheet-sun-guard.png",
+  "media/sprites/sun-guard.atlas.png",
+  "media/sprites/sun-guard.atlas.json",
   "media/sprites/sheet-grave-guard.png",
   "media/sprites/unit-sun-strider.png",
   "media/sprites/unit-grave-strider.png",

@@ -1,0 +1,15 @@
+{
+  "unitId": "sun-guard",
+  "faction": "sunwoven",
+  "clips": [
+    "walk",
+    "attack",
+    "death"
+  ],
+  "atlas": "media/sprites/sun-guard.atlas.png",
+  "sha256": "9598b603599bc2dfe613f35165f199baecd9f40b9a250b21f006c3902018c91b",
+  "bytes": 22567,
+  "sourceCount": 30,
+  "generator": "starhaven-pixel-pipeline-v1",
+  "libvips": "8.17.1"
+}
