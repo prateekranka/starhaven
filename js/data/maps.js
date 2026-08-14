@@ -45,6 +45,26 @@ export async function populateMapSelect(selectEl, savedId) {
   if (!selectEl) return null;
   const manifest = await loadMapManifest();
   const current = savedId || manifest.maps?.find((m) => m.default)?.id || manifest.maps?.[0]?.id;
+  const list = selectEl.querySelector(".ui-dropdown-list");
+  if (list) {
+    list.innerHTML = "";
+    for (const m of manifest.maps || []) {
+      const li = document.createElement("li");
+      li.className = "ui-dropdown-option" + (m.id === current ? " selected" : "");
+      li.setAttribute("role", "option");
+      li.dataset.value = m.id;
+      li.setAttribute("aria-selected", m.id === current ? "true" : "false");
+      li.textContent = m.name || m.id;
+      list.appendChild(li);
+    }
+    const hidden = selectEl.querySelector('input[type="hidden"]');
+    if (hidden) hidden.value = current;
+    selectEl.dataset.value = current;
+    const selected = manifest.maps?.find((m) => m.id === current);
+    const label = selectEl.querySelector(".ui-dropdown-label");
+    if (label && selected) label.textContent = selected.name || selected.id;
+    return current;
+  }
   selectEl.innerHTML = "";
   for (const m of manifest.maps || []) {
     const opt = document.createElement("option");
