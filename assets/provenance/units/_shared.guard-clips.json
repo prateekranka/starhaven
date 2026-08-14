@@ -1,0 +1,7 @@
+{
+  "walk": { "poses": { "A": { "col": 0 }, "B": { "col": 4 } } },
+  "attack": { "poses": { "A": { "col": 2 }, "B": { "col": 6 } } },
+  "gather": { "poses": { "A": { "col": 0 }, "B": { "col": 4 } }, "note": "temporary: reuses walk poses until dedicated gather sheet" },
+  "build": { "poses": { "A": { "col": 0 }, "B": { "col": 4 } }, "note": "temporary: reuses walk poses until dedicated build sheet" },
+  "death": { "poses": { "A": { "col": 0 }, "B": { "col": 7 } } }
+}

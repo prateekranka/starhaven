@@ -1,0 +1,34 @@
+{
+  "id": "sheet-spec.v1",
+  "frameSize": { "width": 128, "height": 128 },
+  "pivot": { "x": 64, "y": 112 },
+  "directions": ["N", "NE", "E", "SE", "S", "SW", "W", "NW"],
+  "sourceDirections": ["N", "NE", "E", "SE", "S"],
+  "mirrorSource": { "SW": "SE", "W": "E", "NW": "NE" },
+  "clips": {
+    "walk": { "frames": 4, "durationMs": 110, "loop": true },
+    "attack": { "frames": 4, "durationMs": 100, "loop": false },
+    "gather": { "frames": 4, "durationMs": 140, "loop": true },
+    "build": { "frames": 4, "durationMs": 140, "loop": true },
+    "death": { "frames": 4, "durationMs": 100, "loop": false }
+  },
+  "atlas": {
+    "maxWidth": 2048,
+    "maxHeight": 2048,
+    "cellWidth": 128,
+    "cellHeight": 128,
+    "layout": "action-rows-by-two",
+    "columnsPerDirection": 2,
+    "png": {
+      "compressionLevel": 9,
+      "adaptiveFiltering": false,
+      "palette": false
+    }
+  },
+  "hashStable": {
+    "generator": "starhaven-pixel-pipeline-v1",
+    "libvips": "8.17.1",
+    "sharp": "0.34.3",
+    "note": "Atlases are byte-stable when libvips/sharp/png options and committed palette + inbetweening specs are unchanged."
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "id": "ash-siege.sources.v1",
+  "unitId": "ash-siege",
+  "faction": "ashvein",
+  "mode": "still",
+  "still": "media/sprites/unit-ash-siege.png",
+  "cellSize": 128,
+  "directionRows": {
+    "S": 0,
+    "SE": 1,
+    "E": 2,
+    "NE": 3,
+    "N": 4,
+    "NW": 5,
+    "W": 6,
+    "SW": 7
+  },
+  "clips": {
+    "walk": {
+      "poses": {
+        "A": {
+          "col": 0
+        },
+        "B": {
+          "col": 4
+        }
+      }
+    },
+    "attack": {
+      "poses": {
+        "A": {
+          "col": 2
+        },
+        "B": {
+          "col": 6
+        }
+      },
+      "note": "temporary: attack frames extracted from walk sheet"
+    },
+    "gather": {
+      "poses": {
+        "A": {
+          "col": 1
+        },
+        "B": {
+          "col": 5
+        }
+      },
+      "note": "temporary: derived from walk sheet mid-stride"
+    },
+    "build": {
+      "poses": {
+        "A": {
+          "col": 3
+        },
+        "B": {
+          "col": 7
+        }
+      },
+      "note": "temporary: derived from walk sheet"
+    },
+    "death": {
+      "poses": {
+        "A": {
+          "col": 0
+        },
+        "B": {
+          "col": 3
+        }
+      },
+      "note": "temporary: collapse from walk idle frames"
+    }
+  }
+}

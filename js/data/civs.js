@@ -193,16 +193,16 @@ export const GRAVEMARK = {
 };
 
 const ASHVEIN_BUILDINGS = {
-  towncenter: "media/sprites/bldg-grave-tc.png",
-  house: "media/sprites/bldg-grave-house.png",
-  barracks: "media/sprites/bldg-grave-rax.png",
-  mill: "media/sprites/bldg-grave-mill.png",
-  lumber: "media/sprites/bldg-grave-mill.png",
-  mine: "media/sprites/bldg-grave-mill.png",
-  spire: "media/sprites/bldg-grave-rax.png",
-  den: "media/sprites/bldg-grave-rax.png",
-  workshop: "media/sprites/bldg-grave-rax.png",
-  wonder: "media/sprites/bldg-grave-wonder.png",
+  towncenter: "media/sprites/bldg-ash-tc.png",
+  house: "media/sprites/bldg-ash-house.png",
+  barracks: "media/sprites/bldg-ash-rax.png",
+  mill: "media/sprites/bldg-ash-mill.png",
+  lumber: "media/sprites/bldg-ash-lumber.png",
+  mine: "media/sprites/bldg-ash-mine.png",
+  spire: "media/sprites/bldg-ash-spire.png",
+  den: "media/sprites/bldg-ash-den.png",
+  workshop: "media/sprites/bldg-ash-workshop.png",
+  wonder: "media/sprites/bldg-ash-wonder.png",
 };
 
 export const ASHVEIN = {
@@ -210,8 +210,8 @@ export const ASHVEIN = {
   identity: {
     name: "Ashvein Depths",
     tagline: "Tunnel networks, lava bridges, unseen flanks",
-    portrait: "media/sprites/portrait-gravemark.png",
-    banner: "media/textures/gravemark-banner.jpg",
+    portrait: "media/sprites/portrait-ashvein.png",
+    banner: "media/textures/ashvein-banner.jpg",
     lore: {
       blurb:
         "Magma masons who hollow the mesa into hidden arteries. Their delvers slip beneath rival scouts, while vent-calls pour molten rivers that cool into stone spans — reshaping the battlefield mid-siege.",
@@ -253,11 +253,13 @@ export const ASHVEIN = {
     },
   },
   sprites: {
-    walkSheet: "media/sprites/sheet-gravemark-walk.png",
-    guardSheet: "media/sprites/sheet-grave-guard.png",
-    strider: "media/sprites/unit-grave-strider.png",
-    siege: "media/sprites/unit-grave-siege.png",
-    portrait: "media/sprites/portrait-gravemark.png",
+    walkSheet: "media/sprites/sheet-ashvein-walk.png",
+    guardSheet: "media/sprites/sheet-ash-guard.png",
+    strider: "media/sprites/unit-ash-strider.png",
+    siege: "media/sprites/unit-ash-siege.png",
+    portrait: "media/sprites/portrait-ashvein.png",
+    tunnelMouth: "media/sprites/bldg-ash-tunnel-mouth.png",
+    lavaVent: "media/sprites/bldg-ash-lava-vent.png",
     buildings: ASHVEIN_BUILDINGS,
     units: {
       default: walkUnit(4.05, true),

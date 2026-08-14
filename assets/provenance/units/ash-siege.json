@@ -1,0 +1,17 @@
+{
+  "unitId": "ash-siege",
+  "faction": "ashvein",
+  "clips": [
+    "walk",
+    "attack",
+    "gather",
+    "build",
+    "death"
+  ],
+  "atlas": "media/sprites/ash-siege.atlas.png",
+  "sha256": "52a69c617765436a7a16bbe068f365a44b510698b06363b5e6a0a8979eb52b29",
+  "bytes": 39684,
+  "sourceCount": 50,
+  "generator": "starhaven-pixel-pipeline-v1",
+  "libvips": "8.17.1"
+}

@@ -1,0 +1,17 @@
+{
+  "unitId": "ash-walk",
+  "faction": "ashvein",
+  "clips": [
+    "walk",
+    "attack",
+    "gather",
+    "build",
+    "death"
+  ],
+  "atlas": "media/sprites/ash-walk.atlas.png",
+  "sha256": "5c04627f0a5147261c17ddeb1b1d65a3e0297dcdf45911cb9961e3b165a80ecb",
+  "bytes": 37341,
+  "sourceCount": 50,
+  "generator": "starhaven-pixel-pipeline-v1",
+  "libvips": "8.17.1"
+}

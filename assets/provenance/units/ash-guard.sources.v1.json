@@ -1,0 +1,71 @@
+{
+  "id": "ash-guard.sources.v1",
+  "unitId": "ash-guard",
+  "faction": "ashvein",
+  "sheet": "media/sprites/sheet-ash-guard.png",
+  "cellSize": 128,
+  "directionRows": {
+    "S": 0,
+    "SE": 1,
+    "E": 2,
+    "NE": 3,
+    "N": 4,
+    "NW": 5,
+    "W": 6,
+    "SW": 7
+  },
+  "clips": {
+    "walk": {
+      "poses": {
+        "A": {
+          "col": 0
+        },
+        "B": {
+          "col": 4
+        }
+      }
+    },
+    "attack": {
+      "poses": {
+        "A": {
+          "col": 2
+        },
+        "B": {
+          "col": 6
+        }
+      }
+    },
+    "gather": {
+      "poses": {
+        "A": {
+          "col": 0
+        },
+        "B": {
+          "col": 4
+        }
+      },
+      "note": "temporary: reuses walk poses until dedicated gather sheet"
+    },
+    "build": {
+      "poses": {
+        "A": {
+          "col": 0
+        },
+        "B": {
+          "col": 4
+        }
+      },
+      "note": "temporary: reuses walk poses until dedicated build sheet"
+    },
+    "death": {
+      "poses": {
+        "A": {
+          "col": 0
+        },
+        "B": {
+          "col": 7
+        }
+      }
+    }
+  }
+}
