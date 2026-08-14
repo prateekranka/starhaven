@@ -24,7 +24,9 @@ function addResource(world, kind, cx, cz, amount, idFn) {
   if (cx < 0 || cz < 0 || cx >= n || cz >= n) return;
   if (!world.walk[cz * n + cx]) return;
   const [xQ10, zQ10] = worldOfCellQ10(cx, cz, cell);
-  world.resources.push({ id: idFn(), kind, xQ10, zQ10, amount, cx, cz });
+  const node = { id: idFn(), kind, xQ10, zQ10, amount, cx, cz };
+  world.resources.push(node);
+  world.byId.set(node.id, node);
 }
 
 export function normalizeMap(raw) {
@@ -84,7 +86,7 @@ export function applyMapLayout(world, mapDef, helpers) {
     if (cx < 0 || cz < 0 || cx >= map.size || cz >= map.size) continue;
     world.walk[cz * map.size + cx] = 0;
     const [xQ10, zQ10] = worldOfCellQ10(cx, cz, map.cell);
-    world.resources.push({
+    const propRes = {
       id: id(),
       kind: prop.kind === "rock" ? "rockblock" : prop.kind,
       xQ10,
@@ -92,7 +94,9 @@ export function applyMapLayout(world, mapDef, helpers) {
       amount: 0,
       cx,
       cz,
-    });
+    };
+    world.resources.push(propRes);
+    world.byId.set(propRes.id, propRes);
   }
 
   for (const node of map.resources) {

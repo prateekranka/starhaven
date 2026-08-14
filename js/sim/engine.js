@@ -27,6 +27,7 @@ import {
 import { astar } from "./path.js";
 import { runAI } from "./ai.js";
 import { MatchPrng } from "./prng.js";
+import { resetIds, allocateId } from "./ids.js";
 import { resolveSeed } from "./seed.js";
 import { applyMapLayout } from "./map-loader.js";
 import { computeFormationSlots } from "./formation.js";
@@ -76,9 +77,6 @@ const REPATH_GATHER_TICKS = secToTicks(0.5);
 const REPATH_BUILD_TICKS = secToTicks(0.5);
 const REPATH_ATTACK_TICKS = secToTicks(0.4);
 
-let nextId = 1;
-const id = () => nextId++;
-
 function clamp(v, a, b) {
   return Math.max(a, Math.min(b, v));
 }
@@ -113,7 +111,7 @@ function refund(stock, cost) {
 }
 
 export function createMatch(opts = {}) {
-  nextId = 1;
+  resetIds();
   const {
     playerFaction = DEFAULT_CIV_ID,
     difficulty = "chieftain",
@@ -168,6 +166,7 @@ export function createMatch(opts = {}) {
     units: [],
     buildings: [],
     resources: [],
+    byId: new Map(),
     projectiles: [],
     relics: [],
     fogDirty: true,
@@ -182,7 +181,7 @@ export function createMatch(opts = {}) {
   };
 
   if (opts.map) {
-    applyMapLayout(world, opts.map, { spawnBuilding, spawnUnit, revealAround, id });
+    applyMapLayout(world, opts.map, { spawnBuilding, spawnUnit, revealAround, id: allocateId });
   } else {
     seedTerrain(world);
     placeStart(world, "player", 6, 40);
@@ -245,13 +244,15 @@ function seedTerrain(world) {
     for (let x = 0; x < gridN; x++) {
       if (terrainHashPermille(x, z) > 930 && x > 8 && z > 8 && x < gridN - 8 && z < gridN - 8) {
         world.walk[z * gridN + x] = 0;
-        world.resources.push({
-          id: id(),
+        const rock = {
+          id: allocateId(),
           kind: "rockblock",
           xQ10: q10FromWorld((x + 0.5) * CELL),
           zQ10: q10FromWorld((z + 0.5) * CELL),
           amount: 0,
-        });
+        };
+        world.resources.push(rock);
+        world.byId.set(rock.id, rock);
       }
     }
   }
@@ -272,7 +273,9 @@ function scatter(world, kind, count, amount) {
     if (!world.walk[cz * gridN + cx]) continue;
     if (nearStart(cx, cz, gridN)) continue;
     const [xQ10, zQ10] = worldOfCellQ10(cx, cz, CELL);
-    world.resources.push({ id: id(), kind, xQ10, zQ10, amount: amount + rng.nextInt(0, 39), cx, cz });
+    const res = { id: allocateId(), kind, xQ10, zQ10, amount: amount + rng.nextInt(0, 39), cx, cz };
+    world.resources.push(res);
+    world.byId.set(res.id, res);
     n++;
   }
 }
@@ -312,15 +315,17 @@ function seedStartNodes(world, cx, cz) {
     const gz = clampCell(cz + dz, gridN);
     if (!world.walk[gz * gridN + gx]) continue;
     const [xQ10, zQ10] = worldOfCellQ10(gx, gz, CELL);
-    world.resources.push({
-      id: id(),
+    const spot = {
+      id: allocateId(),
       kind,
       xQ10,
       zQ10,
       amount: kind === "food" ? 140 : kind === "wood" ? 160 : 90,
       cx: gx,
       cz: gz,
-    });
+    };
+    world.resources.push(spot);
+    world.byId.set(spot.id, spot);
   }
 }
 
@@ -330,7 +335,7 @@ function clampCell(v, gridN = N) {
 
 function placeRelic(world) {
   const [xQ10, zQ10] = worldOfCellQ10(23, 23, CELL);
-  world.relics.push({ id: id(), xQ10, zQ10, hp: 80, awake: false });
+  world.relics.push({ id: allocateId(), xQ10, zQ10, hp: 80, awake: false });
 }
 
 function spawnBuilding(world, owner, type, cx, cz, instant) {
@@ -338,7 +343,7 @@ function spawnBuilding(world, owner, type, cx, cz, instant) {
   const buildTotalTicks = secToTicks(spec.time);
   const [xQ10, zQ10] = worldOfCellQ10(cx + spec.size / 2 - 0.5, cz + spec.size / 2 - 0.5, CELL);
   const b = {
-    id: id(),
+    id: allocateId(),
     kind: "building",
     type,
     owner,
@@ -359,6 +364,7 @@ function spawnBuilding(world, owner, type, cx, cz, instant) {
     powered: type === "towncenter",
   };
   world.buildings.push(b);
+  world.byId.set(b.id, b);
   blockRect(world.walk, cx, cz, spec.size);
   return b;
 }
@@ -366,7 +372,7 @@ function spawnBuilding(world, owner, type, cx, cz, instant) {
 function spawnUnit(world, owner, type, xQ10, zQ10) {
   const spec = UNITS[type];
   const u = {
-    id: id(),
+    id: allocateId(),
     kind: "unit",
     type,
     owner,
@@ -392,6 +398,7 @@ function spawnUnit(world, owner, type, xQ10, zQ10) {
     _moveBudget: 0,
   };
   world.units.push(u);
+  world.byId.set(u.id, u);
   return u;
 }
 
@@ -577,7 +584,7 @@ function finishAssemblies(world) {
       keep.push(site);
       continue;
     }
-    const b = world.buildings.find((x) => x.id === site.buildingId);
+    const b = world.byId.get(site.buildingId);
     const u = spawnUnit(world, site.owner, site.type, site.xQ10, site.zQ10);
     if (b) issueMove(world, u, b.rally.xQ10, b.rally.zQ10);
     for (const worker of world.units) {
@@ -647,7 +654,7 @@ function tickUnits(world) {
     civMechanics(u.faction).tickUnit(world, u);
     if (u.attackCdTicks > 0) u.attackCdTicks -= 1;
     if (u.state === "build" || u.state === "buildwalk") {
-      const site = world.buildings.find((x) => x.id === u.build);
+      const site = world.byId.get(u.build);
       if (!site || site.hp <= 0) {
         u.state = "idle";
         u.build = null;
@@ -670,8 +677,14 @@ function tickUnits(world) {
       }
     }
   }
-  world.units = world.units.filter((u) => u.hp > 0);
-  world.buildings = world.buildings.filter((b) => b.hp > 0);
+  world.units = world.units.filter((u) => {
+    if (u.hp <= 0) world.byId.delete(u.id);
+    return u.hp > 0;
+  });
+  world.buildings = world.buildings.filter((b) => {
+    if (b.hp <= 0) world.byId.delete(b.id);
+    return b.hp > 0;
+  });
 }
 
 function followPath(world, u, speed, speedPermille) {
@@ -685,7 +698,7 @@ function followPath(world, u, speed, speedPermille) {
     }
   }
   if (u.state === "gatherwalk") {
-    const res = world.resources.find((r) => r.id === u.resource);
+    const res = world.byId.get(u.resource);
     if (res && distanceSquaredQ10(u, res) < GATHER_ARRIVE_SQ) {
       u.path = [];
       u.state = "gather";
@@ -693,7 +706,7 @@ function followPath(world, u, speed, speedPermille) {
     }
   }
   if (u.state === "buildwalk") {
-    const b = world.buildings.find((x) => x.id === u.build);
+    const b = world.byId.get(u.build);
     const buildR = b ? q10FromWorld((b.size || 2) * 0.7 + 1.1) : 0;
     if (b && distanceSquaredQ10(u, b) < buildR * buildR) {
       u.path = [];
@@ -754,7 +767,7 @@ function followPath(world, u, speed, speedPermille) {
 }
 
 function gatherTick(world, u, spec) {
-  const res = world.resources.find((r) => r.id === u.resource);
+  const res = world.byId.get(u.resource);
   if (!res || res.amount <= 0) {
     u.state = "idle";
     u.resource = null;
@@ -800,8 +813,8 @@ function arriveDrop(world, u) {
     world.players[u.owner].gathered[u.carryKind] += u.carry;
     u.carry = 0;
   }
-  const res = world.resources.find((r) => r.id === u.resource && r.amount > 0);
-  if (res) issueGather(world, u, res);
+  const res = world.byId.get(u.resource);
+  if (res && res.amount > 0) issueGather(world, u, res);
   else u.state = "idle";
 }
 
@@ -842,7 +855,7 @@ function assembleWalkTick(world, u) {
 }
 
 function buildTick(world, u) {
-  const b = world.buildings.find((x) => x.id === u.build);
+  const b = world.byId.get(u.build);
   if (!b || b.hp <= 0) {
     u.state = "idle";
     return;
@@ -915,7 +928,7 @@ function edgeDistSq(a, b) {
 
 function fire(world, from, to, dmg) {
   world.projectiles.push({
-    id: id(),
+    id: allocateId(),
     xQ10: from.xQ10,
     zQ10: from.zQ10,
     txQ10: to.xQ10,
@@ -1000,7 +1013,8 @@ function closestFoe(world, e, range) {
 
 function findById(world, fid) {
   if (!fid) return null;
-  return world.units.find((u) => u.id === fid) || world.buildings.find((b) => b.id === fid);
+  const e = world.byId.get(fid);
+  return e && e.kind !== "resource" ? e : null;
 }
 
 function setPath(world, u, xQ10, zQ10) {
@@ -1137,7 +1151,7 @@ export function queueAssembly(world, building, type) {
   if (!canPay(p.stock, cost)) return { ok: false, why: "Not enough resources." };
   pay(p.stock, cost);
   const site = {
-    id: id(),
+    id: allocateId(),
     owner: building.owner,
     type,
     buildingId: building.id,

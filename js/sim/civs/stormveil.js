@@ -3,6 +3,7 @@
  */
 
 import { BUILDINGS } from "../../data/catalog.js";
+import { allocateId } from "../ids.js";
 import { registerCivMechanics } from "./index.js";
 import {
   Q10,
@@ -34,13 +35,6 @@ function canPay(stock, cost) {
 }
 function pay(stock, cost) {
   for (const [k, v] of Object.entries(cost || {})) stock[k] -= v;
-}
-function allocId(world) {
-  let max = 0;
-  for (const u of world.units) max = Math.max(max, u.id);
-  for (const b of world.buildings) max = Math.max(max, b.id);
-  for (const d of world.stormveil?.darkness || []) max = Math.max(max, d.id);
-  return max + 1;
 }
 function freeRect(walk, cx, cz, size, gridN) {
   for (let z = cz; z < cz + size; z++) for (let x = cx; x < cx + size; x++) if (x >= 0 && z >= 0 && x < gridN && z < gridN) walk[z * gridN + x] = 1;
@@ -109,17 +103,22 @@ export function tickStormveil(world) {
 }
 function finishPack(world, buildingId, pack) {
   delete world.stormveil.packing[buildingId];
-  const b = world.buildings.find((x) => x.id === buildingId);
-  if (!b || b.owner !== pack.owner) return;
+  const b = world.byId.get(buildingId);
+  if (!b || b.owner !== pack.owner || b.kind !== "building") return;
   const cargo = { type: b.type, hp: b.hp, maxHp: b.maxHp, buildTicks: b.buildTicks, buildTotalTicks: b.buildTotalTicks, queue: b.queue.map((q) => ({ ...q })) };
   freeRect(world.walk, b.cx, b.cz, b.size, world.N);
-  world.buildings = world.buildings.filter((x) => x.id !== buildingId);
-  world.units.push({
-    id: allocId(world), kind: "unit", type: "wagon", owner: pack.owner, faction: world.players[pack.owner].faction,
+  world.buildings = world.buildings.filter((x) => {
+    if (x.id === buildingId) world.byId.delete(x.id);
+    return x.id !== buildingId;
+  });
+  const wagon = {
+    id: allocateId(), kind: "unit", type: "wagon", owner: pack.owner, faction: world.players[pack.owner].faction,
     xQ10: b.xQ10, zQ10: b.zQ10, hp: WAGON_UNIT.hp, maxHp: WAGON_UNIT.maxHp, state: "idle", path: [], target: null,
     resource: null, carry: 0, carryKind: null, build: null, attackCdTicks: 0, repathTicks: 0, gatherRemainder: 0,
     facingOctant: 0, remainderX: 0, remainderZ: 0, _moveBudget: 0, cargo,
-  });
+  };
+  world.units.push(wagon);
+  world.byId.set(wagon.id, wagon);
 }
 function canPlace(world, cx, cz, size, owner) {
   const gridN = world.N;
@@ -134,11 +133,13 @@ function spawnDeployedBuilding(world, owner, type, cx, cz, cargo) {
   const spec = BUILDINGS[type];
   const [xQ10, zQ10] = worldOfCellQ10(cx + spec.size / 2 - 0.5, cz + spec.size / 2 - 0.5, world.CELL);
   world.buildings.push({
-    id: allocId(world), kind: "building", type, owner, faction: world.players[owner].faction, cx, cz, size: spec.size, xQ10, zQ10,
+    id: allocateId(), kind: "building", type, owner, faction: world.players[owner].faction, cx, cz, size: spec.size, xQ10, zQ10,
     hp: cargo.hp, maxHp: cargo.maxHp, buildTotalTicks: cargo.buildTotalTicks, buildTicks: cargo.buildTicks,
     queue: cargo.queue.map((q) => ({ ...q })), rally: { xQ10: xQ10 + q10FromWorld(spec.size), zQ10: zQ10 + q10FromWorld(spec.size) },
     attackCdTicks: 0, wonderTicks: 0,
   });
+  const building = world.buildings[world.buildings.length - 1];
+  world.byId.set(building.id, building);
   blockRect(world.walk, cx, cz, spec.size, world.N);
 }
 export function canPackBuilding(world, owner, building) {
@@ -151,7 +152,7 @@ export function canPackBuilding(world, owner, building) {
   return { ok: true };
 }
 export function tryPackBuilding(world, owner, buildingId) {
-  const building = world.buildings.find((b) => b.id === buildingId);
+  const building = world.byId.get(buildingId);
   const check = canPackBuilding(world, owner, building);
   if (!check.ok) return check;
   pay(world.players[owner].stock, PACK_COST);
@@ -168,12 +169,15 @@ export function canDeployPacked(world, owner, wagon, wx, wz) {
   return { ok: true, cx, cz };
 }
 export function tryDeployPacked(world, owner, wagonId, wx, wz) {
-  const wagon = world.units.find((u) => u.id === wagonId);
+  const wagon = world.byId.get(wagonId);
   const check = canDeployPacked(world, owner, wagon, wx, wz);
   if (!check.ok) return check;
   pay(world.players[owner].stock, DEPLOY_COST);
   spawnDeployedBuilding(world, owner, wagon.cargo.type, check.cx, check.cz, wagon.cargo);
-  world.units = world.units.filter((u) => u.id !== wagonId);
+  world.units = world.units.filter((u) => {
+    if (u.id === wagonId) world.byId.delete(u.id);
+    return u.id !== wagonId;
+  });
   return { ok: true };
 }
 export function canSummonDarkness(world, owner, wx, wz) {
@@ -190,7 +194,7 @@ export function trySummonDarkness(world, owner, wx, wz) {
   if (!check.ok) return check;
   pay(world.players[owner].stock, DARKNESS_COST);
   world.players[owner].stormveil.darknessCd = secToTicks(DARKNESS_COOLDOWN_SEC);
-  world.stormveil.darkness.push({ id: allocId(world), owner, xQ10: check.xQ10, zQ10: check.zQ10, radiusQ10: q10FromWorld(DARKNESS_RADIUS_WORLD), leftTicks: secToTicks(DARKNESS_DURATION_SEC) });
+  world.stormveil.darkness.push({ id: allocateId(), owner, xQ10: check.xQ10, zQ10: check.zQ10, radiusQ10: q10FromWorld(DARKNESS_RADIUS_WORLD), leftTicks: secToTicks(DARKNESS_DURATION_SEC) });
   return { ok: true };
 }
 function findDeploySpot(world, owner, wagon) {
