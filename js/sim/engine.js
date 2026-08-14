@@ -1,4 +1,5 @@
 import { AGES, UNITS, BUILDINGS, VILLAGER_BUILD_LIST } from "../data/catalog.js";
+import { computeFormationSlots } from "./formation.js";
 import { astar } from "./path.js";
 import { runAI } from "./ai.js";
 
@@ -467,6 +468,10 @@ function followPath(world, u, speed, dt) {
     }
   }
   if (!u.path.length) {
+    if (u.formationFacing != null) {
+      u.facing = u.formationFacing;
+      u.formationFacing = null;
+    }
     if (u.state === "gatherwalk") u.state = "gather";
     else if (u.state === "return") arriveDrop(world, u);
     else if (u.state === "buildwalk") u.state = "build";
@@ -689,18 +694,28 @@ function setPath(world, u, x, z) {
   u.path = astar(world.walk, N, sx, sz, gx, gz);
 }
 
-export function issueMove(world, u, x, z) {
+export function issueMove(world, u, x, z, facing = null) {
   u.state = "walk";
   u.target = null;
   u.resource = null;
   u.build = null;
+  u.formationFacing = facing;
   setPath(world, u, x, z);
 }
 
-export function issueAttackMove(world, u, x, z) {
+export function issueAttackMove(world, u, x, z, facing = null) {
   u.state = "attackmove";
   u.target = null;
+  u.formationFacing = facing;
   setPath(world, u, x, z);
+}
+
+function issueFormationMove(world, units, x, z, attackMove = false) {
+  const slots = computeFormationSlots(units, x, z);
+  for (const slot of slots) {
+    if (attackMove) issueAttackMove(world, slot.unit, slot.x, slot.z, slot.facing);
+    else issueMove(world, slot.unit, slot.x, slot.z, slot.facing);
+  }
 }
 
 export function issueGather(world, u, res) {
@@ -858,12 +873,19 @@ export function commandGround(world, x, z, attackMove = false) {
   const foe = [...world.units, ...world.buildings].find(
     (e) => e.owner !== "player" && e.hp > 0 && Math.hypot(e.x - x, e.z - z) < 2.4
   );
-  for (const e of sel) {
-    if (e.kind !== "unit") continue;
-    if (foe) issueAttack(world, e, foe);
-    else if (res && e.type === "villager") issueGather(world, e, res);
-    else if (attackMove) issueAttackMove(world, e, x, z);
-    else issueMove(world, e, x, z);
+  const units = sel.filter((e) => e.kind === "unit");
+  if (foe) {
+    for (const e of units) issueAttack(world, e, foe);
+  } else {
+    const gatherers = res ? units.filter((e) => e.type === "villager") : [];
+    const movers = units.filter((e) => !gatherers.includes(e));
+    for (const e of gatherers) issueGather(world, e, res);
+    if (movers.length === 1) {
+      if (attackMove) issueAttackMove(world, movers[0], x, z);
+      else issueMove(world, movers[0], x, z);
+    } else if (movers.length > 1) {
+      issueFormationMove(world, movers, x, z, attackMove);
+    }
   }
   const bsel = sel.find((e) => e.kind === "building");
   if (bsel && !sel.some((e) => e.kind === "unit")) bsel.rally = { x, z };
