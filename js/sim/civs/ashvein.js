@@ -301,10 +301,13 @@ export function onUnitStep(world, u, cx, cz) {
     if (isTunnelCell(world, px, pz) && !isEntrance(world, px, pz)) tunnelSteps += 1;
   }
   if (tunnelSteps > 0) {
-    u.layer = "tunnel";
     const [tx, tz] = u.path[u.path.length - 1];
     const [txQ10, tzQ10] = worldOfCellQ10(tx, tz, world.CELL);
-    u.path = ashveinResolvePath(world, u, txQ10, tzQ10) || [];
+    const tunnelPath = ashveinResolvePath(world, u, txQ10, tzQ10);
+    if (tunnelPath?.length) {
+      u.layer = "tunnel";
+      u.path = tunnelPath;
+    }
   }
 }
 
