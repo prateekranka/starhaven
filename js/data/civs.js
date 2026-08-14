@@ -259,4 +259,51 @@ export const QA_STUB = {
 
 registerCiv(SUNWOVEN);
 registerCiv(GRAVEMARK);
+
+const STORMVEIL_BUILDINGS = {
+  towncenter: "media/sprites/bldg-sun-tc.png",
+  house: "media/sprites/bldg-sun-house.png",
+  barracks: "media/sprites/bldg-sun-rax.png",
+  mill: "media/sprites/bldg-sun-mill.png",
+  lumber: "media/sprites/bldg-sun-mill.png",
+  mine: "media/sprites/bldg-sun-mill.png",
+  spire: "media/sprites/bldg-sun-rax.png",
+  den: "media/sprites/bldg-sun-rax.png",
+  workshop: "media/sprites/bldg-sun-rax.png",
+  wonder: "media/sprites/bldg-sun-wonder.png",
+};
+
+export const STORMVEIL = {
+  id: "stormveil",
+  identity: {
+    name: "Stormveil Nomads",
+    tagline: "Packable camps, wind-lane marches, summoned gloom",
+    portrait: "media/sprites/portrait-gravemark.png",
+    banner: "media/textures/gravemark-banner.jpg",
+    lore: {
+      blurb: "Caravan lords who lash canvas keeps to storm wagons and ride the mesa's wind lanes. Their veil-shamans summon local night to flip the Bright Line's favor mid-fight.",
+      ages: ["Age I — Wayfarer, Gale Scout, Veil Guard, Lane Strider", "Age II — Packmasters, Windrunners, Canvas Phalanx", "Age III — Storm Manta, Nomad Ark wonder"],
+    },
+  },
+  roster: sharedRoster(),
+  statOverrides: {},
+  techs: sharedTechs(),
+  buffs: { inLight: { speed: 1000, dmg: 1000, armor: 1000 }, inDark: { speed: 1080, dmg: 1050, armor: 960 } },
+  names: {
+    units: { villager: "Wayfarer", scout: "Gale Scout", guard: "Veil Guard", archer: "Storm Bow", strider: "Lane Strider", siege: "Gale Projector", titan: "Mesa Titan", wagon: "Pack Wagon" },
+    buildings: { towncenter: "Caravan Heart", house: "Canvas Tent", mill: "Wind Mill", lumber: "Timber Wagon", mine: "Shard Pit", barracks: "March Hall", spire: "Veil Spire", den: "Strider Pen", workshop: "Siege Yard", wonder: "Nomad Ark" },
+  },
+  sprites: {
+    walkSheet: "media/sprites/sheet-gravemark-walk.png",
+    guardSheet: "media/sprites/sheet-grave-guard.png",
+    strider: "media/sprites/unit-grave-strider.png",
+    siege: "media/sprites/unit-grave-siege.png",
+    portrait: "media/sprites/portrait-gravemark.png",
+    buildings: STORMVEIL_BUILDINGS,
+    units: { default: walkUnit(4.05, true), villager: walkUnit(4.05, true), scout: walkUnit(4.05, true), guard: guardUnit(), archer: guardUnit(), strider: stillUnit("strider", 5.0), siege: stillUnit("siege", 5.2), titan: stillUnit("strider", 7.0), wagon: stillUnit("strider", 4.6) },
+  },
+  ai: { ...SHARED_AI, nomadic: true },
+};
+
+registerCiv(STORMVEIL);
 registerCiv(QA_STUB);

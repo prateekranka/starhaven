@@ -11,6 +11,8 @@ import {
   isBuilt,
 } from "./engine.js";
 import { distanceSquaredQ10, secToTicks, TICKS_PER_SEC } from "./fixed.js";
+import { civMechanics } from "./civs/index.js";
+import "./civs/stormveil.js";
 
 const DIFF = {
   settler: { villagers: 8, waveTick: secToTicks(140), extra: 0 },
@@ -84,6 +86,8 @@ export function runAI(world) {
     const zOffset = phase < 180 || phase >= 540 ? SCOUT_ORBIT_RADIUS_Q10 : -SCOUT_ORBIT_RADIUS_Q10;
     issueAttackMove(world, scout, SCOUT_ORBIT_CENTER_Q10 + xOffset, SCOUT_ORBIT_CENTER_Q10 + zOffset);
   }
+
+  civMechanics(p.faction).runAI(world, p);
 }
 
 function placeIfMissing(world, type, tc, radius) {

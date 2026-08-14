@@ -1,6 +1,9 @@
 import { AGES, UNITS, BUILDINGS, VILLAGER_BUILD_LIST } from "../data/catalog.js";
 import { civBuff, DEFAULT_CIV_ID, opponentCivId } from "../data/civ-schema.js";
 import "../data/civs.js";
+import { initStormveil, tickStormveil, effectiveInLight, windLaneSpeedPermille, getUnitSpec, tryPackBuilding, tryDeployPacked, trySummonDarkness } from "./civs/stormveil.js";
+import "./civs/stormveil.js";
+import { civMechanics } from "./civs/index.js";
 import { astar } from "./path.js";
 import { runAI } from "./ai.js";
 import { MatchPrng } from "./prng.js";
@@ -429,7 +432,7 @@ function tickVision(world) {
 function popOf(world, owner) {
   let used = 0;
   let cap = 0;
-  for (const u of world.units) if (u.owner === owner) used += UNITS[u.type].pop || 0;
+  for (const u of world.units) { if (u.owner !== owner) continue; used += (UNITS[u.type] || getUnitSpec(u.type))?.pop || 0; }
   for (const b of world.buildings) {
     if (b.owner === owner && isBuilt(b)) cap += BUILDINGS[b.type].pop || 0;
   }
@@ -457,6 +460,7 @@ function simTick(world) {
     p.rates = { food: 0, wood: 0, crystal: 0, ore: 0 };
   }
   tickAging(world);
+  tickStormveil(world);
   tickBuildings(world);
   tickUnits(world);
   tickProjectiles(world);
@@ -533,16 +537,18 @@ function tickBuildings(world) {
 function tickUnits(world) {
   for (const u of world.units) {
     if (u.hp <= 0) continue;
-    const spec = UNITS[u.type];
-    const buff = civBuff(u.faction, inLight(world, u.xQ10));
+    const spec = UNITS[u.type] || getUnitSpec(u.type);
+    if (!spec) continue;
+    const buff = civBuff(u.faction, effectiveInLight(world, u.xQ10, u.zQ10));
+    const speedMul = permilleMul(buff.speed, windLaneSpeedPermille(world, u));
     if (u.attackCdTicks > 0) u.attackCdTicks -= 1;
     if (u.state === "walk" || u.state === "return" || u.state === "gatherwalk" || u.state === "buildwalk" || u.state === "attackmove") {
-      followPath(world, u, spec.speed, buff.speed);
+      followPath(world, u, spec.speed, speedMul);
     }
     if (u.state === "gather") gatherTick(world, u, spec);
     if (u.state === "build") buildTick(world, u);
     if (u.state === "attack" || u.state === "attackmove") attackTick(world, u, spec, buff);
-    if (u.type !== "villager" && u.state === "idle") {
+    if (u.type !== "villager" && u.type !== "wagon" && u.state === "idle") {
       const foe = closestFoe(world, u, spec.range + 1.5);
       if (foe) {
         u.state = "attack";
@@ -795,7 +801,7 @@ function tickProjectiles(world) {
 }
 
 function hit(world, t, dmg, src) {
-  const buff = t.kind === "unit" ? civBuff(t.faction, inLight(world, t.xQ10)) : { armor: 1000 };
+  const buff = t.kind === "unit" ? civBuff(t.faction, effectiveInLight(world, t.xQ10, t.zQ10)) : { armor: 1000 };
   t.hp -= permilleMul(dmg, buff.armor || 1000);
   if (t.kind === "unit" && t.state === "idle" && t.type === "villager") {
     /* keep gathering unless dying */
@@ -1023,6 +1029,12 @@ export function commandGround(world, x, z, attackMove = false) {
   const xQ10 = q10FromWorld(x);
   const zQ10 = q10FromWorld(z);
   const sel = selectedEntities(world);
+  const wagon = sel.find((e) => e.kind === "unit" && e.type === "wagon" && e.owner === "player");
+  if (wagon && !attackMove) {
+    const r = tryDeployPacked(world, "player", wagon.id, x, z);
+    world.tip = r.ok ? `Deployed ${wagon.cargo?.type || "structure"}.` : r.why;
+    return;
+  }
   const res = world.resources.find((r) => r.kind !== "rockblock" && r.amount > 0 && distanceSquaredQ10({ xQ10, zQ10 }, r) < COMMAND_RES_SQ);
   const foe = [...world.units, ...world.buildings].find(
     (e) => e.owner !== "player" && e.hp > 0 && distanceSquaredQ10({ xQ10, zQ10 }, e) < COMMAND_FOE_SQ
@@ -1063,4 +1075,5 @@ export function villagerBuildOptions(world) {
   return VILLAGER_BUILD_LIST.filter((t) => BUILDINGS[t].age <= age);
 }
 
+export { effectiveInLight, tryPackBuilding, tryDeployPacked, trySummonDarkness } from "./civs/stormveil.js";
 export { canPay, BUILDINGS, UNITS, q10FromWorld, worldFromQ10, isBuilt, buildRatio };
