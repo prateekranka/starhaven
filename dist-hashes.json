@@ -98,8 +98,8 @@
     },
     {
       "path": "js/game/main.js",
-      "bytes": 36178,
-      "sha256": "b27e1208cb7eb186774f11572ec7b6714881c7c5a35ef025da452fd5f373ac7a"
+      "bytes": 37954,
+      "sha256": "de6d48b89158fbf47db8852bce0ab683e11d87244b64945965d0e2a92ca5734c"
     },
     {
       "path": "js/game/particles.js",
@@ -454,12 +454,12 @@
     {
       "path": "media/sprites/ash-walk.atlas.json",
       "bytes": 48514,
-      "sha256": "e915d4108bec790167f81653269dc6fe1821cf3d6f7a2e9f8295ac598177c953"
+      "sha256": "d3036890e0c702cd88cdebe6ad0c7d6adb513fb088198b27e3d3380b857f66e0"
     },
     {
       "path": "media/sprites/ash-walk.atlas.png",
-      "bytes": 3564711,
-      "sha256": "e35c4ba8b683c580e1e6b5a186d87296acdae7cd63e86e1a462b8ea8c1a5b0da"
+      "bytes": 2642371,
+      "sha256": "2e5253a0e4f65d966fee8aae0db71c91f02bc059513001d821bdd1f7f257e893"
     },
     {
       "path": "media/sprites/bldg-ash-den.png",
@@ -628,43 +628,43 @@
     },
     {
       "path": "media/sprites/bldg-storm-den.png",
-      "bytes": 1496518,
-      "sha256": "25812bc1538658ca284373125bbbef14153d89d837f8416aadd87777be1037cd"
+      "bytes": 1361809,
+      "sha256": "4e17ff846f4500452635b77c18a491133398eecfaff99dbef3602f0476090951"
     },
     {
       "path": "media/sprites/bldg-storm-house.png",
-      "bytes": 800962,
-      "sha256": "ea2afa609bd4db9bc8b1dc1a4f9e51f9e839d7bc206bfe62c33ce55cc880a179"
+      "bytes": 624633,
+      "sha256": "f33b8f7656d81b5a2c63610a2cd7650fab4eea18a7e7927c46d3b311a03f335a"
     },
     {
       "path": "media/sprites/bldg-storm-lumber.png",
-      "bytes": 1199614,
-      "sha256": "4d8f21af4b55a6a1f2041d2127e36702d0aa94b14b5e593f1be5323f1d5cb4ff"
+      "bytes": 1051113,
+      "sha256": "06cd985a4bdf8fe87d80bcbae6eafc31cf6c28106b3b9920b3b63650a5ed5afa"
     },
     {
       "path": "media/sprites/bldg-storm-mill.png",
-      "bytes": 773510,
-      "sha256": "db98e8fc4958e0070794afb5355a76c2f22494da2717cb5a91794405517d12ff"
+      "bytes": 560426,
+      "sha256": "f5ef35a9fc4fac8706e3975fa056b04e6fa4805fe4f45df9e34827144e97f231"
     },
     {
       "path": "media/sprites/bldg-storm-mine.png",
-      "bytes": 1372790,
-      "sha256": "12db2086249f71d257f6060d024790db647ced56af86bc884a673a0eb0e3c274"
+      "bytes": 1233657,
+      "sha256": "65e27d03cb26a51abaf9bf683f7b62de1652f578bee03041f1207e97b38304e0"
     },
     {
       "path": "media/sprites/bldg-storm-rax.png",
-      "bytes": 1329540,
-      "sha256": "a1f529ed170c1a3fa17dbbea3df7b64565cf33127118cd65fa9e34bb0b87adec"
+      "bytes": 1190965,
+      "sha256": "23fb92fcf88bf043949aa5df39aeb06bfce1f758590ee3dc1b2b1f39c2d8d302"
     },
     {
       "path": "media/sprites/bldg-storm-spire.png",
-      "bytes": 1224515,
-      "sha256": "4a70506ae17da58624cb560981925f70d4157f1f915ce5643071496eb31444ef"
+      "bytes": 717665,
+      "sha256": "8b7d0f027c82b4746af9e89fb1575a7ae2f56fe349f7b418efcbe4b3c5edd7ee"
     },
     {
       "path": "media/sprites/bldg-storm-tc.png",
-      "bytes": 1346206,
-      "sha256": "8fa243a777787a0532bac77f8d74952a921f6be5e60df0e326f77128daf0233a"
+      "bytes": 1174375,
+      "sha256": "7f52a3ab4d09b257016309da042349fce058e8392ca988ea609e433f281c11e4"
     },
     {
       "path": "media/sprites/bldg-storm-wagon.png",
@@ -673,13 +673,13 @@
     },
     {
       "path": "media/sprites/bldg-storm-wonder.png",
-      "bytes": 1453963,
-      "sha256": "31d1213dbd18576b456b63da9392167316744192d53ebbac58dc049c7d6a9da5"
+      "bytes": 1310693,
+      "sha256": "bff0a86691b3f7e4df87ef10ac9fb7e00381d962ad5596ac4f6023b230c6780a"
     },
     {
       "path": "media/sprites/bldg-storm-workshop.png",
-      "bytes": 1598740,
-      "sha256": "63c1ee959c1ab527da612026c3009781be599c15cf16f77d636b81598d877ae3"
+      "bytes": 1496250,
+      "sha256": "a56334f93c4320a40f7db45132312bd9b960750f68d3a8382cea4061cd86afc1"
     },
     {
       "path": "media/sprites/bldg-sun-den.png",
@@ -1788,5 +1788,5 @@
     }
   ],
   "fileCount": 357,
-  "totalBytes": 136365505
+  "totalBytes": 133570169
 }
