@@ -1,6 +1,6 @@
 import * as THREE from "three";
-import { N, CELL, inLight, q10FromWorld, lineX, buildRatio } from "../sim/engine.js";
-import { worldFromQ10, Q10, FACING_MILLIRAD, TICKS_PER_SEC, secToTicks } from "../sim/fixed.js";
+import { N, CELL, inLight, q10FromWorld, buildRatio } from "../sim/engine.js";
+import { worldFromQ10, FACING_MILLIRAD, TICKS_PER_SEC, secToTicks } from "../sim/fixed.js";
 import { pixelRatioFor, resolveQuality, backingLabel, isSoftwareGL, glRendererName, isQaMode } from "../perf.js";
 import { cachedImage } from "../cache/assets.js";
 import { BIOME_HEX } from "../data/map-biomes.js";
@@ -318,21 +318,6 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
   fogPlane.position.set(MAP / 2, 2.6, MAP / 2);
   scene.add(fogPlane);
 
-  const lineGeo = new THREE.PlaneGeometry(2.8, MAP * 1.2);
-  const lineMat = new THREE.MeshBasicMaterial({
-    color: 0x9af6ff,
-    transparent: true,
-    opacity: 0.32,
-    depthWrite: false,
-    side: THREE.DoubleSide,
-    blending: THREE.AdditiveBlending,
-    toneMapped: false,
-  });
-  const brightLine = new THREE.Mesh(lineGeo, lineMat);
-  brightLine.rotation.x = -Math.PI / 2;
-  brightLine.position.y = 1.15;
-  scene.add(brightLine);
-
   const windLaneGroup = new THREE.Group();
   scene.add(windLaneGroup);
   let windLanesDrawn = false;
@@ -640,10 +625,6 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
       ring.position.set(wx(sel), sampleH(wx(sel), wz(sel)) + 0.08, wz(sel));
     });
 
-    const lx = lineX(world);
-    const brightNorm = world.brightQ10 / Q10;
-    brightLine.position.set(lx, 1.1, MAP / 2);
-    brightLine.material.opacity = 0.22 + Math.sin((world.t / TICKS_PER_SEC) * 2.2) * 0.08;
     ensureWindLanes(world);
     syncDarkness(world);
     sun.position.set(20 + brightNorm * 50, 50, 20);
