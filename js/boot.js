@@ -3,6 +3,7 @@ export const SAVE_KEY = "starhaven.bright-frontier.v1";
 export const defaultSave = () => ({
   faction: "sunwoven",
   difficulty: "chieftain",
+  seed: "",
   campaignChapter: 4,
   settings: {
     music: 0.35,

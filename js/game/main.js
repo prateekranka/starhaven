@@ -4,6 +4,7 @@ import { createRenderer } from "./render.js";
 import { beep, haptic, loadSave, showScreen } from "../boot.js";
 import { createFramePacer, isQaMode, setText, resolveQuality } from "../perf.js";
 import { ensureMatchAssets } from "../cache/assets.js";
+import { checksumWorld, mapLayoutFingerprint } from "../sim/checksum.js";
 
 let world = null;
 let view = null;
@@ -242,6 +243,10 @@ function paintDebugState() {
   }
   window.__starhavenState = {
     sel: world.selection.slice(),
+    seed: world.seed,
+    seedHex: `0x${(world.seed >>> 0).toString(16)}`,
+    mapFingerprint: mapLayoutFingerprint(world),
+    checksum: checksumWorld(world),
     frustum: cam.frustumDesired ?? cam.frustum,
     frustumLive: cam.frustum,
     zoomMin: cam.min,

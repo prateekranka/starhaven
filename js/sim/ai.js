@@ -80,7 +80,7 @@ function placeIfMissing(world, type, tc, radius) {
   const spec = BUILDINGS[type];
   const p = world.players.enemy;
   if (p.age < spec.age) return;
-  const ang = Math.random() * Math.PI * 2;
+  const ang = world.prng.ai.nextFloat() * Math.PI * 2;
   const x = tc.x + Math.cos(ang) * radius;
   const z = tc.z + Math.sin(ang) * radius;
   tryPlace(world, "enemy", type, x, z);

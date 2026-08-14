@@ -15,6 +15,8 @@ export function initUi() {
     writeSave(save);
   }
   applySettingsForm(save);
+  const seedInput = document.getElementById("seed-input");
+  if (seedInput && save.seed) seedInput.value = save.seed;
   if (native) document.body.classList.add("native");
   watchCacheWarm();
 
@@ -43,10 +45,12 @@ export function initUi() {
     } else if (action === "start-skirmish") {
       const faction = document.querySelector(".faction-pick.selected")?.dataset.faction || "sunwoven";
       const difficulty = document.getElementById("diff-select").value;
+      const seedRaw = document.getElementById("seed-input")?.value?.trim();
       save.faction = faction;
       save.difficulty = difficulty;
+      if (seedRaw) save.seed = seedRaw;
       writeSave(save);
-      playMatch({ playerFaction: faction, difficulty });
+      playMatch({ playerFaction: faction, difficulty, seed: seedRaw || save.seed });
     } else if (action === "start-tutorial") {
       playMatch({ playerFaction: save.faction || "sunwoven", tutorial: true, difficulty: "settler" });
     }
@@ -94,6 +98,7 @@ export function initUi() {
       playerFaction: params.get("faction") || save.faction || "sunwoven",
       difficulty: params.get("diff") || save.difficulty || "chieftain",
       tutorial: params.get("tutorial") === "1",
+      seed: params.get("seed") || save.seed,
     });
   }
 }
