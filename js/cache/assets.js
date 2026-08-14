@@ -1,6 +1,14 @@
 import { audio } from "../audio/engine.js";
 
 const IMAGE_EXT = /\.(png|jpe?g|webp|gif)$/i;
+const PLAYABLE_CIVS = ["sunwoven", "gravemark", "cogforged", "ashvein", "stormveil"];
+const CIV_PREFIX = {
+  sunwoven: "sun",
+  gravemark: "grave",
+  stormveil: "storm",
+  ashvein: "ash",
+  cogforged: "cog",
+};
 
 const images = new Map();
 const complete = new Set();
@@ -8,115 +16,14 @@ const inflight = new Map();
 
 let manifestPromise = null;
 let warmPromise = null;
-let matchPromise = null;
 let matchReady = false;
+let criticalDepth = 0;
+const criticalWaiters = [];
 
-const MATCH_FALLBACK = [
+const CORE_MATCH = [
   "maps/manifest.json",
-  "maps/bright-mesa.json",
-  "maps/training-flat.json",
-  "maps/void-rift-crossing.json",
-  "maps/highland-chokes.json",
-  "maps/crystal-basin.json",
-  "media/maps/bright-mesa.svg",
-  "media/maps/training-flat.svg",
-  "media/maps/void-rift-crossing.svg",
-  "media/maps/highland-chokes.svg",
-  "media/maps/crystal-basin.svg",
-  "js/data/map-biomes.js",
-  "js/data/maps.js",
-  "js/sim/map-loader.js",
-  "js/sim/procgen.js",
   "media/textures/pixel-mesa.png",
   "media/textures/pixel-water.png",
-  ...["sun-guard", "grave-guard", "sun-walk", "grave-walk", "sun-strider", "grave-strider", "sun-siege", "grave-siege", "storm-guard", "storm-walk", "storm-strider", "storm-siege", "storm-wagon", "ash-guard", "ash-walk", "ash-strider", "ash-siege", "cog-guard", "cog-walk", "cog-strider", "cog-siege"].flatMap(
-    (id) => [`media/sprites/${id}.atlas.png`, `media/sprites/${id}.atlas.json`]
-  ),
-  "media/sprites/sheet-sunwoven-walk.png",
-  "media/sprites/sheet-gravemark-walk.png",
-  "media/sprites/sheet-ashvein-walk.png",
-  "media/sprites/sheet-stormveil-walk.png",
-  "media/sprites/sheet-sun-guard.png",
-  "media/sprites/sheet-grave-guard.png",
-  "media/sprites/sheet-ash-guard.png",
-  "media/sprites/sheet-storm-guard.png",
-  "media/sprites/unit-sun-strider.png",
-  "media/sprites/unit-grave-strider.png",
-  "media/sprites/unit-ash-strider.png",
-  "media/sprites/unit-storm-strider.png",
-  "media/sprites/unit-sun-siege.png",
-  "media/sprites/unit-grave-siege.png",
-  "media/sprites/unit-ash-siege.png",
-  "media/sprites/unit-storm-siege.png",
-  "media/sprites/unit-storm-wagon.png",
-  "media/sprites/bldg-sun-tc.png",
-  "media/sprites/bldg-sun-house.png",
-  "media/sprites/bldg-sun-rax.png",
-  "media/sprites/bldg-sun-mill.png",
-  "media/sprites/bldg-sun-lumber.png",
-  "media/sprites/bldg-sun-mine.png",
-  "media/sprites/bldg-sun-spire.png",
-  "media/sprites/bldg-sun-den.png",
-  "media/sprites/bldg-sun-workshop.png",
-  "media/sprites/bldg-sun-wonder.png",
-  "media/sprites/bldg-grave-tc.png",
-  "media/sprites/bldg-grave-house.png",
-  "media/sprites/bldg-grave-rax.png",
-  "media/sprites/bldg-grave-mill.png",
-  "media/sprites/bldg-grave-lumber.png",
-  "media/sprites/bldg-grave-mine.png",
-  "media/sprites/bldg-grave-spire.png",
-  "media/sprites/bldg-grave-den.png",
-  "media/sprites/bldg-grave-workshop.png",
-  "media/sprites/bldg-grave-wonder.png",
-  "media/sprites/bldg-ash-tc.png",
-  "media/sprites/bldg-ash-house.png",
-  "media/sprites/bldg-ash-rax.png",
-  "media/sprites/bldg-ash-mill.png",
-  "media/sprites/bldg-ash-lumber.png",
-  "media/sprites/bldg-ash-mine.png",
-  "media/sprites/bldg-ash-spire.png",
-  "media/sprites/bldg-ash-den.png",
-  "media/sprites/bldg-ash-workshop.png",
-  "media/sprites/bldg-ash-wonder.png",
-  "media/sprites/bldg-ash-tunnel-mouth.png",
-  "media/sprites/bldg-ash-lava-vent.png",
-  "media/sprites/portrait-ashvein.png",
-  "media/textures/ashvein-banner.jpg",
-  "media/sprites/sheet-cogforged-walk.png",
-  "media/sprites/sheet-cog-guard.png",
-  "media/sprites/unit-cog-strider.png",
-  "media/sprites/unit-cog-siege.png",
-  "media/sprites/cog-walk.atlas.png",
-  "media/sprites/cog-guard.atlas.png",
-  "media/sprites/cog-strider.atlas.png",
-  "media/sprites/cog-siege.atlas.png",
-  "media/sprites/bldg-cog-tc.png",
-  "media/sprites/bldg-cog-house.png",
-  "media/sprites/bldg-cog-rax.png",
-  "media/sprites/bldg-cog-mill.png",
-  "media/sprites/bldg-cog-lumber.png",
-  "media/sprites/bldg-cog-mine.png",
-  "media/sprites/bldg-cog-spire.png",
-  "media/sprites/bldg-cog-den.png",
-  "media/sprites/bldg-cog-workshop.png",
-  "media/sprites/bldg-cog-wonder.png",
-  "media/sprites/bldg-cog-grid-pylon.png",
-  "media/sprites/portrait-cogforged.png",
-  "media/textures/cogforged-banner.jpg",
-  "media/sprites/bldg-storm-tc.png",
-  "media/sprites/bldg-storm-house.png",
-  "media/sprites/bldg-storm-rax.png",
-  "media/sprites/bldg-storm-mill.png",
-  "media/sprites/bldg-storm-lumber.png",
-  "media/sprites/bldg-storm-mine.png",
-  "media/sprites/bldg-storm-spire.png",
-  "media/sprites/bldg-storm-den.png",
-  "media/sprites/bldg-storm-workshop.png",
-  "media/sprites/bldg-storm-wonder.png",
-  "media/sprites/bldg-storm-wagon.png",
-  "media/sprites/portrait-stormveil.png",
-  "media/textures/stormveil-banner.jpg",
   "media/sprites/node-food.png",
   "media/sprites/node-trees.png",
   "media/sprites/node-crystal.png",
@@ -124,39 +31,13 @@ const MATCH_FALLBACK = [
   "media/sprites/node-void.png",
   "media/sprites/icon-move.png",
   "media/sprites/icon-hold.png",
-  "vendor/three.module.js",
-  "js/game/main.js",
-  "js/game/render.js",
-  "js/game/unit-atlas.js",
-  "js/sim/engine.js",
-  "js/sim/path.js",
-  "js/sim/ai.js",
-  "js/data/catalog.js",
-  "js/audio/engine.js",
-  "js/audio/match-audio.js",
-  "js/audio/score.js",
-  "media/audio/ui.wav",
-  "media/audio/select.wav",
-  "media/audio/move.wav",
-  "media/audio/attack.wav",
-  "media/audio/train.wav",
-  "media/audio/train_fail.wav",
-  "media/audio/build.wav",
-  "media/audio/build_fail.wav",
-  "media/audio/gather.wav",
-  "media/audio/hit.wav",
-  "media/audio/hit_heavy.wav",
-  "media/audio/death_unit.wav",
-  "media/audio/death_building.wav",
-  "media/audio/victory.wav",
-  "media/audio/defeat.wav",
-  "media/audio/age_up.wav",
-  "media/audio/music_title.wav",
-  "media/audio/music_day.wav",
-  "media/audio/music_night.wav",
-  "media/audio/music_combat.wav",
-  "media/audio/music_victory.wav",
-  "media/audio/music_defeat.wav",
+];
+
+const MATCH_FALLBACK = [
+  ...CORE_MATCH,
+  "maps/bright-mesa.json",
+  "maps/training-flat.json",
+  ...PLAYABLE_CIVS.flatMap((id) => civSpriteUrls(id)),
 ];
 
 export function cachedImage(url) {
@@ -171,7 +52,7 @@ export function loadManifest() {
   if (!manifestPromise) {
     manifestPromise = fetch("cache-manifest.json", { cache: "no-cache" })
       .then((res) => {
-        if (!res.ok) throw new Error("cache-manifest.json missing");
+        if (!res.ok || isHtmlResponse(res)) throw new Error("cache-manifest.json missing");
         return res.json();
       })
       .catch(() => ({ version: "dev", shell: [], match: [], files: [] }));
@@ -196,39 +77,88 @@ export function startBackgroundWarm(onProgress) {
     warmPromise = (async () => {
       registerServiceWorker();
       const manifest = await loadManifest();
-      const ordered = unique([...(manifest.shell || []), ...(manifest.match || []), ...(manifest.files || [])]);
-      await warmFiles(ordered, onProgress, manifest);
-      await audio.preload();
-    })();
+      const shell = unique(manifest.shell || []);
+      await warmFiles(shell, onProgress, manifest, { concurrency: 8, yieldToCritical: true });
+      const rest = unique([...(manifest.match || []), ...(manifest.files || []), ...MATCH_FALLBACK])
+        .filter((url) => !shell.includes(url));
+      await warmFiles(rest, onProgress, manifest, { concurrency: 4, yieldToCritical: true });
+      await audio.preload().catch((err) => console.warn("audio preload", err));
+    })().catch((err) => {
+      warmPromise = null;
+      throw err;
+    });
   }
   return warmPromise;
 }
 
-export function ensureMatchAssets(onProgress) {
-  if (!matchPromise) {
-    matchPromise = (async () => {
-      registerServiceWorker();
-      const manifest = await loadManifest();
-      let urls = unique(manifest.match?.length ? manifest.match : MATCH_FALLBACK);
-      try {
-        const mapManifest = await fetch("maps/manifest.json", { cache: "no-cache" }).then((r) => r.json());
-        urls = unique([...urls, "maps/manifest.json", ...(mapManifest.maps || []).map((m) => m.file).filter(Boolean)]);
-      } catch {
-        urls = unique([...urls, "maps/manifest.json", "maps/bright-mesa.json", "maps/training-flat.json"]);
-      }
-      let fileDone = 0;
-      const fileTotal = urls.length;
-      await warmFiles(urls, (done, total, url) => {
-        fileDone = done;
-        onProgress?.(done, total + 1, url);
-      }, manifest, { decodeImages: true });
-      await audio.preload((done, total) => {
-        onProgress?.(fileDone + done, fileTotal + total);
-      });
-      matchReady = true;
-    })();
+export async function ensureMatchAssets(onProgress, opts = {}) {
+  if (onProgress && typeof onProgress === "object") {
+    opts = onProgress;
+    onProgress = opts.onProgress;
   }
-  return matchPromise;
+  registerServiceWorker();
+  beginCritical();
+  try {
+    const manifest = await loadManifest();
+    const urls = await matchCriticalUrls(opts, manifest);
+    await warmFiles(urls, onProgress, manifest, { decodeImages: true, concurrency: 12, required: false });
+    matchReady = true;
+    void startBackgroundWarm();
+    void audio.preload().catch(() => {});
+  } finally {
+    endCritical();
+  }
+}
+
+function opponentOf(civId) {
+  return PLAYABLE_CIVS.find((id) => id !== civId) || "gravemark";
+}
+
+function civSpriteUrls(civId) {
+  const p = CIV_PREFIX[civId] || "sun";
+  const kinds = ["walk", "guard", "strider", "siege"];
+  if (p === "storm") kinds.push("wagon");
+  const urls = [];
+  for (const kind of kinds) {
+    urls.push(`media/sprites/${p}-${kind}.atlas.png`, `media/sprites/${p}-${kind}.atlas.json`);
+  }
+  for (const b of ["tc", "house", "rax", "mill", "lumber", "mine", "spire", "den", "workshop", "wonder"]) {
+    urls.push(`media/sprites/bldg-${p}-${b}.png`);
+  }
+  if (p === "ash") {
+    urls.push("media/sprites/bldg-ash-tunnel-mouth.png", "media/sprites/bldg-ash-lava-vent.png");
+  }
+  if (p === "cog") urls.push("media/sprites/bldg-cog-grid-pylon.png");
+  if (p === "storm") {
+    urls.push("media/sprites/bldg-storm-wagon.png", "media/sprites/unit-storm-wagon.png");
+  }
+  return urls;
+}
+
+async function matchCriticalUrls(opts, manifest) {
+  const playerFaction = opts.playerFaction || "sunwoven";
+  const enemyFaction = opts.enemyFaction || opponentOf(playerFaction);
+  const mapId = opts.mapId || "bright-mesa";
+  const urls = [...CORE_MATCH, ...civSpriteUrls(playerFaction), ...civSpriteUrls(enemyFaction)];
+  try {
+    const mapManifest = await readJson("maps/manifest.json");
+    urls.push("maps/manifest.json");
+    const entry = mapManifest.maps?.find((m) => m.id === mapId) || mapManifest.maps?.find((m) => m.default);
+    if (entry?.file) urls.push(entry.file);
+  } catch {
+    urls.push("maps/manifest.json", "maps/bright-mesa.json", "maps/training-flat.json");
+  }
+  const known = new Set(unique([...(manifest.match || []), ...(manifest.files || []), ...MATCH_FALLBACK]));
+  return unique(urls).filter((url) => !IMAGE_EXT.test(url) || known.has(url) || url.startsWith("maps/"));
+}
+
+async function readJson(url) {
+  const res = await fetch(url, { cache: "no-cache" });
+  if (!res.ok) throw new Error(`${url} missing (${res.status})`);
+  if (isHtmlResponse(res)) throw new Error(`${url} returned HTML`);
+  const text = await res.text();
+  if (text.trimStart().startsWith("<")) throw new Error(`${url} returned HTML`);
+  return JSON.parse(text);
 }
 
 function normalize(url) {
@@ -247,6 +177,12 @@ function isImage(url) {
   return IMAGE_EXT.test(url);
 }
 
+function isHtmlResponse(res) {
+  if (!res) return false;
+  const ct = (res.headers.get("content-type") || "").toLowerCase();
+  return ct.includes("text/html");
+}
+
 async function openCache(manifest) {
   if (!self.caches) return null;
   try {
@@ -256,17 +192,39 @@ async function openCache(manifest) {
   }
 }
 
-async function warmFiles(urls, onProgress, manifest, { decodeImages = false } = {}) {
+function beginCritical() {
+  criticalDepth += 1;
+}
+
+function endCritical() {
+  criticalDepth = Math.max(0, criticalDepth - 1);
+  if (criticalDepth === 0) {
+    const waiters = criticalWaiters.splice(0);
+    for (const resume of waiters) resume();
+  }
+}
+
+function yieldToCritical() {
+  if (criticalDepth <= 0) return Promise.resolve();
+  return new Promise((resolve) => criticalWaiters.push(resolve));
+}
+
+async function warmFiles(urls, onProgress, manifest, {
+  decodeImages = false,
+  concurrency = 6,
+  yieldToCritical: yieldCrit = false,
+  required = false,
+} = {}) {
   const cache = await openCache(manifest);
-  const matchSet = new Set((manifest.match || MATCH_FALLBACK).map(normalize));
   let done = 0;
   const total = urls.length;
-  await mapPool(urls, 6, async (url) => {
+  await mapPool(urls, concurrency, async (url) => {
+    if (yieldCrit) await yieldToCritical();
     const key = normalize(url);
     try {
-      await warmOne(key, cache, decodeImages || (isImage(key) && matchSet.has(key)));
+      await warmOne(key, cache, decodeImages && isImage(key));
     } catch (err) {
-      if (decodeImages) throw err;
+      if (required) throw err;
       console.warn("cache skip", url, err);
     }
     done += 1;
@@ -316,10 +274,17 @@ async function loadBlob(url, cache) {
   const href = hrefOf(url);
   if (cache) {
     const hit = await cache.match(href, { ignoreSearch: true });
-    if (hit) return hit.blob();
+    if (hit) {
+      if (isHtmlResponse(hit)) {
+        cache.delete(href).catch(() => {});
+      } else {
+        return hit.blob();
+      }
+    }
   }
   const res = await fetch(href);
   if (!res.ok) throw new Error(`Failed to cache ${url} (${res.status})`);
+  if (isHtmlResponse(res)) throw new Error(`Failed to cache ${url} (html fallback)`);
   if (cache) {
     cache.put(href, res.clone()).catch(() => {});
   }

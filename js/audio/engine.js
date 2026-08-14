@@ -117,9 +117,15 @@ class StarhavenAudio {
       const entries = Object.entries(AUDIO_FILES);
       let done = 0;
       await Promise.all(entries.map(async ([key, url]) => {
-        const res = await fetch(url, { cache: "force-cache" });
-        if (!res.ok) throw new Error(`audio missing: ${url}`);
-        this.buffers.set(key, await ctx.decodeAudioData(await res.arrayBuffer()));
+        try {
+          const res = await fetch(url, { cache: "force-cache" });
+          if (!res.ok) throw new Error(`audio missing: ${url}`);
+          const ct = (res.headers.get("content-type") || "").toLowerCase();
+          if (ct.includes("text/html")) throw new Error(`audio html fallback: ${url}`);
+          this.buffers.set(key, await ctx.decodeAudioData(await res.arrayBuffer()));
+        } catch (err) {
+          console.warn("audio skip", url, err);
+        }
         done += 1;
         onProgress?.(done, entries.length, url);
       }));

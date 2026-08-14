@@ -12,7 +12,7 @@ import { readFileSync, readdirSync, statSync, writeFileSync } from "node:fs";
 import { join, relative, resolve, sep } from "node:path";
 
 const repoRoot = resolve(import.meta.dirname, "../..");
-const PACK_ROOT_FILES = ["cache-manifest.json", "index.html", "sw.js"];
+const PACK_ROOT_FILES = ["404.html", "cache-manifest.json", "index.html", "sw.js"];
 const PACK_DIRS = ["css", "js", "maps", "media", "vendor"];
 
 const sha256 = (bytes) => createHash("sha256").update(bytes).digest("hex");

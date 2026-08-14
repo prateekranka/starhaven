@@ -62,7 +62,11 @@ let combatHapticAt = 0;
 const hpWatch = new Map();
 
 export async function startMatch(opts = {}) {
-  await ensureMatchAssets();
+  await ensureMatchAssets(undefined, {
+    playerFaction: opts.playerFaction,
+    enemyFaction: opts.enemyFaction,
+    mapId: opts.mapId,
+  });
   stopMatch();
   const save = loadSave();
   lastMatchOpts = { ...opts };

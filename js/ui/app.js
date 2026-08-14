@@ -8,7 +8,7 @@ import { populateMapSelect } from "../data/maps.js";
 import { initKit, bindSlider, bindToggle, bindDropdown } from "./kit.js";
 import { initTitleVista } from "./title-vista.js";
 import { renderFactionPicks, renderLoreGrid } from "../data/civ-ui.js";
-import { getCiv, DEFAULT_CIV_ID } from "../data/civ-schema.js";
+import { getCiv, DEFAULT_CIV_ID, opponentCivId } from "../data/civ-schema.js";
 import "../data/civs.js";
 
 /** Non-deterministic seed for blank setup fields (UI only — never in js/sim/). */
@@ -260,7 +260,11 @@ async function playMatch(opts = {}) {
     await ensureMatchAssets((done, total) => {
       const pct = total ? Math.max(8, Math.round((done / total) * 100)) : 8;
       if (bar) bar.style.width = `${pct}%`;
-      if (copy) copy.textContent = `Caching sprites ${done}/${total}`;
+      if (copy) copy.textContent = `Loading match ${done}/${total}`;
+    }, {
+      playerFaction: matchOpts.playerFaction || DEFAULT_CIV_ID,
+      enemyFaction: matchOpts.enemyFaction || opponentCivId(matchOpts.playerFaction || DEFAULT_CIV_ID),
+      mapId: matchOpts.mapId,
     });
     if (copy) copy.textContent = "Starting match";
     const { startMatch } = await loadGame();
@@ -344,11 +348,11 @@ async function mountBuildChip() {
 }
 
 async function bootTitleScore() {
+  void startBackgroundWarm().catch((err) => console.warn("asset warm failed", err));
   try {
-    await startBackgroundWarm();
+    await audio.preload().catch(() => {});
   } catch (err) {
     console.warn("title score preload", err);
-    await audio.preload().catch(() => {});
   }
   if (document.getElementById("screen-title")?.classList.contains("active")) score.startTitle();
 }

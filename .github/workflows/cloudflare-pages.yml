@@ -26,6 +26,7 @@ jobs:
           set -euo pipefail
           mkdir -p _pack
           cp index.html sw.js _headers build-info.json dist-hashes.json cache-manifest.json _pack/
+          if [ -f 404.html ]; then cp 404.html _pack/; fi
           if [ -f .nojekyll ]; then cp .nojekyll _pack/; fi
           cp -R js css media vendor maps _pack/
           test -f _pack/index.html

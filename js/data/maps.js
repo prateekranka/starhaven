@@ -9,13 +9,22 @@ export async function loadMapManifest() {
   if (manifestCache.data) return manifestCache.data;
   if (!manifestCache.promise) {
     manifestCache.promise = fetch("maps/manifest.json", { cache: "no-cache" })
-      .then((res) => {
+      .then(async (res) => {
         if (!res.ok) throw new Error("maps/manifest.json missing");
-        return res.json();
+        const ct = (res.headers.get("content-type") || "").toLowerCase();
+        const text = await res.text();
+        if (ct.includes("text/html") || text.trimStart().startsWith("<")) {
+          throw new Error("maps/manifest.json returned HTML (stale service worker or SPA fallback)");
+        }
+        return JSON.parse(text);
       })
       .then((data) => {
         manifestCache.data = data;
         return data;
+      })
+      .catch((err) => {
+        manifestCache.promise = null;
+        throw err;
       });
   }
   return manifestCache.promise;
@@ -41,7 +50,12 @@ export async function loadMap(mapId = "bright-mesa", seed) {
   if (!entry.file) throw new Error(`Unknown map: ${key}`);
   const res = await fetch(entry.file, { cache: "no-cache" });
   if (!res.ok) throw new Error(`Failed to load map ${entry.file}`);
-  const map = await res.json();
+  const ct = (res.headers.get("content-type") || "").toLowerCase();
+  const text = await res.text();
+  if (ct.includes("text/html") || text.trimStart().startsWith("<")) {
+    throw new Error(`${entry.file} returned HTML (stale service worker or SPA fallback)`);
+  }
+  const map = JSON.parse(text);
   mapCache.set(key, map);
   mapCache.set(map.id, map);
   return map;
