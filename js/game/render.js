@@ -302,9 +302,10 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
   fogTex.magFilter = THREE.LinearFilter;
   fogTex.minFilter = THREE.LinearFilter;
   fogTex.generateMipmaps = false;
+  const terrainFogLut = buildTerrainFogLut();
   const fogPlane = new THREE.Mesh(
     new THREE.PlaneGeometry(MAP, MAP),
-    new THREE.MeshBasicMaterial({ map: fogTex, transparent: true, opacity: 0.88, depthWrite: false, toneMapped: false })
+    new THREE.MeshBasicMaterial({ map: fogTex, transparent: true, opacity: 1, depthWrite: false, toneMapped: false })
   );
   fogPlane.rotation.x = -Math.PI / 2;
   fogPlane.position.set(MAP / 2, 2.6, MAP / 2);
@@ -347,6 +348,7 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
   scene.add(ghost);
 
   const vfx = makeVfx(scene, q.vfx);
+  let rockProps = null;
 
   const raycaster = new THREE.Raycaster();
   const pointer = new THREE.Vector2();
@@ -559,7 +561,8 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
     sun.color.set(inLight(world, camTarget.x) ? 0xfff3d0 : 0xb8c8ff);
     hemi.color.set(inLight(world, camTarget.x) ? 0xd8ecff : 0x9aa8d8);
     scene.background.set(inLight(world, camTarget.x) ? "#6eb4e8" : "#3a4a78");
-    paintFog(fogCtx, fogTex, fogImg, world);
+    if (!rockProps) rockProps = addRockProps(scene, world);
+    paintFog(fogCtx, fogTex, fogImg, world, terrainFogLut);
     vfx.tick(world);
 
     if (world.placing) {
@@ -731,18 +734,87 @@ function seen(world, x, z) {
   return world.explored.player[cz * N + cx];
 }
 
-function paintFog(ctx, tex, img, world) {
+const MESA_MAT = {
+  sand: new THREE.Color("#f2d498"),
+  scrub: new THREE.Color("#5f8048"),
+  iron: new THREE.Color("#b05438"),
+  salt: new THREE.Color("#e6dcc8"),
+  basalt: new THREE.Color("#423430"),
+  shale: new THREE.Color("#8a6848"),
+};
+const FOG_TINT = { r: 104, g: 136, b: 168 };
+
+function mesaHeightAt(x, z) {
+  let y = landH(x, z);
+  const rim = Math.min(Math.min(x, MAP - x), Math.min(z, MAP - z));
+  if (rim < 1.8) y = -2.2;
+  else if (rim < 8.5) y = THREE.MathUtils.lerp(-1.55, Math.max(0.35, y), smoothstep(1.8, 8.5, rim));
+  return { y, rim };
+}
+
+function mesaMaterialAt(x, z, out = new THREE.Color()) {
+  const { y, rim } = mesaHeightAt(x, z);
+  const macro = fbm(x * 0.028, z * 0.028, 4);
+  const detail = fbm(x * 0.11 + 17, z * 0.11 - 9, 3);
+  const patch = fbm(x * 0.062, z * 0.062, 2);
+  if (y < 0.05 || rim < 4.5) return out.copy(MESA_MAT.basalt);
+  if (rim < 9.5) return out.copy(MESA_MAT.salt).lerp(MESA_MAT.shale, smoothstep(4.5, 9.5, rim));
+  if (macro > 0.68) return out.copy(MESA_MAT.iron);
+  if (patch > 0.62 && macro < 0.52) return out.copy(MESA_MAT.scrub);
+  if (detail > 0.72) return out.copy(MESA_MAT.shale);
+  return out.copy(MESA_MAT.sand);
+}
+
+function buildTerrainFogLut() {
+  const lut = new Uint8Array(N * N * 3);
+  for (let z = 0; z < N; z++) {
+    for (let x = 0; x < N; x++) {
+      const c = mesaMaterialAt((x + 0.5) * CELL, (z + 0.5) * CELL);
+      const i = (z * N + x) * 3;
+      lut[i] = (c.r * 255) | 0;
+      lut[i + 1] = (c.g * 255) | 0;
+      lut[i + 2] = (c.b * 255) | 0;
+    }
+  }
+  return lut;
+}
+
+function fogShade(tr, tg, tb, sat = 0.28, dark = 0.48, tint = 0.34) {
+  const l = 0.299 * tr + 0.587 * tg + 0.114 * tb;
+  let r = l + (tr - l) * sat;
+  let g = l + (tg - l) * sat;
+  let b = l + (tb - l) * sat;
+  r = (r * dark + FOG_TINT.r * tint) | 0;
+  g = (g * dark + FOG_TINT.g * tint) | 0;
+  b = (b * dark + FOG_TINT.b * tint) | 0;
+  return [Math.max(0, Math.min(255, r)), Math.max(0, Math.min(255, g)), Math.max(0, Math.min(255, b))];
+}
+
+function paintFog(ctx, tex, img, world, terrainFogLut) {
   if (!world.fogDirty && world._fogPainted) return;
   const data = img.data;
   for (let z = 0; z < N; z++) {
     for (let x = 0; x < N; x++) {
       const i = (z * N + x) * 4;
+      const li = (z * N + x) * 3;
       const vis = world.visible.player[z * N + x];
       const exp = world.explored.player[z * N + x];
-      data[i] = 6;
-      data[i + 1] = 10;
-      data[i + 2] = 18;
-      data[i + 3] = vis ? 0 : exp ? 70 : 165;
+      if (vis) {
+        data[i + 3] = 0;
+        continue;
+      }
+      if (exp) {
+        const [r, g, b] = fogShade(terrainFogLut[li], terrainFogLut[li + 1], terrainFogLut[li + 2]);
+        data[i] = r;
+        data[i + 1] = g;
+        data[i + 2] = b;
+        data[i + 3] = 118;
+      } else {
+        data[i] = 72;
+        data[i + 1] = 92;
+        data[i + 2] = 118;
+        data[i + 3] = 228;
+      }
     }
   }
   ctx.putImageData(img, 0, 0);
@@ -756,27 +828,13 @@ function buildMesa(sandMap, seg = 64, lit = true) {
   geo.rotateX(-Math.PI / 2);
   const pos = geo.attributes.position;
   const colors = new Float32Array(pos.count * 3);
-  const sand = new THREE.Color("#f3d7a0");
-  const dirt = new THREE.Color("#d4a45c");
-  const grass = new THREE.Color("#7a9a4a");
-  const rock = new THREE.Color("#a56a42");
-  const cliff = new THREE.Color("#6a4030");
-  const wet = new THREE.Color("#c4b07a");
+  const c = new THREE.Color();
   for (let i = 0; i < pos.count; i++) {
     const x = pos.getX(i) + MAP / 2;
     const z = pos.getZ(i) + MAP / 2;
-    let y = landH(x, z);
-    const rim = Math.min(Math.min(x, MAP - x), Math.min(z, MAP - z));
-    if (rim < 1.8) y = -2.2;
-    else if (rim < 8.5) y = THREE.MathUtils.lerp(-1.55, Math.max(0.35, y), smoothstep(1.8, 8.5, rim));
+    const { y } = mesaHeightAt(x, z);
     pos.setY(i, y);
-    const moist = fbm(x * 0.05, z * 0.05, 3);
-    const c = sand.clone();
-    if (y < 0.05) c.copy(cliff);
-    else if (rim < 6.2) c.copy(wet);
-    else if (rim < 10.5) c.copy(rock).lerp(sand, 0.35);
-    else if (moist > 0.74) c.lerp(grass, 0.16);
-    else c.lerp(dirt, 0.18);
+    mesaMaterialAt(x, z, c);
     colors[i * 3] = c.r;
     colors[i * 3 + 1] = c.g;
     colors[i * 3 + 2] = c.b;
@@ -788,6 +846,34 @@ function buildMesa(sandMap, seg = 64, lit = true) {
     : new THREE.MeshBasicMaterial({ map: sandMap, vertexColors: true, color: 0xffffff, toneMapped: false });
   const mesh = new THREE.Mesh(geo, mat);
   mesh.position.set(MAP / 2, 0, MAP / 2);
+  return mesh;
+}
+
+function addRockProps(scene, world) {
+  const rocks = world.resources.filter((r) => r.kind === "rockblock");
+  if (!rocks.length) return null;
+  const geo = new THREE.IcosahedronGeometry(0.52, 0);
+  const mat = new THREE.MeshLambertMaterial({
+    color: 0x6b6258,
+    emissive: 0x181410,
+    emissiveIntensity: 0.12,
+    flatShading: true,
+  });
+  const mesh = new THREE.InstancedMesh(geo, mat, rocks.length);
+  const dummy = new THREE.Object3D();
+  for (let i = 0; i < rocks.length; i++) {
+    const r = rocks[i];
+    const y = sampleH(r.x, r.z);
+    const h = hash2(r.x, r.z);
+    dummy.position.set(r.x, y + 0.4 + h * 0.16, r.z);
+    dummy.rotation.set(h * 0.35, h * Math.PI * 2, h * 0.22);
+    const s = 0.82 + hash2(r.x + 3, r.z + 7) * 0.48;
+    dummy.scale.set(s * 1.05, s * 0.72, s * 0.92);
+    dummy.updateMatrix();
+    mesh.setMatrixAt(i, dummy.matrix);
+  }
+  mesh.instanceMatrix.needsUpdate = true;
+  scene.add(mesh);
   return mesh;
 }
 
