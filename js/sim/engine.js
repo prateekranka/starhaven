@@ -428,7 +428,7 @@ function collectVisionEntities(world) {
 }
 
 function applyEntityVision(world, owner, e, kind, cell, gridN) {
-  const spec = kind === "unit" ? UNITS[e.type] : BUILDINGS[e.type];
+  const spec = kind === "unit" ? UNITS[e.type] || getUnitSpec(e.type) : BUILDINGS[e.type];
   const r = spec.los || 5;
   const [cx, cz] = cellOfQ10(e.xQ10, e.zQ10, cell);
   revealAround(world, owner, cx, cz, r);
@@ -708,8 +708,7 @@ function followPath(world, u, speed, speedPermille) {
   }
   if (u.state === "buildwalk") {
     const b = world.byId.get(u.build);
-    const buildR = b ? q10FromWorld((b.size || 2) * 0.7 + 1.1) : 0;
-    if (b && distanceSquaredQ10(u, b) < buildR * buildR) {
+    if (b && distanceSquaredQ10(u, b) <= q10RangeSq(b.size + 1.2)) {
       u.path = [];
       u.state = "build";
       return;
@@ -717,7 +716,7 @@ function followPath(world, u, speed, speedPermille) {
     if (b && !u.path.length) {
       if (u.repathTicks > 0) u.repathTicks -= 1;
       if (u.repathTicks <= 0) {
-        setPath(world, u, b.xQ10, b.zQ10);
+        setBuildApproachPath(world, u, b);
         u.repathTicks = REPATH_BUILD_TICKS;
       }
       return;
@@ -1079,7 +1078,28 @@ export function issueBuild(world, u, building) {
   u.resource = null;
   u.assemble = null;
   u.state = "buildwalk";
-  setPath(world, u, building.xQ10, building.zQ10);
+  if (!setBuildApproachPath(world, u, building)) setPath(world, u, building.xQ10, building.zQ10);
+}
+
+/** Path a builder to the nearest passable cell just outside a building footprint
+ * (the building's center cell is blocked, so a direct path there always fails). */
+function setBuildApproachPath(world, u, b) {
+  const [px, pz] = cellOfQ10(b.xQ10, b.zQ10, world.CELL);
+  const r = Math.ceil(b.size / 2);
+  const steps = [
+    [r, 0], [-r, 0], [0, r], [0, -r],
+    [r, r], [-r, r], [r, -r], [-r, -r],
+  ];
+  for (const [dx, dz] of steps) {
+    const tx = px + dx;
+    const tz = pz + dz;
+    if (tx < 1 || tz < 1 || tx >= world.N - 1 || tz >= world.N - 1) continue;
+    if (!world.walk[tz * world.N + tx]) continue;
+    const [wx, wz] = worldOfCellQ10(tx, tz, world.CELL);
+    setPath(world, u, wx, wz);
+    return true;
+  }
+  return false;
 }
 
 export function issueAssemble(world, u, site) {
