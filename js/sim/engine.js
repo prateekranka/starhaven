@@ -172,7 +172,7 @@ export function createMatch(opts = {}) {
     relics: [],
     fogDirty: true,
     selection: [],
-    placing: null,
+    placement: null,
     events: [],
     assemblies: [],
     _tickAcc: 0,

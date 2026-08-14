@@ -3,6 +3,7 @@
 import { spawn } from "node:child_process";
 import fs from "node:fs";
 import http from "node:http";
+import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -76,7 +77,8 @@ async function connectPage(port) {
 
 async function main() {
   let server; let cdp;
-  const chrome = spawn(CHROME, [`--remote-debugging-port=${CDP_PORT}`, "--headless=new", "--disable-gpu", "--no-first-run", `http://127.0.0.1:${HTTP_PORT}/`], { stdio: "ignore" });
+  const profile = path.join(os.tmpdir(), `ui-kit-smoke-${process.pid}`);
+  const chrome = spawn(CHROME, [`--remote-debugging-port=${CDP_PORT}`, "--headless=new", "--disable-gpu", "--no-first-run", `--user-data-dir=${profile}`, `http://127.0.0.1:${HTTP_PORT}/`], { stdio: "ignore" });
   try {
     server = await startStaticServer();
     await sleep(400);
@@ -86,7 +88,7 @@ async function main() {
     await cdp.send("ServiceWorker.disable");
     await cdp.send("Page.navigate", { url: `http://127.0.0.1:${HTTP_PORT}/` });
     await sleep(600);
-    await cdp.eval(`new Promise((resolve)=>{const s=Date.now();const t=()=>{if(document.querySelector('.title-settings'))resolve(true);else if(Date.now()-s>8000)resolve(false);else requestAnimationFrame(t);};t();})`);
+    await cdp.eval(`new Promise((resolve)=>{const s=Date.now();const t=()=>{if(document.querySelector('.title-settings')&&document.querySelector('[data-kit-bound]'))resolve(true);else if(Date.now()-s>8000)resolve(false);else requestAnimationFrame(t);};t();})`);
 
     const results = {};
     results.titleVisible = await cdp.eval(`!!document.querySelector('#screen-title.active')`);
@@ -111,6 +113,7 @@ async function main() {
 
     await cdp.send("Page.reload", { ignoreCache: true });
     await sleep(1000);
+    await cdp.eval(`new Promise((resolve)=>{const s=Date.now();const t=()=>{if(document.querySelector('[data-kit-bound]'))resolve(true);else if(Date.now()-s>8000)resolve(false);else requestAnimationFrame(t);};t();})`);
     const afterReload = await cdp.eval(`JSON.parse(localStorage.getItem('${SAVE_KEY}')||'{}')`);
     results.persistQuality = afterReload.settings?.quality === "high";
     results.persistHaptics = afterReload.settings?.haptics === false;
@@ -132,7 +135,7 @@ async function main() {
     process.exit(failed.length ? 1 : 0);
   } finally {
     cdp?.ws.close();
-    chrome.kill("SIGTERM");
+    chrome.kill("SIGKILL");
     server?.close();
   }
 }

@@ -640,17 +640,16 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
     }
     vfx.tick(world, dt);
 
-    if (world.placing) {
+    if (world.placement?.kind === "building") {
       ghost.visible = true;
       const playerCiv = world.players.player.faction;
-      const map = bldg[playerCiv]?.[world.placing] || bldg[playerCiv]?.house || bldg[DEFAULT_CIV_ID].house;
+      const buildingType = world.placement.type;
+      const map = bldg[playerCiv]?.[buildingType] || bldg[playerCiv]?.house || bldg[DEFAULT_CIV_ID].house;
       if (litMap(ghost) !== map) {
         setLitMap(ghost, map);
-        fitWhenReady(ghost, map, buildingScale(world.placing));
+        fitWhenReady(ghost, map, buildingScale(buildingType));
+        ghost.position.set(camTarget.x, sampleH(camTarget.x, camTarget.z), camTarget.z);
       }
-      const gx = world.placeX || camTarget.x;
-      const gz = world.placeZ || camTarget.z;
-      ghost.position.set(gx, sampleH(gx, gz), gz);
     } else ghost.visible = false;
 
     renderer.render(scene, camera);

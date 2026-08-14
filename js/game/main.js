@@ -72,20 +72,23 @@ export async function startMatch(opts = {}) {
   });
   stopMatch();
   const save = loadSave();
-  lastMatchOpts = { ...opts };
-  resultsShown = false;
-  combatHapticAt = 0;
-  hpWatch.clear();
   const mapId = opts.mapId || save.mapId || "bright-mesa";
   beginMatchSnapshot({ ...opts, mapId });
   const map = await loadMap(mapId, opts.seed ?? save.seed);
   world = createMatch({ ...opts, map, mapId });
   setBridgeMatchId(String(world.seed >>> 0));
   bridgeSend("match.started", { route: "pixel-mesa", faction: opts.playerFaction || "sunwoven" });
-  matchAudio = createMatchAudio();
-  matchAudio.reset(world);
+  bootMatchView(opts, world);
+}
 
+function bootMatchView(opts, world) {
+  const save = loadSave();
+  lastMatchOpts = { ...opts };
+  resultsShown = false;
+  combatHapticAt = 0;
+  hpWatch.clear();
   showScreen("game");
+  document.getElementById("end-banner")?.classList.add("hidden");
   document.getElementById("results-modal")?.classList.add("hidden");
   document.getElementById("pause-modal")?.classList.add("hidden");
   paused = false;
@@ -113,6 +116,8 @@ export async function startMatch(opts = {}) {
   drawHud(world, true);
   drawMinimap(world, view);
   paintDebugState();
+  matchAudio = createMatchAudio();
+  matchAudio.reset(world);
   score.startMatch();
 }
 
@@ -195,49 +200,11 @@ export async function restoreMatch(request = {}) {
 }
 
 async function resumeWorld(restoredWorld, opts, shouldPause, commands = []) {
-  cancelAnimationFrame(raf);
-  inputAbort?.abort();
-  inputAbort = null;
-  view?.dispose?.();
-  const save = loadSave();
-  lastMatchOpts = { ...opts };
-  resultsShown = false;
-  combatHapticAt = 0;
-  hpWatch.clear();
+  stopMatch();
   resumeMatchSnapshot(opts, commands);
   world = restoredWorld;
   setBridgeMatchId(String(world.seed >>> 0));
-  showScreen("game");
-  document.getElementById("end-banner")?.classList.add("hidden");
-  document.getElementById("results-modal")?.classList.add("hidden");
-  document.getElementById("pause-modal")?.classList.add("hidden");
-  paused = false;
-  lastSelKey = "";
-  attackMove = false;
-  simAcc = 0;
-  hudAcc = 0;
-  mapAcc = 0;
-  pacer = createFramePacer();
-  document.getElementById("perf-chip")?.classList.toggle("hidden", !perfChipEnabled());
-  const viewport = document.getElementById("viewport");
-  viewport.innerHTML = "";
-  void viewport.offsetHeight;
-  const quality = save.settings.quality || "ultra";
-  qualityName = quality;
-  view = createRenderer(viewport, quality, { reduceMotion: !!save.settings.reduceMotion, map: world.map });
-  bindInput(viewport);
-  last = performance.now();
-  raf = requestAnimationFrame(loop);
-  const tc = world.buildings.find((b) => b.owner === "player" && b.type === "towncenter");
-  if (tc) view.lookAt(wx(tc), wz(tc), true);
-  world.selection = [];
-  renderSelection();
-  drawHud(world, true);
-  drawMinimap(world, view);
-  paintDebugState();
-  matchAudio = createMatchAudio();
-  matchAudio.reset(world);
-  score.startMatch();
+  bootMatchView(opts, world);
   if (shouldPause) togglePause(true);
 }
 
@@ -466,7 +433,7 @@ function paintDebugState() {
     zoomMax: cam.max,
     units,
     buildings,
-    placing: world.placing,
+    placing: world.placement?.kind === "building" ? world.placement.type : null,
   };
   syncZoomButtons(cam);
 }
@@ -674,7 +641,7 @@ function onDown(e) {
     boxFromHold = false;
     return;
   }
-  if (pointers.size === 1 && !world.placing) {
+  if (pointers.size === 1 && !world.placement) {
     if (isMousePointer(e)) {
       ensureBox(e.clientX, e.clientY);
     } else {
@@ -684,7 +651,7 @@ function onDown(e) {
       const sy = e.clientY;
       longPressTimer = setTimeout(() => {
         longPressTimer = 0;
-        if (pointers.size !== 1 || world.placing) return;
+        if (pointers.size !== 1 || world.placement) return;
         boxFromHold = true;
         ensureBox(sx, sy);
         haptic(8, "select");
@@ -720,13 +687,9 @@ function onMove(e) {
     return;
   }
   pinchMid = null;
-  if (world.placing) {
+  if (world.placement?.kind === "building") {
     const g = view.groundPick(e.clientX, e.clientY);
-    if (g) {
-      world.placeX = g.x;
-      world.placeZ = g.z;
-      view.setGhost(g.x, g.z, true);
-    }
+    if (g) view.setGhost(g.x, g.z, true);
     return;
   }
   if (boxEl && pointers.size === 1) {
@@ -769,25 +732,25 @@ function onUp(e) {
   }
   const dist = Math.hypot(e.clientX - p.sx, e.clientY - p.sy);
   const g = view.groundPick(e.clientX, e.clientY);
-  if (world.placing && g && dist < 12) {
-    const placingType = world.placing;
-    const res = tryPlace(world, "player", placingType, g.x, g.z);
+  const placement = world.placement;
+  if (placement?.kind === "building" && g && dist < 12) {
+    const res = tryPlace(world, "player", placement.type, g.x, g.z);
     world.tip = res.ok ? "Builders inbound." : res.why;
     if (res.ok) {
       audio.play("build", { x: g.x, z: g.z });
       haptic();
-      world.placing = null;
-      recordCommand({ type: "place", buildingType: placingType, x: g.x, z: g.z, owner: "player" });
+      world.placement = null;
+      recordCommand({ type: "place", buildingType: placement.type, x: g.x, z: g.z, owner: "player" });
     } else audio.play("build_fail");
     hideBox();
     renderSelection();
     return;
   }
-  if (world.placingDarkness && g && dist < 12) {
+  if (placement?.kind === "darkness" && g && dist < 12) {
     const res = trySummonDarkness(world, "player", g.x, g.z);
     world.tip = res.ok ? "Dark veil summoned." : res.why;
     beep(res.ok ? 220 : 140, res.ok ? 0.12 : 0.06);
-    world.placingDarkness = false;
+    world.placement = null;
     hideBox();
     renderSelection();
     return;
@@ -959,7 +922,7 @@ function renderSelection() {
     for (const t of villagerBuildOptions(world)) {
       cmds.appendChild(
         iconBtn(BUILDINGS[t].name, buildIcon(t, faction), () => {
-          world.placing = t;
+          world.placement = { kind: "building", type: t };
           world.tip = `Place ${BUILDINGS[t].name}. Tap the mesa.`;
           audio.play("build");
         })
@@ -970,7 +933,7 @@ function renderSelection() {
     cmds.appendChild(btn("Deploy", () => { world.tip = "Tap ground to deploy packed structure (20 wood)."; }));
   }
   if (isStormveilFaction(world.players.player.faction) && e.owner === "player") {
-    cmds.appendChild(btn("Dark Veil", () => { world.placingDarkness = true; world.placing = null; world.tip = "Tap ground to summon darkness (60 crystal)."; beep(220, 0.08); }));
+    cmds.appendChild(btn("Dark Veil", () => { world.placement = { kind: "darkness" }; world.tip = "Tap ground to summon darkness (60 crystal)."; beep(220, 0.08); }));
   }
   if (e.kind === "building" && e.owner === "player" && isBuilt(e) && isStormveilFaction(faction) && canPackBuilding(world, "player", e).ok) {
     cmds.appendChild(btn("Pack", () => { const r = tryPackBuilding(world, "player", e.id); world.tip = r.ok ? `Packing ${BUILDINGS[e.type].name}… (4s, 30 wood).` : r.why; beep(r.ok ? 360 : 140); renderSelection(); }));
