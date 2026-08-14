@@ -15,6 +15,15 @@ import { loadMap } from "../data/maps.js";
 import { biomeRgb } from "../data/map-biomes.js";
 import { minimapCellColor } from "../sim/civs/ashvein.js";
 import { checksumWorld, mapLayoutFingerprint } from "../sim/checksum.js";
+import {
+  beginMatchSnapshot,
+  buildBridgeSnapshot,
+  clearMatchSnapshot,
+  recordMatchCommand,
+  restoreFromSnapshotRequest,
+  resumeMatchSnapshot,
+  loadPersistedMatchSnapshot,
+} from "../sim/match-snapshot.js";
 
 const wx = (e) => worldFromQ10(e.xQ10);
 const wz = (e) => worldFromQ10(e.zQ10);
@@ -61,6 +70,7 @@ export async function startMatch(opts = {}) {
   combatHapticAt = 0;
   hpWatch.clear();
   const mapId = opts.mapId || save.mapId || "bright-mesa";
+  beginMatchSnapshot({ ...opts, mapId });
   const map = await loadMap(mapId, opts.seed ?? save.seed);
   world = createMatch({ ...opts, map, mapId });
   setBridgeMatchId(String(world.seed >>> 0));
@@ -119,6 +129,7 @@ export function stopMatch() {
   clearEmptyTap(false);
   setBridgeMatchId(null);
   hpWatch.clear();
+  clearMatchSnapshot();
 }
 
 export function togglePause(on) {
@@ -144,6 +155,91 @@ export async function restartMatch() {
   await startMatch(lastMatchOpts);
 }
 
+export function sendMatchSnapshot(pausedFlag = false) {
+  if (!world) return null;
+  const payload = buildBridgeSnapshot(world, pausedFlag);
+  if (payload) bridgeSend("match.snapshot", payload);
+  return payload;
+}
+
+/** @param {{ tick?: number, checksum?: string, seed?: number, paused?: boolean }} request */
+export async function restoreMatch(request = {}) {
+  try {
+    const persisted = loadPersistedMatchSnapshot();
+    if (!persisted) throw new Error("No persisted match snapshot");
+    const mapId = persisted.matchOpts?.mapId || request.mapId || "bright-mesa";
+    const map = await loadMap(mapId, request.seed ?? persisted.seed);
+    const restored = restoreFromSnapshotRequest(request, { map, mapId });
+    if (!restored) return;
+    await resumeWorld(restored.world, restored.matchOpts, restored.paused, persisted?.commands || []);
+    bridgeSend("restore.completed", {
+      restored: true,
+      tick: restored.tick,
+      checksum: restored.checksum,
+    });
+  } catch (err) {
+    console.error("[match-restore]", err);
+    bridgeSend("restore.completed", { restored: false, reason: String(err?.message || err) });
+  }
+}
+
+async function resumeWorld(restoredWorld, opts, shouldPause, commands = []) {
+  cancelAnimationFrame(raf);
+  inputAbort?.abort();
+  inputAbort = null;
+  view?.dispose?.();
+  const save = loadSave();
+  lastMatchOpts = { ...opts };
+  resultsShown = false;
+  combatHapticAt = 0;
+  hpWatch.clear();
+  resumeMatchSnapshot(opts, commands);
+  world = restoredWorld;
+  setBridgeMatchId(String(world.seed >>> 0));
+  showScreen("game");
+  document.getElementById("end-banner")?.classList.add("hidden");
+  document.getElementById("results-modal")?.classList.add("hidden");
+  document.getElementById("pause-modal")?.classList.add("hidden");
+  paused = false;
+  lastSelKey = "";
+  attackMove = false;
+  simAcc = 0;
+  hudAcc = 0;
+  mapAcc = 0;
+  pacer = createFramePacer();
+  document.getElementById("perf-chip")?.classList.toggle("hidden", !perfChipEnabled());
+  const viewport = document.getElementById("viewport");
+  viewport.innerHTML = "";
+  void viewport.offsetHeight;
+  const quality = save.settings.quality || "ultra";
+  qualityName = quality;
+  view = createRenderer(viewport, quality, { reduceMotion: !!save.settings.reduceMotion, map: world.map });
+  bindInput(viewport);
+  last = performance.now();
+  raf = requestAnimationFrame(loop);
+  const tc = world.buildings.find((b) => b.owner === "player" && b.type === "towncenter");
+  if (tc) view.lookAt(wx(tc), wz(tc), true);
+  world.selection = [];
+  renderSelection();
+  drawHud(world, true);
+  drawMinimap(world, view);
+  paintDebugState();
+  matchAudio = createMatchAudio();
+  matchAudio.reset(world);
+  score.startMatch();
+  if (shouldPause) togglePause(true);
+}
+
+function recordCommand(command) {
+  if (!world) return;
+  recordMatchCommand({ ...command, tick: world.t | 0 });
+}
+
+function issueRecordedMove(x, z, attackMoveFlag = false) {
+  recordCommand({ type: "move", unitIds: world.selection.slice(), x, z, attackMove: !!attackMoveFlag });
+  commandGround(world, x, z, attackMoveFlag);
+}
+
 function perfChipEnabled() {
   return isQaMode() || !!loadSave().settings.showDebug;
 }
@@ -165,6 +261,7 @@ if (isQaMode()) {
     const round = (n) => Math.round(n * 100) / 100;
     const before = sel.map((u) => ({ id: u.id, state: u.state, x: round(wx(u)), z: round(wz(u)) }));
     commandGround(world, x, z, !!attackMove);
+    recordCommand({ type: "move", unitIds: world.selection.slice(), x, z, attackMove: !!attackMove });
     return {
       ok: true,
       issuedAt: Date.now(),
@@ -181,6 +278,7 @@ if (isQaMode()) {
     const b = world.buildings.find((x) => x.id === buildingId);
     if (!b) return { ok: false, why: "no-building", buildingId };
     const res = queueUnit(world, b, type);
+    if (res?.ok) recordCommand({ type: "train", buildingId, unitType: type });
     return { ok: !!res?.ok, why: res?.why, buildingId, type };
   };
 }
@@ -280,7 +378,7 @@ function showResults(world) {
     outcome: won ? "Victory" : "Defeat",
     duration: formatDuration(stats.duration),
     seed: String(world.seed >>> 0),
-    checksum: String(world.t),
+    checksum: checksumWorld(world),
   });
   modal.classList.remove("hidden");
   document.body.classList.add("match-paused");
@@ -426,7 +524,7 @@ function bindInput(viewport) {
       e.preventDefault();
       const g = view.groundPick(e.clientX, e.clientY);
       if (g) {
-        commandGround(world, g.x, g.z, true);
+        issueRecordedMove(g.x, g.z, true);
         audio.play("attack");
         clearEmptyTap(false);
       }
@@ -590,12 +688,14 @@ function onUp(e) {
   const dist = Math.hypot(e.clientX - p.sx, e.clientY - p.sy);
   const g = view.groundPick(e.clientX, e.clientY);
   if (world.placing && g && dist < 12) {
-    const res = tryPlace(world, "player", world.placing, g.x, g.z);
+    const placingType = world.placing;
+    const res = tryPlace(world, "player", placingType, g.x, g.z);
     world.tip = res.ok ? "Builders inbound." : res.why;
     if (res.ok) {
       audio.play("build", { x: g.x, z: g.z });
       haptic();
       world.placing = null;
+      recordCommand({ type: "place", buildingType: placingType, x: g.x, z: g.z, owner: "player" });
     } else audio.play("build_fail");
     hideBox();
     renderSelection();
@@ -620,7 +720,7 @@ function onUp(e) {
     } else if (hit && hit.owner !== "player") {
       clearEmptyTap(false);
       if (world.selection.length) {
-        commandGround(world, g.x, g.z);
+        issueRecordedMove(g.x, g.z);
         audio.play("attack", { x: g.x, z: g.z });
       }
     } else {
@@ -647,7 +747,7 @@ function onEmptyGround(e, g) {
     const ids = prior.selection;
     clearEmptyTap(false);
     world.selection = ids;
-    commandGround(world, g.x, g.z, attackMove || e.shiftKey);
+    issueRecordedMove(g.x, g.z, attackMove || e.shiftKey);
     audio.play(attackMove || e.shiftKey ? "attack" : "move", { x: g.x, z: g.z });
     haptic(8, "orderAccepted");
     return;
@@ -802,6 +902,7 @@ function renderSelection() {
       cmds.appendChild(
         iconBtn(label, trainIcon(t, faction), () => {
           const r = queueUnit(world, e, t);
+          if (r.ok) recordCommand({ type: "train", buildingId: e.id, unitType: t });
           world.tip = r.ok ? `${verb} ${label}` : r.why;
           audio.play(r.ok ? "train" : "train_fail");
           renderSelection();
@@ -812,6 +913,7 @@ function renderSelection() {
       cmds.appendChild(
         iconBtn("Age Up", ageIcon(faction), () => {
           const r = tryAgeUp(world, "player");
+          if (r.ok) recordCommand({ type: "ageUp", owner: "player" });
           world.tip = r.ok ? "The Town Center chants. Age up begun." : r.why;
           if (r.ok) audio.play("age_up");
           else audio.play("train_fail");

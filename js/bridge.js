@@ -142,10 +142,22 @@ function receiveNative(message) {
       import("./game/main.js").then(({ togglePause }) => togglePause(false));
       break;
     case "lifecycle.background":
-      import("./game/main.js").then(({ togglePause }) => togglePause(true));
+      import("./game/main.js").then(({ togglePause, sendMatchSnapshot }) => {
+        togglePause(true);
+        sendMatchSnapshot(true);
+      });
       break;
     case "lifecycle.foreground":
       bridgeSend("ack", { acknowledgedType: "lifecycle.foreground" });
+      break;
+    case "snapshot.request":
+      import("./game/main.js").then(({ sendMatchSnapshot }) => sendMatchSnapshot(true));
+      break;
+    case "snapshot.ack":
+      bridgeSend("ack", { acknowledgedType: "snapshot.ack" });
+      break;
+    case "match.restore":
+      import("./game/main.js").then(({ restoreMatch }) => restoreMatch(payload));
       break;
     default:
       break;

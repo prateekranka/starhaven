@@ -1,6 +1,6 @@
 /** Replay codec, recorder, and deterministic replay runner. */
 
-import { createMatch, updateWorld, commandGround, queueUnit, tryAgeUp } from "./engine.js";
+import { createMatch, updateWorld, commandGround, queueUnit, tryAgeUp, tryPlace } from "./engine.js";
 import { checksumSnapshot, checksumWorld, snapshotWorld } from "./checksum.js";
 
 export { checksumSnapshot };
@@ -50,6 +50,11 @@ function applyReplayCommand(world, command) {
         if (b) queueUnit(world, b, command.unitType);
       }
       break;
+    case "place":
+      if (command.buildingType) {
+        tryPlace(world, command.owner || "player", command.buildingType, command.x, command.z);
+      }
+      break;
     case "ageUp":
       tryAgeUp(world, command.owner || "player");
       break;
@@ -74,6 +79,20 @@ export function replayToChecksums(replay, maxTicks, interval = 60) {
     }
   }
   return checksums;
+}
+
+/** Replay commands up to targetTick and return the restored world. */
+export function replayToWorld(replay, targetTick, matchOpts = {}) {
+  const world = createMatch({ ...matchOpts, seed: replay.seed });
+  let cmdIdx = 0;
+  for (let tick = 0; tick < targetTick; tick += 1) {
+    while (cmdIdx < replay.commands.length && replay.commands[cmdIdx].tick === tick) {
+      applyReplayCommand(world, replay.commands[cmdIdx]);
+      cmdIdx += 1;
+    }
+    updateWorld(world, DT);
+  }
+  return world;
 }
 
 /** Record a harness match with periodic checksum snapshots. */
