@@ -2,7 +2,7 @@ import { createMatch, updateWorld, commandGround, tryPlace, queueUnit, tryAgeUp,
 import { displayName } from "../data/catalog.js";
 import { createRenderer } from "./render.js";
 import { beep, haptic, loadSave, showScreen } from "../boot.js";
-import { createFramePacer, setText, resolveQuality } from "../perf.js";
+import { createFramePacer, isQaMode, setText, resolveQuality } from "../perf.js";
 import { ensureMatchAssets } from "../cache/assets.js";
 
 let world = null;
@@ -49,6 +49,7 @@ export async function startMatch(opts) {
   hudAcc = 0;
   mapAcc = 0;
   pacer = createFramePacer();
+  document.getElementById("perf-chip")?.classList.toggle("hidden", !perfChipEnabled());
 
   const viewport = document.getElementById("viewport");
   viewport.innerHTML = "";
@@ -91,8 +92,12 @@ export function togglePause(on) {
   document.getElementById("pause-modal").classList.toggle("hidden", !paused);
 }
 
+function perfChipEnabled() {
+  return isQaMode() || !!loadSave().settings.showDebug;
+}
+
 /* Command hooks for the QA harness. Only installed with ?qa=1 so playtest builds stay untouched. */
-if (new URLSearchParams(location.search).get("qa") === "1") {
+if (isQaMode()) {
   window.__starhavenMove = function (unitIds, x, z, attackMove) {
     if (!world) return { ok: false, why: "no-match-in-progress" };
     const ids = Array.isArray(unitIds) ? unitIds : unitIds == null ? null : [unitIds];
@@ -134,7 +139,7 @@ function loop(now) {
   last = now;
   if (!world || !view) return;
 
-  const scale = pacer.sample(dt * 1000);
+  const scale = pacer.sample(dt * 1000, lastSimMs + lastDrawMs);
   if (pacer.shouldApply(now) && view.setAdaptiveScale) view.setAdaptiveScale(scale);
 
   if (!paused) {
@@ -194,6 +199,11 @@ function loop(now) {
 function paintPerf() {
   const el = document.getElementById("perf-chip");
   if (!el || !pacer || !view?.stats) return;
+  if (!perfChipEnabled()) {
+    el.classList.add("hidden");
+    return;
+  }
+  el.classList.remove("hidden");
   const s = view.stats();
   const fps = Math.round(pacer.fps);
   const tag = s.software ? "CPU GL" : s.fourK ? "4K" : s.w >= 2500 ? "QHD+" : s.w >= 1800 ? "FHD" : "HD";

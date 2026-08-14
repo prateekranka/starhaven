@@ -179,6 +179,7 @@
         </label>
         <label class="check"><input type="checkbox" name="reduceMotion" /> Reduce camera motion</label>
         <label class="check"><input type="checkbox" name="haptics" checked /> Haptics (iPad)</label>
+        <label class="check"><input type="checkbox" name="showDebug" /> Show debug HUD (FPS / backing store)</label>
         <p class="hint">Settings store on this device and pass into the Swift wrapper when running natively.</p>
       </form>
     </div>
@@ -251,7 +252,7 @@
         <small>DRAG OR TAP TO MOVE</small>
       </aside>
       <div id="tip" class="tipbar">TIP: Scout early and control key resources to outpace your opponent.</div>
-      <div id="perf-chip" class="perf-chip" aria-live="off">60 FPS · 4K</div>
+      <div id="perf-chip" class="perf-chip hidden" aria-live="off">60 FPS · 4K</div>
       <div id="end-banner" class="end-banner hidden">
         <h2 id="end-title">VICTORY</h2>
         <p id="end-sub">The mesa is yours.</p>

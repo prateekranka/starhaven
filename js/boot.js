@@ -10,6 +10,7 @@ export const defaultSave = () => ({
     quality: "ultra",
     reduceMotion: false,
     haptics: true,
+    showDebug: false,
   },
 });
 

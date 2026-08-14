@@ -69,6 +69,7 @@ export function initUi() {
     s.settings.quality = f.quality.value;
     s.settings.reduceMotion = f.reduceMotion.checked;
     s.settings.haptics = f.haptics.checked;
+    s.settings.showDebug = f.showDebug.checked;
     writeSave(s);
     postNative("settings", s.settings);
   });
@@ -148,6 +149,7 @@ function applySettingsForm(save) {
   f.quality.value = save.settings.quality;
   f.reduceMotion.checked = save.settings.reduceMotion;
   f.haptics.checked = save.settings.haptics;
+  f.showDebug.checked = !!save.settings.showDebug;
 }
 
 initUi();

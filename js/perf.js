@@ -48,17 +48,30 @@ export function backingLabel(cssW, cssH, ratio) {
   return { w, h, fourK, text: `${w}×${h}` };
 }
 
+export function isQaMode() {
+  return new URLSearchParams(location.search).get("qa") === "1";
+}
+
 export function createFramePacer() {
-  let ema = 16.6;
+  let frameEma = 16.7;
+  let workEma = 8;
+  let vsyncMs = 16.7;
   let scale = 1;
   let fps = 60;
   let acc = 0;
   let n = 0;
   let lastApply = 0;
   return {
-    sample(dtMs) {
+    sample(dtMs, workMs = dtMs) {
       const ms = Math.max(0.1, dtMs);
-      ema = ema * 0.88 + ms * 0.12;
+      const work = Math.max(0, workMs);
+      frameEma = frameEma * 0.88 + ms * 0.12;
+      workEma = workEma * 0.88 + work * 0.12;
+      if (ms < 50) vsyncMs = vsyncMs * 0.985 + ms * 0.015;
+      const target = Math.min(20, Math.max(7.5, vsyncMs));
+      const budget = target * 0.82;
+      const missed = ms > target * 1.35;
+
       acc += ms;
       n++;
       if (acc >= 400) {
@@ -66,9 +79,10 @@ export function createFramePacer() {
         acc = 0;
         n = 0;
       }
-      // Hold 60fps: drop internal scale if we miss vsync, restore toward 4K when we have headroom.
-      if (ema > 17.2) scale = Math.max(0.4, scale * 0.94);
-      else if (ema < 13.5) scale = Math.min(1, scale * 1.03);
+
+      // Drop scale on missed vsync or render-work over budget; recover on work headroom (works at 60Hz).
+      if (missed || workEma > budget || frameEma > target * 1.12) scale = Math.max(0.4, scale * 0.94);
+      else if (workEma < budget * 0.72) scale = Math.min(1, scale * 1.03);
       return scale;
     },
     shouldApply(now) {
@@ -80,7 +94,10 @@ export function createFramePacer() {
       return fps;
     },
     get ema() {
-      return ema;
+      return frameEma;
+    },
+    get workEma() {
+      return workEma;
     },
     get scale() {
       return scale;

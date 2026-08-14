@@ -13,13 +13,13 @@
     },
     {
       "path": "index.html",
-      "bytes": 13305,
-      "sha256": "488075bacd3cb78d186230d71462f396bc7333cb8477978c532fb663778d7e88"
+      "bytes": 13429,
+      "sha256": "fbad44576941540624369b7035def11b7aaf1cf1a751e29f1b364c6bb231d3db"
     },
     {
       "path": "js/boot.js",
-      "bytes": 1651,
-      "sha256": "c949a6646ad5b2746df5217759402e77c652cf405c84ca35d317631a9a3198f3"
+      "bytes": 1673,
+      "sha256": "67e7d72265e879c717707279264056ad3ebe9958f516fc8db35e9e2f1dfcd95a"
     },
     {
       "path": "js/cache/assets.js",
@@ -33,8 +33,8 @@
     },
     {
       "path": "js/game/main.js",
-      "bytes": 23818,
-      "sha256": "d20e2e542aeea771bab81e63c8a8f4d248dba0a17a480e00ed9e2d283ea56d5c"
+      "bytes": 24093,
+      "sha256": "8cf9df46fb7ac78d91e5ffb5ae8331143740eb7d43d6adfe02584869879bf4dd"
     },
     {
       "path": "js/game/render.js",
@@ -43,8 +43,8 @@
     },
     {
       "path": "js/perf.js",
-      "bytes": 3648,
-      "sha256": "3d8e7c083cdaef4d34d828a9faa2522a75f435d9d39de20a7b9085d08d6f8a4e"
+      "bytes": 4216,
+      "sha256": "302f90e65e50888523aa9b669b969c1edb7bab870c10ac020ee15b2d96b67db6"
     },
     {
       "path": "js/sim/ai.js",
@@ -63,8 +63,8 @@
     },
     {
       "path": "js/ui/app.js",
-      "bytes": 5382,
-      "sha256": "0561fa044b7777d00e037b37a2e05f761f7d1d211632ee37e54c9e74a199e0f2"
+      "bytes": 5481,
+      "sha256": "62f24049788c09e6e0b2dc9ae4b06d1ead7be521da3703be62ee3990bbaae1a5"
     },
     {
       "path": "media/fonts/orbitron-latin-700-normal.woff2",
@@ -383,5 +383,5 @@
     }
   ],
   "fileCount": 76,
-  "totalBytes": 40625277
+  "totalBytes": 40626365
 }
