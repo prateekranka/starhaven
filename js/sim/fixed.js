@@ -1,4 +1,4 @@
-/** Q10 fixed-point helpers (side-by-side; movement/combat still use floats). */
+/** Q10 fixed-point helpers for movement, pathing, and vision. */
 
 export const Q10 = 1_024;
 export const Q15 = 32_768;
@@ -27,6 +27,19 @@ export const worldFromQ10 = (value) => value / Q10;
 export const absInt = (value) => (value < 0 ? -value : value);
 export const square = (value) => value * value;
 export const distanceSquared = (a, b) => square(a.x - b.x) + square(a.y - b.y);
+
+export function distanceSquaredQ10(a, b) {
+  return square(a.xQ10 - b.xQ10) + square(a.zQ10 - b.zQ10);
+}
+
+export function cellOfQ10(xQ10, zQ10, cell) {
+  const scale = cell * Q10;
+  return [(xQ10 / scale) | 0, (zQ10 / scale) | 0];
+}
+
+export function worldOfCellQ10(cx, cz, cell) {
+  return [q10FromWorld((cx + 0.5) * cell), q10FromWorld((cz + 0.5) * cell)];
+}
 
 export function octantFor(deltaX, deltaY) {
   const absX = absInt(deltaX);
@@ -70,6 +83,37 @@ export function clampToTarget(position, target, step) {
   return after > before ? { ...target } : next;
 }
 
+export function octantToFacing(octant) {
+  const d = OCTANT_Q15[octant] ?? OCTANT_Q15[0];
+  return Math.atan2(d.x, d.y);
+}
+
+export function accumulateMoveBudget(entity, speedWorldPerSec, multiplier, dt) {
+  const perSec = q10FromWorld(speedWorldPerSec * multiplier);
+  entity._moveBudget = (entity._moveBudget || 0) + perSec * dt;
+  const budget = Math.trunc(entity._moveBudget);
+  if (budget > 0) entity._moveBudget -= budget;
+  return budget;
+}
+
+export function q10RangeSq(worldRadius) {
+  const r = q10FromWorld(worldRadius);
+  return r * r;
+}
+
 export function encodeFixed(value) {
   return String(value | 0);
+}
+
+export function assertSimPositionsInteger(world) {
+  const check = (label, xQ10, zQ10) => {
+    if (!Number.isInteger(xQ10) || !Number.isInteger(zQ10)) {
+      throw new Error(`${label} has non-integer Q10 position`);
+    }
+  };
+  for (const u of world.units) check(`unit ${u.id}`, u.xQ10, u.zQ10);
+  for (const b of world.buildings) check(`building ${b.id}`, b.xQ10, b.zQ10);
+  for (const r of world.resources) check(`resource ${r.id}`, r.xQ10, r.zQ10);
+  for (const p of world.projectiles) check(`projectile ${p.id}`, p.xQ10, p.zQ10);
+  for (const r of world.relics) check(`relic ${r.id}`, r.xQ10, r.zQ10);
 }

@@ -1,4 +1,8 @@
-import { createMatch, updateWorld, commandGround, tryPlace, queueUnit, tryAgeUp, idleVillager, selectedEntities, villagerBuildOptions, BUILDINGS, UNITS } from "../sim/engine.js";
+import { createMatch, updateWorld, commandGround, tryPlace, queueUnit, tryAgeUp, idleVillager, selectedEntities, villagerBuildOptions, BUILDINGS, UNITS, worldFromQ10, q10FromWorld } from "../sim/engine.js";
+import { distanceSquaredQ10, q10RangeSq } from "../sim/fixed.js";
+
+const wx = (e) => worldFromQ10(e.xQ10);
+const wz = (e) => worldFromQ10(e.zQ10);
 import { displayName } from "../data/catalog.js";
 import { createRenderer } from "./render.js";
 import { beep, haptic, loadSave, showScreen } from "../boot.js";
@@ -66,7 +70,7 @@ export async function startMatch(opts = {}) {
   last = performance.now();
   raf = requestAnimationFrame(loop);
   const tc = world.buildings.find((b) => b.owner === "player" && b.type === "towncenter");
-  if (tc) view.lookAt(tc.x, tc.z, true);
+  if (tc) view.lookAt(wx(tc), wz(tc), true);
   world.selection = [];
   renderSelection();
   drawHud(world, true);
@@ -116,7 +120,7 @@ if (isQaMode()) {
     if (!sel.length) return { ok: false, why: "no-player-units", selection: world.selection.slice() };
     world.selection = sel.map((u) => u.id);
     const round = (n) => Math.round(n * 100) / 100;
-    const before = sel.map((u) => ({ id: u.id, state: u.state, x: round(u.x), z: round(u.z) }));
+    const before = sel.map((u) => ({ id: u.id, state: u.state, x: round(wx(u)), z: round(wz(u)) }));
     commandGround(world, x, z, !!attackMove);
     return {
       ok: true,
@@ -125,7 +129,7 @@ if (isQaMode()) {
       command: { x, z, attackMove: !!attackMove },
       moved: sel.map((u) => u.id),
       before,
-      after: sel.map((u) => ({ id: u.id, state: u.state, x: round(u.x), z: round(u.z) })),
+      after: sel.map((u) => ({ id: u.id, state: u.state, x: round(wx(u)), z: round(wz(u)) })),
     };
   };
 
@@ -236,14 +240,14 @@ function paintDebugState() {
   const units = [];
   for (const u of world.units) {
     if (u.owner !== "player") continue;
-    const p = view.project(u.x, u.z);
-    units.push({ id: u.id, type: u.type, x: u.x, z: u.z, state: u.state, sx: p.x, sy: p.y });
+    const p = view.project(wx(u), wz(u));
+    units.push({ id: u.id, type: u.type, x: wx(u), z: wz(u), state: u.state, sx: p.x, sy: p.y });
   }
   const buildings = [];
   for (const b of world.buildings) {
     if (b.owner !== "player") continue;
-    const p = view.project(b.x, b.z);
-    buildings.push({ id: b.id, type: b.type, x: b.x, z: b.z, sx: p.x, sy: p.y });
+    const p = view.project(wx(b), wz(b));
+    buildings.push({ id: b.id, type: b.type, x: wx(b), z: wz(b), sx: p.x, sy: p.y });
   }
   window.__starhavenState = {
     sel: world.selection.slice(),
@@ -346,7 +350,7 @@ function bindInput(viewport) {
     clearEmptyTap(false);
     const u = idleVillager(world);
     if (u) {
-      view.lookAt(u.x, u.z);
+      view.lookAt(wx(u), wz(u));
       beep(520);
       renderSelection();
     }
@@ -572,7 +576,7 @@ function boxSelect(x0, y0, x1, y1) {
   const ids = [];
   for (const u of world.units) {
     if (u.owner !== "player") continue;
-    const g = projectApprox(u.x, u.z);
+    const g = projectApprox(wx(u), wz(u));
     if (g.x >= x && g.x <= x + w && g.y >= y && g.y <= y + h) ids.push(u.id);
   }
   if (ids.length) world.selection = ids;
@@ -586,12 +590,13 @@ function projectApprox(wx, wz) {
 
 function pickEntity(world, x, z) {
   let best = null;
-  let bd = 1.8;
+  let bdSq = q10RangeSq(1.8);
+  const click = { xQ10: q10FromWorld(x), zQ10: q10FromWorld(z) };
   for (const e of [...world.units, ...world.buildings]) {
-    const d = Math.hypot(e.x - x, e.z - z);
     const rad = e.kind === "building" ? (e.size || 2) * 1.15 : 1.15;
-    if (d < rad && d < bd) {
-      bd = d;
+    const dSq = distanceSquaredQ10(click, e);
+    if (dSq < q10RangeSq(rad) && dSq < bdSq) {
+      bdSq = dSq;
       best = e;
     }
   }

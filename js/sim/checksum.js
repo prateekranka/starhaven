@@ -19,12 +19,13 @@ function unitSnap(u) {
     id: u.id,
     type: u.type,
     owner: u.owner,
-    x: round4(u.x),
-    z: round4(u.z),
+    xQ10: u.xQ10,
+    zQ10: u.zQ10,
     hp: round4(u.hp),
     state: u.state,
     carry: round4(u.carry || 0),
     carryKind: u.carryKind || null,
+    facingOctant: u.facingOctant ?? 0,
   };
 }
 
@@ -35,8 +36,8 @@ function buildingSnap(b) {
     owner: b.owner,
     cx: b.cx,
     cz: b.cz,
-    x: round4(b.x),
-    z: round4(b.z),
+    xQ10: b.xQ10,
+    zQ10: b.zQ10,
     hp: round4(b.hp),
     built: round4(b.built),
     queueLen: b.queue.length,
@@ -47,8 +48,8 @@ function resourceSnap(r) {
   return {
     id: r.id,
     kind: r.kind,
-    x: round4(r.x),
-    z: round4(r.z),
+    xQ10: r.xQ10,
+    zQ10: r.zQ10,
     amount: r.amount | 0,
     cx: r.cx ?? null,
     cz: r.cz ?? null,
@@ -75,7 +76,7 @@ function playerSnap(p) {
 
 export function snapshotWorld(world) {
   return {
-    simulationVersion: "pixel-sim.v1",
+    simulationVersion: "pixel-sim.v2-q10",
     seed: world.seed >>> 0,
     t: round4(world.t),
     winner: world.winner,

@@ -1,7 +1,11 @@
 import * as THREE from "three";
-import { N, CELL, inLight } from "../sim/engine.js";
+import { N, CELL, inLight, q10FromWorld } from "../sim/engine.js";
+import { worldFromQ10, octantToFacing } from "../sim/fixed.js";
 import { pixelRatioFor, resolveQuality, backingLabel, isSoftwareGL, glRendererName } from "../perf.js";
 import { cachedImage } from "../cache/assets.js";
+
+const wx = (e) => worldFromQ10(e.xQ10);
+const wz = (e) => worldFromQ10(e.zQ10);
 import { BIOME_HEX } from "../data/map-biomes.js";
 
 const MAP = N * CELL;
@@ -449,9 +453,9 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
         meshes.set("r" + r.id, m);
         scene.add(m);
       }
-      const y = sampleH(r.x, r.z);
-      m.position.set(r.x, y, r.z);
-      m.visible = r.amount > 0 && seen(world, r.x, r.z);
+      const y = sampleH(wx(r), wz(r));
+      m.position.set(wx(r), y, wz(r));
+      m.visible = r.amount > 0 && seen(world, wx(r), wz(r));
       const s = m.userData.baseScale || (r.kind === "wood" ? 4.2 : 3.4);
       const a = m.userData.aspect || 1;
       m.scale.set(s * a, s, 1);
@@ -464,13 +468,13 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
         meshes.set("b" + b.id, m);
         scene.add(m);
       }
-      const y = sampleH(b.x, b.z);
-      m.position.set(b.x, y, b.z);
+      const y = sampleH(wx(b), wz(b));
+      m.position.set(wx(b), y, wz(b));
       const base = (m.userData.baseScale || buildingScale(b.type)) * (0.55 + 0.45 * b.built);
       const a = m.userData.aspect || 1;
       m.scale.set(base * a, base, 1);
       m.material.opacity = 0.55 + 0.45 * b.built;
-      m.visible = seen(world, b.x, b.z) || b.owner === "player";
+      m.visible = seen(world, wx(b), wz(b)) || b.owner === "player";
     }
     for (const u of world.units) {
       keep.add("u" + u.id);
@@ -480,10 +484,10 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
         meshes.set("u" + u.id, m);
         scene.add(m);
       }
-      const y = sampleH(u.x, u.z);
-      m.position.set(u.x, y, u.z);
+      const y = sampleH(wx(u), wz(u));
+      m.position.set(wx(u), y, wz(u));
       animateUnit(m, u, world, dt);
-      m.visible = u.owner === "player" || vis(world, u.x, u.z);
+      m.visible = u.owner === "player" || vis(world, wx(u), wz(u));
       keep.add("sh" + u.id);
       let sh = meshes.get("sh" + u.id);
       if (!sh) {
@@ -492,7 +496,7 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
         meshes.set("sh" + u.id, sh);
         scene.add(sh);
       }
-      sh.position.set(u.x, y + 0.04, u.z);
+      sh.position.set(wx(u), y + 0.04, wz(u));
       sh.visible = m.visible;
     }
     for (const p of world.projectiles) {
@@ -512,7 +516,7 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
         meshes.set("p" + p.id, m);
         scene.add(m);
       }
-      m.position.set(p.x, sampleH(p.x, p.z) + 1.15, p.z);
+      m.position.set(wx(p), sampleH(wx(p), wz(p)) + 1.15, wz(p));
     }
     for (const relic of world.relics || []) {
       keep.add("relic" + relic.id);
@@ -524,8 +528,8 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
         meshes.set("relic" + relic.id, m);
         scene.add(m);
       }
-      m.position.set(relic.x, sampleH(relic.x, relic.z), relic.z);
-      m.visible = seen(world, relic.x, relic.z);
+      m.position.set(wx(relic), sampleH(wx(relic), wz(relic)), wz(relic));
+      m.visible = seen(world, wx(relic), wz(relic));
     }
     for (const [k, m] of meshes) {
       if (!keep.has(k)) {
@@ -550,16 +554,16 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
       const s = sel.kind === "building" ? (sel.size || 2) * 0.75 : 0.95;
       ring.scale.set(s, s, s);
       ring.material.opacity = pulse;
-      ring.position.set(sel.x, sampleH(sel.x, sel.z) + 0.08, sel.z);
+      ring.position.set(wx(sel), sampleH(wx(sel), wz(sel)) + 0.08, wz(sel));
     });
 
     const lx = 4 + world.bright * (MAP - 8);
     brightLine.position.set(lx, 1.1, MAP / 2);
     brightLine.material.opacity = 0.22 + Math.sin(world.t * 2.2) * 0.08;
     sun.position.set(20 + world.bright * 50, 50, 20);
-    sun.color.set(inLight(world, camTarget.x) ? 0xfff3d0 : 0xb8c8ff);
-    hemi.color.set(inLight(world, camTarget.x) ? 0xd8ecff : 0x9aa8d8);
-    scene.background.set(inLight(world, camTarget.x) ? "#6eb4e8" : "#3a4a78");
+    sun.color.set(inLight(world, q10FromWorld(camTarget.x)) ? 0xfff3d0 : 0xb8c8ff);
+    hemi.color.set(inLight(world, q10FromWorld(camTarget.x)) ? 0xd8ecff : 0x9aa8d8);
+    scene.background.set(inLight(world, q10FromWorld(camTarget.x)) ? "#6eb4e8" : "#3a4a78");
     paintFog(fogCtx, fogTex, fogImg, world);
     vfx.tick(world);
 
@@ -693,16 +697,16 @@ function makeUnitSprite(u, sheets, stills) {
 
 function animateUnit(sprite, u, world, dt = 0.016) {
   const onPath = WALK_STATES.has(u.state) && Array.isArray(u.path) && u.path.length > 0;
-  const dx = u.x - (sprite.userData.px ?? u.x);
-  const dz = u.z - (sprite.userData.pz ?? u.z);
-  sprite.userData.px = u.x;
-  sprite.userData.pz = u.z;
+  const dx = wx(u) - (sprite.userData.px ?? wx(u));
+  const dz = wz(u) - (sprite.userData.pz ?? wz(u));
+  sprite.userData.px = wx(u);
+  sprite.userData.pz = wz(u);
   const moving = onPath || Math.hypot(dx, dz) > 0.0008;
   if (sprite.userData.sheet && sprite.material.map) {
     if (moving) sprite.userData.walkT = (sprite.userData.walkT || 0) + dt;
     else sprite.userData.walkT = 0;
     const col = moving ? Math.floor(sprite.userData.walkT * 12) % 8 : 0;
-    const row = dirRow(u.facing || 0, sprite.userData.southFirst);
+    const row = dirRow(octantToFacing(u.facingOctant || 0), sprite.userData.southFirst);
     if (sprite.userData.col !== col || sprite.userData.row !== row) {
       sprite.userData.col = col;
       sprite.userData.row = row;
@@ -873,16 +877,16 @@ function makeVfx(scene, n = 80) {
         if (r.kind !== "crystal" && r.kind !== "void") continue;
         if (i >= n) break;
         const t = world.t;
-        pos[i * 3] = r.x + Math.sin(t * 2 + r.id) * 0.35;
-        pos[i * 3 + 1] = sampleH(r.x, r.z) + 1.2 + Math.abs(Math.sin(t * 3 + r.id));
-        pos[i * 3 + 2] = r.z + Math.cos(t * 2 + r.id) * 0.35;
+        pos[i * 3] = wx(r) + Math.sin(t * 2 + r.id) * 0.35;
+        pos[i * 3 + 1] = sampleH(wx(r), wz(r)) + 1.2 + Math.abs(Math.sin(t * 3 + r.id));
+        pos[i * 3 + 2] = wz(r) + Math.cos(t * 2 + r.id) * 0.35;
         i++;
       }
       for (const p of world.projectiles) {
         if (i >= n) break;
-        pos[i * 3] = p.x;
-        pos[i * 3 + 1] = sampleH(p.x, p.z) + 1.2;
-        pos[i * 3 + 2] = p.z;
+        pos[i * 3] = wx(p);
+        pos[i * 3 + 1] = sampleH(wx(p), wz(p)) + 1.2;
+        pos[i * 3 + 2] = wz(p);
         i++;
       }
       geo.setDrawRange(0, i);

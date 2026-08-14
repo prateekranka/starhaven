@@ -6,7 +6,10 @@ import {
   issueGather,
   issueAttackMove,
   issueBuild,
+  q10FromWorld,
+  worldFromQ10,
 } from "./engine.js";
+import { distanceSquaredQ10 } from "./fixed.js";
 
 const DIFF = {
   settler: { villagers: 8, wave: 140, extra: 0 },
@@ -65,12 +68,14 @@ export function runAI(world, dt) {
   if (ptc && army.length >= (world.difficulty === "settler" ? 10 : 6) && world.t > d.wave) {
     if (world.t > p.attackWaveAt) {
       p.attackWaveAt = world.t + 55;
-      for (const u of army) issueAttackMove(world, u, ptc.x, ptc.z);
+      for (const u of army) issueAttackMove(world, u, ptc.xQ10, ptc.zQ10);
     }
   }
 
   const scout = world.units.find((u) => u.owner === "enemy" && u.type === "scout" && u.state === "idle");
-  if (scout) issueAttackMove(world, scout, 24 + Math.sin(world.t / 20) * 16, 24 + Math.cos(world.t / 18) * 16);
+  if (scout) {
+    issueAttackMove(world, scout, q10FromWorld(24 + Math.sin(world.t / 20) * 16), q10FromWorld(24 + Math.cos(world.t / 18) * 16));
+  }
 }
 
 function placeIfMissing(world, type, tc, radius) {
@@ -81,9 +86,9 @@ function placeIfMissing(world, type, tc, radius) {
   const p = world.players.enemy;
   if (p.age < spec.age) return;
   const ang = world.prng.ai.nextFloat() * Math.PI * 2;
-  const x = tc.x + Math.cos(ang) * radius;
-  const z = tc.z + Math.sin(ang) * radius;
-  tryPlace(world, "enemy", type, x, z);
+  const xQ10 = q10FromWorld(Math.cos(ang) * radius) + tc.xQ10;
+  const zQ10 = q10FromWorld(Math.sin(ang) * radius) + tc.zQ10;
+  tryPlace(world, "enemy", type, worldFromQ10(xQ10), worldFromQ10(zQ10));
 }
 
 function balanceGather(world, villagers) {
@@ -112,10 +117,10 @@ function needKind(p) {
 
 function nearestRes(world, u, kind) {
   let best = null;
-  let bd = 1e9;
+  let bd = 0x7fffffff;
   for (const r of world.resources) {
     if (r.kind !== kind || r.amount <= 0) continue;
-    const d = Math.hypot(r.x - u.x, r.z - u.z);
+    const d = distanceSquaredQ10(u, r);
     if (d < bd) {
       bd = d;
       best = r;

@@ -1,7 +1,24 @@
-/** Grid A* for the mesa. Buildings block; units do not. */
+/** Grid A* for the mesa. Buildings block; units do not. Integer costs. */
+
+const STRAIGHT = 1_000;
+const DIAG = 1_414;
 
 export function idx(x, z, n) {
   return z * n + x;
+}
+
+function heuristic(x, z, gx, gz) {
+  const dx = abs(x - gx);
+  const dz = abs(z - gz);
+  return STRAIGHT * (dx + dz) + (DIAG - 2 * STRAIGHT) * min(dx, dz);
+}
+
+function abs(v) {
+  return v < 0 ? -v : v;
+}
+
+function min(a, b) {
+  return a < b ? a : b;
 }
 
 export function astar(walk, n, sx, sz, gx, gz) {
@@ -23,17 +40,17 @@ export function astar(walk, n, sx, sz, gx, gz) {
   }
   const open = [[sx, sz]];
   const came = new Int32Array(n * n).fill(-1);
-  const gScore = new Float32Array(n * n).fill(1e9);
+  const gScore = new Int32Array(n * n).fill(0x7fffffff);
   const start = idx(sx, sz, n);
   gScore[start] = 0;
   const closed = new Uint8Array(n * n);
   let guard = 0;
   while (open.length && guard++ < 8000) {
     let bi = 0;
-    let best = 1e12;
+    let best = 0x7fffffff;
     for (let i = 0; i < open.length; i++) {
       const [x, z] = open[i];
-      const f = gScore[idx(x, z, n)] + Math.hypot(gx - x, gz - z);
+      const f = gScore[idx(x, z, n)] + heuristic(x, z, gx, gz);
       if (f < best) {
         best = f;
         bi = i;
@@ -53,7 +70,7 @@ export function astar(walk, n, sx, sz, gx, gz) {
         if (!walk[idx(nx, nz, n)]) continue;
         if (dx && dz && (!walk[idx(x + dx, z, n)] || !walk[idx(x, z + dz, n)])) continue;
         const ni = idx(nx, nz, n);
-        const step = dx && dz ? 1.414 : 1;
+        const step = dx && dz ? DIAG : STRAIGHT;
         const ng = gScore[ci] + step;
         if (ng < gScore[ni]) {
           gScore[ni] = ng;

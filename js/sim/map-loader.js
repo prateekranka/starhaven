@@ -1,4 +1,5 @@
 import { parseTerrainLayer, parseWalkLayer, BIOME } from "../data/map-biomes.js";
+import { q10FromWorld, worldOfCellQ10 } from "./fixed.js";
 
 const DEFAULT_START_NODES = [
   ["food", 5, 1],
@@ -17,17 +18,13 @@ function clampCell(v, n) {
   return Math.max(1, Math.min(n - 2, v));
 }
 
-function worldOf(cx, cz, cell) {
-  return [(cx + 0.5) * cell, (cz + 0.5) * cell];
-}
-
 function addResource(world, kind, cx, cz, amount, idFn) {
   const n = world.N;
   const cell = world.CELL;
   if (cx < 0 || cz < 0 || cx >= n || cz >= n) return;
   if (!world.walk[cz * n + cx]) return;
-  const [x, z] = worldOf(cx, cz, cell);
-  world.resources.push({ id: idFn(), kind, x, z, amount, cx, cz });
+  const [xQ10, zQ10] = worldOfCellQ10(cx, cz, cell);
+  world.resources.push({ id: idFn(), kind, xQ10, zQ10, amount, cx, cz });
 }
 
 export function normalizeMap(raw) {
@@ -78,12 +75,12 @@ export function applyMapLayout(world, mapDef, helpers) {
     const cz = prop.cz | 0;
     if (cx < 0 || cz < 0 || cx >= map.size || cz >= map.size) continue;
     world.walk[cz * map.size + cx] = 0;
-    const [x, z] = worldOf(cx, cz, map.cell);
+    const [xQ10, zQ10] = worldOfCellQ10(cx, cz, map.cell);
     world.resources.push({
       id: id(),
       kind: prop.kind === "rock" ? "rockblock" : prop.kind,
-      x,
-      z,
+      xQ10,
+      zQ10,
       amount: 0,
       cx,
       cz,
@@ -108,19 +105,19 @@ export function applyMapLayout(world, mapDef, helpers) {
   }
 
   if (map.relic) {
-    const [x, z] = worldOf(map.relic.cx | 0, map.relic.cz | 0, map.cell);
-    world.relics.push({ id: id(), x, z, hp: 80, awake: false });
+    const [xQ10, zQ10] = worldOfCellQ10(map.relic.cx | 0, map.relic.cz | 0, map.cell);
+    world.relics.push({ id: id(), xQ10, zQ10, hp: 80, awake: false });
   }
 }
 
 function placeStart(world, owner, cx, cz, map, helpers) {
   const { spawnBuilding, spawnUnit, id } = helpers;
   spawnBuilding(world, owner, "towncenter", cx, cz, true);
-  const [x, z] = worldOf(cx + 2, cz + 4, map.cell);
+  const [xQ10, zQ10] = worldOfCellQ10(cx + 2, cz + 4, map.cell);
   for (let i = 0; i < 5; i += 1) {
-    spawnUnit(world, owner, "villager", x + i * 2.15 - 4.2, z + 2);
+    spawnUnit(world, owner, "villager", xQ10 + q10FromWorld(i * 2.15 - 4.2), zQ10 + q10FromWorld(2));
   }
-  spawnUnit(world, owner, "scout", x, z + 4);
+  spawnUnit(world, owner, "scout", xQ10, zQ10 + q10FromWorld(4));
   for (const [kind, dx, dz] of map.startNodes) {
     const gx = clampCell(cx + dx, map.size);
     const gz = clampCell(cz + dz, map.size);
@@ -131,9 +128,12 @@ function placeStart(world, owner, cx, cz, map, helpers) {
 
 export function nearMapStart(map, cx, cz, radius = 5) {
   if (!map?.starts) return false;
+  const rSq = radius * radius;
   for (const start of Object.values(map.starts)) {
     if (!start) continue;
-    if (Math.hypot(cx - start.cx, cz - start.cz) < radius) return true;
+    const dx = cx - start.cx;
+    const dz = cz - start.cz;
+    if (dx * dx + dz * dz < rSq) return true;
   }
   return false;
 }

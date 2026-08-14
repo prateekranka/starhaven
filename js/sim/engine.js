@@ -4,10 +4,36 @@ import { runAI } from "./ai.js";
 import { MatchPrng } from "./prng.js";
 import { resolveSeed } from "./seed.js";
 import { applyMapLayout } from "./map-loader.js";
+import { computeFormationSlots } from "./formation.js";
+import {
+  Q10,
+  q10FromWorld,
+  worldFromQ10,
+  distanceSquaredQ10,
+  cellOfQ10,
+  worldOfCellQ10,
+  octantFor,
+  fixedMovementStep,
+  clampToTarget,
+  accumulateMoveBudget,
+  q10RangeSq,
+  assertSimPositionsInteger,
+} from "./fixed.js";
 
 export const N = 48;
 export const CELL = 2;
 const MAP = N * CELL;
+
+const ARRIVE_SLACK_Q10 = q10FromWorld(0.12);
+const GATHER_ARRIVE_SQ = q10RangeSq(1.65);
+const GATHER_RANGE_SQ = q10RangeSq(1.7);
+const SEPARATE_MIN_SQ = q10RangeSq(0.72);
+const SEPARATE_EPS_SQ = q10RangeSq(0.01);
+const UNIT_EDGE_Q10 = q10FromWorld(0.35);
+const COMMAND_RES_SQ = q10RangeSq(2.2);
+const COMMAND_FOE_SQ = q10RangeSq(2.4);
+const TITAN_WAKE_SQ = q10RangeSq(5);
+const PROJECTILE_SPEED_Q10 = q10FromWorld(14);
 
 let nextId = 1;
 const id = () => nextId++;
@@ -16,17 +42,8 @@ function clamp(v, a, b) {
   return Math.max(a, Math.min(b, v));
 }
 
-function dist(a, b) {
-  return Math.hypot(a.x - b.x, a.z - b.z);
-}
 
-function cellOf(x, z) {
-  return [clamp((x / CELL) | 0, 0, N - 1), clamp((z / CELL) | 0, 0, N - 1)];
-}
 
-function worldOf(cx, cz) {
-  return [(cx + 0.5) * CELL, (cz + 0.5) * CELL];
-}
 
 function canPay(stock, cost) {
   return Object.entries(cost || {}).every(([k, v]) => (stock[k] || 0) >= v);
@@ -164,8 +181,8 @@ function seedTerrain(world) {
         world.resources.push({
           id: id(),
           kind: "rockblock",
-          x: (x + 0.5) * CELL,
-          z: (z + 0.5) * CELL,
+          xQ10: (x + 0.5) * CELL,
+          zQ10: q10FromWorld((z + 0.5) * CELL),
           amount: 0,
         });
       }
@@ -186,8 +203,8 @@ function scatter(world, kind, count, amount) {
     const cz = rng.nextInt(2, N - 3);
     if (!world.walk[cz * N + cx]) continue;
     if (nearStart(cx, cz)) continue;
-    const [x, z] = worldOf(cx, cz);
-    world.resources.push({ id: id(), kind, x, z, amount: amount + rng.nextInt(0, 39), cx, cz });
+    const [xQ10, zQ10] = worldOfCellQ10(cx, cz, CELL);
+    world.resources.push({ id: id(), kind, xQ10, zQ10, amount: amount + rng.nextInt(0, 39), cx, cz });
     n++;
   }
 }
@@ -198,11 +215,11 @@ function nearStart(cx, cz) {
 
 function placeStart(world, owner, cx, cz) {
   spawnBuilding(world, owner, "towncenter", cx, cz, true);
-  const [x, z] = worldOf(cx + 2, cz + 4);
+  const [xQ10, zQ10] = worldOfCellQ10(cx + 2, cz + 4, CELL);
   for (let i = 0; i < 5; i++) {
-  spawnUnit(world, owner, "villager", x + i * 2.15 - 4.2, z + 2);
+  spawnUnit(world, owner, "villager", xQ10 + q10FromWorld(i * 2.15 - 4.2), zQ10 + q10FromWorld(2));
   }
-  spawnUnit(world, owner, "scout", x, z + 4);
+  spawnUnit(world, owner, "scout", xQ10, zQ10 + q10FromWorld(4));
   seedStartNodes(world, cx, cz);
 }
 
@@ -223,12 +240,12 @@ function seedStartNodes(world, cx, cz) {
     const gx = clampCell(cx + dx);
     const gz = clampCell(cz + dz);
     if (!world.walk[gz * N + gx]) continue;
-    const [x, z] = worldOf(gx, gz);
+    const [xQ10, zQ10] = worldOfCellQ10(gx, gz, CELL);
     world.resources.push({
       id: id(),
       kind,
-      x,
-      z,
+      xQ10,
+      zQ10,
       amount: kind === "food" ? 140 : kind === "wood" ? 160 : 90,
       cx: gx,
       cz: gz,
@@ -241,13 +258,13 @@ function clampCell(v) {
 }
 
 function placeRelic(world) {
-  const [x, z] = worldOf(23, 23);
-  world.relics.push({ id: id(), x, z, hp: 80, awake: false });
+  const [xQ10, zQ10] = worldOfCellQ10(23, 23, CELL);
+  world.relics.push({ id: id(), xQ10, zQ10, hp: 80, awake: false });
 }
 
 function spawnBuilding(world, owner, type, cx, cz, instant) {
   const spec = BUILDINGS[type];
-  const [x, z] = worldOf(cx + spec.size / 2 - 0.5, cz + spec.size / 2 - 0.5);
+  const [xQ10, zQ10] = worldOfCellQ10(cx + spec.size / 2 - 0.5, cz + spec.size / 2 - 0.5, CELL);
   const b = {
     id: id(),
     kind: "building",
@@ -257,13 +274,13 @@ function spawnBuilding(world, owner, type, cx, cz, instant) {
     cx,
     cz,
     size: spec.size,
-    x,
-    z,
+    xQ10,
+    zQ10,
     hp: instant ? spec.hp : 30,
     maxHp: spec.hp,
     built: instant ? 1 : 0.05,
     queue: [],
-    rally: { x: x + spec.size, z: z + spec.size },
+    rally: { xQ10: xQ10 + q10FromWorld(spec.size), zQ10: zQ10 + q10FromWorld(spec.size) },
     attackCd: 0,
     wonderT: 0,
   };
@@ -272,7 +289,7 @@ function spawnBuilding(world, owner, type, cx, cz, instant) {
   return b;
 }
 
-function spawnUnit(world, owner, type, x, z) {
+function spawnUnit(world, owner, type, xQ10, zQ10) {
   const spec = UNITS[type];
   const u = {
     id: id(),
@@ -280,8 +297,8 @@ function spawnUnit(world, owner, type, x, z) {
     type,
     owner,
     faction: world.players[owner]?.faction || "gaia",
-    x,
-    z,
+    xQ10,
+    zQ10,
     hp: spec.hp,
     maxHp: spec.hp,
     state: "idle",
@@ -292,7 +309,10 @@ function spawnUnit(world, owner, type, x, z) {
     carryKind: null,
     build: null,
     attackCd: 0,
-    facing: 0,
+    facingOctant: 0,
+    remainderX: 0,
+    remainderZ: 0,
+    _moveBudget: 0,
   };
   world.units.push(u);
   return u;
@@ -309,13 +329,15 @@ function revealAround(world, owner, cx, cz, r) {
 }
 
 function recomputeVision(world) {
+  const cell = world.CELL;
+  const gridN = world.N;
   for (const owner of ["player", "enemy"]) {
     world.visible[owner].fill(0);
     const losEntities = [...world.units.filter((u) => u.owner === owner), ...world.buildings.filter((b) => b.owner === owner && b.built >= 1)];
     for (const e of losEntities) {
       const spec = e.kind === "unit" ? UNITS[e.type] : BUILDINGS[e.type];
       const r = spec.los || 5;
-      const [cx, cz] = cellOf(e.x, e.z);
+      const [cx, cz] = cellOfQ10(e.xQ10, e.zQ10, cell);
       revealAround(world, owner, cx, cz, r);
       const vis = world.visible[owner];
       for (let z = cz - r; z <= cz + r; z++) {
@@ -372,18 +394,21 @@ export function updateWorld(world, dt) {
   world.players.enemy.popCap = ep.cap;
   if (!world.tutorial) runAI(world, step);
   checkVictory(world);
+  if (typeof process !== "undefined" && process.env?.SIM_ASSERT_Q10 !== "0") {
+    assertSimPositionsInteger(world);
+  }
 }
 
 function lineX(world) {
   return 4 + world.bright * (MAP - 8);
 }
 
-export function inLight(world, x) {
-  return x < lineX(world);
+export function inLight(world, xQ10) {
+  return worldFromQ10(xQ10) < lineX(world);
 }
 
 function factionBuff(world, u) {
-  const light = inLight(world, u.x);
+  const light = inLight(world, u.xQ10);
   if (u.faction === "sunwoven") return light ? { speed: 1.14, dmg: 1.1, armor: 1 } : { speed: 1, dmg: 1, armor: 1 };
   if (u.faction === "gravemark") return light ? { speed: 1, dmg: 1, armor: 1 } : { speed: 1.06, dmg: 1.08, armor: 0.82 };
   return { speed: 1, dmg: 1, armor: 1 };
@@ -421,9 +446,9 @@ function tickBuildings(world, dt) {
     job.left -= dt;
     if (job.left <= 0) {
       b.queue.shift();
-      const [rx, rz] = [b.rally.x, b.rally.z];
-      const u = spawnUnit(world, b.owner, job.type, b.x + 1.2, b.z + spec.size);
-      issueMove(world, u, rx, rz);
+      const rxQ10 = b.rally.xQ10; const rzQ10 = b.rally.zQ10;
+      const u = spawnUnit(world, b.owner, job.type, b.xQ10 + q10FromWorld(1.2), b.zQ10 + q10FromWorld(spec.size));
+      issueMove(world, u, rxQ10, rzQ10);
     }
   }
 }
@@ -455,7 +480,8 @@ function tickUnits(world, dt) {
 function followPath(world, u, speed, dt) {
   if (u.state === "return") {
     const drop = nearestDrop(world, u, u.carryKind);
-    if (drop && dist(u, drop) < (drop.size || 2) * CELL * 0.45 + 1.35) {
+    const dropR = drop ? q10FromWorld((drop.size || 2) * world.CELL * 0.45 + 1.35) : 0;
+    if (drop && distanceSquaredQ10(u, drop) < dropR * dropR) {
       u.path = [];
       arriveDrop(world, u);
       return;
@@ -463,7 +489,7 @@ function followPath(world, u, speed, dt) {
   }
   if (u.state === "gatherwalk") {
     const res = world.resources.find((r) => r.id === u.resource);
-    if (res && dist(u, res) < 1.65) {
+    if (res && distanceSquaredQ10(u, res) < GATHER_ARRIVE_SQ) {
       u.path = [];
       u.state = "gather";
       return;
@@ -471,7 +497,8 @@ function followPath(world, u, speed, dt) {
   }
   if (u.state === "buildwalk") {
     const b = world.buildings.find((x) => x.id === u.build);
-    if (b && dist(u, b) < (b.size || 2) * 0.7 + 1.1) {
+    const buildR = b ? q10FromWorld((b.size || 2) * 0.7 + 1.1) : 0;
+    if (b && distanceSquaredQ10(u, b) < buildR * buildR) {
       u.path = [];
       u.state = "build";
       return;
@@ -486,18 +513,37 @@ function followPath(world, u, speed, dt) {
     return;
   }
   const [cx, cz] = u.path[0];
-  const [tx, tz] = worldOf(cx, cz);
-  const d = Math.hypot(tx - u.x, tz - u.z);
-  const step = speed * dt;
-  if (d > 1e-4) u.facing = Math.atan2(tx - u.x, tz - u.z);
-  if (d <= step + 0.12) {
-    u.x = tx;
-    u.z = tz;
-    u.path.shift();
-  } else {
-    u.x += ((tx - u.x) / d) * step;
-    u.z += ((tz - u.z) / d) * step;
+  const [txQ10, tzQ10] = worldOfCellQ10(cx, cz, world.CELL);
+  const budget = accumulateMoveBudget(u, speed, 1, dt);
+  const deltaX = txQ10 - u.xQ10;
+  const deltaZ = tzQ10 - u.zQ10;
+  const distSq = deltaX * deltaX + deltaZ * deltaZ;
+  if (distSq > 0) {
+    if (u.formationFacingOctant != null) {
+      u.facingOctant = u.formationFacingOctant;
+      u.formationFacingOctant = null;
+    } else {
+      u.facingOctant = octantFor(deltaX, deltaZ);
+    }
   }
+  const arriveSq = (budget + ARRIVE_SLACK_Q10) * (budget + ARRIVE_SLACK_Q10);
+  if (distSq <= arriveSq || budget <= 0) {
+    if (distSq <= arriveSq) {
+      u.xQ10 = txQ10;
+      u.zQ10 = tzQ10;
+      u.remainderX = 0;
+      u.remainderZ = 0;
+      u.path.shift();
+    }
+    return;
+  }
+  const remainder = { x: u.remainderX, y: u.remainderZ };
+  const step = fixedMovementStep(deltaX, deltaZ, budget, remainder);
+  u.remainderX = remainder.x;
+  u.remainderZ = remainder.y;
+  const next = clampToTarget({ x: u.xQ10, y: u.zQ10 }, { x: txQ10, y: tzQ10 }, step);
+  u.xQ10 = next.x;
+  u.zQ10 = next.y;
 }
 
 function gatherTick(world, u, spec, dt) {
@@ -507,7 +553,7 @@ function gatherTick(world, u, spec, dt) {
     u.resource = null;
     return;
   }
-  if (dist(u, res) > 1.7) {
+  if (distanceSquaredQ10(u, res) > GATHER_RANGE_SQ) {
     u.repathIn = (u.repathIn || 0) - dt;
     if (u.repathIn <= 0) {
       issueGather(world, u, res);
@@ -531,7 +577,7 @@ function startReturn(world, u) {
     return;
   }
   u.state = "return";
-  setPath(world, u, drop.x, drop.z);
+  setPath(world, u, drop.xQ10, drop.zQ10);
 }
 
 function arriveDrop(world, u) {
@@ -547,13 +593,13 @@ function arriveDrop(world, u) {
 
 function nearestDrop(world, u, kind) {
   let best = null;
-  let bd = 1e9;
+  let bd = 0x7fffffff;
   for (const b of world.buildings) {
     if (b.owner !== u.owner || b.built < 1) continue;
     const spec = BUILDINGS[b.type];
     if (!spec.drop) continue;
     if (spec.drop !== true && spec.drop !== kind) continue;
-    const d = dist(u, b);
+    const d = distanceSquaredQ10(u, b);
     if (d < bd) {
       bd = d;
       best = b;
@@ -568,10 +614,10 @@ function buildTick(world, u, dt) {
     u.state = "idle";
     return;
   }
-  if (dist(u, b) > b.size + 1.2) {
+  if (distanceSquaredQ10(u, b) > q10RangeSq(b.size + 1.2)) {
     u.repathIn = (u.repathIn || 0) - dt;
     if (u.repathIn <= 0) {
-      setPath(world, u, b.x, b.z);
+      setPath(world, u, b.xQ10, b.zQ10);
       u.repathIn = 0.5;
     }
     u.state = "buildwalk";
@@ -595,11 +641,11 @@ function attackTick(world, u, spec, buff, dt) {
     return;
   }
   u.target = foe.id;
-  const gap = edgeDist(u, foe);
-  if (gap > spec.range) {
+  const gapSq = edgeDistSq(u, foe);
+  if (gapSq > q10RangeSq(spec.range)) {
     u.repathIn = (u.repathIn || 0) - dt;
     if (u.repathIn <= 0) {
-      setPath(world, u, foe.x, foe.z);
+      setPath(world, u, foe.xQ10, foe.zQ10);
       u.repathIn = 0.4;
     }
     u.state = "attackmove";
@@ -616,21 +662,25 @@ function attackTick(world, u, spec, buff, dt) {
   }
 }
 
-function edgeDist(a, b) {
-  const extra = b.kind === "building" ? ((b.size || 2) * CELL) / 2 : 0.35;
-  return Math.max(0, dist(a, b) - extra);
+function edgeDistSq(a, b) {
+  const extra = b.kind === "building" ? q10FromWorld(((b.size || 2) * CELL) / 2) : UNIT_EDGE_Q10;
+  const d = distanceSquaredQ10(a, b);
+  const max = Math.max(0, Math.round(Math.sqrt(d)) - extra);
+  return max * max;
 }
 
 function fire(world, from, to, dmg) {
   world.projectiles.push({
     id: id(),
-    x: from.x,
-    z: from.z,
-    tx: to.x,
-    tz: to.z,
+    xQ10: from.xQ10,
+    zQ10: from.zQ10,
+    txQ10: to.xQ10,
+    tzQ10: to.zQ10,
     target: to.id,
     dmg,
-    speed: 14,
+    speedQ10PerSec: PROJECTILE_SPEED_Q10,
+    remainderX: 0,
+    remainderZ: 0,
     owner: from.owner,
   });
 }
@@ -638,16 +688,22 @@ function fire(world, from, to, dmg) {
 function tickProjectiles(world, dt) {
   const keep = [];
   for (const p of world.projectiles) {
-    const d = Math.hypot(p.tx - p.x, p.tz - p.z);
-    const step = p.speed * dt;
-    if (d <= step) {
+    const dx = p.txQ10 - p.xQ10;
+    const dz = p.tzQ10 - p.zQ10;
+    const distSq = dx * dx + dz * dz;
+    const budget = Math.trunc(p.speedQ10PerSec * dt);
+    if (distSq <= budget * budget) {
       const t = findById(world, p.target);
       if (t) hit(world, t, p.dmg, p);
-    } else {
-      p.x += ((p.tx - p.x) / d) * step;
-      p.z += ((p.tz - p.z) / d) * step;
+    } else if (budget > 0) {
+      const remainder = { x: p.remainderX, y: p.remainderZ };
+      const step = fixedMovementStep(dx, dz, budget, remainder);
+      p.remainderX = remainder.x;
+      p.remainderZ = remainder.y;
+      p.xQ10 += step.x;
+      p.zQ10 += step.y;
       keep.push(p);
-    }
+    } else keep.push(p);
   }
   world.projectiles = keep;
 }
@@ -669,7 +725,7 @@ function hit(world, t, dmg, src) {
 
 function closestFoe(world, e, range) {
   let best = null;
-  let bd = range;
+  let bdSq = q10RangeSq(range);
   const foes = [...world.units, ...world.buildings].filter((o) => o.owner !== e.owner && o.hp > 0 && o.owner !== "gaia");
   if (e.owner === "gaia") {
     /* titan */
@@ -680,9 +736,9 @@ function closestFoe(world, e, range) {
       if (f.owner === "gaia") continue;
     } else if (f.owner === e.owner || f.owner === "gaia") continue;
     if (f.kind === "building" && f.built < 0.4) continue;
-    const d = edgeDist(e, f);
-    if (d < bd) {
-      bd = d;
+    const dSq = edgeDistSq(e, f);
+    if (dSq < bdSq) {
+      bdSq = dSq;
       best = f;
     }
   }
@@ -694,24 +750,35 @@ function findById(world, fid) {
   return world.units.find((u) => u.id === fid) || world.buildings.find((b) => b.id === fid);
 }
 
-function setPath(world, u, x, z) {
-  const [sx, sz] = cellOf(u.x, u.z);
-  const [gx, gz] = cellOf(x, z);
+function setPath(world, u, xQ10, zQ10) {
+  const [sx, sz] = cellOfQ10(u.xQ10, u.zQ10, world.CELL);
+  const [gx, gz] = cellOfQ10(xQ10, zQ10, world.CELL);
   u.path = astar(world.walk, N, sx, sz, gx, gz);
 }
 
-export function issueMove(world, u, x, z) {
+export function issueMove(world, u, xQ10, zQ10, facingOctant = null) {
   u.state = "walk";
   u.target = null;
   u.resource = null;
   u.build = null;
-  setPath(world, u, x, z);
+  u.formationFacingOctant = facingOctant;
+  setPath(world, u, xQ10, zQ10);
 }
 
-export function issueAttackMove(world, u, x, z) {
+export function issueAttackMove(world, u, xQ10, zQ10, facingOctant = null) {
   u.state = "attackmove";
   u.target = null;
-  setPath(world, u, x, z);
+  u.formationFacingOctant = facingOctant;
+  setPath(world, u, xQ10, zQ10);
+}
+
+function issueFormationMove(world, units, xQ10, zQ10, attackMove = false) {
+  const mapWorld = world.N * world.CELL;
+  const slots = computeFormationSlots(units, xQ10, zQ10, mapWorld);
+  for (const slot of slots) {
+    if (attackMove) issueAttackMove(world, slot.unit, slot.xQ10, slot.zQ10, slot.facingOctant);
+    else issueMove(world, slot.unit, slot.xQ10, slot.zQ10, slot.facingOctant);
+  }
 }
 
 export function issueGather(world, u, res) {
@@ -719,7 +786,7 @@ export function issueGather(world, u, res) {
   u.resource = res.id;
   u.build = null;
   u.state = "gatherwalk";
-  setPath(world, u, res.x, res.z);
+  setPath(world, u, res.xQ10, res.zQ10);
 }
 
 export function issueAttack(world, u, target) {
@@ -733,7 +800,7 @@ export function issueBuild(world, u, building) {
   u.build = building.id;
   u.resource = null;
   u.state = "buildwalk";
-  setPath(world, u, building.x, building.z);
+  setPath(world, u, building.xQ10, building.zQ10);
 }
 
 export function tryPlace(world, owner, type, wx, wz) {
@@ -741,7 +808,8 @@ export function tryPlace(world, owner, type, wx, wz) {
   const p = world.players[owner];
   if (p.age < spec.age) return { ok: false, why: "Advance in age first." };
   if (!canPay(p.stock, spec.cost)) return { ok: false, why: "Not enough resources." };
-  const [cx, cz] = cellOf(wx - (spec.size * CELL) / 2, wz - (spec.size * CELL) / 2);
+  const wxQ10 = q10FromWorld(wx); const wzQ10 = q10FromWorld(wz);
+  const [cx, cz] = cellOfQ10(wxQ10 - q10FromWorld((spec.size * CELL) / 2), wzQ10 - q10FromWorld((spec.size * CELL) / 2), world.CELL);
   if (!canPlace(world, cx, cz, spec.size, owner)) return { ok: false, why: "Cannot place there." };
   pay(p.stock, spec.cost);
   const b = spawnBuilding(world, owner, type, cx, cz, false);
@@ -799,17 +867,17 @@ function separate(world) {
       const a = us[i];
       const b = us[j];
       if (a.state === "gather" || b.state === "gather") continue;
-      const d = dist(a, b);
-      const min = 0.72;
-      if (d < min && d > 0.01) {
-        let mag = ((min - d) * 0.28) / d;
-        if (a.state === "return" || b.state === "return" || a.state === "build" || b.state === "build") mag *= 0.15;
-        const px = (a.x - b.x) * mag;
-        const pz = (a.z - b.z) * mag;
-        a.x += px;
-        a.z += pz;
-        b.x -= px;
-        b.z -= pz;
+      const distSq = distanceSquaredQ10(a, b);
+      if (distSq < SEPARATE_MIN_SQ && distSq > SEPARATE_EPS_SQ) {
+        const d = Math.round(Math.sqrt(distSq));
+        let mag = Math.trunc(((q10FromWorld(0.72) - d) * q10FromWorld(0.28)) / Math.max(1, d));
+        if (a.state === "return" || b.state === "return" || a.state === "build" || b.state === "build") mag = Math.trunc(mag * 0.15);
+        const px = Math.trunc(((a.xQ10 - b.xQ10) * mag) / Q10);
+        const pz = Math.trunc(((a.zQ10 - b.zQ10) * mag) / Q10);
+        a.xQ10 += px;
+        a.zQ10 += pz;
+        b.xQ10 -= px;
+        b.zQ10 -= pz;
       }
     }
   }
@@ -818,10 +886,10 @@ function separate(world) {
 function tickTitan(world) {
   const relic = world.relics[0];
   if (!relic || world.titanAwake) return;
-  const near = world.units.some((u) => u.type !== "villager" && u.type !== "scout" && dist(u, relic) < 5);
+  const near = world.units.some((u) => u.type !== "villager" && u.type !== "scout" && distanceSquaredQ10(u, relic) < TITAN_WAKE_SQ);
   if (near) {
     world.titanAwake = true;
-    const t = spawnUnit(world, "gaia", "titan", relic.x, relic.z);
+    const t = spawnUnit(world, "gaia", "titan", relic.xQ10, relic.zQ10);
     t.owner = "gaia";
     t.faction = "gaia";
     t.state = "attack";
@@ -864,20 +932,27 @@ function checkVictory(world) {
 }
 
 export function commandGround(world, x, z, attackMove = false) {
+  const xQ10 = q10FromWorld(x);
+  const zQ10 = q10FromWorld(z);
   const sel = selectedEntities(world);
-  const res = world.resources.find((r) => r.kind !== "rockblock" && r.amount > 0 && Math.hypot(r.x - x, r.z - z) < 2.2);
+  const res = world.resources.find((r) => r.kind !== "rockblock" && r.amount > 0 && distanceSquaredQ10({ xQ10, zQ10 }, r) < COMMAND_RES_SQ);
   const foe = [...world.units, ...world.buildings].find(
-    (e) => e.owner !== "player" && e.hp > 0 && Math.hypot(e.x - x, e.z - z) < 2.4
+    (e) => e.owner !== "player" && e.hp > 0 && distanceSquaredQ10({ xQ10, zQ10 }, e) < COMMAND_FOE_SQ
   );
-  for (const e of sel) {
-    if (e.kind !== "unit") continue;
+  const movers = sel.filter((e) => e.kind === "unit");
+  for (const e of movers) {
     if (foe) issueAttack(world, e, foe);
     else if (res && e.type === "villager") issueGather(world, e, res);
-    else if (attackMove) issueAttackMove(world, e, x, z);
-    else issueMove(world, e, x, z);
+  }
+  if (!foe && !(res && movers.some((e) => e.type === "villager"))) {
+    if (movers.length > 1) issueFormationMove(world, movers, xQ10, zQ10, attackMove);
+    else if (movers.length === 1) {
+      if (attackMove) issueAttackMove(world, movers[0], xQ10, zQ10);
+      else issueMove(world, movers[0], xQ10, zQ10);
+    }
   }
   const bsel = sel.find((e) => e.kind === "building");
-  if (bsel && !sel.some((e) => e.kind === "unit")) bsel.rally = { x, z };
+  if (bsel && !movers.length) bsel.rally = { xQ10, zQ10 };
 }
 
 export function selectedEntities(world) {
@@ -900,4 +975,4 @@ export function villagerBuildOptions(world) {
   return VILLAGER_BUILD_LIST.filter((t) => BUILDINGS[t].age <= age);
 }
 
-export { lineX, canPay, BUILDINGS, UNITS };
+export { lineX, canPay, BUILDINGS, UNITS, q10FromWorld, worldFromQ10 };
