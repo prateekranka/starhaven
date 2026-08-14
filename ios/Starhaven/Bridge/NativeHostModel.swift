@@ -44,7 +44,6 @@ final class NativeHostModel: NSObject, ObservableObject {
     @Published private(set) var isRestoring = false
     @Published private(set) var eventLog: [String] = []
     @Published private(set) var safeArea = StarhavenSafeArea()
-    @Published private(set) var webViewIdentity: ObjectIdentifier?
     @Published var settings = StarhavenNativeSettings()
 
     @Published private(set) var packChannel = StarhavenPackChannel.defaultChannel
@@ -61,10 +60,25 @@ final class NativeHostModel: NSObject, ObservableObject {
     private var sequence = 0
     private var waitingForFinalSnapshot = false
     private var backgrounded = false
-    private var restoreAfterTermination = false
+    private var restorePhase = RestorePhase.none
     private var pendingMessages: [(type: String, payload: StarhavenJSONValue)] = []
     private var snapshotTask: Task<Void, Never>?
     private var currentSeed: UInt32 = 0x4d455249
+
+    /// One lifecycle machine for web-content termination recovery: pending
+    /// (termination observed, act on next runtime.ready) → inFlight (match.restore
+    /// sent, awaiting restore.completed) → none. `isRestoring` stays published for
+    /// the controls view.
+    private enum RestorePhase: Equatable {
+        case none
+        case pending
+        case inFlight
+    }
+
+    private func setRestorePhase(_ phase: RestorePhase) {
+        restorePhase = phase
+        isRestoring = phase == .inFlight
+    }
 
     private static let packChannelKey = "starhaven.packChannel"
 
@@ -229,7 +243,7 @@ final class NativeHostModel: NSObject, ObservableObject {
 
     #if DEBUG
     func debugRestore() {
-        isRestoring = true
+        setRestorePhase(.pending)
         recoverAfterTermination()
     }
     #endif
@@ -242,7 +256,6 @@ final class NativeHostModel: NSObject, ObservableObject {
         webView?.uiDelegate = nil
         webView?.configuration.userContentController.removeScriptMessageHandler(forName: "starhaven")
         webView = nil
-        webViewIdentity = nil
         webReady = false
     }
 
@@ -271,8 +284,7 @@ final class NativeHostModel: NSObject, ObservableObject {
         view.isInspectable = true
         #endif
         webView = view
-        webViewIdentity = ObjectIdentifier(view)
-        record("webview.created id=\(String(describing: webViewIdentity))")
+        record("webview.created")
     }
 
     private func ensureWebView() {
@@ -288,13 +300,12 @@ final class NativeHostModel: NSObject, ObservableObject {
         webView?.uiDelegate = nil
         webView?.configuration.userContentController.removeScriptMessageHandler(forName: "starhaven")
         webView = nil
-        webViewIdentity = nil
         screen = .title
         record("snapshot acknowledged before webview deallocation")
     }
 
     private func recoverAfterTermination() {
-        restoreAfterTermination = screen == .match || screen == .pause || isRestoring
+        setRestorePhase(screen == .match || screen == .pause || restorePhase != .none ? .pending : .none)
         webView?.navigationDelegate = nil
         webView?.uiDelegate = nil
         webView = nil
@@ -365,9 +376,8 @@ final class NativeHostModel: NSObject, ObservableObject {
             case "runtime.ready":
                 webReady = true
                 flushPendingMessages()
-                if restoreAfterTermination, let snapshot = snapshotStore.load() {
-                    restoreAfterTermination = false
-                    isRestoring = true
+                if restorePhase == .pending, let snapshot = snapshotStore.load() {
+                    setRestorePhase(.inFlight)
                     screen = .match
                     send(type: "match.restore", payload: .object([
                         "tick": .number(Double(snapshot.tick)),
@@ -376,8 +386,7 @@ final class NativeHostModel: NSObject, ObservableObject {
                         "paused": .boolean(snapshot.paused),
                     ]))
                 } else {
-                    restoreAfterTermination = false
-                    isRestoring = false
+                    if restorePhase == .pending { setRestorePhase(.none); screen = .title }
                     if !backgrounded {
                         send(type: "lifecycle.foreground", payload: .object([:]))
                         if screen == .match { send(type: "match.resume", payload: .object([:])) }
@@ -398,7 +407,7 @@ final class NativeHostModel: NSObject, ObservableObject {
                 if settings.hapticsEnabled { UIImpactFeedbackGenerator(style: .light).impactOccurred() }
                 send(type: "snapshot.ack", payload: .object(["acknowledged": .boolean(true)]))
             case "restore.completed":
-                isRestoring = false
+                setRestorePhase(.none)
                 if backgrounded {
                     send(type: "lifecycle.background", payload: .object([:]))
                 } else {

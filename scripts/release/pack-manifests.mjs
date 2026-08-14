@@ -19,6 +19,11 @@ const git = (args) => execFileSync("git", args, { cwd: repoRoot, encoding: "utf8
 
 const paths = listPackFiles(repoRoot);
 
+const SW_IMPORTS = ["js/cache/offline-shared.js"];
+for (const required of SW_IMPORTS) {
+  if (!paths.includes(required)) throw new Error(`pack is missing a service-worker import: ${required}`);
+}
+
 const files = paths.map((path) => {
   const bytes = readFileSync(join(repoRoot, path));
   return { path, bytes: bytes.length, sha256: sha256(bytes) };

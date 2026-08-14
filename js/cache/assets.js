@@ -11,6 +11,7 @@ const CIV_PREFIX = {
 };
 
 const images = new Map();
+const MIGRATED_SW_KEY = "starhaven.swModuleMigration.v1";
 const complete = new Set();
 const inflight = new Map();
 
@@ -69,7 +70,20 @@ export function registerServiceWorker() {
     host === "127.0.0.1" ||
     host === "[::1]";
   if (!ok) return Promise.resolve(null);
-  return navigator.serviceWorker.register("./sw.js", { type: "module", updateViaCache: "none" }).catch(() => null);
+  return navigator.serviceWorker
+    .getRegistrations()
+    .then((regs) => {
+      // One-shot migration: the pack used to ship a classic SW; a classic
+      // registration never adopts the new module SW (the import is a syntax
+      // error under the old script type and the update check aborts silently),
+      // so unregister once before registering the module form.
+      if (regs.length && !localStorage.getItem(MIGRATED_SW_KEY)) {
+        localStorage.setItem(MIGRATED_SW_KEY, "1");
+        return Promise.all(regs.map((r) => r.unregister())).then(() => navigator.serviceWorker.register("./sw.js", { type: "module", updateViaCache: "none" }));
+      }
+      return navigator.serviceWorker.register("./sw.js", { type: "module", updateViaCache: "none" });
+    })
+    .catch(() => null);
 }
 
 export function startBackgroundWarm(onProgress) {

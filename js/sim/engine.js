@@ -342,12 +342,13 @@ function spawnBuilding(world, owner, type, cx, cz, instant) {
   const spec = BUILDINGS[type];
   const buildTotalTicks = secToTicks(spec.time);
   const [xQ10, zQ10] = worldOfCellQ10(cx + spec.size / 2 - 0.5, cz + spec.size / 2 - 0.5, CELL);
+  const faction = world.players[owner]?.faction || "gaia";
   const b = {
     id: allocateId(),
     kind: "building",
     type,
     owner,
-    faction: world.players[owner].faction,
+    faction,
     cx,
     cz,
     size: spec.size,
@@ -361,7 +362,7 @@ function spawnBuilding(world, owner, type, cx, cz, instant) {
     rally: { xQ10: xQ10 + q10FromWorld(spec.size), zQ10: zQ10 + q10FromWorld(spec.size) },
     attackCdTicks: 0,
     wonderTicks: 0,
-    powered: type === "towncenter",
+    powered: type === "towncenter" || !civMechanics(faction).usesPowerGrid,
   };
   world.buildings.push(b);
   world.byId.set(b.id, b);
