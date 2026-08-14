@@ -24,8 +24,8 @@ for (const { unitId, faction } of ASH_UNITS) {
     sheet: "",
     still: "",
   };
-  if (spec.kind === "guard") spec.sheet = "media/sprites/sheet-ash-guard.png";
-  else if (spec.kind === "walk") spec.sheet = "media/sprites/sheet-ashvein-walk.png";
+  if (spec.kind === "guard") spec.sheet = "assets/sheets/sheet-ash-guard.png";
+  else if (spec.kind === "walk") spec.sheet = "assets/sheets/sheet-ashvein-walk.png";
   else spec.still = `media/sprites/unit-ash-${unitId.replace("ash-", "")}.png`;
   writeUnitSources(spec);
   console.log(`\n=== ${unitId} ===`);

@@ -744,24 +744,13 @@ function buildingScale(type) {
 }
 
 function buildRendererAssets(pix) {
-  const sheets = {};
-  const stills = {};
   const bldg = {};
   for (const civ of listPlayableCivs({ qa: isQaMode() })) {
-    sheets[civ.id] = {
-      walk: pix(civ.sprites.walkSheet),
-      guard: pix(civ.sprites.guardSheet),
-    };
-    stills[civ.id] = {
-      strider: pix(civ.sprites.strider),
-      siege: pix(civ.sprites.siege),
-      ...(civ.sprites.wagon ? { wagon: pix(civ.sprites.wagon) } : {}),
-    };
     bldg[civ.id] = Object.fromEntries(
       Object.entries(civ.sprites.buildings).map(([type, path]) => [type, pix(path)])
     );
   }
-  return { sheets, stills, bldg };
+  return { bldg };
 }
 
 function makeBuildingSprite(b, bldg) {

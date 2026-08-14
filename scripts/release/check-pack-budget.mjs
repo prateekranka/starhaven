@@ -6,7 +6,7 @@ import { readdirSync, statSync } from "node:fs";
 import { join, resolve } from "node:path";
 
 const repoRoot = resolve(import.meta.dirname, "../..");
-const PACK_DIRS = ["css", "js", "media", "vendor"];
+const PACK_DIRS = ["css", "js", "maps", "media", "vendor"];
 const PACK_ROOT_FILES = ["cache-manifest.json", "index.html", "sw.js"];
 
 const LIMITS = {
@@ -17,8 +17,11 @@ const LIMITS = {
 const WARN_RATIO = 0.9;
 
 const civPatterns = {
-  sunwoven: /(?:^|\/)media\/sprites\/(?:sheet-sun|bldg-sun|unit-sun|portrait-sun|sun-guard)/,
-  gravemark: /(?:^|\/)media\/sprites\/(?:sheet-grave|bldg-grave|unit-grave|portrait-grave|grave-guard)/,
+  sunwoven: /(?:^|\/)media\/sprites\/(?:sheet-sunwoven|sheet-sun-|bldg-sun-|unit-sun-|portrait-sun|icon-(?:train|build|age)-sun|sun-(?:walk|guard|strider|siege))/,
+  gravemark: /(?:^|\/)media\/sprites\/(?:sheet-gravemark|sheet-grave-|bldg-grave-|unit-grave-|portrait-grave|icon-(?:train|build|age)-grave|grave-(?:walk|guard|strider|siege))/,
+  stormveil: /(?:^|\/)media\/sprites\/(?:sheet-stormveil|sheet-storm-|bldg-storm-|unit-storm-|portrait-storm|icon-(?:train|build|age)-storm|storm-(?:walk|guard|strider|siege|wagon))/,
+  ashvein: /(?:^|\/)media\/sprites\/(?:sheet-ashvein|sheet-ash-|bldg-ash-|unit-ash-|portrait-ash|icon-(?:train|build|age)-ash|ash-(?:walk|guard|strider|siege))/,
+  cogforged: /(?:^|\/)media\/sprites\/(?:sheet-cogforged|sheet-cog-|bldg-cog-|unit-cog-|portrait-cog|icon-(?:train|build|age)-cog|cog-(?:walk|guard|strider|siege))/,
 };
 
 function walkFiles() {
@@ -46,7 +49,7 @@ function fmt(bytes) {
 const files = walkFiles();
 let total = 0;
 let audio = 0;
-const civ = { sunwoven: 0, gravemark: 0 };
+const civ = Object.fromEntries(Object.keys(civPatterns).map((id) => [id, 0]));
 const warnings = [];
 const failures = [];
 
@@ -67,8 +70,9 @@ function check(label, value, limit) {
 
 check("Total pack", total, LIMITS.totalBytes);
 check("Audio", audio, LIMITS.audioBytes);
-check("Sunwoven art", civ.sunwoven, LIMITS.civArtBytes);
-check("Gravemark art", civ.gravemark, LIMITS.civArtBytes);
+for (const [civId, bytes] of Object.entries(civ)) {
+  check(`${civId} art`, bytes, LIMITS.civArtBytes);
+}
 
 console.log(
   JSON.stringify(
@@ -78,10 +82,9 @@ console.log(
       totalBytes: total,
       totalLabel: fmt(total),
       audioBytes: audio,
-      civArt: {
-        sunwoven: { bytes: civ.sunwoven, label: fmt(civ.sunwoven) },
-        gravemark: { bytes: civ.gravemark, label: fmt(civ.gravemark) },
-      },
+      civArt: Object.fromEntries(
+        Object.entries(civ).map(([id, bytes]) => [id, { bytes, label: fmt(bytes) }])
+      ),
       limits: { total: fmt(LIMITS.totalBytes), audio: fmt(LIMITS.audioBytes), civArt: fmt(LIMITS.civArtBytes) },
       warnings,
       failures,

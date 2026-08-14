@@ -2,13 +2,13 @@
   "id": "cog-walk.sources.v1",
   "unitId": "cog-walk",
   "faction": "cogforged",
-  "sheet": "media/sprites/sheet-cogforged-walk.png",
+  "sheet": "assets/sheets/sheet-cogforged-walk.png",
   "sheets": {
-    "walk": "media/sprites/sheet-cogforged-walk.png",
-    "attack": "media/sprites/sheet-cogforged-attack.png",
-    "death": "media/sprites/sheet-cogforged-death.png",
-    "gather": "media/sprites/sheet-cogforged-walk.png",
-    "build": "media/sprites/sheet-cogforged-walk.png"
+    "walk": "assets/sheets/sheet-cogforged-walk.png",
+    "attack": "assets/sheets/sheet-cogforged-attack.png",
+    "death": "assets/sheets/sheet-cogforged-death.png",
+    "gather": "assets/sheets/sheet-cogforged-gather.png",
+    "build": "assets/sheets/sheet-cogforged-build.png"
   },
   "cellSize": 128,
   "directionRows": {
@@ -45,24 +45,22 @@
     "gather": {
       "poses": {
         "A": {
-          "col": 1
+          "col": 0
         },
         "B": {
-          "col": 5
+          "col": 4
         }
-      },
-      "note": "walk mid-stride until a dedicated gather sheet"
+      }
     },
     "build": {
       "poses": {
         "A": {
-          "col": 3
+          "col": 0
         },
         "B": {
-          "col": 7
+          "col": 4
         }
-      },
-      "note": "walk until a dedicated build sheet"
+      }
     },
     "death": {
       "poses": {

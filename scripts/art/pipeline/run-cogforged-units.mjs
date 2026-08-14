@@ -24,8 +24,8 @@ for (const { unitId, faction } of COG_UNITS) {
     sheet: "",
     still: "",
   };
-  if (spec.kind === "guard") spec.sheet = "media/sprites/sheet-cog-guard.png";
-  else if (spec.kind === "walk") spec.sheet = "media/sprites/sheet-cogforged-walk.png";
+  if (spec.kind === "guard") spec.sheet = "assets/sheets/sheet-cog-guard.png";
+  else if (spec.kind === "walk") spec.sheet = "assets/sheets/sheet-cogforged-walk.png";
   else spec.still = `media/sprites/unit-cog-${unitId.replace("cog-", "")}.png`;
   writeUnitSources(spec);
   console.log(`\n=== ${unitId} ===`);

@@ -2,13 +2,13 @@
   "id": "cog-guard.sources.v1",
   "unitId": "cog-guard",
   "faction": "cogforged",
-  "sheet": "media/sprites/sheet-cog-guard.png",
+  "sheet": "assets/sheets/sheet-cog-guard.png",
   "sheets": {
-    "walk": "media/sprites/sheet-cog-guard.png",
-    "attack": "media/sprites/sheet-cog-guard-attack.png",
-    "death": "media/sprites/sheet-cog-guard-death.png",
-    "gather": "media/sprites/sheet-cog-guard.png",
-    "build": "media/sprites/sheet-cog-guard.png"
+    "walk": "assets/sheets/sheet-cog-guard.png",
+    "attack": "assets/sheets/sheet-cog-guard-attack.png",
+    "death": "assets/sheets/sheet-cog-guard-death.png",
+    "gather": "assets/sheets/sheet-cog-guard-gather.png",
+    "build": "assets/sheets/sheet-cog-guard-build.png"
   },
   "cellSize": 128,
   "directionRows": {
@@ -50,8 +50,7 @@
         "B": {
           "col": 4
         }
-      },
-      "note": "reuses walk poses until dedicated gather sheet"
+      }
     },
     "build": {
       "poses": {
@@ -61,8 +60,7 @@
         "B": {
           "col": 4
         }
-      },
-      "note": "reuses walk poses until dedicated build sheet"
+      }
     },
     "death": {
       "poses": {

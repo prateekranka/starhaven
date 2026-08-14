@@ -12,6 +12,7 @@ from PIL import Image
 ROOT = Path(__file__).resolve().parents[2]
 SPR = ROOT / "media" / "sprites"
 TEX = ROOT / "media" / "textures"
+SHEETS = ROOT / "assets" / "sheets"
 SRC = Path(
     "/Users/prateekranka/.cursor/projects/Users-prateekranka-Cowork-sunfold-cursor-good-version/assets"
 )
@@ -38,10 +39,6 @@ PATTERNS = {
 COPY_SPRITES = [
     "portrait-ashvein.png",
     "portrait-stormveil.png",
-    "sheet-ashvein-walk.png",
-    "sheet-stormveil-walk.png",
-    "sheet-ash-guard.png",
-    "sheet-storm-guard.png",
     "bldg-ash-tc.png",
     "bldg-ash-house.png",
     "bldg-ash-rax.png",
@@ -308,10 +305,10 @@ def main() -> None:
     save_png(crop_icon(Image.open(SPR / "icon-age-ash.png")), SPR / "icon-age-ash.png")
     save_png(crop_icon(Image.open(SPR / "icon-age-storm.png")), SPR / "icon-age-storm.png")
 
-    ash_walk = Image.open(SPR / "sheet-ashvein-walk.png")
-    ash_guard = Image.open(SPR / "sheet-ash-guard.png")
-    storm_walk = Image.open(SPR / "sheet-stormveil-walk.png")
-    storm_guard = Image.open(SPR / "sheet-storm-guard.png")
+    ash_walk = Image.open(SHEETS / "sheet-ashvein-walk.png")
+    ash_guard = Image.open(SHEETS / "sheet-ash-guard.png")
+    storm_walk = Image.open(SHEETS / "sheet-stormveil-walk.png")
+    storm_guard = Image.open(SHEETS / "sheet-storm-guard.png")
 
     save_png(crop_icon(ash_walk, 256), SPR / "portrait-ash-villager.png")
     save_png(crop_icon(ash_walk, 256), SPR / "portrait-ash-scout.png")

@@ -1,7 +1,7 @@
 {
   "walk": { "poses": { "A": { "col": 0 }, "B": { "col": 4 } } },
   "attack": { "poses": { "A": { "col": 0 }, "B": { "col": 4 } } },
-  "gather": { "poses": { "A": { "col": 1 }, "B": { "col": 5 } }, "note": "walk mid-stride until a dedicated gather sheet" },
-  "build": { "poses": { "A": { "col": 3 }, "B": { "col": 7 } }, "note": "walk until a dedicated build sheet" },
+  "gather": { "poses": { "A": { "col": 0 }, "B": { "col": 4 } } },
+  "build": { "poses": { "A": { "col": 0 }, "B": { "col": 4 } } },
   "death": { "poses": { "A": { "col": 0 }, "B": { "col": 4 } } }
 }

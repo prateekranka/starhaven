@@ -2,7 +2,14 @@
   "id": "grave-guard.sources.v1",
   "unitId": "grave-guard",
   "faction": "gravemark",
-  "sheet": "media/sprites/sheet-grave-guard.png",
+  "sheet": "assets/sheets/sheet-grave-guard.png",
+  "sheets": {
+    "walk": "assets/sheets/sheet-grave-guard.png",
+    "attack": "assets/sheets/sheet-grave-guard.png",
+    "death": "assets/sheets/sheet-grave-guard.png",
+    "gather": "assets/sheets/sheet-grave-guard.png",
+    "build": "assets/sheets/sheet-grave-guard.png"
+  },
   "cellSize": 128,
   "directionRows": {
     "S": 0,

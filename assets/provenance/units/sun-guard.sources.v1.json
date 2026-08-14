@@ -2,7 +2,14 @@
   "id": "sun-guard.sources.v1",
   "unitId": "sun-guard",
   "faction": "sunwoven",
-  "sheet": "media/sprites/sheet-sun-guard.png",
+  "sheet": "assets/sheets/sheet-sun-guard.png",
+  "sheets": {
+    "walk": "assets/sheets/sheet-sun-guard.png",
+    "attack": "assets/sheets/sheet-sun-guard.png",
+    "death": "assets/sheets/sheet-sun-guard.png",
+    "gather": "assets/sheets/sheet-sun-guard.png",
+    "build": "assets/sheets/sheet-sun-guard.png"
+  },
   "cellSize": 128,
   "directionRows": {
     "S": 0,

@@ -2,13 +2,13 @@
   "id": "storm-walk.sources.v1",
   "unitId": "storm-walk",
   "faction": "stormveil",
-  "sheet": "media/sprites/sheet-stormveil-walk.png",
+  "sheet": "assets/sheets/sheet-stormveil-walk.png",
   "sheets": {
-    "walk": "media/sprites/sheet-stormveil-walk.png",
-    "attack": "media/sprites/sheet-stormveil-attack.png",
-    "death": "media/sprites/sheet-stormveil-death.png",
-    "gather": "media/sprites/sheet-stormveil-walk.png",
-    "build": "media/sprites/sheet-stormveil-walk.png"
+    "walk": "assets/sheets/sheet-stormveil-walk.png",
+    "attack": "assets/sheets/sheet-stormveil-attack.png",
+    "death": "assets/sheets/sheet-stormveil-death.png",
+    "gather": "assets/sheets/sheet-stormveil-gather.png",
+    "build": "assets/sheets/sheet-stormveil-build.png"
   },
   "cellSize": 128,
   "directionRows": {
@@ -45,24 +45,22 @@
     "gather": {
       "poses": {
         "A": {
-          "col": 1
+          "col": 0
         },
         "B": {
-          "col": 5
+          "col": 4
         }
-      },
-      "note": "walk mid-stride until a dedicated gather sheet"
+      }
     },
     "build": {
       "poses": {
         "A": {
-          "col": 3
+          "col": 0
         },
         "B": {
-          "col": 7
+          "col": 4
         }
-      },
-      "note": "walk until a dedicated build sheet"
+      }
     },
     "death": {
       "poses": {

@@ -159,8 +159,6 @@ export const SUNWOVEN = {
     },
   },
   sprites: {
-    walkSheet: "media/sprites/sheet-sunwoven-walk.png",
-    guardSheet: "media/sprites/sheet-sun-guard.png",
     strider: "media/sprites/unit-sun-strider.png",
     siege: "media/sprites/unit-sun-siege.png",
     portrait: "media/sprites/portrait-sunwoven.png",
@@ -227,8 +225,6 @@ export const GRAVEMARK = {
     },
   },
   sprites: {
-    walkSheet: "media/sprites/sheet-gravemark-walk.png",
-    guardSheet: "media/sprites/sheet-grave-guard.png",
     strider: "media/sprites/unit-grave-strider.png",
     siege: "media/sprites/unit-grave-siege.png",
     portrait: "media/sprites/portrait-gravemark.png",
@@ -301,8 +297,6 @@ export const COGFORGED = {
     },
   },
   sprites: {
-    walkSheet: "media/sprites/sheet-cogforged-walk.png",
-    guardSheet: "media/sprites/sheet-cog-guard.png",
     strider: "media/sprites/unit-cog-strider.png",
     siege: "media/sprites/unit-cog-siege.png",
     portrait: "media/sprites/portrait-cogforged.png",
@@ -383,8 +377,6 @@ export const ASHVEIN = {
     },
   },
   sprites: {
-    walkSheet: "media/sprites/sheet-ashvein-walk.png",
-    guardSheet: "media/sprites/sheet-ash-guard.png",
     strider: "media/sprites/unit-ash-strider.png",
     siege: "media/sprites/unit-ash-siege.png",
     portrait: "media/sprites/portrait-ashvein.png",
@@ -450,8 +442,6 @@ export const QA_STUB = {
     },
   },
   sprites: {
-    walkSheet: "media/sprites/sheet-sunwoven-walk.png",
-    guardSheet: "media/sprites/sheet-sun-guard.png",
     strider: "media/sprites/unit-sun-strider.png",
     siege: "media/sprites/unit-sun-siege.png",
     portrait: "media/sprites/portrait-sunwoven.png",
@@ -509,8 +499,6 @@ export const STORMVEIL = {
     buildings: { towncenter: "Caravan Heart", house: "Canvas Tent", mill: "Wind Mill", lumber: "Timber Wagon", mine: "Shard Pit", barracks: "March Hall", spire: "Veil Spire", den: "Strider Pen", workshop: "Siege Yard", wonder: "Nomad Ark" },
   },
   sprites: {
-    walkSheet: "media/sprites/sheet-stormveil-walk.png",
-    guardSheet: "media/sprites/sheet-storm-guard.png",
     strider: "media/sprites/unit-storm-strider.png",
     siege: "media/sprites/unit-storm-siege.png",
     wagon: "media/sprites/unit-storm-wagon.png",

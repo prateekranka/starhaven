@@ -55,7 +55,11 @@ export function loadAtlasManifests() {
   );
 }
 
-/** Maps sim unit to committed atlas id (shared atlases OK). */
+/**
+ * Maps sim unit to a packed atlas id.
+ * Shared on purpose: villager+scout → walk; guard+archer → guard;
+ * titan → grave-strider; non-storm wagon → that civ's strider.
+ */
 export function unitAtlasId(u) {
   const prefix = {
     gravemark: "grave",

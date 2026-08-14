@@ -17,6 +17,7 @@ from PIL import Image, ImageDraw, ImageFilter
 ROOT = Path(__file__).resolve().parents[2]
 SPR = ROOT / "media" / "sprites"
 TEX = ROOT / "media" / "textures"
+SHEETS = ROOT / "assets" / "sheets"
 CELL = 128
 SHEET = 1024
 
@@ -63,13 +64,15 @@ def save(img: Image.Image, name: str, *, max_w: int | None = None) -> None:
     if max_w and out.width > max_w:
         ratio = max_w / out.width
         out = out.resize((max_w, max(1, int(out.height * ratio))), Image.Resampling.LANCZOS)
-    out = lock_palette(out)
+    sheet = name.startswith("sheet-")
+    if not sheet:
+        out = lock_palette(out)
     if name.endswith(".jpg"):
         path = TEX / name
         path.parent.mkdir(parents=True, exist_ok=True)
         out.convert("RGB").save(path, optimize=True, quality=85)
     else:
-        path = SPR / name
+        path = (SHEETS if sheet else SPR) / name
         path.parent.mkdir(parents=True, exist_ok=True)
         out.save(path, optimize=True, compress_level=9)
     print(f"  {name} ({path.stat().st_size // 1024}KB)")
@@ -358,7 +361,7 @@ def command_icons() -> None:
         ("wagon", "unit-storm-wagon.png"),
     ]
     for unit, src_name in trains:
-        src = Image.open(SPR / src_name)
+        src = Image.open((SHEETS if src_name.startswith("sheet-") else SPR) / src_name)
         save(icon_from(src), f"icon-train-storm-{unit}.png")
 
     save(icon_from(Image.open(SPR / "bldg-storm-tc.png")), "icon-age-storm.png")

@@ -19,8 +19,8 @@ const clips = "walk,attack,gather,build,death";
 
 for (const { unitId, faction } of STORM_UNITS) {
   const spec = { unitId, faction, kind: unitId.includes("guard") ? "guard" : unitId.includes("walk") ? "walk" : "still", sheet: "", still: "" };
-  if (spec.kind === "guard") spec.sheet = "media/sprites/sheet-storm-guard.png";
-  else if (spec.kind === "walk") spec.sheet = "media/sprites/sheet-stormveil-walk.png";
+  if (spec.kind === "guard") spec.sheet = "assets/sheets/sheet-storm-guard.png";
+  else if (spec.kind === "walk") spec.sheet = "assets/sheets/sheet-stormveil-walk.png";
   else spec.still = `media/sprites/unit-storm-${unitId.replace("storm-", "")}.png`;
   writeUnitSources(spec);
   console.log(`\n=== ${unitId} ===`);

@@ -18,6 +18,7 @@ function loadShared(name) {
 }
 
 const TRUECYCLE = new Set(["cogforged", "ashvein", "stormveil"]);
+const sheetFile = (name) => `assets/sheets/${name}`;
 
 function clipSheets(walkSheet, faction) {
   if (!TRUECYCLE.has(faction)) {
@@ -28,8 +29,8 @@ function clipSheets(walkSheet, faction) {
       walk: walkSheet,
       attack: walkSheet.replace("-walk.png", "-attack.png"),
       death: walkSheet.replace("-walk.png", "-death.png"),
-      gather: walkSheet,
-      build: walkSheet,
+      gather: walkSheet.replace("-walk.png", "-gather.png"),
+      build: walkSheet.replace("-walk.png", "-build.png"),
     };
   }
   const base = walkSheet.replace(/\.png$/, "");
@@ -37,8 +38,8 @@ function clipSheets(walkSheet, faction) {
     walk: walkSheet,
     attack: `${base}-attack.png`,
     death: `${base}-death.png`,
-    gather: walkSheet,
-    build: walkSheet,
+    gather: `${base}-gather.png`,
+    build: `${base}-build.png`,
   };
 }
 
@@ -84,16 +85,16 @@ export function stillSources(unitId, faction, still) {
 }
 
 export const UNIT_SOURCE_SPECS = [
-  { unitId: "sun-guard", faction: "sunwoven", kind: "guard", sheet: "media/sprites/sheet-sun-guard.png" },
-  { unitId: "grave-guard", faction: "gravemark", kind: "guard", sheet: "media/sprites/sheet-grave-guard.png" },
-  { unitId: "storm-guard", faction: "stormveil", kind: "guard", sheet: "media/sprites/sheet-storm-guard.png" },
-  { unitId: "ash-guard", faction: "ashvein", kind: "guard", sheet: "media/sprites/sheet-ash-guard.png" },
-  { unitId: "cog-guard", faction: "cogforged", kind: "guard", sheet: "media/sprites/sheet-cog-guard.png" },
-  { unitId: "sun-walk", faction: "sunwoven", kind: "walk", sheet: "media/sprites/sheet-sunwoven-walk.png" },
-  { unitId: "grave-walk", faction: "gravemark", kind: "walk", sheet: "media/sprites/sheet-gravemark-walk.png" },
-  { unitId: "storm-walk", faction: "stormveil", kind: "walk", sheet: "media/sprites/sheet-stormveil-walk.png" },
-  { unitId: "ash-walk", faction: "ashvein", kind: "walk", sheet: "media/sprites/sheet-ashvein-walk.png" },
-  { unitId: "cog-walk", faction: "cogforged", kind: "walk", sheet: "media/sprites/sheet-cogforged-walk.png" },
+  { unitId: "sun-guard", faction: "sunwoven", kind: "guard", sheet: sheetFile("sheet-sun-guard.png") },
+  { unitId: "grave-guard", faction: "gravemark", kind: "guard", sheet: sheetFile("sheet-grave-guard.png") },
+  { unitId: "storm-guard", faction: "stormveil", kind: "guard", sheet: sheetFile("sheet-storm-guard.png") },
+  { unitId: "ash-guard", faction: "ashvein", kind: "guard", sheet: sheetFile("sheet-ash-guard.png") },
+  { unitId: "cog-guard", faction: "cogforged", kind: "guard", sheet: sheetFile("sheet-cog-guard.png") },
+  { unitId: "sun-walk", faction: "sunwoven", kind: "walk", sheet: sheetFile("sheet-sunwoven-walk.png") },
+  { unitId: "grave-walk", faction: "gravemark", kind: "walk", sheet: sheetFile("sheet-gravemark-walk.png") },
+  { unitId: "storm-walk", faction: "stormveil", kind: "walk", sheet: sheetFile("sheet-stormveil-walk.png") },
+  { unitId: "ash-walk", faction: "ashvein", kind: "walk", sheet: sheetFile("sheet-ashvein-walk.png") },
+  { unitId: "cog-walk", faction: "cogforged", kind: "walk", sheet: sheetFile("sheet-cogforged-walk.png") },
   { unitId: "sun-strider", faction: "sunwoven", kind: "still", still: "media/sprites/unit-sun-strider.png" },
   { unitId: "grave-strider", faction: "gravemark", kind: "still", still: "media/sprites/unit-grave-strider.png" },
   { unitId: "storm-strider", faction: "stormveil", kind: "still", still: "media/sprites/unit-storm-strider.png" },

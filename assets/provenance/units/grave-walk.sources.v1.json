@@ -2,7 +2,14 @@
   "id": "grave-walk.sources.v1",
   "unitId": "grave-walk",
   "faction": "gravemark",
-  "sheet": "media/sprites/sheet-gravemark-walk.png",
+  "sheet": "assets/sheets/sheet-gravemark-walk.png",
+  "sheets": {
+    "walk": "assets/sheets/sheet-gravemark-walk.png",
+    "attack": "assets/sheets/sheet-gravemark-walk.png",
+    "death": "assets/sheets/sheet-gravemark-walk.png",
+    "gather": "assets/sheets/sheet-gravemark-walk.png",
+    "build": "assets/sheets/sheet-gravemark-walk.png"
+  },
   "cellSize": 128,
   "directionRows": {
     "S": 0,

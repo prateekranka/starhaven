@@ -2,13 +2,13 @@
   "id": "ash-walk.sources.v1",
   "unitId": "ash-walk",
   "faction": "ashvein",
-  "sheet": "media/sprites/sheet-ashvein-walk.png",
+  "sheet": "assets/sheets/sheet-ashvein-walk.png",
   "sheets": {
-    "walk": "media/sprites/sheet-ashvein-walk.png",
-    "attack": "media/sprites/sheet-ashvein-attack.png",
-    "death": "media/sprites/sheet-ashvein-death.png",
-    "gather": "media/sprites/sheet-ashvein-walk.png",
-    "build": "media/sprites/sheet-ashvein-walk.png"
+    "walk": "assets/sheets/sheet-ashvein-walk.png",
+    "attack": "assets/sheets/sheet-ashvein-attack.png",
+    "death": "assets/sheets/sheet-ashvein-death.png",
+    "gather": "assets/sheets/sheet-ashvein-gather.png",
+    "build": "assets/sheets/sheet-ashvein-build.png"
   },
   "cellSize": 128,
   "directionRows": {
@@ -45,24 +45,22 @@
     "gather": {
       "poses": {
         "A": {
-          "col": 1
+          "col": 0
         },
         "B": {
-          "col": 5
+          "col": 4
         }
-      },
-      "note": "walk mid-stride until a dedicated gather sheet"
+      }
     },
     "build": {
       "poses": {
         "A": {
-          "col": 3
+          "col": 0
         },
         "B": {
-          "col": 7
+          "col": 4
         }
-      },
-      "note": "walk until a dedicated build sheet"
+      }
     },
     "death": {
       "poses": {

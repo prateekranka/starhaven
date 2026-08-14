@@ -2,13 +2,13 @@
   "id": "storm-guard.sources.v1",
   "unitId": "storm-guard",
   "faction": "stormveil",
-  "sheet": "media/sprites/sheet-storm-guard.png",
+  "sheet": "assets/sheets/sheet-storm-guard.png",
   "sheets": {
-    "walk": "media/sprites/sheet-storm-guard.png",
-    "attack": "media/sprites/sheet-storm-guard-attack.png",
-    "death": "media/sprites/sheet-storm-guard-death.png",
-    "gather": "media/sprites/sheet-storm-guard.png",
-    "build": "media/sprites/sheet-storm-guard.png"
+    "walk": "assets/sheets/sheet-storm-guard.png",
+    "attack": "assets/sheets/sheet-storm-guard-attack.png",
+    "death": "assets/sheets/sheet-storm-guard-death.png",
+    "gather": "assets/sheets/sheet-storm-guard-gather.png",
+    "build": "assets/sheets/sheet-storm-guard-build.png"
   },
   "cellSize": 128,
   "directionRows": {
@@ -50,8 +50,7 @@
         "B": {
           "col": 4
         }
-      },
-      "note": "reuses walk poses until dedicated gather sheet"
+      }
     },
     "build": {
       "poses": {
@@ -61,8 +60,7 @@
         "B": {
           "col": 4
         }
-      },
-      "note": "reuses walk poses until dedicated build sheet"
+      }
     },
     "death": {
       "poses": {

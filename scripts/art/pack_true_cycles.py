@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""Pack 8-direction unique-dir atlases from walk/attack/death sheets. No mirroring."""
+"""Pack 8-direction unique-dir atlases from walk/attack/gather/build/death sheets. No mirroring."""
 from __future__ import annotations
 
 import hashlib
 import json
+import sys
 from collections import deque
 from pathlib import Path
 
@@ -12,9 +13,8 @@ from PIL import Image
 ROOT = Path(__file__).resolve().parents[2]
 SPR = ROOT / "media" / "sprites"
 TEX = ROOT / "media" / "textures"
-SRC = Path(
-    "/Users/prateekranka/.cursor/projects/Users-prateekranka-Cowork-sunfold-cursor-good-version/assets"
-)
+SHEETS = ROOT / "assets" / "sheets"
+SRC = SHEETS
 
 DIRECTION_ROWS = {"S": 0, "SE": 1, "E": 2, "NE": 3, "N": 4, "NW": 5, "W": 6, "SW": 7}
 DIRECTIONS = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"]
@@ -23,8 +23,8 @@ CLIPS = ["walk", "attack", "gather", "build", "death"]
 FRAME_COLS = {
     "walk": [0, 2, 4, 6],
     "attack": [0, 2, 4, 6],
-    "gather": [1, 3, 5, 7],
-    "build": [1, 3, 5, 7],
+    "gather": [0, 2, 4, 6],
+    "build": [0, 2, 4, 6],
     "death": [0, 2, 4, 6],
 }
 
@@ -34,6 +34,8 @@ UNITS = [
         "faction": "cogforged",
         "walk": "sheet-cogforged-walk.png",
         "attack": "sheet-cogforged-attack.png",
+        "gather": "sheet-cogforged-gather.png",
+        "build": "sheet-cogforged-build.png",
         "death": "sheet-cogforged-death.png",
     },
     {
@@ -41,6 +43,8 @@ UNITS = [
         "faction": "cogforged",
         "walk": "sheet-cog-guard.png",
         "attack": "sheet-cog-guard-attack.png",
+        "gather": "sheet-cog-guard-gather.png",
+        "build": "sheet-cog-guard-build.png",
         "death": "sheet-cog-guard-death.png",
     },
     {
@@ -48,6 +52,8 @@ UNITS = [
         "faction": "ashvein",
         "walk": "sheet-ashvein-walk.png",
         "attack": "sheet-ashvein-attack.png",
+        "gather": "sheet-ashvein-gather.png",
+        "build": "sheet-ashvein-build.png",
         "death": "sheet-ashvein-death.png",
     },
     {
@@ -55,6 +61,8 @@ UNITS = [
         "faction": "ashvein",
         "walk": "sheet-ash-guard.png",
         "attack": "sheet-ash-guard-attack.png",
+        "gather": "sheet-ash-guard-gather.png",
+        "build": "sheet-ash-guard-build.png",
         "death": "sheet-ash-guard-death.png",
     },
     {
@@ -62,6 +70,8 @@ UNITS = [
         "faction": "stormveil",
         "walk": "sheet-stormveil-walk.png",
         "attack": "sheet-stormveil-attack.png",
+        "gather": "sheet-stormveil-gather.png",
+        "build": "sheet-stormveil-build.png",
         "death": "sheet-stormveil-death.png",
     },
     {
@@ -69,6 +79,8 @@ UNITS = [
         "faction": "stormveil",
         "walk": "sheet-storm-guard.png",
         "attack": "sheet-storm-guard-attack.png",
+        "gather": "sheet-storm-guard-gather.png",
+        "build": "sheet-storm-guard-build.png",
         "death": "sheet-storm-guard-death.png",
     },
 ]
@@ -202,24 +214,23 @@ def write_atlas_json(png: Path, meta: Path, unit_id: str, faction: str, frames: 
 
 def pack_unit(spec: dict) -> None:
     sheets = {}
-    for kind in ("walk", "attack", "death"):
+    for kind in ("walk", "attack", "gather", "build", "death"):
         name = spec[kind]
         src = SRC / name
         if not src.exists():
             raise SystemExit(f"missing {src}")
         img = knockout_void(Image.open(src))
-        img.save(SPR / name, optimize=True, compress_level=9)
         sheets[kind] = img
         uniq = set()
         for r in range(8):
             for c in range(8):
                 uniq.add(hashlib.md5(cell(img, c, r).tobytes()).hexdigest())
-        print(f"  {name:32} unique_cells={len(uniq)}/64 { (SPR/name).stat().st_size//1024}KB")
+        print(f"  {name:32} unique_cells={len(uniq)}/64")
 
     atlas = Image.new("RGBA", (2048, 1280), (0, 0, 0, 0))
     frames = []
     for action_index, action in enumerate(CLIPS):
-        src = sheets["attack"] if action == "attack" else sheets["death"] if action == "death" else sheets["walk"]
+        src = sheets[action]
         cols = FRAME_COLS[action]
         for direction_index, direction in enumerate(DIRECTIONS):
             src_row = DIRECTION_ROWS[direction]
@@ -234,7 +245,7 @@ def pack_unit(spec: dict) -> None:
                         "action": action,
                         "facing": direction,
                         "frame": frame,
-                        "durationMs": 110 if action == "walk" else 100,
+                        "durationMs": {"walk": 110, "gather": 140, "build": 140}.get(action, 100),
                         "pivot": {"x": 64, "y": 112},
                         "mirrored": False,
                         "col": col,
@@ -251,19 +262,21 @@ def pack_unit(spec: dict) -> None:
 
 
 def main() -> None:
-    print("Banners…")
-    for banner in ("ashvein-banner.jpg", "stormveil-banner.jpg"):
-        src = SRC / banner
-        Image.open(src).convert("RGB").save(TEX / banner, quality=88, optimize=True)
-        print(f"  {banner} {(TEX/banner).stat().st_size//1024}KB")
+    units_only = "--units-only" in sys.argv
+    if not units_only:
+        print("Banners…")
+        for banner in ("ashvein-banner.jpg", "stormveil-banner.jpg"):
+            src = SRC / banner
+            Image.open(src).convert("RGB").save(TEX / banner, quality=88, optimize=True)
+            print(f"  {banner} {(TEX/banner).stat().st_size//1024}KB")
 
-    print("Storm mill/mine (drop ground disc)…")
-    for name in ("bldg-storm-mill.png", "bldg-storm-mine.png"):
-        img = knockout_ground_disc(Image.open(SRC / name))
-        img.save(SPR / name, optimize=True, compress_level=9)
-        a = list(img.split()[-1].getdata())
-        z = sum(1 for v in a if v < 16)
-        print(f"  {name} {img.size} alpha0={100*z/len(a):.1f}% { (SPR/name).stat().st_size//1024}KB")
+        print("Storm mill/mine (drop ground disc)…")
+        for name in ("bldg-storm-mill.png", "bldg-storm-mine.png"):
+            img = knockout_ground_disc(Image.open(SRC / name))
+            img.save(SPR / name, optimize=True, compress_level=9)
+            a = list(img.split()[-1].getdata())
+            z = sum(1 for v in a if v < 16)
+            print(f"  {name} {img.size} alpha0={100*z/len(a):.1f}% { (SPR/name).stat().st_size//1024}KB")
 
     print("Pack 8-dir atlases…")
     for spec in UNITS:

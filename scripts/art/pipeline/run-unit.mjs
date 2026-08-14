@@ -33,7 +33,12 @@ mkdirSync(provenanceDir, { recursive: true });
 
 console.log(`generating sources for ${unitId} (${faction}) clips=${clips.join(",")}`);
 const records = await generateUnitSources({ unitId, faction, clips, sourceRoot, sources });
-await cleanupTree(records, palette);
+const painted = faction === "cogforged" || faction === "ashvein" || faction === "stormveil";
+if (painted) {
+  console.log("skipping palette lock (painted true-cycle sheets)");
+} else {
+  await cleanupTree(records, palette);
+}
 
 console.log("packing atlas…");
 const meta = await packUnitAtlas({ unitId, faction, clips, spec, inbetweening, sourceRoot, atlasPath, metaPath });

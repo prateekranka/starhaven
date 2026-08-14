@@ -19,10 +19,12 @@ Repeatable art path for pixel-mesa unit atlases on the `dev` pack branch.
 | Bucket | Limit |
 |--------|-------|
 | Total pack (`media/` + `js/` + …) | ≤ 120 MB |
-| Per-civ art (`media/sprites/*sun*`, `*grave*`, etc.) | ≤ 15 MB |
+| Per-civ art in the pack (atlases, buildings, portraits, icons) | ≤ 15 MB |
 | Audio (`media/audio/`) | ≤ 20 MB |
 
-Run `node scripts/release/check-pack-budget.mjs` after adding art. Exits non-zero above hard limits; prints warnings at 90% of each threshold.
+Source 8×8 cycle sheets live in `assets/sheets/` and are **not** part of the download pack. The match renderer uses packed `*.atlas.png` only.
+
+Run `node scripts/release/check-pack-budget.mjs` after adding art. Exits non-zero above hard limits; prints warnings at 90% of each threshold. The checker counts Sunwoven, Gravemark, Cogforged, Ashvein, and Stormveil.
 
 ## Regenerate all units (issue #12 rollout)
 
@@ -43,11 +45,12 @@ node scripts/art/pipeline/run-unit.mjs \
 
 Outputs:
 
-- `assets/source/units/<faction>/<unit>/…` — keyed pose PNGs extracted from committed legacy sheets
+- `assets/sheets/` — 8×8 cycle source sheets (not shipped in the pack)
+- `assets/source/units/<faction>/<unit>/…` — keyed pose PNGs extracted from those sheets
 - `media/sprites/<unit>.atlas.png` — packed atlas (2048×1280 for five clips)
 - `media/sprites/<unit>.atlas.json` — frame grid + sha256
 
-Source frames are **sampled** from real pixel sheets (e.g. `media/sprites/sheet-sun-guard.png`) using the unit's `.sources.v1.json` map, then palette-cleaned. Units without dedicated attack sheets reuse walk/guard columns — see `_shared.walk-clips.json` (temporary).
+Source frames are **sampled** from `assets/sheets/` using the unit's `.sources.v1.json` map. Sunwoven/Gravemark poses are palette-cleaned. Cogforged/Ashvein/Stormveil painted cycles are **not** palette-locked. Units without dedicated attack sheets reuse walk/guard columns — see `_shared.walk-clips.json` (temporary).
 
 Still-based units (`sun-strider`, `sun-siege`, …) set `"mode": "still"` in their sources file; the extractor crops the committed unit PNG.
 
