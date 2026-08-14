@@ -158,8 +158,8 @@
     },
     {
       "path": "js/sim/fixed.js",
-      "bytes": 7115,
-      "sha256": "08818604ba5ede127ad8aa89b2b8304f2637d9fbaeefd4095ef740362d11b980"
+      "bytes": 7368,
+      "sha256": "ac5563d55bdd77723f520667d6ab7004063b271541e3214ab49b7f8fd63c6dfb"
     },
     {
       "path": "js/sim/formation.js",
@@ -1788,5 +1788,5 @@
     }
   ],
   "fileCount": 357,
-  "totalBytes": 139385546
+  "totalBytes": 139385799
 }
