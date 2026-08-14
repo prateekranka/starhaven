@@ -173,6 +173,7 @@ function loop(now) {
     hudAcc = 0;
     drawHud(world, false);
     paintPerf();
+    paintQaChip(world);
     paintDebugState();
   }
   const selKey = world.selection.join(",");
@@ -234,6 +235,20 @@ function paintPerf() {
   };
 }
 
+function paintQaChip(world) {
+  const el = document.getElementById("qa-chip");
+  if (!el) return;
+  if (!isQaMode() || !world) {
+    el.classList.add("hidden");
+    return;
+  }
+  el.classList.remove("hidden");
+  setText(
+    el,
+    `tick ${world.t} · chk ${checksumWorld(world)} · seed 0x${(world.seed >>> 0).toString(16)}`
+  );
+}
+
 function paintDebugState() {
   if (!world || !view) return;
   const cam = view.cameraInfo();
@@ -251,6 +266,7 @@ function paintDebugState() {
   }
   window.__starhavenState = {
     sel: world.selection.slice(),
+    tick: world.t,
     seed: world.seed,
     seedHex: `0x${(world.seed >>> 0).toString(16)}`,
     mapFingerprint: mapLayoutFingerprint(world),

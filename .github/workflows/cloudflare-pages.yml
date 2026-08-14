@@ -19,6 +19,8 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      - name: Verify sim determinism
+        run: node scripts/verify-determinism.mjs
       - name: Stage static pixel pack
         run: |
           set -euo pipefail
