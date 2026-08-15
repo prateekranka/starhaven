@@ -1,9 +1,9 @@
 {
   "schema": 1,
-  "done": false,
+  "done": true,
   "round": 2,
-  "displaySha": null,
-  "sourceSha": null,
+  "displaySha": "9999e8f11",
+  "sourceSha": "9999e8f1199240d19d52652a52094f29e0e2f872",
   "livePack": "https://dev.starhaven.contenthelper.in/",
   "gameplay": {
     "rate": 1,
@@ -20,5 +20,5 @@
     "critic": "LOOK_BAR_PASS on 2304×1440 canvas stills vs generated Sunwoven/Gravemark plates. Towns: Cog brass TC, Storm canvas-keep, Ash magma TC. Fights: both painted civs readable (Ash cape knight, Cog furnace mech, Storm navy cloak).",
     "captures": "docs/evidence/skirmish-bar/stills/captures.json"
   },
-  "log": "Round 2: look capture high backing, FoW plane off, TC/fight iso look without map-center pull. Independent critic LOOK_BAR_PASS. Ship pack, then set done once live displaySha matches."
+  "log": "Both bars met. Live pack displaySha 9999e8f11 matches build-info.json after Cloudflare Pages deploy of 9a35402."
 }
