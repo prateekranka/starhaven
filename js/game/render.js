@@ -419,11 +419,14 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
     camera.lookAt(camTarget);
   }
 
-  function pan(dx, dz) {
+  function pan(dx, dz, immediate = false) {
     camDesired.x = THREE.MathUtils.clamp(camDesired.x + dx, 8, MAP - 8);
     camDesired.z = THREE.MathUtils.clamp(camDesired.z + dz, 8, MAP - 8);
     camDesired.y = sampleH(camDesired.x, camDesired.z);
-    if (reduceMotion) settleCam(true);
+    if (immediate || reduceMotion) {
+      settleCam(true);
+      renderer.render(scene, camera);
+    }
   }
 
   function setZoom(delta) {
@@ -462,7 +465,7 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
     selSet.clear();
     for (const id of world.selection) selSet.add(id);
 
-    const camK = reduceMotion ? 1 : 1 - Math.pow(0.0008, Math.max(0.001, dt));
+    const camK = reduceMotion ? 1 : 1 - Math.pow(0.08, Math.max(0.001, dt));
     camTarget.lerp(camDesired, camK);
     if (Math.abs(frustumLive - frustumDesired) > 0.01) {
       frustumLive += (frustumDesired - frustumLive) * Math.min(1, dt * 8);
@@ -498,7 +501,7 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
         meshes.set("b" + b.id, m);
         scene.add(m);
       }
-      const y = sampleH(wx(b), wz(b));
+      const y = sampleH(wx(b), wz(b)) + (b.type === "towncenter" || b.type === "wonder" ? 0.1 : 0);
       m.position.set(wx(b), y, wz(b));
       const built = buildRatio(b);
       const base = (m.userData.baseScale || buildingScale(b.type)) * (0.55 + 0.45 * built);
@@ -769,7 +772,8 @@ function buildRendererAssets(pix) {
 function makeBuildingSprite(b, bldg) {
   const bucket = bldg[b.faction] || bldg[DEFAULT_CIV_ID];
   const map = bucket[b.type] || bucket.house;
-  const s = createLitBillboard(map, { pivotY: 0.07, glow: 0 });
+  const pivotY = b.type === "towncenter" || b.type === "wonder" ? 0.012 : 0.07;
+  const s = createLitBillboard(map, { pivotY, glow: 0 });
   fitWhenReady(s, map, buildingScale(b.type));
   return s;
 }
@@ -843,7 +847,7 @@ function animateUnit(sprite, u, world, dt = 0.016, opts = {}) {
     action === "death" ||
     (clip?.loop && action === "gather") ||
     (clip?.loop && action === "build") ||
-    (action === "walk" && moving);
+    (action === "walk" && (moving || WALK_STATES.has(u.state)));
 
   if (shouldAdvance) sprite.userData.walkT = (sprite.userData.walkT || 0) + dt;
   else if (action === "idle") sprite.userData.walkT = 0;

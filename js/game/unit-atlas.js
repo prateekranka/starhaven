@@ -102,8 +102,8 @@ const WALK_STATES = new Set(["walk", "gatherwalk", "return", "buildwalk", "attac
 export function pipelineAction(u, moving, dying) {
   if (dying) return "death";
   if (u.state === "attack") return "attack";
-  if (u.state === "gather") return "gather";
-  if (u.state === "build") return "build";
+  if (u.state === "gather" || u.state === "gatherwalk") return "gather";
+  if (u.state === "build" || u.state === "buildwalk") return "build";
   if (moving || WALK_STATES.has(u.state)) return "walk";
   return "idle";
 }

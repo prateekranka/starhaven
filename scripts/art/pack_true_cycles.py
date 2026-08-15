@@ -187,6 +187,62 @@ def cell(sheet: Image.Image, col: int, row: int, size: int = 128) -> Image.Image
     return sheet.crop((col * size, row * size, (col + 1) * size, (row + 1) * size)).convert("RGBA")
 
 
+def fit_cell(sheet: Image.Image, col: int, row: int, size: int = 128, overlap: int = 20) -> Image.Image:
+    """Pull a figure that spilled into neighboring cells, then bottom-align it."""
+    w, h = sheet.size
+    x0, y0 = col * size, row * size
+    px = sheet.load()
+    seen = bytearray(w * h)
+    q: deque[tuple[int, int]] = deque()
+    pixels: list[tuple[int, int]] = []
+    x_min, y_min = x0 - overlap, y0 - overlap
+    x_max, y_max = x0 + size + overlap, y0 + size + overlap
+
+    def push(x: int, y: int) -> None:
+        if x < 0 or y < 0 or x >= w or y >= h:
+            return
+        if x < x_min or y < y_min or x >= x_max or y >= y_max:
+            return
+        i = y * w + x
+        if seen[i]:
+            return
+        r, g, b, a = px[x, y]
+        if a < 16:
+            return
+        seen[i] = 1
+        q.append((x, y))
+        pixels.append((x, y))
+
+    for y in range(y0, min(h, y0 + size)):
+        for x in range(x0, min(w, x0 + size)):
+            push(x, y)
+    while q:
+        x, y = q.popleft()
+        push(x - 1, y)
+        push(x + 1, y)
+        push(x, y - 1)
+        push(x, y + 1)
+    if not pixels:
+        return Image.new("RGBA", (size, size), (0, 0, 0, 0))
+    l = min(x for x, _y in pixels)
+    t = min(y for _x, y in pixels)
+    r = max(x for x, _y in pixels) + 1
+    b = max(y for _x, y in pixels) + 1
+    figure = Image.new("RGBA", (r - l, b - t), (0, 0, 0, 0))
+    fp = figure.load()
+    for x, y in pixels:
+        fp[x - l, y - t] = px[x, y]
+    pad = 8
+    inner = size - pad * 2
+    tw, th = figure.size
+    scale = min(inner / max(tw, 1), inner / max(th, 1), 1.0)
+    nw, nh = max(1, int(tw * scale)), max(1, int(th * scale))
+    resized = figure.resize((nw, nh), Image.Resampling.LANCZOS if scale < 0.999 else Image.Resampling.NEAREST)
+    out = Image.new("RGBA", (size, size), (0, 0, 0, 0))
+    out.paste(resized, ((size - nw) // 2, size - nh - 4), resized)
+    return out
+
+
 def write_atlas_json(png: Path, meta: Path, unit_id: str, faction: str, frames: list) -> None:
     data = png.read_bytes()
     payload = {
@@ -238,7 +294,7 @@ def pack_unit(spec: dict) -> None:
         for direction_index, direction in enumerate(DIRECTIONS):
             src_row = DIRECTION_ROWS[direction]
             for frame, src_col in enumerate(cols):
-                tile = cell(src, src_col, src_row)
+                tile = fit_cell(src, src_col, src_row)
                 col = direction_index * 2 + (frame % 2)
                 row = action_index * 2 + (frame // 2)
                 atlas.paste(tile, (col * 128, row * 128), tile)

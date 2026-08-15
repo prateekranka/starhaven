@@ -1,4 +1,4 @@
-import { createMatch, updateWorld, commandGround, tryPlace, queueUnit, tryAgeUp, idleVillager, selectedEntities, villagerBuildOptions, matchStats, formatDuration, BUILDINGS, UNITS, worldFromQ10, q10FromWorld, isBuilt } from "../sim/engine.js";
+import { createMatch, updateWorld, commandGround, tryPlace, queueUnit, tryAgeUp, idleVillager, selectedEntities, villagerBuildOptions, matchStats, formatDuration, BUILDINGS, UNITS, worldFromQ10, q10FromWorld, isBuilt, issueGather } from "../sim/engine.js";
 import { canPackBuilding, isStormveilFaction, tryPackBuilding } from "../sim/civs/stormveil.js";
 import { distanceSquaredQ10, q10RangeSq, ticksToSec } from "../sim/fixed.js";
 import { civDisplayName, civSelectionPortrait, civBuildThumb, civUsesFood } from "../data/civ-schema.js";
@@ -497,8 +497,13 @@ function bootMatchView(opts, world) {
   last = performance.now();
   raf = requestAnimationFrame(loop);
   const tc = world.buildings.find((b) => b.owner === "player" && b.type === "towncenter");
-  if (tc) view.lookAt(wx(tc), wz(tc), true);
+  if (tc) view.lookAt(wx(tc) - 1.8, wz(tc) + 1.8, true);
   world.selection = [];
+  taskOpeningVillagers(world, "player");
+  const faction = world.players.player.faction;
+  world.tip = civUsesFood(faction)
+    ? "Select a gatherer, then tap fruit, trees, or crystal."
+    : "Select an Assembler, then tap crystal, timber, or ore.";
   renderSelection();
   drawHud(world, true);
   drawMinimap(world, view);
@@ -707,18 +712,17 @@ if (isQaMode()) {
         }
       }
     }
-    // Iso camera sits at (-X,+Z). +X/-Z is screen-up, so a small far offset
-    // keeps tall billboards in frame without pulling the look-at into the map
-    // center (that parked SW TCs on the bottom edge).
-    const lookIso = (x, z, far = 2.6) => view.lookAt(x + far, z - far, true);
+    // Iso camera sits at (-X,+Z). Screen-up is +X/-Z. Look-at toward the
+    // camera (-X/+Z) parks the building in the upper half, above the HUD.
+    const lookIso = (x, z, near = 3.2) => view.lookAt(x - near, z + near, true);
     if (look === "player-tc" || look === "town") {
       const tc = world.buildings.find((b) => b.owner === "player" && b.type === "towncenter");
-      if (tc) lookIso(wx(tc), wz(tc), 2.8);
-      view.setFrustum?.(16, true);
+      if (tc) lookIso(wx(tc), wz(tc), 1.8);
+      view.setFrustum?.(20, true);
     } else if (look === "enemy-tc") {
       const tc = world.buildings.find((b) => b.owner === "enemy" && b.type === "towncenter");
-      if (tc) lookIso(wx(tc), wz(tc), 2.8);
-      view.setFrustum?.(16, true);
+      if (tc) lookIso(wx(tc), wz(tc), 1.8);
+      view.setFrustum?.(20, true);
     } else if (look === "choke" || look === "fight") {
       if (fightX != null && fightDist != null && fightDist < 24) {
         lookIso(fightX, fightZ, 2.4);
@@ -735,8 +739,8 @@ if (isQaMode()) {
         view.setFrustum?.(13, true);
       } else {
         const tc = world.buildings.find((b) => b.owner === "player" && b.type === "towncenter");
-        if (tc) lookIso(wx(tc), wz(tc), 2.8);
-        view.setFrustum?.(16, true);
+        if (tc) lookIso(wx(tc), wz(tc), 1.8);
+        view.setFrustum?.(20, true);
       }
     } else if (Number.isFinite(opts.x) && Number.isFinite(opts.z)) {
       view.lookAt(opts.x, opts.z, true);
@@ -1011,7 +1015,7 @@ function bindInput(viewport) {
   inputAbort = new AbortController();
   const sig = { signal: inputAbort.signal };
   el.addEventListener("pointerdown", onDown, sig);
-  el.addEventListener("pointermove", onMove, sig);
+  el.addEventListener("pointermove", onMove, { passive: false, signal: inputAbort.signal });
   el.addEventListener("pointerup", onUp, sig);
   el.addEventListener("pointercancel", onUp, sig);
   el.addEventListener(
@@ -1144,7 +1148,9 @@ function panFromScreen(dx, dy) {
   const info = view.cameraInfo?.();
   const h = Math.max(1, innerHeight);
   const k = (info?.frustum ?? 24) / h;
-  view.pan(-dx * k, -dy * k);
+  // Grab-pan in iso: camera sits at (-X,+Z). Screen-right is (-X,-Z),
+  // screen-down is toward the camera (-X,+Z).
+  view.pan((dx + dy) * k, (dx - dy) * k, true);
 }
 
 function onDown(e) {
@@ -1227,9 +1233,10 @@ function onMove(e) {
   }
   if (pointers.size === 1 && !isMousePointer({ pointerType: p.type }) && !boxFromHold) {
     const dist = Math.hypot(e.clientX - p.sx, e.clientY - p.sy);
-    if (dist > 10) {
+    if (dist > 8) {
       cancelLongPress();
       p.panned = true;
+      e.preventDefault();
       panFromScreen(dx, dy);
     }
   }
@@ -1271,8 +1278,22 @@ function onUp(e) {
     return;
   }
   if (dist < 14 && g) {
+    const res = pickResource(world, g.x, g.z);
     const hit = pickEntity(world, g.x, g.z);
-    if (hit && hit.owner === "player") {
+    const vills = selectedEntities(world).filter((e) => e.kind === "unit" && e.type === "villager" && e.owner === "player");
+    const preferGather = res && vills.length && !(hit && hit.owner === "player");
+    if (preferGather) {
+      clearEmptyTap(false);
+      const usable = vills.some((v) => civMechanics(v.faction).filterGatherKind(v.owner, res.kind));
+      if (!usable) {
+        world.tip = "Assemblers gather crystal, timber, and ore — not fruit.";
+      } else {
+        issueRecordedMove(wx(res), wz(res));
+        audio.play("move", { x: wx(res), z: wz(res) });
+        haptic(8, "orderAccepted");
+        world.tip = `Gathering ${gatherKindLabel(res.kind)}.`;
+      }
+    } else if (hit && hit.owner === "player") {
       clearEmptyTap(false);
       world.selection = e.shiftKey ? [...new Set([...world.selection, hit.id])] : [hit.id];
       audio.play("select", { x: wx(hit), z: wz(hit) });
@@ -1360,6 +1381,63 @@ function projectApprox(wx, wz) {
   return { x: el.left + el.width / 2, y: el.top + el.height / 2 };
 }
 
+function pickResource(world, x, z) {
+  let best = null;
+  let bdSq = q10RangeSq(2.8);
+  const click = { xQ10: q10FromWorld(x), zQ10: q10FromWorld(z) };
+  for (const r of world.resources) {
+    if (r.kind === "rockblock" || r.amount <= 0) continue;
+    const dSq = distanceSquaredQ10(click, r);
+    if (dSq < bdSq) {
+      bdSq = dSq;
+      best = r;
+    }
+  }
+  return best;
+}
+
+function gatherKindLabel(kind) {
+  return { food: "fruit", wood: "timber", crystal: "crystal", ore: "ore" }[kind] || kind;
+}
+
+function taskOpeningVillagers(world, owner) {
+  const faction = world.players[owner].faction;
+  const mech = civMechanics(faction);
+  const vills = world.units.filter((u) => u.owner === owner && u.type === "villager");
+  const nodes = world.resources.filter((r) => r.kind !== "rockblock" && r.amount > 0 && mech.filterGatherKind(owner, r.kind));
+  const used = new Set();
+  const order = mech.usesFood ? ["food", "wood", "crystal", "ore"] : ["crystal", "wood", "ore"];
+  let i = 0;
+  for (const v of vills) {
+    const kind = order[i++ % order.length];
+    let best = null;
+    let bestD = Infinity;
+    for (const r of nodes) {
+      if (used.has(r.id) || r.kind !== kind) continue;
+      const d = distanceSquaredQ10(v, r);
+      if (d < bestD) {
+        bestD = d;
+        best = r;
+      }
+    }
+    if (!best) {
+      bestD = Infinity;
+      for (const r of nodes) {
+        if (used.has(r.id)) continue;
+        const d = distanceSquaredQ10(v, r);
+        if (d < bestD) {
+          bestD = d;
+          best = r;
+        }
+      }
+    }
+    if (best) {
+      used.add(best.id);
+      issueGather(world, v, best);
+    }
+  }
+}
+
 function pickEntity(world, x, z) {
   let best = null;
   let bdSq = q10RangeSq(1.8);
@@ -1414,7 +1492,7 @@ function renderSelection() {
   document.getElementById("sel-hp-text").textContent = `${e.hp | 0}/${e.maxHp | 0}`;
   const portrait = document.getElementById("sel-portrait");
   if (portrait) {
-    const src = civSelectionPortrait(faction, e) || selectionPortrait(e, faction);
+    const src = selectionPortrait(e, faction) || civSelectionPortrait(faction, e);
     if (src) portrait.src = src;
   }
   cmds.innerHTML = "";
@@ -1437,6 +1515,12 @@ function renderSelection() {
   }
 
   if (e.kind === "unit" && e.type === "villager" && e.owner === "player") {
+    cmds.appendChild(iconBtn("GATHER", "media/sprites/icon-crystal.v2.png", () => {
+      if (tuningSession) return;
+      world.tip = civUsesFood(faction)
+        ? "Tap fruit, trees, or crystal to gather."
+        : "Tap crystal, timber, or ore to gather.";
+    }));
     for (const t of villagerBuildOptions(world)) {
       cmds.appendChild(
         iconBtn(BUILDINGS[t].name, buildIcon(t, faction), () => {

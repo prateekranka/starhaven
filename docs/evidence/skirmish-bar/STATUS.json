@@ -1,24 +1,24 @@
 {
   "schema": 1,
-  "done": true,
-  "round": 2,
-  "displaySha": "9999e8f11",
-  "sourceSha": "9999e8f1199240d19d52652a52094f29e0e2f872",
+  "done": false,
+  "round": 3,
+  "displaySha": null,
+  "sourceSha": null,
   "livePack": "https://dev.starhaven.contenthelper.in/",
   "gameplay": {
-    "rate": 1,
-    "meetsRate": true,
-    "sample": "48 games, 3 pairings × 8 seeds × both directions, SIM_TICKS=36000, no stalemate resolver",
-    "open": "48/48",
-    "mid": "48/48 (live military, not unitsTrained)",
-    "fight": "48/48",
-    "winnerFromPlay": "48/48"
+    "rate": 0,
+    "meetsRate": false,
+    "sample": "Human iPad playtest rejected the 48/48 AI-vs-AI batch as an AoE2-shaped 1v1. Opening eco was unreadable (no tap-to-gather).",
+    "open": "fail",
+    "mid": "unproven",
+    "fight": "unproven",
+    "winnerFromPlay": "unproven"
   },
   "look": {
-    "pass": true,
-    "biggestGap": null,
-    "critic": "LOOK_BAR_PASS on 2304×1440 canvas stills vs generated Sunwoven/Gravemark plates. Towns: Cog brass TC, Storm canvas-keep, Ash magma TC. Fights: both painted civs readable (Ash cape knight, Cog furnace mech, Storm navy cloak).",
+    "pass": false,
+    "biggestGap": "Foundry Core clipped at the bottom and washed out; Cogforged gatherer/builder walk cells overflowed; assembler/surveyor/age-up command icons were greybox stamps.",
+    "critic": "Human playtest, not stills.",
     "captures": "docs/evidence/skirmish-bar/stills/captures.json"
   },
-  "log": "Both bars met. Live pack displaySha 9999e8f11 matches build-info.json after Cloudflare Pages deploy of 9a35402."
+  "log": "AoE2 bar is a human 1v1, not the AI batch. This round fixes gather UX, Foundry framing/lighting, Cog walk packing, iPad pan, and Foundry command icons. Do not set done true until a cold player can collect, fight, and age up without a tutorial lie."
 }

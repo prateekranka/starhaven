@@ -48,12 +48,11 @@ void main() {
   vec4 tex = texture2D(map, vUv);
   if (tex.a < 0.22) discard;
 
-  vec3 dayLight = vec3(1.12, 1.04, 0.9);
+  vec3 dayLight = vec3(1.0, 0.97, 0.92);
   vec3 lit = dayLight * tex.rgb * uTint;
   lit += tex.rgb * uGlowColor * uGlow * uGlowFactor;
 
   gl_FragColor = vec4(lit, tex.a * uOpacity);
-  #include <tonemapping_fragment>
   #include <colorspace_fragment>
   #include <fog_fragment>
 }
@@ -81,7 +80,7 @@ const template = new THREE.ShaderMaterial({
   depthWrite: true,
   depthTest: true,
   fog: true,
-  toneMapped: true,
+  toneMapped: false,
 });
 
 let glowFactor = getRenderConfig().genericGlowFactor;
