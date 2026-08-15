@@ -113,8 +113,8 @@
     },
     {
       "path": "js/game/render.js",
-      "bytes": 38810,
-      "sha256": "05d8640c201cac042f295a412bc8dc7fb18fee09880effed1d8e605b09b19e98"
+      "bytes": 38815,
+      "sha256": "566fcae5f007f1cbc00c19900b262558129b858001f16da54dc3c086c221d189"
     },
     {
       "path": "js/game/unit-atlas.js",
@@ -1798,5 +1798,5 @@
     }
   ],
   "fileCount": 359,
-  "totalBytes": 133571740
+  "totalBytes": 133571745
 }
