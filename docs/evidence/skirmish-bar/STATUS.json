@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "done": false,
-  "round": 1,
+  "round": 2,
   "displaySha": null,
   "sourceSha": null,
   "livePack": "https://dev.starhaven.contenthelper.in/",
@@ -15,8 +15,10 @@
     "winnerFromPlay": "48/48"
   },
   "look": {
-    "pass": false,
-    "biggestGap": "Fight stills still under-show the second painted civ (Storm clipped / Ash reads as brass next to Cog); Ash studio plates knocked out. Town stills now show Cog brass, Ash volcanic TC, Storm canvas keep."
+    "pass": true,
+    "biggestGap": null,
+    "critic": "LOOK_BAR_PASS on 2304×1440 canvas stills vs generated Sunwoven/Gravemark plates. Towns: Cog brass TC, Storm canvas-keep, Ash magma TC. Fights: both painted civs readable (Ash cape knight, Cog furnace mech, Storm navy cloak).",
+    "captures": "docs/evidence/skirmish-bar/stills/captures.json"
   },
-  "log": "Round 1: shape bar 48/48 on Highland Chokes (choke path, hunt-TC, garrison shot, Cog barracks-first). Look: knockout Ash building plates; fight camera aims at closest opposing pair; QA stills reveal fog. Next: recapture fights so both painted civs fill the frame, then independent look critic."
+  "log": "Round 2: look capture high backing, FoW plane off, TC/fight iso look without map-center pull. Independent critic LOOK_BAR_PASS. Ship pack, then set done once live displaySha matches."
 }

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-15T16:59:41.682Z",
+  "generatedAt": "2026-08-15T17:51:16.667Z",
   "seed": "0x4d455249",
   "log": [
     {
@@ -10,8 +10,8 @@
       "town": {
         "file": "/Users/prateekranka/Cowork/sunfold cursor good version/docs/evidence/skirmish-bar/stills/cog-ash-town.png",
         "ok": true,
-        "t": 5856,
-        "sec": 97.6,
+        "t": 6756,
+        "sec": 112.6,
         "speed": 12,
         "winner": null,
         "player": {
@@ -19,99 +19,131 @@
           "age": 1,
           "tc": true,
           "vills": 8,
+          "buildings": 2,
           "military": 3
         },
         "enemy": {
           "faction": "ashvein",
-          "age": 1,
-          "tc": true,
-          "vills": 11,
-          "military": 1
-        },
-        "fightDist": 26.481484404501746,
-        "fightX": 102.10546875,
-        "fightZ": 117.5771484375
-      },
-      "fight": {
-        "file": "/Users/prateekranka/Cowork/sunfold cursor good version/docs/evidence/skirmish-bar/stills/cog-ash-fight.png",
-        "ok": true,
-        "t": 6446,
-        "sec": 107.43333333333334,
-        "speed": 12,
-        "winner": null,
-        "player": {
-          "faction": "cogforged",
-          "age": 1,
-          "tc": true,
-          "vills": 8,
-          "military": 3
-        },
-        "enemy": {
-          "faction": "ashvein",
-          "age": 1,
-          "tc": true,
-          "vills": 11,
-          "military": 1
-        },
-        "fightDist": 1.6942177327283272,
-        "fightX": 103.42529296875,
-        "fightZ": 122.47265625
-      }
-    },
-    {
-      "id": "cog-storm",
-      "player": "cogforged",
-      "enemy": "stormveil",
-      "url": "http://127.0.0.1:8765/?play=1&qa=1&aivsai=1&map=highland-chokes&faction=cogforged&enemy=stormveil&seed=0x4d455249&diff=chieftain",
-      "town": {
-        "file": "/Users/prateekranka/Cowork/sunfold cursor good version/docs/evidence/skirmish-bar/stills/cog-storm-town.png",
-        "ok": true,
-        "t": 7351,
-        "sec": 122.51666666666667,
-        "speed": 12,
-        "winner": null,
-        "player": {
-          "faction": "cogforged",
-          "age": 1,
-          "tc": true,
-          "vills": 8,
-          "military": 4
-        },
-        "enemy": {
-          "faction": "stormveil",
           "age": 1,
           "tc": true,
           "vills": 12,
+          "buildings": 4,
           "military": 0
         },
         "fightDist": null,
         "fightX": null,
-        "fightZ": null
+        "fightZ": null,
+        "backing": {
+          "w": 727,
+          "h": 454,
+          "pixelRatio": 0.5046278282038487,
+          "software": true
+        }
       },
       "fight": {
-        "file": "/Users/prateekranka/Cowork/sunfold cursor good version/docs/evidence/skirmish-bar/stills/cog-storm-fight.png",
+        "file": "/Users/prateekranka/Cowork/sunfold cursor good version/docs/evidence/skirmish-bar/stills/cog-ash-fight.png",
         "ok": true,
-        "t": 12985,
-        "sec": 216.41666666666666,
+        "t": 18442,
+        "sec": 307.3666666666667,
         "speed": 12,
         "winner": null,
         "player": {
           "faction": "cogforged",
           "age": 1,
           "tc": true,
-          "vills": 8,
-          "military": 5
+          "vills": 4,
+          "buildings": 3,
+          "military": 6
         },
         "enemy": {
+          "faction": "ashvein",
+          "age": 1,
+          "tc": true,
+          "vills": 12,
+          "buildings": 8,
+          "military": 2
+        },
+        "fightDist": 7.83020089467859,
+        "fightX": 116.5146484375,
+        "fightZ": 100.501953125,
+        "backing": {
+          "w": 2304,
+          "h": 1440,
+          "pixelRatio": 1.6,
+          "software": true
+        }
+      }
+    },
+    {
+      "id": "cog-storm",
+      "player": "stormveil",
+      "enemy": "cogforged",
+      "url": "http://127.0.0.1:8765/?play=1&qa=1&aivsai=1&map=highland-chokes&faction=stormveil&enemy=cogforged&seed=0x4d455249&diff=chieftain",
+      "town": {
+        "file": "/Users/prateekranka/Cowork/sunfold cursor good version/docs/evidence/skirmish-bar/stills/cog-storm-town.png",
+        "ok": true,
+        "t": 5484,
+        "sec": 91.4,
+        "speed": 12,
+        "winner": null,
+        "player": {
           "faction": "stormveil",
           "age": 1,
           "tc": true,
-          "vills": 13,
+          "vills": 10,
+          "buildings": 3,
+          "military": 1
+        },
+        "enemy": {
+          "faction": "cogforged",
+          "age": 1,
+          "tc": true,
+          "vills": 8,
+          "buildings": 2,
           "military": 2
         },
-        "fightDist": 4.802026324923297,
-        "fightX": 100.56005859375,
-        "fightZ": 124.40625
+        "fightDist": 1.6843008163054274,
+        "fightX": 94.6240234375,
+        "fightZ": 129.36083984375,
+        "backing": {
+          "w": 691,
+          "h": 432,
+          "pixelRatio": 0.48,
+          "software": true
+        }
+      },
+      "fight": {
+        "file": "/Users/prateekranka/Cowork/sunfold cursor good version/docs/evidence/skirmish-bar/stills/cog-storm-fight.png",
+        "ok": true,
+        "t": 7376,
+        "sec": 122.93333333333334,
+        "speed": 12,
+        "winner": null,
+        "player": {
+          "faction": "stormveil",
+          "age": 1,
+          "tc": true,
+          "vills": 12,
+          "buildings": 4,
+          "military": 1
+        },
+        "enemy": {
+          "faction": "cogforged",
+          "age": 1,
+          "tc": true,
+          "vills": 8,
+          "buildings": 2,
+          "military": 3
+        },
+        "fightDist": 10.666058811113587,
+        "fightX": 127.63037109375,
+        "fightZ": 79.37060546875,
+        "backing": {
+          "w": 2304,
+          "h": 1440,
+          "pixelRatio": 1.6,
+          "software": true
+        }
       }
     },
     {
@@ -122,8 +154,8 @@
       "town": {
         "file": "/Users/prateekranka/Cowork/sunfold cursor good version/docs/evidence/skirmish-bar/stills/ash-storm-town.png",
         "ok": true,
-        "t": 6678,
-        "sec": 111.3,
+        "t": 5911,
+        "sec": 98.51666666666667,
         "speed": 12,
         "winner": null,
         "player": {
@@ -131,24 +163,32 @@
           "age": 1,
           "tc": true,
           "vills": 11,
-          "military": 0
+          "buildings": 3,
+          "military": 1
         },
         "enemy": {
           "faction": "stormveil",
           "age": 1,
           "tc": true,
           "vills": 11,
+          "buildings": 2,
           "military": 1
         },
-        "fightDist": null,
-        "fightX": null,
-        "fightZ": null
+        "fightDist": 8.536443003155247,
+        "fightX": 99.26220703125,
+        "fightZ": 127.16748046875,
+        "backing": {
+          "w": 691,
+          "h": 432,
+          "pixelRatio": 0.48,
+          "software": true
+        }
       },
       "fight": {
         "file": "/Users/prateekranka/Cowork/sunfold cursor good version/docs/evidence/skirmish-bar/stills/ash-storm-fight.png",
         "ok": true,
-        "t": 8272,
-        "sec": 137.86666666666667,
+        "t": 13996,
+        "sec": 233.26666666666668,
         "speed": 12,
         "winner": null,
         "player": {
@@ -156,18 +196,26 @@
           "age": 1,
           "tc": true,
           "vills": 13,
-          "military": 1
+          "buildings": 4,
+          "military": 3
         },
         "enemy": {
           "faction": "stormveil",
           "age": 1,
           "tc": true,
           "vills": 13,
-          "military": 1
+          "buildings": 7,
+          "military": 2
         },
-        "fightDist": 8.7319182351164,
-        "fightX": 41.97705078125,
-        "fightZ": 166.044921875
+        "fightDist": 8.619792803776754,
+        "fightX": 106.85107421875,
+        "fightZ": 117.4853515625,
+        "backing": {
+          "w": 2304,
+          "h": 1440,
+          "pixelRatio": 1.6,
+          "software": true
+        }
       }
     }
   ]

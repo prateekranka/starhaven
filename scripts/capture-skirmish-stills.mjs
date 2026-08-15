@@ -18,7 +18,7 @@ const outDir = process.env.LOOK_OUT || join(repoRoot, "docs/evidence/skirmish-ba
 const seed = process.env.LOOK_SEED || "0x4d455249";
 const matches = [
   { id: "cog-ash", p: "cogforged", e: "ashvein", townLook: "player-tc" },
-  { id: "cog-storm", p: "cogforged", e: "stormveil", townLook: "enemy-tc" },
+  { id: "cog-storm", p: "stormveil", e: "cogforged", townLook: "player-tc" },
   { id: "ash-storm", p: "ashvein", e: "stormveil", townLook: "player-tc" },
 ];
 
@@ -57,7 +57,7 @@ async function fastForwardTo(page, pred, { speed = 12, timeoutMs = 180_000 } = {
 
 async function captureNamed(page, look, file) {
   await page.evaluate((kind) => window.__starhavenLook({ look: kind, speed: 1 }), look);
-  await page.waitForTimeout(220);
+  await page.waitForTimeout(400);
   const dataUrl = await page.evaluate(() => window.__starhavenCaptureCanvas());
   if (!dataUrl) throw new Error(`canvas capture failed for ${file}`);
   const buf = Buffer.from(dataUrl.split(",")[1], "base64");
@@ -79,13 +79,18 @@ try {
     const url = playUrl(m.p, m.e);
     await page.goto(url, { waitUntil: "networkidle" });
     await waitForMatch(page);
-    const townState = await fastForwardTo(page, (s) => s.sec >= 95 && (s.player.military > 0 || s.enemy.military > 0 || s.sec >= 140));
+    const townState = await fastForwardTo(page, (s) => s.sec >= 80 && (s.player?.buildings || 0) >= 2);
     const townPath = join(outDir, `${m.id}-town.png`);
     await captureNamed(page, m.townLook || "player-tc", townPath);
     const fightState = await fastForwardTo(
       page,
-      (s) => (s.fightDist != null && s.fightDist < 16 && s.player.military > 0 && s.enemy.military > 0) || s.sec >= 280,
-      { speed: 12, timeoutMs: 240_000 },
+      (s) => {
+        if (!(s.player?.military > 0 && s.enemy?.military > 0)) return false;
+        if (s.fightDist == null || s.fightDist < 7 || s.fightDist > 11) return false;
+        if (s.fightX == null || s.fightZ == null) return false;
+        return s.fightX > 28 && s.fightX < 164 && s.fightZ > 28 && s.fightZ < 164;
+      },
+      { speed: 12, timeoutMs: 360_000 },
     );
     const fightPath = join(outDir, `${m.id}-fight.png`);
     await captureNamed(page, "choke", fightPath);

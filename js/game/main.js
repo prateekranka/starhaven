@@ -674,6 +674,7 @@ if (isQaMode()) {
     if (opts.speed != null) world.speed = Math.max(1, Number(opts.speed) || 1);
     const look = opts.look;
     if (isQaMode() && look) {
+      view.setLookCapture?.(true);
       const n = world.N;
       const vis = world.visible?.player;
       const exp = world.explored?.player;
@@ -706,38 +707,47 @@ if (isQaMode()) {
         }
       }
     }
+    // Iso camera sits at (-X,+Z). +X/-Z is screen-up, so a small far offset
+    // keeps tall billboards in frame without pulling the look-at into the map
+    // center (that parked SW TCs on the bottom edge).
+    const lookIso = (x, z, far = 2.6) => view.lookAt(x + far, z - far, true);
     if (look === "player-tc" || look === "town") {
       const tc = world.buildings.find((b) => b.owner === "player" && b.type === "towncenter");
-      if (tc) view.lookAt(wx(tc), wz(tc), true);
-      view.setFrustum?.(20, true);
+      if (tc) lookIso(wx(tc), wz(tc), 2.8);
+      view.setFrustum?.(16, true);
     } else if (look === "enemy-tc") {
       const tc = world.buildings.find((b) => b.owner === "enemy" && b.type === "towncenter");
-      if (tc) view.lookAt(wx(tc), wz(tc), true);
-      view.setFrustum?.(22, true);
+      if (tc) lookIso(wx(tc), wz(tc), 2.8);
+      view.setFrustum?.(16, true);
     } else if (look === "choke" || look === "fight") {
       if (fightX != null && fightDist != null && fightDist < 24) {
-        view.lookAt(fightX + 1.2, fightZ - 1.2, true);
+        lookIso(fightX, fightZ, 2.4);
+        view.setFrustum?.(Math.min(13, Math.max(11, fightDist * 0.5 + 8)), true);
       } else if (playerMil.length) {
         const x = playerMil.reduce((s, u) => s + wx(u), 0) / playerMil.length;
         const z = playerMil.reduce((s, u) => s + wz(u), 0) / playerMil.length;
-        view.lookAt(x, z, true);
+        lookIso(x, z, 2.4);
+        view.setFrustum?.(13, true);
       } else if (enemyMil.length) {
         const x = enemyMil.reduce((s, u) => s + wx(u), 0) / enemyMil.length;
         const z = enemyMil.reduce((s, u) => s + wz(u), 0) / enemyMil.length;
-        view.lookAt(x, z, true);
+        lookIso(x, z, 2.4);
+        view.setFrustum?.(13, true);
       } else {
         const tc = world.buildings.find((b) => b.owner === "player" && b.type === "towncenter");
-        if (tc) view.lookAt(wx(tc), wz(tc), true);
+        if (tc) lookIso(wx(tc), wz(tc), 2.8);
+        view.setFrustum?.(16, true);
       }
-      view.setFrustum?.(20, true);
     } else if (Number.isFinite(opts.x) && Number.isFinite(opts.z)) {
       view.lookAt(opts.x, opts.z, true);
     }
+    const backing = view.stats?.();
     const side = (owner) => ({
       faction: world.players[owner].faction,
       age: world.players[owner].age,
       tc: world.buildings.some((b) => b.owner === owner && b.type === "towncenter" && b.hp > 0),
       vills: world.units.filter((u) => u.owner === owner && u.type === "villager" && u.hp > 0).length,
+      buildings: world.buildings.filter((b) => b.owner === owner && b.hp > 0).length,
       military: world.units.filter((u) => u.owner === owner && u.hp > 0 && u.type !== "villager" && u.type !== "scout").length,
     });
     return {
@@ -751,11 +761,13 @@ if (isQaMode()) {
       fightDist,
       fightX,
       fightZ,
+      backing: backing ? { w: backing.w, h: backing.h, pixelRatio: backing.pixelRatio, software: backing.software } : null,
     };
   };
 
   window.__starhavenCaptureCanvas = function () {
     try {
+      view?.setLookCapture?.(true);
       if (world && view?.sync) view.sync(world, 0);
       return view?.renderer?.domElement?.toDataURL?.("image/png") || null;
     } catch {
@@ -786,7 +798,7 @@ function loop(now) {
   if (!world || !view) return;
 
   const scale = pacer.sample(dt * 1000, lastSimMs + lastDrawMs);
-  if (pacer.shouldApply(now) && view.setAdaptiveScale) view.setAdaptiveScale(scale);
+  if (pacer.shouldApply(now) && view.setAdaptiveScale && !view.lookCaptureLocked?.()) view.setAdaptiveScale(scale);
 
   if (!paused && !tuningSession) {
     const speed = isQaMode() ? Math.max(1, world.speed || 1) : 1;

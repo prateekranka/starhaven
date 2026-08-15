@@ -257,6 +257,7 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
   const software = isSoftwareGL(renderer);
   const gpuName = glRendererName(renderer);
   let adaptiveScale = software ? 0.55 : 1;
+  let lookCapture = false;
   let appliedRatio = 0;
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -382,7 +383,7 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
   function applyBacking(force = false) {
     const w = Math.max(1, container.clientWidth);
     const h = Math.max(1, container.clientHeight);
-        const ratio = pixelRatioFor(w, h, software ? "medium" : quality, adaptiveScale);
+        const ratio = pixelRatioFor(w, h, lookCapture ? "high" : software ? "medium" : quality, adaptiveScale);
     if (!force && Math.abs(ratio - appliedRatio) < 0.035) {
       const a = w / h;
       camera.left = (-frustumLive * a) / 2;
@@ -430,7 +431,8 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
   }
 
   function setFrustum(value, immediate) {
-    frustumDesired = THREE.MathUtils.clamp(value, FRUSTUM_MIN, FRUSTUM_MAX);
+    const min = lookCapture ? 11 : FRUSTUM_MIN;
+    frustumDesired = THREE.MathUtils.clamp(value, min, FRUSTUM_MAX);
     if (immediate || reduceMotion) {
       frustumLive = frustumDesired;
       applyBacking(false);
@@ -483,7 +485,7 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
       }
       const y = sampleH(wx(r), wz(r));
       m.position.set(wx(r), y, wz(r));
-      m.visible = r.amount > 0 && seen(world, wx(r), wz(r));
+      m.visible = r.amount > 0 && (lookCapture || seen(world, wx(r), wz(r)));
       const s = m.userData.baseScale || (r.kind === "wood" ? 4.2 : 3.4);
       const a = m.userData.aspect || 1;
       m.scale.set(s * a, s, 1);
@@ -505,7 +507,7 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
       const powered = b.powered !== false;
       m.userData.opacity = powered ? 0.55 + 0.45 * built : 0.22 + 0.18 * built;
       m.userData.glow = 0;
-      m.visible = seen(world, wx(b), wz(b)) || b.owner === "player";
+      m.visible = lookCapture || seen(world, wx(b), wz(b)) || b.owner === "player";
     }
     for (const u of world.units) {
       keep.add("u" + u.id);
@@ -519,7 +521,7 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
       m.position.set(wx(u), y, wz(u));
       animateUnit(m, u, world, dt);
       m.userData.lastFacing = (FACING_MILLIRAD[u.facingOctant || 0] || 0) / 1000;
-      m.visible = u.owner === "player" || (!unitInTunnelLayer(u) && vis(world, wx(u), wz(u)));
+      m.visible = lookCapture || u.owner === "player" || (!unitInTunnelLayer(u) && vis(world, wx(u), wz(u)));
       keep.add("sh" + u.id);
       let sh = meshes.get("sh" + u.id);
       if (!sh) {
@@ -630,6 +632,7 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
 
     ensureWindLanes(world);
     if (!rockProps) rockProps = addRockProps(scene, world);
+    fogPlane.visible = !lookCapture;
     paintFog(fogCtx, fogTex, fogImg, world, terrainFogLut);
     if ((mapPaletteDirty || world.ashvein?.terrainDirty) && world.map?.terrain) {
       patchTerrainColors(terrain, world, mapWorld);
@@ -677,6 +680,24 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
     zoom: setZoom,
     setFrustum,
     lookAt,
+    setLookCapture(on) {
+      lookCapture = !!on;
+      if (lookCapture) {
+        adaptiveScale = 1;
+        scene.fog.near = 800;
+        scene.fog.far = 1200;
+        fogPlane.visible = false;
+      } else {
+        const config = getRenderConfig();
+        scene.fog.near = config.fogNear;
+        scene.fog.far = config.fogFar;
+        fogPlane.visible = true;
+      }
+      applyBacking(true);
+    },
+    lookCaptureLocked() {
+      return lookCapture;
+    },
     groundPick,
     sync,
     resize,
@@ -708,7 +729,7 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
     stats() {
       const w = Math.max(1, container.clientWidth);
       const h = Math.max(1, container.clientHeight);
-      const backing = backingLabel(w, h, appliedRatio || pixelRatioFor(w, h, software ? "medium" : quality, adaptiveScale));
+      const backing = backingLabel(w, h, appliedRatio || pixelRatioFor(w, h, lookCapture ? "high" : software ? "medium" : quality, adaptiveScale));
       return {
         pixelRatio: appliedRatio,
         ...backing,
