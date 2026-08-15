@@ -98,8 +98,8 @@
     },
     {
       "path": "js/game/bright-lit.js",
-      "bytes": 5087,
-      "sha256": "0547a79847282934bd3c405dc20304e41a1f441633e18264ac2c003f209aa31b"
+      "bytes": 5303,
+      "sha256": "0a5bd7067066ecbdeae3d5d3adcc14147d0c88e5cf18e43a867a93aab1ecb1f2"
     },
     {
       "path": "js/game/main.js",
@@ -113,8 +113,8 @@
     },
     {
       "path": "js/game/render.js",
-      "bytes": 38815,
-      "sha256": "566fcae5f007f1cbc00c19900b262558129b858001f16da54dc3c086c221d189"
+      "bytes": 39818,
+      "sha256": "793573c7dfffc3a01dbd7226fd0604492834a1fef9d5eb599b59eaba306a2029"
     },
     {
       "path": "js/game/unit-atlas.js",
@@ -434,12 +434,12 @@
     {
       "path": "media/sprites/ash-guard.atlas.json",
       "bytes": 48676,
-      "sha256": "cf1a689f35911ccafd452a1cd617c10200e377e29144ac561b9acc9e3f6fae96"
+      "sha256": "98532832400a540f19f56acd1e21358cabfa69bcd854d5b336e5c6b9fdfc41a0"
     },
     {
       "path": "media/sprites/ash-guard.atlas.png",
-      "bytes": 2368985,
-      "sha256": "98bcc887f4ceba8df665b5f5aa657a2f7b396f9bc1b67b97b2f6fc7b0e93b3fa"
+      "bytes": 2085670,
+      "sha256": "fc517040099fdc23150a436f68412c73e8b1742046ef9ada61bb25261832d082"
     },
     {
       "path": "media/sprites/ash-siege.atlas.json",
@@ -464,12 +464,12 @@
     {
       "path": "media/sprites/ash-walk.atlas.json",
       "bytes": 48514,
-      "sha256": "d3036890e0c702cd88cdebe6ad0c7d6adb513fb088198b27e3d3380b857f66e0"
+      "sha256": "991fac02bb2846d679e2c3ed74eeefac50b0be6c90bdd22283a08888094c2698"
     },
     {
       "path": "media/sprites/ash-walk.atlas.png",
-      "bytes": 2642371,
-      "sha256": "2e5253a0e4f65d966fee8aae0db71c91f02bc059513001d821bdd1f7f257e893"
+      "bytes": 2633817,
+      "sha256": "84a8da2efc1d2d025ba6fed24fbce7ad6f299c77ed5f1ccc175f7f34e9360bdd"
     },
     {
       "path": "media/sprites/bldg-ash-den.png",
@@ -1559,12 +1559,12 @@
     {
       "path": "media/sprites/storm-guard.atlas.json",
       "bytes": 49002,
-      "sha256": "61f853470e35efba9da7ac456060a19b946eb3cc6a5a3ffe7922727c24260a96"
+      "sha256": "66d9b51855d0dcab6ad1daec4b90fd9bd437fe43a8c7dffdbba000970151543c"
     },
     {
       "path": "media/sprites/storm-guard.atlas.png",
-      "bytes": 2814507,
-      "sha256": "5434b64c75dc7908577b58865384b6a498513e6fd450c121fe0bac20e00f1b88"
+      "bytes": 2132863,
+      "sha256": "ba81f0c7298a36158333d8cc46c4083f97b15275159ddff953a0dfb82e1adde8"
     },
     {
       "path": "media/sprites/storm-siege.atlas.json",
@@ -1599,12 +1599,12 @@
     {
       "path": "media/sprites/storm-walk.atlas.json",
       "bytes": 48840,
-      "sha256": "5de16f400be3be75b38d29f597d103c6c05a741b8c975e9b74102d757665b601"
+      "sha256": "fdcfae8fd7c33467cae42ed6e10fd12e1f4920de87218d6e7a5aa5a29fdfe310"
     },
     {
       "path": "media/sprites/storm-walk.atlas.png",
-      "bytes": 3187198,
-      "sha256": "d9167130a38e5908e761e55b4635b809cda27723d064d9a40686f5f8edd90d10"
+      "bytes": 2406312,
+      "sha256": "e5465afa2adf8489bc1e6933392df09cf598c83d62020f2c9f85252470fc8571"
     },
     {
       "path": "media/sprites/sun-guard.atlas.json",
@@ -1798,5 +1798,5 @@
     }
   ],
   "fileCount": 359,
-  "totalBytes": 133571745
+  "totalBytes": 131818565
 }
