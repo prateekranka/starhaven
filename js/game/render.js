@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { N, CELL, inLight, q10FromWorld, buildRatio } from "../sim/engine.js";
-import { worldFromQ10, FACING_MILLIRAD, TICKS_PER_SEC, secToTicks } from "../sim/fixed.js";
+import { worldFromQ10, Q10, FACING_MILLIRAD, TICKS_PER_SEC, secToTicks } from "../sim/fixed.js";
 import { pixelRatioFor, resolveQuality, backingLabel, isSoftwareGL, glRendererName, isQaMode } from "../perf.js";
 import { cachedImage } from "../cache/assets.js";
 import { BIOME_HEX } from "../data/map-biomes.js";
