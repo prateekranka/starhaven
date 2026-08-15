@@ -8,13 +8,13 @@
     },
     {
       "path": "cache-manifest.json",
-      "bytes": 26904,
-      "sha256": "be5043f5f1de96275910070d11e2b80867013e9a04b10f65c2978e219ccc303c"
+      "bytes": 27004,
+      "sha256": "86e17d857cbb73e2513b583996b8dbf84226309fd5fe045adfc3783a2e38f5a6"
     },
     {
       "path": "css/app.css",
-      "bytes": 33913,
-      "sha256": "9b5653cf0bc207996efd4a7dd4cc653887df1e707dad88d24f91201d3b736c13"
+      "bytes": 33533,
+      "sha256": "beaea75fe07a3c64bd26046d1367a3847ea62881da1d3a8b56a9d3912873b4d9"
     },
     {
       "path": "css/tokens.css",
@@ -22,14 +22,19 @@
       "sha256": "e0d989868aa1a6f38e2a1b31955461b3677a1f1c077dfd83ba20ab5e992a0089"
     },
     {
+      "path": "css/tuning-editor.css",
+      "bytes": 10188,
+      "sha256": "56f47d390e4893c4c65bd3cc4a12816105325c1e83b23801324be829e7f62120"
+    },
+    {
       "path": "index.html",
-      "bytes": 23840,
-      "sha256": "bea113e635af65cb61bce84b459453735301685c6f5886af145c05920d4cabb4"
+      "bytes": 23791,
+      "sha256": "c7b3fa2d6666952c7ab3316d7f3ffab663976cba6711e1d3fc55c41df20438c8"
     },
     {
       "path": "js/audio/engine.js",
-      "bytes": 8888,
-      "sha256": "18766fdeacfdb0d09598e3664b003ea0fbbbb3467b71da9d509e1a5061c41f0d"
+      "bytes": 9342,
+      "sha256": "7df884f616a35500139c0ed226586f2edcd94b37db698f7eada2159cc1b4e3c0"
     },
     {
       "path": "js/audio/match-audio.js",
@@ -38,8 +43,8 @@
     },
     {
       "path": "js/audio/score.js",
-      "bytes": 3397,
-      "sha256": "c01d04fc7149d100c5c6a18bc4ddf935953e5b99c95188367ce398dfe88a03fc"
+      "bytes": 2797,
+      "sha256": "d85a1b9498ec8d70bfe231bbf32152b89fe6ea14331ca1a8f571c1ba9c4f28b8"
     },
     {
       "path": "js/boot.js",
@@ -62,14 +67,34 @@
       "sha256": "10c41941b9864b8e5d0c6c3875b389621c82bf32c175fbe50c424b9a2a11c454"
     },
     {
+      "path": "js/config/audio-config.js",
+      "bytes": 3202,
+      "sha256": "31e278e82f1621ffad086026a3c21eeaf9d2773f394f4b59cbe294b340fedb14"
+    },
+    {
+      "path": "js/config/map-config.js",
+      "bytes": 4878,
+      "sha256": "ad1190422b5c4c4bc9153b701e93278b241a0fa4190b37d51d0c11a96fce3dce"
+    },
+    {
+      "path": "js/config/render-config.js",
+      "bytes": 5081,
+      "sha256": "65954d7fb1cdb9bb12220433afb34df9c049d86d48b285c5ec9ca4f266cfe1f8"
+    },
+    {
+      "path": "js/config/tuning-spec.js",
+      "bytes": 6530,
+      "sha256": "15d4729a828d94e07ad829609aa7b7db5dfc3caaa541612721f1f3e13f796e6d"
+    },
+    {
       "path": "js/data/catalog.js",
-      "bytes": 3838,
-      "sha256": "814f2e8c9eb1e8903daac8a3d79a01ffb3e55b3a1714741d73c0fb7801a04e4f"
+      "bytes": 3863,
+      "sha256": "493095ea3a30651597502903592dabd461c0a41bed717c15a90201b57c30b91d"
     },
     {
       "path": "js/data/civ-schema.js",
-      "bytes": 3224,
-      "sha256": "58c9d92376184c694ea33f2c522e260da662cfcf1d796a7f530f287b25acc854"
+      "bytes": 2993,
+      "sha256": "1512cea0b4e0cc1745e64eac0c338e8f7985489bab93c06c340da6ea55881895"
     },
     {
       "path": "js/data/civ-ui.js",
@@ -78,8 +103,8 @@
     },
     {
       "path": "js/data/civs.js",
-      "bytes": 16831,
-      "sha256": "65e89d2c03d0ae0a4ab1f95511b458f342fa99e5ff49b316beaa0ce91789c6f8"
+      "bytes": 15859,
+      "sha256": "cc380500ca1222b9bbe99a82d2f9bd96e15bfe37f9bcab2b63b467f47bb8ccc8"
     },
     {
       "path": "js/data/design-tokens.json",
@@ -88,8 +113,8 @@
     },
     {
       "path": "js/data/map-biomes.js",
-      "bytes": 2328,
-      "sha256": "687684e10004414ce8fb924eb4f122ba856adafb0b82cf342e9bf172adb3c996"
+      "bytes": 2283,
+      "sha256": "9beb133057801dc766e9d8e231146ffefab88a07c18917dc85c2dfa4fb247b24"
     },
     {
       "path": "js/data/maps.js",
@@ -97,14 +122,24 @@
       "sha256": "b5ed36adb7d65d8cb96f7c29276f5feeb49429e8cbc06d04e3e4f502d259146b"
     },
     {
+      "path": "js/debug/tuning-editor.js",
+      "bytes": 22694,
+      "sha256": "608452898a18e439e0ddab189e57e017f93e946399703986b2af2dfcbec33056"
+    },
+    {
+      "path": "js/debug/tuning-store.js",
+      "bytes": 12122,
+      "sha256": "27ff0ab3a0ed83c7916a5628b7d4e6c434250d5e0012da211f37e9361b5da0e7"
+    },
+    {
       "path": "js/game/bright-lit.js",
-      "bytes": 5303,
-      "sha256": "0a5bd7067066ecbdeae3d5d3adcc14147d0c88e5cf18e43a867a93aab1ecb1f2"
+      "bytes": 4399,
+      "sha256": "8e1add2c92af34c5d946b8735490a8424613094cfe42b341eff547433bf6f486"
     },
     {
       "path": "js/game/main.js",
-      "bytes": 36835,
-      "sha256": "9a82686728fbc0797e53c164ef1a21d724ec5bdbc119c3a377a6b8b741b2ffa5"
+      "bytes": 55860,
+      "sha256": "ea9ca1a3db17486f06bb1f8299e46c56e8212f652ce7650f9f3d769c602b9eda"
     },
     {
       "path": "js/game/particles.js",
@@ -113,8 +148,8 @@
     },
     {
       "path": "js/game/render.js",
-      "bytes": 39818,
-      "sha256": "793573c7dfffc3a01dbd7226fd0604492834a1fef9d5eb599b59eaba306a2029"
+      "bytes": 38056,
+      "sha256": "8e7f6b734fedf254490e39cde1612c15eef8018d1b662a9a6b5670a240c93314"
     },
     {
       "path": "js/game/unit-atlas.js",
@@ -128,43 +163,43 @@
     },
     {
       "path": "js/sim/ai.js",
-      "bytes": 9827,
-      "sha256": "c1881f1c5bbc58b489271443430708129dc5c2af90191bbda3e86bf45dc05633"
+      "bytes": 12542,
+      "sha256": "89d7aeeeca473e7ed50b4f5d254dfab23cfa140530dab9f24fe59729208c4214"
     },
     {
       "path": "js/sim/checksum.js",
-      "bytes": 2668,
-      "sha256": "3473246fae6270d66dc9fe3438ee079183afdc9cd34e810d74ac4166bf4c90da"
+      "bytes": 2671,
+      "sha256": "46a65995f1ea5990430d73fcef592f25bed8d8e234b5c3e7382588e628968f17"
     },
     {
       "path": "js/sim/civs/ashvein.js",
       "bytes": 13521,
-      "sha256": "ead8fec799a8d987d2d605a58a9dc4f2d60a905208c7b31382b3c54cc79d259e"
+      "sha256": "c00a96f83244af5aadbd676f91c26d706e6930f106dc7d206ec0cfe100ef1606"
     },
     {
       "path": "js/sim/civs/cogforged.js",
-      "bytes": 3981,
-      "sha256": "c88c4345a85bfa4848d1686721edb432f377d95771ed9ff0ebc02bfcd24e2798"
+      "bytes": 4185,
+      "sha256": "6c88767504218cacdfacfc17aaced79a955d4be087e07731c00d5b5afd779cc3"
     },
     {
       "path": "js/sim/civs/index.js",
-      "bytes": 1466,
-      "sha256": "4eb3651a6759aa9502fc61328a33f6ff0736cd210d9b91ff8b7328abdfbc39ee"
+      "bytes": 1439,
+      "sha256": "7cd47ffb602ff53e254c9d7a4ed09babdbbeb434387dc80659f2bb736fb903b1"
     },
     {
       "path": "js/sim/civs/stormveil.js",
-      "bytes": 13385,
-      "sha256": "caff5cc461abb1603046b911d46797848afa6414ada6414086ce75ab8cb0be78"
+      "bytes": 10538,
+      "sha256": "7fddfed0d8ea73fc989b8da834d60dbc6cf287f268d13adc0a9e6091741013b6"
     },
     {
       "path": "js/sim/engine.js",
-      "bytes": 42553,
-      "sha256": "ed81c406a9967659e590be6cc3e77537831ce5623ab0116ffd02f36849e50e14"
+      "bytes": 45296,
+      "sha256": "58a516c4592dd47af634c547a000967ace67f1fc02425a1ca3e2e74cc51f1ff0"
     },
     {
       "path": "js/sim/fixed.js",
-      "bytes": 7368,
-      "sha256": "ac5563d55bdd77723f520667d6ab7004063b271541e3214ab49b7f8fd63c6dfb"
+      "bytes": 7059,
+      "sha256": "a7b543f6d4b59657bbafadaac921b0d96479a78107488b0d81391f991fa5aca8"
     },
     {
       "path": "js/sim/formation.js",
@@ -183,13 +218,13 @@
     },
     {
       "path": "js/sim/match-snapshot.js",
-      "bytes": 3482,
-      "sha256": "a036f193bd883390de3c864c20520aa626e3f2ef050e472b0ccc0ef9673a9654"
+      "bytes": 5437,
+      "sha256": "ad913ea7b52b76951b5199c510235e581a7f5abe3f15fef7d18e93f0b682e825"
     },
     {
       "path": "js/sim/path.js",
-      "bytes": 3968,
-      "sha256": "8efd00f9fb56c88fa3f6c1efc1bb222a08e2dc9521f1fb54179019b9a5ad6fed"
+      "bytes": 4322,
+      "sha256": "83487864443f959d722fe2e45ca9d20f73c6f6bf4a854d8ad60efa2cde6c55b1"
     },
     {
       "path": "js/sim/prng.js",
@@ -203,8 +238,8 @@
     },
     {
       "path": "js/sim/replay.js",
-      "bytes": 3618,
-      "sha256": "13f31f32c015e6ef78d92bfad425310ba354be39704519323c60fd7404f41f3e"
+      "bytes": 6318,
+      "sha256": "2e333b14f9421bc31a094938ae77122f45d669a442d4de14e39ca246e1621fde"
     },
     {
       "path": "js/sim/seed.js",
@@ -213,8 +248,8 @@
     },
     {
       "path": "js/ui/app.js",
-      "bytes": 13828,
-      "sha256": "5c18a951c90f34ab240f8efee1e0460382c2c0d59ca7a83bddaab6c27ca00170"
+      "bytes": 14567,
+      "sha256": "c41ebfbc9c9f67443c632afab536377873479bec0f6e2760ab8f442f064d753f"
     },
     {
       "path": "js/ui/kit.js",
@@ -223,8 +258,8 @@
     },
     {
       "path": "js/ui/title-vista.js",
-      "bytes": 3523,
-      "sha256": "a3b447e91ecca951573512c7431f0154b0dbe5baf73633a0be0a9a1bc956e51f"
+      "bytes": 3172,
+      "sha256": "f0b6c8ab499b0fff5534056ef2e63d076754fbd1e51c5e55e8cfaa62fe5f3de8"
     },
     {
       "path": "maps/ashvein-caldera.json",
@@ -248,8 +283,8 @@
     },
     {
       "path": "maps/manifest.json",
-      "bytes": 1863,
-      "sha256": "52af8f526916d9214d8bca70513aacd115a379e3b90bef43f1766dcc4c5a52ed"
+      "bytes": 1857,
+      "sha256": "a4870d051561d999f4bf461107c90c8761412828ebb9b4261451d5cb145541e0"
     },
     {
       "path": "maps/training-flat.json",
@@ -434,12 +469,12 @@
     {
       "path": "media/sprites/ash-guard.atlas.json",
       "bytes": 48676,
-      "sha256": "98532832400a540f19f56acd1e21358cabfa69bcd854d5b336e5c6b9fdfc41a0"
+      "sha256": "8111e78ed4fe9f58710659cd347c1e6ec5b206f97d7f1dae14366b8edbf5e0ae"
     },
     {
       "path": "media/sprites/ash-guard.atlas.png",
-      "bytes": 2085670,
-      "sha256": "fc517040099fdc23150a436f68412c73e8b1742046ef9ada61bb25261832d082"
+      "bytes": 2123806,
+      "sha256": "b3fe09fb86fd78ef4b860988585f74c3b9c200dc0e31a845d2d73f7997d3cb8d"
     },
     {
       "path": "media/sprites/ash-siege.atlas.json",
@@ -464,72 +499,72 @@
     {
       "path": "media/sprites/ash-walk.atlas.json",
       "bytes": 48514,
-      "sha256": "991fac02bb2846d679e2c3ed74eeefac50b0be6c90bdd22283a08888094c2698"
+      "sha256": "88ffae171b9a831634467f697d46c05947db1c780a1978c65ad629f232985963"
     },
     {
       "path": "media/sprites/ash-walk.atlas.png",
-      "bytes": 2633817,
-      "sha256": "84a8da2efc1d2d025ba6fed24fbce7ad6f299c77ed5f1ccc175f7f34e9360bdd"
+      "bytes": 2633032,
+      "sha256": "afefe8d865ade1f9e8a2bfae7305b895efbe55ebf1f4b227e944ac2f7f0ef071"
     },
     {
       "path": "media/sprites/bldg-ash-den.png",
-      "bytes": 1602575,
-      "sha256": "9a7e3ebb631cce168ee6ad0f418f7e5e1156135ff4fbec109cb41caf62dd39ef"
+      "bytes": 845762,
+      "sha256": "a9791ad0889b558f6749a8ff8c8eb82d0381873cc1beaee5c46e749aa76b77c3"
     },
     {
       "path": "media/sprites/bldg-ash-house.png",
-      "bytes": 1513927,
-      "sha256": "25c461328678953ae1a8f09291e39abb69edf1bfea5a1dcc9eb87df2c0b618e1"
+      "bytes": 774353,
+      "sha256": "1458359029318d85bc838a4654005909050e95e65ab1b9e56051eeabda207180"
     },
     {
       "path": "media/sprites/bldg-ash-lava-vent.png",
-      "bytes": 1646376,
-      "sha256": "04e1f3dfbf5d9a5e59f4fc4842df89514cb8cf77ece3399ad23fe55395ab3b0e"
+      "bytes": 854402,
+      "sha256": "778cf3f7c1fabac0fb183b9c52eea9f8d1128874eef3ad5662768c461bab977c"
     },
     {
       "path": "media/sprites/bldg-ash-lumber.png",
-      "bytes": 1727420,
-      "sha256": "dbf6204d7c2d0e27bf81c45ca28fdb0a247e9e6d2a393a0202e26eb1961aae10"
+      "bytes": 1122183,
+      "sha256": "6020350af1b96e861e66f72864db19416bd89d3657b75042c454ea3a6ff49dec"
     },
     {
       "path": "media/sprites/bldg-ash-mill.png",
-      "bytes": 1843792,
-      "sha256": "aafcae68afabd0a287cf1e7b17078f000ad174c564286fa5e30b8ee7de726454"
+      "bytes": 1303914,
+      "sha256": "b5c8b111a360aeb04bab5b26bdbebe6568cbc6145bdf6400cc7f20c7de575bcf"
     },
     {
       "path": "media/sprites/bldg-ash-mine.png",
-      "bytes": 1649368,
-      "sha256": "67482e1f98a74138a78ddfc71aa4606248a1b4f5a83f7181e8bc542a5c583a81"
+      "bytes": 1055300,
+      "sha256": "997d851754ab9e83087a2476f1293dff3046f5b3aabd596bdfb80fbed2f80b50"
     },
     {
       "path": "media/sprites/bldg-ash-rax.png",
-      "bytes": 1704111,
-      "sha256": "f6da471d5ce76ba05da77e6bfaa34b3e2b9a36f294453344310aeae11cfcbcce"
+      "bytes": 1025703,
+      "sha256": "252d24f1f2e9dfa2a3b117d45cb028d4151e85e43c9076bc17186b6164df923d"
     },
     {
       "path": "media/sprites/bldg-ash-spire.png",
-      "bytes": 1213927,
-      "sha256": "3ca80a6ebe193a9e09a83ce55f5361377da6a13430c58ce0442e1c2be3d7bd21"
+      "bytes": 777694,
+      "sha256": "39ba16986017ab98b873953e106768429c779c5000a0d1fbd4fab5698ea58e10"
     },
     {
       "path": "media/sprites/bldg-ash-tc.png",
-      "bytes": 1208549,
-      "sha256": "6d80c85b3d4dfac68fa5ff7dcef689411124162e7e157b57152f5d380abf1172"
+      "bytes": 988393,
+      "sha256": "1e3d53b1524ea4023112febeb82ea8903715b4bf6604bdaa605c26e18a5e59cb"
     },
     {
       "path": "media/sprites/bldg-ash-tunnel-mouth.png",
-      "bytes": 1598002,
-      "sha256": "9b4feffd4a40d5fe9695cda498d1c96d66192669d83ed8d2fcca30902d6e9003"
+      "bytes": 1035012,
+      "sha256": "55491fdee56040e2c9ef4979eb2e57a8b35ee3c06811b91857e46357ef0db09b"
     },
     {
       "path": "media/sprites/bldg-ash-wonder.png",
-      "bytes": 1751383,
-      "sha256": "75c3d69293daf71586621a48d325363a6fa1ba8d7d089a9456902ff7f5120418"
+      "bytes": 1167822,
+      "sha256": "181c74e8cfdb801b85677244a297349e8f0d207cc6b19cadab60f98fda9023e0"
     },
     {
       "path": "media/sprites/bldg-ash-workshop.png",
-      "bytes": 1852943,
-      "sha256": "2a818f5319e78e593749ff81766f768dfc8190328ed219efede00ad2b62049b6"
+      "bytes": 1278266,
+      "sha256": "60b9218f0eaa7b7646b4e4d0a3ff0f423c654d78354a32d46faa91cac5c04783"
     },
     {
       "path": "media/sprites/bldg-cog-den.png",
@@ -678,8 +713,8 @@
     },
     {
       "path": "media/sprites/bldg-storm-wagon.png",
-      "bytes": 2591,
-      "sha256": "258ee40a7c30ab4c98bc4d5b75222c1294693f2bea23fdd44755a058b6a853d6"
+      "bytes": 749339,
+      "sha256": "eb7b5d266de79c0dcc44e04ba04dbce715d5ee5b096bf793659764a63fb8f875"
     },
     {
       "path": "media/sprites/bldg-storm-wonder.png",
@@ -744,42 +779,42 @@
     {
       "path": "media/sprites/cog-guard.atlas.json",
       "bytes": 48678,
-      "sha256": "7bf8228b008b23ae9028e56a3078ad7aa0146dc93a93be5849158c81fd9500be"
+      "sha256": "c36c3b95577ed122fed4cebbf365d2244cf0f7dde8c78461f637dd3fa64f721f"
     },
     {
       "path": "media/sprites/cog-guard.atlas.png",
-      "bytes": 2418097,
-      "sha256": "079ea82e23a0a7f3da51790d4088585db956656645278b16149fdc9bd74c728a"
+      "bytes": 2295894,
+      "sha256": "25a77769451a2fd6dd81d2a9b6c03a10453ca600306c55588019c8d6db647bd1"
     },
     {
       "path": "media/sprites/cog-siege.atlas.json",
-      "bytes": 41531,
-      "sha256": "cfd36c9e168ff2b4146b2ee6651fac46e6d30996288e05b774629a63b53aae46"
+      "bytes": 41530,
+      "sha256": "a1aeffa5c92dba69ba349bb4e617af9a4d9a813959ae00586990c4c28dad41cc"
     },
     {
       "path": "media/sprites/cog-siege.atlas.png",
-      "bytes": 107635,
-      "sha256": "1de294ade7fc75b8abe57e94cd88a22cbc801b8bad65c7d94b0adfaef3f6a7a7"
+      "bytes": 99715,
+      "sha256": "974d17a8d7886a1194ddb3a3155dd22bbe3a02d7415a0470235809a1032ebd55"
     },
     {
       "path": "media/sprites/cog-strider.atlas.json",
       "bytes": 41855,
-      "sha256": "95b25db83a8879d82a38fafa4b7d64f86528164d72e3fb0d4d6d59126e8aaa20"
+      "sha256": "4dc01ea2dd2e4dfdc909255dc6913734b870559d4a7e279ac2a6f8b88e11e5e9"
     },
     {
       "path": "media/sprites/cog-strider.atlas.png",
-      "bytes": 521642,
-      "sha256": "22d7edee5b6680530a52fcc63c3de9be2999198218bcde1d34e8f43e766e1e26"
+      "bytes": 495580,
+      "sha256": "04d7a4cca5a7534ab0015dc4e468e293e4b7768b158bda2702c8534d9192d523"
     },
     {
       "path": "media/sprites/cog-walk.atlas.json",
       "bytes": 48516,
-      "sha256": "f883e137b5f7d63c576cd0ba144dcffbd8b310a8212e989e9692a5a4d4a6b2f1"
+      "sha256": "586be45f8ca826c4be92d49d39671b0f8888cdf4811f5eb57005628438307332"
     },
     {
       "path": "media/sprites/cog-walk.atlas.png",
-      "bytes": 2589542,
-      "sha256": "c86b4a6cec765fe52869dc32cbfb43adadfec26d8ce9181e8afccac33841aa4e"
+      "bytes": 2497945,
+      "sha256": "1b7dae583244c1a70eca1d48af1233ebdb75e239c68dded0f42d8ad2b87cc2e1"
     },
     {
       "path": "media/sprites/grave-guard.atlas.json",
@@ -1033,8 +1068,8 @@
     },
     {
       "path": "media/sprites/icon-build-storm-wagon.png",
-      "bytes": 23455,
-      "sha256": "4390e8dc2729c0117cd33e05e634cf205a9801d8009c12cbb314042f6f04f4b6"
+      "bytes": 25088,
+      "sha256": "46560824fdee30d0f2dfec2f010a0b1ab31f4974cf9e9f2a8d36fe7bd9ecd76f"
     },
     {
       "path": "media/sprites/icon-build-storm-wonder.png",
@@ -1263,8 +1298,8 @@
     },
     {
       "path": "media/sprites/icon-train-storm-wagon.png",
-      "bytes": 27473,
-      "sha256": "28e7e658a103c76ba7d88fa0ea073d91dd581aa93a38208165446c494912663f"
+      "bytes": 25088,
+      "sha256": "46560824fdee30d0f2dfec2f010a0b1ab31f4974cf9e9f2a8d36fe7bd9ecd76f"
     },
     {
       "path": "media/sprites/icon-train-sun-archer.png",
@@ -1513,8 +1548,8 @@
     },
     {
       "path": "media/sprites/portrait-storm-wagon.png",
-      "bytes": 839,
-      "sha256": "8afdb901f3cbea261d5c043722bd572459ac5c23e86bebfa6f5dbe69bd6c3492"
+      "bytes": 159501,
+      "sha256": "d59aa1e1dc4144c173fba1b2a0131aa0c10b34adc086da1003acd591c9b3d55d"
     },
     {
       "path": "media/sprites/portrait-stormveil.png",
@@ -1559,12 +1594,12 @@
     {
       "path": "media/sprites/storm-guard.atlas.json",
       "bytes": 49002,
-      "sha256": "66d9b51855d0dcab6ad1daec4b90fd9bd437fe43a8c7dffdbba000970151543c"
+      "sha256": "f05b8a7d4f47d8bc2ed28291e677ee6a4fb354c7deda338abd098e892c9ef1d2"
     },
     {
       "path": "media/sprites/storm-guard.atlas.png",
-      "bytes": 2132863,
-      "sha256": "ba81f0c7298a36158333d8cc46c4083f97b15275159ddff953a0dfb82e1adde8"
+      "bytes": 1883897,
+      "sha256": "ee6357df17f33ca6cb31116d3a5fbd84ba8f131046e0d4245fe8198f28ba8ba6"
     },
     {
       "path": "media/sprites/storm-siege.atlas.json",
@@ -1588,23 +1623,23 @@
     },
     {
       "path": "media/sprites/storm-wagon.atlas.json",
-      "bytes": 41855,
-      "sha256": "038e130fb3a6c5088c8fdf8146f6af8239b36b2c0ac5788f5bb813d9dbbc1fec"
+      "bytes": 41961,
+      "sha256": "791666aa64fe63ce69ddc5e1a9fc758cb494715bb70dcc93f4ebecd586cc7005"
     },
     {
       "path": "media/sprites/storm-wagon.atlas.png",
-      "bytes": 515302,
-      "sha256": "9228e91d34643a649cbd78ea020e4b60a114952ee115ec22bff874da2dac7c54"
+      "bytes": 138157,
+      "sha256": "be4b55fe06e28e19a6e8deed9b7bf185304cf73976ab45186d064293af8fa467"
     },
     {
       "path": "media/sprites/storm-walk.atlas.json",
       "bytes": 48840,
-      "sha256": "fdcfae8fd7c33467cae42ed6e10fd12e1f4920de87218d6e7a5aa5a29fdfe310"
+      "sha256": "e5ad2a01825115ae5e32f982a0a2fb656d57c748b9f3370fd719ff070b709d20"
     },
     {
       "path": "media/sprites/storm-walk.atlas.png",
-      "bytes": 2406312,
-      "sha256": "e5465afa2adf8489bc1e6933392df09cf598c83d62020f2c9f85252470fc8571"
+      "bytes": 2298301,
+      "sha256": "6e5d7a220357ec65dc2ef4767410f97288e64325ab4290bcd2c604933483fe76"
     },
     {
       "path": "media/sprites/sun-guard.atlas.json",
@@ -1688,8 +1723,8 @@
     },
     {
       "path": "media/sprites/unit-storm-wagon.png",
-      "bytes": 1790567,
-      "sha256": "68642b36c6e4c8e4bf047b52d254f27ac2d76dbcd943ce99be34fa32dc100df9"
+      "bytes": 749339,
+      "sha256": "eb7b5d266de79c0dcc44e04ba04dbce715d5ee5b096bf793659764a63fb8f875"
     },
     {
       "path": "media/sprites/unit-sun-siege.png",
@@ -1797,6 +1832,6 @@
       "sha256": "ce1fa418de16a19495a9f72495580e3015d7745c296d3ce0485897f902ddedfb"
     }
   ],
-  "fileCount": 359,
-  "totalBytes": 131818565
+  "fileCount": 366,
+  "totalBytes": 123741207
 }

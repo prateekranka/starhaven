@@ -63,6 +63,16 @@ function heapPop() {
   return top;
 }
 
+export function astarVia(walk, n, sx, sz, wx, wz, gx, gz) {
+  const a = astar(walk, n, sx, sz, wx, wz);
+  const b = astar(walk, n, wx, wz, gx, gz);
+  if (!a.length) return b;
+  if (!b.length) return a;
+  const last = a[a.length - 1];
+  const dup = last && last[0] === b[0][0] && last[1] === b[0][1];
+  return dup ? a.concat(b.slice(1)) : a.concat(b);
+}
+
 export function astar(walk, n, sx, sz, gx, gz) {
   sx = clamp(sx | 0, 0, n - 1);
   sz = clamp(sz | 0, 0, n - 1);

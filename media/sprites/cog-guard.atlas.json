@@ -42,8 +42,8 @@
       "loop": false
     }
   ],
-  "sha256": "079ea82e23a0a7f3da51790d4088585db956656645278b16149fdc9bd74c728a",
-  "bytes": 2418097,
+  "sha256": "25a77769451a2fd6dd81d2a9b6c03a10453ca600306c55588019c8d6db647bd1",
+  "bytes": 2295894,
   "frames": [
     {
       "id": "cog-guard.walk.N.0",

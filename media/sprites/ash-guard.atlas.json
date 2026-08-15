@@ -42,8 +42,8 @@
       "loop": false
     }
   ],
-  "sha256": "fc517040099fdc23150a436f68412c73e8b1742046ef9ada61bb25261832d082",
-  "bytes": 2085670,
+  "sha256": "b3fe09fb86fd78ef4b860988585f74c3b9c200dc0e31a845d2d73f7997d3cb8d",
+  "bytes": 2123806,
   "frames": [
     {
       "id": "ash-guard.walk.N.0",

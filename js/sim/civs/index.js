@@ -4,7 +4,6 @@
 
 const DEFAULT_MECHANICS = {
   usesFood: true,
-  brightLineImmune: false,
   usesTrainingQueue: true,
   usesPowerGrid: false,
   filterGatherKind(_owner, kind) {

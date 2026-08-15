@@ -11,7 +11,7 @@ replacements = [
 ('import "../data/civs.js";\nimport { astar }',
  'import "../data/civs.js";\nimport {\n  civMechanics,\n  resolveAgeCost,\n  resolveBuildingCost,\n  resolveUnitCost,\n} from "./civs/index.js";\nimport { astar }'),
 ('function pay(stock, cost) {\n  for (const [k, v] of Object.entries(cost || {})) stock[k] -= v;\n}',
- 'function pay(stock, cost) {\n  for (const [k, v] of Object.entries(cost || {})) stock[k] -= v;\n}\n\nexport function canPayStock(stock, cost) {\n  return canPay(stock, cost);\n}\n\nexport function payStock(stock, cost) {\n  pay(stock, cost);\n}\n\nfunction effectiveBuff(world, unit) {\n  const mech = civMechanics(unit.faction);\n  if (mech.brightLineImmune) return { speed: 1000, dmg: 1000, armor: 1000 };\n  return civBuff(unit.faction, inLight(world, unit.xQ10));\n}'),
+ 'function pay(stock, cost) {\n  for (const [k, v] of Object.entries(cost || {})) stock[k] -= v;\n}\n\nexport function canPayStock(stock, cost) {\n  return canPay(stock, cost);\n}\n\nexport function payStock(stock, cost) {\n  pay(stock, cost);\n}\n\nconst NEUTRAL_BUFF = Object.freeze({ speed: 1000, dmg: 1000, armor: 1000 });\n\nfunction effectiveBuff(_world, _unit) {\n  return NEUTRAL_BUFF;\n}'),
 ('const enemyFaction = opponentCivId(playerFaction);', 'const enemyFaction = opts.enemyFaction || opponentCivId(playerFaction);'),
 ('tip: tutorial ? "Select your weavers, then tap the glowing fruit." : "Scout early. Food first, then timber, then a barracks.",',
  'tip: tutorial\n      ? "Select your weavers, then tap the glowing fruit."\n      : playerFaction === "cogforged"\n        ? "Link buildings to your Foundry Core. Assemble units on-site — no food economy."\n        : "Scout early. Food first, then timber, then a barracks.",'),
@@ -62,9 +62,9 @@ s = s.replace('  for (const b of world.buildings) {\n    if (b.owner !== owner) 
 s = s.replace('  return { used, cap };\n}\n\nexport function updateWorld', '  return { used, cap };\n}\n\nexport function popHeadroom(world, owner) {\n  const pop = popOf(world, owner);\n  return pop.cap - pop.used;\n}\n\nexport function updateWorld')
 s = s.replace('function tickBuildings(world) {\n  for (const b of world.buildings) {\n    if (!isBuilt(b)) continue;\n    const spec = BUILDINGS[b.type];',
               'function tickBuildings(world) {\n  for (const b of world.buildings) {\n    if (!isBuilt(b)) continue;\n    if (!civMechanics(b.faction).isBuildingActive(world, b)) continue;\n    const spec = BUILDINGS[b.type];')
-s = s.replace('    const spec = UNITS[u.type];\n    const buff = civBuff(u.faction, inLight(world, u.xQ10));\n    if (u.attackCdTicks > 0) u.attackCdTicks -= 1;\n    if (u.state === "walk" || u.state === "return" || u.state === "gatherwalk" || u.state === "buildwalk" || u.state === "attackmove") {\n      followPath(world, u, spec.speed, buff.speed);\n    }\n    if (u.state === "gather") gatherTick(world, u, spec);\n    if (u.state === "build") buildTick(world, u);',
+s = s.replace('    const spec = UNITS[u.type];\n    const buff = effectiveBuff(world, u);\n    if (u.attackCdTicks > 0) u.attackCdTicks -= 1;\n    if (u.state === "walk" || u.state === "return" || u.state === "gatherwalk" || u.state === "buildwalk" || u.state === "attackmove") {\n      followPath(world, u, spec.speed, buff.speed);\n    }\n    if (u.state === "gather") gatherTick(world, u, spec);\n    if (u.state === "build") buildTick(world, u);',
               '    const spec = UNITS[u.type];\n    const buff = effectiveBuff(world, u);\n    civMechanics(u.faction).tickUnit(world, u);\n    if (u.attackCdTicks > 0) u.attackCdTicks -= 1;\n    if (u.state === "walk" || u.state === "return" || u.state === "gatherwalk" || u.state === "buildwalk" || u.state === "attackmove" || u.state === "assemblewalk") {\n      followPath(world, u, spec.speed, buff.speed);\n    }\n    if (u.state === "gather") gatherTick(world, u, spec);\n    if (u.state === "build") buildTick(world, u);\n    if (u.state === "assemble" || u.state === "assemblewalk") assembleWalkTick(world, u);')
-s = s.replace('  const buff = t.kind === "unit" ? civBuff(t.faction, inLight(world, t.xQ10)) : { armor: 1000 };',
+s = s.replace('  const buff = t.kind === "unit" ? effectiveBuff(world, t) : { armor: 1000 };',
               '  const buff = t.kind === "unit" ? effectiveBuff(world, t) : { armor: 1000 };')
 s = s.replace('    else if (u.state === "buildwalk") u.state = "build";\n    else if (u.state === "attackmove") u.state = "attack";',
               '    else if (u.state === "buildwalk") u.state = "build";\n    else if (u.state === "assemblewalk") u.state = "assemble";\n    else if (u.state === "attackmove") u.state = "attack";')
@@ -199,7 +199,7 @@ export const COGFORGED = {
     banner: "media/textures/gravemark-banner.jpg",
     lore: {
       blurb:
-        "Brass automatons who weld legions in the field and feed cities through copper relay grids. They ignore the Bright Line entirely — neither boosted nor blunted — and never ration lumenfruit.",
+        "Brass automatons who weld legions in the field and feed cities through copper relay grids. Their units use fixed neutral multipliers and never ration lumenfruit.",
       ages: [
         "Age I — Assembler, Surveyor, Plate Guard, Gear Strider",
         "Age II — Relay rigs, Cogrunners, Assembly Phalanx",
@@ -213,13 +213,8 @@ export const COGFORGED = {
     buildings: Object.keys(BUILDINGS).filter((t) => t !== "mill"),
     villagerBuild: VILLAGER_BUILD_LIST.filter((t) => t !== "mill"),
   },
-  statOverrides: {},
+  statOverrides: { speed: 1000, dmg: 1000, armor: 1000 },
   techs: sharedTechs(),
-  buffs: {
-    brightLineImmune: true,
-    inLight: { speed: 1000, dmg: 1000, armor: 1000 },
-    inDark: { speed: 1000, dmg: 1000, armor: 1000 },
-  },
   names: {
     units: {
       villager: "Assembler",

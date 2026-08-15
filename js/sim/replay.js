@@ -6,25 +6,98 @@ import { checksumSnapshot, checksumWorld, snapshotWorld } from "./checksum.js";
 export { checksumSnapshot };
 
 const DT = 1 / 60;
+export const REPLAY_FORMAT = "starhaven-replay-v2";
+
+function isPlainRecord(value) {
+  if (!value || typeof value !== "object" || Array.isArray(value)) return false;
+  const proto = Object.getPrototypeOf(value);
+  return proto === Object.prototype || proto === null;
+}
+
+function validOwner(value) {
+  return value == null || value === "player" || value === "enemy";
+}
+
+function assertReplayCommand(command) {
+  if (
+    !isPlainRecord(command) ||
+    !Number.isInteger(command.tick) ||
+    command.tick < 0 ||
+    ["move", "train", "place", "ageUp"].indexOf(command.type) < 0
+  ) {
+    throw new Error("incompatible-version");
+  }
+  if (command.type === "move") {
+    if (
+      !Array.isArray(command.unitIds) ||
+      command.unitIds.some((id) => !Number.isInteger(id) || id < 0) ||
+      !Number.isFinite(command.x) ||
+      !Number.isFinite(command.z) ||
+      (command.attackMove != null && typeof command.attackMove !== "boolean")
+    ) throw new Error("incompatible-version");
+  } else if (command.type === "train") {
+    if (!Number.isInteger(command.buildingId) || command.buildingId < 0 || typeof command.unitType !== "string" || !command.unitType) {
+      throw new Error("incompatible-version");
+    }
+  } else if (command.type === "place") {
+    if (typeof command.buildingType !== "string" || !command.buildingType || !Number.isFinite(command.x) || !Number.isFinite(command.z) || !validOwner(command.owner)) {
+      throw new Error("incompatible-version");
+    }
+  } else if (!validOwner(command.owner)) {
+    throw new Error("incompatible-version");
+  }
+}
+
+function assertReplayChecksums(checksums) {
+  for (const entry of checksums) {
+    if (!isPlainRecord(entry) || !Number.isInteger(entry.tick) || entry.tick < 0 || typeof entry.checksum !== "string" || !entry.checksum) {
+      throw new Error("incompatible-version");
+    }
+  }
+}
+
+/** Validate a replay record before any simulation state is allocated. */
+export function assertReplayCompatible(replay) {
+  if (
+    !replay ||
+    replay.format !== REPLAY_FORMAT ||
+    !Number.isInteger(replay.seed) ||
+    replay.seed < 0 ||
+    replay.seed > 0xffffffff ||
+    !Array.isArray(replay.commands) ||
+    !Array.isArray(replay.checksums)
+  ) {
+    throw new Error("incompatible-version");
+  }
+  for (const command of replay.commands) {
+    assertReplayCommand(command);
+  }
+  assertReplayChecksums(replay.checksums);
+  return replay;
+}
 
 export function encodeReplay(replay) {
+  assertReplayCompatible(replay);
   return `${JSON.stringify(replay)}\n`;
 }
 
 export function decodeReplay(encoded) {
-  const replay = JSON.parse(encoded);
-  if (replay.format !== "starhaven-replay-v1" || !Array.isArray(replay.commands) || !Array.isArray(replay.checksums)) {
-    throw new Error("Invalid replay format");
+  let replay;
+  try {
+    replay = JSON.parse(encoded);
+  } catch {
+    throw new Error("incompatible-version");
   }
-  return replay;
+  return assertReplayCompatible(replay);
 }
 
 export class ReplayRecorder {
   constructor(seed) {
-    this.data = { format: "starhaven-replay-v1", seed: seed >>> 0, commands: [], checksums: [] };
+    this.data = { format: REPLAY_FORMAT, seed: seed >>> 0, commands: [], checksums: [] };
   }
 
   recordCommand(command) {
+    assertReplayCommand(command);
     this.data.commands.push({ ...command });
   }
 
@@ -65,6 +138,8 @@ function applyReplayCommand(world, command) {
 
 /** Replay a recorded match and return periodic checksums (deterministic proof). */
 export function replayToChecksums(replay, maxTicks, interval = 60) {
+  assertReplayCompatible(replay);
+  if (!Number.isInteger(maxTicks) || maxTicks < 0 || !Number.isInteger(interval) || interval <= 0) throw new Error("incompatible-version");
   const world = createMatch({ seed: replay.seed });
   const checksums = [];
   let cmdIdx = 0;
@@ -83,6 +158,8 @@ export function replayToChecksums(replay, maxTicks, interval = 60) {
 
 /** Replay commands up to targetTick and return the restored world. */
 export function replayToWorld(replay, targetTick, matchOpts = {}) {
+  assertReplayCompatible(replay);
+  if (!Number.isInteger(targetTick) || targetTick < 0) throw new Error("incompatible-version");
   const world = createMatch({ ...matchOpts, seed: replay.seed });
   let cmdIdx = 0;
   for (let tick = 0; tick < targetTick; tick += 1) {

@@ -1,14 +1,10 @@
-/**
- * Stormveil Nomads — pack/redeploy, wind lanes, summonable darkness (#25).
- */
+/** Stormveil Nomads — pack/redeploy and wind lanes. */
 
 import { BUILDINGS } from "../../data/catalog.js";
 import { allocateId } from "../ids.js";
 import { registerCivMechanics } from "./index.js";
 import {
-  Q10,
   PERMILLE,
-  TICKS_PER_SEC,
   secToTicks,
   q10FromWorld,
   worldFromQ10,
@@ -23,10 +19,6 @@ export const PACKABLE_BUILDINGS = new Set(["house", "barracks", "mill", "lumber"
 export const PACK_COST = { wood: 30 };
 export const PACK_TIME_SEC = 4;
 export const DEPLOY_COST = { wood: 20 };
-export const DARKNESS_COST = { crystal: 60 };
-export const DARKNESS_COOLDOWN_SEC = 25;
-export const DARKNESS_DURATION_SEC = 12;
-export const DARKNESS_RADIUS_WORLD = 5;
 export const WIND_LANE_SPEED_PERMILLE = 1280;
 export const WAGON_UNIT = { hp: 80, maxHp: 80, speed: 2.2, los: 4, pop: 0, dmg: 0, range: 0 };
 
@@ -42,10 +34,6 @@ function freeRect(walk, cx, cz, size, gridN) {
 function blockRect(walk, cx, cz, size, gridN) {
   for (let z = cz; z < cz + size; z++) for (let x = cx; x < cx + size; x++) if (x >= 0 && z >= 0 && x < gridN && z < gridN) walk[z * gridN + x] = 0;
 }
-function lineXQ10(world) {
-  const mapWorld = world.N * world.CELL;
-  return q10FromWorld(4) + Math.trunc((world.brightQ10 * q10FromWorld(mapWorld - 8)) / Q10);
-}
 function buildWindLanes(world) {
   let h = world.seed >>> 0;
   h = (h * 1664525 + 1013904223) >>> 0;
@@ -59,8 +47,7 @@ function buildWindLanes(world) {
 }
 
 export function initStormveil(world) {
-  world.stormveil = { windLanes: buildWindLanes(world), darkness: [], packing: {} };
-  for (const key of ["player", "enemy"]) if (world.players[key]) world.players[key].stormveil = { darknessCd: 0 };
+  world.stormveil = { windLanes: buildWindLanes(world), packing: {} };
 }
 export function isStormveilFaction(faction) {
   return faction === STORMVEIL_ID;
@@ -80,17 +67,6 @@ export function windLaneSpeedPermille(world, unit) {
   if (!isStormveilFaction(unit.faction)) return PERMILLE;
   return isOnWindLane(world, unit.xQ10, unit.zQ10) ? WIND_LANE_SPEED_PERMILLE : PERMILLE;
 }
-function isInDarkness(world, xQ10, zQ10) {
-  for (const d of world.stormveil?.darkness || []) {
-    if (d.leftTicks <= 0) continue;
-    if (distanceSquaredQ10({ xQ10, zQ10 }, d) <= d.radiusQ10 * d.radiusQ10) return true;
-  }
-  return false;
-}
-export function effectiveInLight(world, xQ10, zQ10) {
-  if (isInDarkness(world, xQ10, zQ10)) return false;
-  return xQ10 < lineXQ10(world);
-}
 export function tickStormveil(world) {
   const sv = world.stormveil;
   if (!sv) return;
@@ -98,8 +74,6 @@ export function tickStormveil(world) {
     sv.packing[idStr].leftTicks -= 1;
     if (sv.packing[idStr].leftTicks <= 0) finishPack(world, Number(idStr), sv.packing[idStr]);
   }
-  sv.darkness = sv.darkness.filter((d) => { d.leftTicks -= 1; return d.leftTicks > 0; });
-  for (const p of Object.values(world.players)) if (p.stormveil?.darknessCd > 0) p.stormveil.darknessCd -= 1;
 }
 function finishPack(world, buildingId, pack) {
   delete world.stormveil.packing[buildingId];
@@ -180,23 +154,6 @@ export function tryDeployPacked(world, owner, wagonId, wx, wz) {
   });
   return { ok: true };
 }
-export function canSummonDarkness(world, owner, wx, wz) {
-  if (!isStormveilFaction(world.players[owner]?.faction)) return { ok: false, why: "Stormveil only." };
-  const p = world.players[owner];
-  if (p.stormveil?.darknessCd > 0) return { ok: false, why: `Darkness cooling down (${Math.ceil(p.stormveil.darknessCd / TICKS_PER_SEC)}s).` };
-  if (!canPay(p.stock, DARKNESS_COST)) return { ok: false, why: "Need 60 crystal." };
-  const [cx, cz] = cellOfQ10(q10FromWorld(wx), q10FromWorld(wz), world.CELL);
-  if (cx < 2 || cz < 2 || cx >= world.N - 2 || cz >= world.N - 2) return { ok: false, why: "Out of bounds." };
-  return { ok: true, xQ10: q10FromWorld(wx), zQ10: q10FromWorld(wz) };
-}
-export function trySummonDarkness(world, owner, wx, wz) {
-  const check = canSummonDarkness(world, owner, wx, wz);
-  if (!check.ok) return check;
-  pay(world.players[owner].stock, DARKNESS_COST);
-  world.players[owner].stormveil.darknessCd = secToTicks(DARKNESS_COOLDOWN_SEC);
-  world.stormveil.darkness.push({ id: allocateId(), owner, xQ10: check.xQ10, zQ10: check.zQ10, radiusQ10: q10FromWorld(DARKNESS_RADIUS_WORLD), leftTicks: secToTicks(DARKNESS_DURATION_SEC) });
-  return { ok: true };
-}
 function findDeploySpot(world, owner, wagon) {
   const enemyTc = world.buildings.find((b) => b.owner !== owner && b.type === "towncenter");
   const exQ10 = enemyTc?.xQ10 ?? q10FromWorld(world.N * world.CELL * 0.75);
@@ -226,17 +183,13 @@ function isPressured(world, owner) {
 }
 export function runStormveilAI(world, owner) {
   if (!isStormveilFaction(world.players[owner]?.faction) || !world.players[owner].alive) return;
+  if (world.aiVsAi) return;
   if (isPressured(world, owner)) {
     for (const b of world.buildings.filter((x) => x.owner === owner && isBuilt(x) && PACKABLE_BUILDINGS.has(x.type) && !world.stormveil.packing[x.id]).slice(0, 2)) tryPackBuilding(world, owner, b.id);
   }
   for (const w of world.units.filter((u) => u.owner === owner && u.type === "wagon" && u.cargo && u.state === "idle")) {
     const spot = findDeploySpot(world, owner, w);
     if (spot) tryDeployPacked(world, owner, w.id, worldFromQ10(spot.xQ10), worldFromQ10(spot.zQ10));
-  }
-  const p = world.players[owner];
-  if (isPressured(world, owner) && p.stormveil?.darknessCd <= 0 && p.stock.crystal >= DARKNESS_COST) {
-    const tc = world.buildings.find((b) => b.owner === owner && b.type === "towncenter");
-    if (tc) trySummonDarkness(world, owner, worldFromQ10(tc.xQ10), worldFromQ10(tc.zQ10));
   }
 }
 export function stormveilChecksum(world) {
@@ -246,9 +199,7 @@ export function stormveilChecksum(world) {
     windSpacing: sv.windLanes?.spacing ?? 0,
     windOffsets: [...(sv.windLanes?.offsets || [])].sort((a, b) => a - b),
     packing: Object.entries(sv.packing).map(([id, pack]) => ({ id: Number(id), left: pack.leftTicks | 0, owner: pack.owner })).sort((a, b) => a.id - b.id),
-    darkness: sv.darkness.map((d) => ({ id: d.id, owner: d.owner, xQ10: d.xQ10, zQ10: d.zQ10, left: d.leftTicks | 0 })).sort((a, b) => a.id - b.id),
     wagons: world.units.filter((u) => u.type === "wagon").map((u) => ({ id: u.id, owner: u.owner, xQ10: u.xQ10, zQ10: u.zQ10, cargo: u.cargo?.type || null })).sort((a, b) => a.id - b.id),
-    cds: { player: world.players.player?.stormveil?.darknessCd | 0, enemy: world.players.enemy?.stormveil?.darknessCd | 0 },
   };
 }
 export function windLaneCells(world) {

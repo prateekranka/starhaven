@@ -1,0 +1,174 @@
+{
+  "generatedAt": "2026-08-15T16:59:41.682Z",
+  "seed": "0x4d455249",
+  "log": [
+    {
+      "id": "cog-ash",
+      "player": "cogforged",
+      "enemy": "ashvein",
+      "url": "http://127.0.0.1:8765/?play=1&qa=1&aivsai=1&map=highland-chokes&faction=cogforged&enemy=ashvein&seed=0x4d455249&diff=chieftain",
+      "town": {
+        "file": "/Users/prateekranka/Cowork/sunfold cursor good version/docs/evidence/skirmish-bar/stills/cog-ash-town.png",
+        "ok": true,
+        "t": 5856,
+        "sec": 97.6,
+        "speed": 12,
+        "winner": null,
+        "player": {
+          "faction": "cogforged",
+          "age": 1,
+          "tc": true,
+          "vills": 8,
+          "military": 3
+        },
+        "enemy": {
+          "faction": "ashvein",
+          "age": 1,
+          "tc": true,
+          "vills": 11,
+          "military": 1
+        },
+        "fightDist": 26.481484404501746,
+        "fightX": 102.10546875,
+        "fightZ": 117.5771484375
+      },
+      "fight": {
+        "file": "/Users/prateekranka/Cowork/sunfold cursor good version/docs/evidence/skirmish-bar/stills/cog-ash-fight.png",
+        "ok": true,
+        "t": 6446,
+        "sec": 107.43333333333334,
+        "speed": 12,
+        "winner": null,
+        "player": {
+          "faction": "cogforged",
+          "age": 1,
+          "tc": true,
+          "vills": 8,
+          "military": 3
+        },
+        "enemy": {
+          "faction": "ashvein",
+          "age": 1,
+          "tc": true,
+          "vills": 11,
+          "military": 1
+        },
+        "fightDist": 1.6942177327283272,
+        "fightX": 103.42529296875,
+        "fightZ": 122.47265625
+      }
+    },
+    {
+      "id": "cog-storm",
+      "player": "cogforged",
+      "enemy": "stormveil",
+      "url": "http://127.0.0.1:8765/?play=1&qa=1&aivsai=1&map=highland-chokes&faction=cogforged&enemy=stormveil&seed=0x4d455249&diff=chieftain",
+      "town": {
+        "file": "/Users/prateekranka/Cowork/sunfold cursor good version/docs/evidence/skirmish-bar/stills/cog-storm-town.png",
+        "ok": true,
+        "t": 7351,
+        "sec": 122.51666666666667,
+        "speed": 12,
+        "winner": null,
+        "player": {
+          "faction": "cogforged",
+          "age": 1,
+          "tc": true,
+          "vills": 8,
+          "military": 4
+        },
+        "enemy": {
+          "faction": "stormveil",
+          "age": 1,
+          "tc": true,
+          "vills": 12,
+          "military": 0
+        },
+        "fightDist": null,
+        "fightX": null,
+        "fightZ": null
+      },
+      "fight": {
+        "file": "/Users/prateekranka/Cowork/sunfold cursor good version/docs/evidence/skirmish-bar/stills/cog-storm-fight.png",
+        "ok": true,
+        "t": 12985,
+        "sec": 216.41666666666666,
+        "speed": 12,
+        "winner": null,
+        "player": {
+          "faction": "cogforged",
+          "age": 1,
+          "tc": true,
+          "vills": 8,
+          "military": 5
+        },
+        "enemy": {
+          "faction": "stormveil",
+          "age": 1,
+          "tc": true,
+          "vills": 13,
+          "military": 2
+        },
+        "fightDist": 4.802026324923297,
+        "fightX": 100.56005859375,
+        "fightZ": 124.40625
+      }
+    },
+    {
+      "id": "ash-storm",
+      "player": "ashvein",
+      "enemy": "stormveil",
+      "url": "http://127.0.0.1:8765/?play=1&qa=1&aivsai=1&map=highland-chokes&faction=ashvein&enemy=stormveil&seed=0x4d455249&diff=chieftain",
+      "town": {
+        "file": "/Users/prateekranka/Cowork/sunfold cursor good version/docs/evidence/skirmish-bar/stills/ash-storm-town.png",
+        "ok": true,
+        "t": 6678,
+        "sec": 111.3,
+        "speed": 12,
+        "winner": null,
+        "player": {
+          "faction": "ashvein",
+          "age": 1,
+          "tc": true,
+          "vills": 11,
+          "military": 0
+        },
+        "enemy": {
+          "faction": "stormveil",
+          "age": 1,
+          "tc": true,
+          "vills": 11,
+          "military": 1
+        },
+        "fightDist": null,
+        "fightX": null,
+        "fightZ": null
+      },
+      "fight": {
+        "file": "/Users/prateekranka/Cowork/sunfold cursor good version/docs/evidence/skirmish-bar/stills/ash-storm-fight.png",
+        "ok": true,
+        "t": 8272,
+        "sec": 137.86666666666667,
+        "speed": 12,
+        "winner": null,
+        "player": {
+          "faction": "ashvein",
+          "age": 1,
+          "tc": true,
+          "vills": 13,
+          "military": 1
+        },
+        "enemy": {
+          "faction": "stormveil",
+          "age": 1,
+          "tc": true,
+          "vills": 13,
+          "military": 1
+        },
+        "fightDist": 8.7319182351164,
+        "fightX": 41.97705078125,
+        "fightZ": 166.044921875
+      }
+    }
+  ]
+}

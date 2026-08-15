@@ -22,6 +22,8 @@ node scripts/generate-audio.mjs
 
 Output format: mono 16-bit PCM WAV at 22050 Hz.
 
+`music_night.wav` remains in the licensed asset pack and cache for compatibility. Fixed-daylight gameplay does not play it.
+
 ## App Store / attribution
 
 - **Third-party attribution:** not required — no CC-BY or external music libraries are bundled.
@@ -38,4 +40,4 @@ du -ch media/audio/*.wav | tail -1
 
 ## Replaced assets
 
-- `music_mesa.wav` — removed in T32 score integration; superseded by `music_day.wav` / `music_night.wav` with Bright-Line crossfades.
+- `music_mesa.wav` — removed in T32 score integration; the fixed-daylight score uses `music_day.wav`.

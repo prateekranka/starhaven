@@ -1,6 +1,5 @@
 import * as THREE from "three";
-import { TICKS_PER_SEC } from "../sim/fixed.js";
-import { lineX } from "../sim/engine.js";
+import { getRenderConfig, subscribeRenderConfig } from "../config/render-config.js";
 
 const BILLBOARD_GEO = new THREE.PlaneGeometry(1, 1);
 
@@ -14,12 +13,10 @@ uniform vec2 uMapRepeat;
 uniform vec2 uMapOffset;
 
 varying vec2 vUv;
-varying vec3 vWorldPos;
 
 void main() {
   vUv = uv * uMapRepeat + uMapOffset;
   vec4 worldCenter = modelMatrix * vec4(0.0, 0.0, 0.0, 1.0);
-  vWorldPos = worldCenter.xyz;
 
   vec3 camRight = vec3(viewMatrix[0][0], viewMatrix[1][0], viewMatrix[2][0]);
   vec3 camUp = vec3(viewMatrix[0][1], viewMatrix[1][1], viewMatrix[2][1]);
@@ -39,35 +36,25 @@ const FRAG = /* glsl */ `
 #include <fog_pars_fragment>
 
 uniform sampler2D map;
-uniform float uLineX;
-uniform float uBlend;
 uniform float uOpacity;
 uniform float uGlow;
-uniform float uTime;
+uniform float uGlowFactor;
 uniform vec3 uTint;
-uniform float uLift;
 uniform vec3 uGlowColor;
 
 varying vec2 vUv;
-varying vec3 vWorldPos;
 
 void main() {
   vec4 tex = texture2D(map, vUv);
   if (tex.a < 0.22) discard;
 
-  float day = 1.0 - smoothstep(uLineX - uBlend, uLineX + uBlend, vWorldPos.x);
   vec3 dayLight = vec3(1.12, 1.04, 0.9);
-  vec3 nightLight = vec3(0.5, 0.57, 0.76);
-  vec3 lit = mix(nightLight, dayLight, day) * tex.rgb * uTint;
-  lit += uLift * tex.rgb * uTint;
-
-  float night = 1.0 - day;
-  if (uGlow > 0.01) {
-    float pulse = 0.82 + 0.18 * sin(uTime * 2.4 + vWorldPos.x * 0.08 + vWorldPos.z * 0.06);
-    lit += uGlowColor * night * uGlow * pulse * 0.72;
-  }
+  vec3 lit = dayLight * tex.rgb * uTint;
+  lit += tex.rgb * uGlowColor * uGlow * uGlowFactor;
 
   gl_FragColor = vec4(lit, tex.a * uOpacity);
+  #include <tonemapping_fragment>
+  #include <colorspace_fragment>
   #include <fog_fragment>
 }
 `;
@@ -77,13 +64,10 @@ const template = new THREE.ShaderMaterial({
     map: { value: null },
     uMapRepeat: { value: new THREE.Vector2(1, 1) },
     uMapOffset: { value: new THREE.Vector2(0, 0) },
-    uLineX: { value: 0 },
-    uBlend: { value: 4.2 },
     uOpacity: { value: 1 },
     uGlow: { value: 0 },
-    uTime: { value: 0 },
+    uGlowFactor: { value: getRenderConfig().genericGlowFactor },
     uTint: { value: new THREE.Vector3(1, 1, 1) },
-    uLift: { value: 0.1 },
     uGlowColor: { value: new THREE.Vector3(1, 0.82, 0.38) },
     uScale: { value: new THREE.Vector2(1, 1) },
     uPivotY: { value: 0.1 },
@@ -97,12 +81,13 @@ const template = new THREE.ShaderMaterial({
   depthWrite: true,
   depthTest: true,
   fog: true,
+  toneMapped: true,
 });
 
-export function brightLineX(world, mapSpan) {
-  if (typeof world.brightQ10 === "number") return lineX(world);
-  return 4 + (world.bright || 0) * (mapSpan - 8);
-}
+let glowFactor = getRenderConfig().genericGlowFactor;
+subscribeRenderConfig((config) => {
+  glowFactor = config.genericGlowFactor;
+});
 
 function cloneLitMaterial(map) {
   const mat = template.clone();
@@ -118,9 +103,8 @@ export function syncLitMapUv(mesh) {
   mat.uniforms.uMapOffset.value.copy(tex.offset);
 }
 
-export function createLitBillboard(map, { glow = 0, pivotY = 0.1, opacity = 1, glowColor = [1, 0.82, 0.38], lift = 0.1 } = {}) {
+export function createLitBillboard(map, { glow = 0, pivotY = 0.1, opacity = 1, glowColor = [1, 0.82, 0.38] } = {}) {
   const mat = cloneLitMaterial(map);
-  mat.uniforms.uLift.value = lift;
   mat.uniforms.uGlow.value = glow;
   mat.uniforms.uOpacity.value = opacity;
   mat.uniforms.uPivotY.value = pivotY;
@@ -132,32 +116,20 @@ export function createLitBillboard(map, { glow = 0, pivotY = 0.1, opacity = 1, g
 
   const mesh = new THREE.Mesh(BILLBOARD_GEO, mat);
   mesh.userData.lit = true;
-  mesh.userData.lift = lift;
   mesh.userData.pivotY = pivotY;
   mesh.userData.glow = glow;
   mesh.userData.opacity = opacity;
   mesh.frustumCulled = false;
 
   mesh.onBeforeRender = () => {
-    mat.uniforms.uLift.value = mesh.userData.lift ?? lift;
     mat.uniforms.uScale.value.set(mesh.scale.x, mesh.scale.y);
     mat.uniforms.uPivotY.value = mesh.userData.pivotY ?? pivotY;
     mat.uniforms.uGlow.value = mesh.userData.glow ?? glow;
+    mat.uniforms.uGlowFactor.value = glowFactor;
     mat.uniforms.uOpacity.value = mesh.userData.opacity ?? opacity;
     syncLitMapUv(mesh);
   };
   return mesh;
-}
-
-export function syncBrightLineUniforms(scene, world, mapSpan) {
-  const lx = brightLineX(world, mapSpan);
-  const t = typeof world.brightQ10 === "number" ? world.t / TICKS_PER_SEC : world.t;
-  scene.traverse((obj) => {
-    const mat = obj.material;
-    if (!mat?.uniforms?.uLineX) return;
-    mat.uniforms.uLineX.value = lx;
-    mat.uniforms.uTime.value = t;
-  });
 }
 
 export function setLitTint(mesh, r, g, b) {

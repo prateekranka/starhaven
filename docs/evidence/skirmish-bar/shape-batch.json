@@ -1,0 +1,3499 @@
+{
+  "schema": 1,
+  "bar": "aoe2-1v1-shape",
+  "mapId": "highland-chokes",
+  "difficulty": "chieftain",
+  "maxTicks": 36000,
+  "maxSec": 600,
+  "generatedAt": "2026-08-15T16:00:31.725Z",
+  "elapsedMs": 92856,
+  "games": 48,
+  "passed": 48,
+  "rate": 1,
+  "passBar": 0.9,
+  "meetsRate": true,
+  "byPair": {
+    "ashvein vs cogforged": {
+      "samples": 16,
+      "passed": 16,
+      "open": 16,
+      "mid": 16,
+      "fight": 16,
+      "winnerFromPlay": 16
+    },
+    "cogforged vs stormveil": {
+      "samples": 16,
+      "passed": 16,
+      "open": 16,
+      "mid": 16,
+      "fight": 16,
+      "winnerFromPlay": 16
+    },
+    "ashvein vs stormveil": {
+      "samples": 16,
+      "passed": 16,
+      "open": 16,
+      "mid": 16,
+      "fight": 16,
+      "winnerFromPlay": 16
+    }
+  },
+  "results": [
+    {
+      "playerFaction": "cogforged",
+      "enemyFaction": "ashvein",
+      "seed": 1296388681,
+      "durationSec": 368.08,
+      "ticks": 22085,
+      "winner": "player",
+      "winnerFromPlay": true,
+      "open": true,
+      "mid": true,
+      "fight": true,
+      "shape": true,
+      "reasons": {
+        "bothTcAt30": true,
+        "gather": {
+          "player": true,
+          "enemy": true
+        },
+        "producedMilitary": {
+          "player": true,
+          "enemy": true
+        },
+        "agedUp": {
+          "player": false,
+          "enemy": false
+        },
+        "militaryDeaths": {
+          "player": 5,
+          "enemy": 6
+        },
+        "firstMilitaryDeathSec": {
+          "player": 154.45,
+          "enemy": 111.13333333333334
+        },
+        "steamroll": false
+      },
+      "final": {
+        "t": 22085,
+        "sec": 368.0833333333333,
+        "player": {
+          "age": 1,
+          "tc": true,
+          "vills": 4,
+          "gathering": 0,
+          "military": 5,
+          "trained": 15,
+          "lost": 3,
+          "stock": {
+            "food": 0,
+            "wood": 31,
+            "crystal": 47,
+            "ore": 50
+          }
+        },
+        "enemy": {
+          "age": 1,
+          "tc": false,
+          "vills": 12,
+          "gathering": 12,
+          "military": 3,
+          "trained": 17,
+          "lost": 5,
+          "stock": {
+            "food": 152,
+            "wood": 0,
+            "crystal": 80,
+            "ore": 50
+          }
+        },
+        "winner": "player"
+      }
+    },
+    {
+      "playerFaction": "ashvein",
+      "enemyFaction": "cogforged",
+      "seed": 1296388681,
+      "durationSec": 213.5,
+      "ticks": 12810,
+      "winner": "enemy",
+      "winnerFromPlay": true,
+      "open": true,
+      "mid": true,
+      "fight": true,
+      "shape": true,
+      "reasons": {
+        "bothTcAt30": true,
+        "gather": {
+          "player": true,
+          "enemy": true
+        },
+        "producedMilitary": {
+          "player": true,
+          "enemy": true
+        },
+        "agedUp": {
+          "player": false,
+          "enemy": false
+        },
+        "militaryDeaths": {
+          "player": 3,
+          "enemy": 4
+        },
+        "firstMilitaryDeathSec": {
+          "player": 132.15,
+          "enemy": 103.53333333333333
+        },
+        "steamroll": false
+      },
+      "final": {
+        "t": 12810,
+        "sec": 213.5,
+        "player": {
+          "age": 1,
+          "tc": false,
+          "vills": 13,
+          "gathering": 12,
+          "military": 1,
+          "trained": 12,
+          "lost": 1,
+          "stock": {
+            "food": 275,
+            "wood": 18,
+            "crystal": 80,
+            "ore": 50
+          }
+        },
+        "enemy": {
+          "age": 1,
+          "tc": true,
+          "vills": 8,
+          "gathering": 4,
+          "military": 3,
+          "trained": 10,
+          "lost": 1,
+          "stock": {
+            "food": 0,
+            "wood": 4,
+            "crystal": 75,
+            "ore": 50
+          }
+        },
+        "winner": "enemy"
+      }
+    },
+    {
+      "playerFaction": "cogforged",
+      "enemyFaction": "ashvein",
+      "seed": 1364216132,
+      "durationSec": 229.77,
+      "ticks": 13786,
+      "winner": "player",
+      "winnerFromPlay": true,
+      "open": true,
+      "mid": true,
+      "fight": true,
+      "shape": true,
+      "reasons": {
+        "bothTcAt30": true,
+        "gather": {
+          "player": true,
+          "enemy": true
+        },
+        "producedMilitary": {
+          "player": true,
+          "enemy": true
+        },
+        "agedUp": {
+          "player": false,
+          "enemy": false
+        },
+        "militaryDeaths": {
+          "player": 5,
+          "enemy": 1
+        },
+        "firstMilitaryDeathSec": {
+          "player": 130.78333333333333,
+          "enemy": 104.01666666666667
+        },
+        "steamroll": false
+      },
+      "final": {
+        "t": 13786,
+        "sec": 229.76666666666668,
+        "player": {
+          "age": 1,
+          "tc": true,
+          "vills": 8,
+          "gathering": 7,
+          "military": 1,
+          "trained": 9,
+          "lost": 2,
+          "stock": {
+            "food": 0,
+            "wood": 15,
+            "crystal": 170,
+            "ore": 50
+          }
+        },
+        "enemy": {
+          "age": 1,
+          "tc": false,
+          "vills": 9,
+          "gathering": 7,
+          "military": 4,
+          "trained": 13,
+          "lost": 4,
+          "stock": {
+            "food": 19,
+            "wood": 43,
+            "crystal": 80,
+            "ore": 50
+          }
+        },
+        "winner": "player"
+      }
+    },
+    {
+      "playerFaction": "ashvein",
+      "enemyFaction": "cogforged",
+      "seed": 1364216132,
+      "durationSec": 202.8,
+      "ticks": 12168,
+      "winner": "enemy",
+      "winnerFromPlay": true,
+      "open": true,
+      "mid": true,
+      "fight": true,
+      "shape": true,
+      "reasons": {
+        "bothTcAt30": true,
+        "gather": {
+          "player": true,
+          "enemy": true
+        },
+        "producedMilitary": {
+          "player": true,
+          "enemy": true
+        },
+        "agedUp": {
+          "player": false,
+          "enemy": false
+        },
+        "militaryDeaths": {
+          "player": 1,
+          "enemy": 3
+        },
+        "firstMilitaryDeathSec": {
+          "player": 114.56666666666666,
+          "enemy": 160.18333333333334
+        },
+        "steamroll": false
+      },
+      "final": {
+        "t": 12168,
+        "sec": 202.8,
+        "player": {
+          "age": 1,
+          "tc": false,
+          "vills": 13,
+          "gathering": 12,
+          "military": 4,
+          "trained": 13,
+          "lost": 1,
+          "stock": {
+            "food": 92,
+            "wood": 11,
+            "crystal": 80,
+            "ore": 50
+          }
+        },
+        "enemy": {
+          "age": 1,
+          "tc": true,
+          "vills": 8,
+          "gathering": 5,
+          "military": 4,
+          "trained": 10,
+          "lost": 2,
+          "stock": {
+            "food": 0,
+            "wood": 2,
+            "crystal": 81,
+            "ore": 50
+          }
+        },
+        "winner": "enemy"
+      }
+    },
+    {
+      "playerFaction": "cogforged",
+      "enemyFaction": "ashvein",
+      "seed": 1111575601,
+      "durationSec": 272.18,
+      "ticks": 16331,
+      "winner": "player",
+      "winnerFromPlay": true,
+      "open": true,
+      "mid": true,
+      "fight": true,
+      "shape": true,
+      "reasons": {
+        "bothTcAt30": true,
+        "gather": {
+          "player": true,
+          "enemy": true
+        },
+        "producedMilitary": {
+          "player": true,
+          "enemy": true
+        },
+        "agedUp": {
+          "player": false,
+          "enemy": false
+        },
+        "militaryDeaths": {
+          "player": 3,
+          "enemy": 5
+        },
+        "firstMilitaryDeathSec": {
+          "player": 154.26666666666668,
+          "enemy": 111.03333333333333
+        },
+        "steamroll": false
+      },
+      "final": {
+        "t": 16331,
+        "sec": 272.18333333333334,
+        "player": {
+          "age": 1,
+          "tc": true,
+          "vills": 8,
+          "gathering": 6,
+          "military": 6,
+          "trained": 12,
+          "lost": 1,
+          "stock": {
+            "food": 0,
+            "wood": 28,
+            "crystal": 98,
+            "ore": 50
+          }
+        },
+        "enemy": {
+          "age": 1,
+          "tc": false,
+          "vills": 12,
+          "gathering": 10,
+          "military": 1,
+          "trained": 14,
+          "lost": 6,
+          "stock": {
+            "food": 36,
+            "wood": 11,
+            "crystal": 80,
+            "ore": 50
+          }
+        },
+        "winner": "player"
+      }
+    },
+    {
+      "playerFaction": "ashvein",
+      "enemyFaction": "cogforged",
+      "seed": 1111575601,
+      "durationSec": 213.5,
+      "ticks": 12810,
+      "winner": "enemy",
+      "winnerFromPlay": true,
+      "open": true,
+      "mid": true,
+      "fight": true,
+      "shape": true,
+      "reasons": {
+        "bothTcAt30": true,
+        "gather": {
+          "player": true,
+          "enemy": true
+        },
+        "producedMilitary": {
+          "player": true,
+          "enemy": true
+        },
+        "agedUp": {
+          "player": false,
+          "enemy": false
+        },
+        "militaryDeaths": {
+          "player": 1,
+          "enemy": 5
+        },
+        "firstMilitaryDeathSec": {
+          "player": 132.2,
+          "enemy": 103.41666666666667
+        },
+        "steamroll": false
+      },
+      "final": {
+        "t": 12810,
+        "sec": 213.5,
+        "player": {
+          "age": 1,
+          "tc": false,
+          "vills": 13,
+          "gathering": 13,
+          "military": 4,
+          "trained": 13,
+          "lost": 0,
+          "stock": {
+            "food": 199,
+            "wood": 11,
+            "crystal": 80,
+            "ore": 50
+          }
+        },
+        "enemy": {
+          "age": 1,
+          "tc": true,
+          "vills": 8,
+          "gathering": 4,
+          "military": 2,
+          "trained": 10,
+          "lost": 2,
+          "stock": {
+            "food": 0,
+            "wood": 4,
+            "crystal": 75,
+            "ore": 50
+          }
+        },
+        "winner": "enemy"
+      }
+    },
+    {
+      "playerFaction": "cogforged",
+      "enemyFaction": "ashvein",
+      "seed": 1111575602,
+      "durationSec": 220.9,
+      "ticks": 13254,
+      "winner": "player",
+      "winnerFromPlay": true,
+      "open": true,
+      "mid": true,
+      "fight": true,
+      "shape": true,
+      "reasons": {
+        "bothTcAt30": true,
+        "gather": {
+          "player": true,
+          "enemy": true
+        },
+        "producedMilitary": {
+          "player": true,
+          "enemy": true
+        },
+        "agedUp": {
+          "player": false,
+          "enemy": false
+        },
+        "militaryDeaths": {
+          "player": 3,
+          "enemy": 3
+        },
+        "firstMilitaryDeathSec": {
+          "player": 130.43333333333334,
+          "enemy": 104.01666666666667
+        },
+        "steamroll": false
+      },
+      "final": {
+        "t": 13254,
+        "sec": 220.9,
+        "player": {
+          "age": 1,
+          "tc": true,
+          "vills": 8,
+          "gathering": 6,
+          "military": 4,
+          "trained": 10,
+          "lost": 1,
+          "stock": {
+            "food": 0,
+            "wood": 2,
+            "crystal": 90,
+            "ore": 50
+          }
+        },
+        "enemy": {
+          "age": 1,
+          "tc": false,
+          "vills": 9,
+          "gathering": 7,
+          "military": 2,
+          "trained": 13,
+          "lost": 6,
+          "stock": {
+            "food": 9,
+            "wood": 43,
+            "crystal": 80,
+            "ore": 50
+          }
+        },
+        "winner": "player"
+      }
+    },
+    {
+      "playerFaction": "ashvein",
+      "enemyFaction": "cogforged",
+      "seed": 1111575602,
+      "durationSec": 205.07,
+      "ticks": 12304,
+      "winner": "enemy",
+      "winnerFromPlay": true,
+      "open": true,
+      "mid": true,
+      "fight": true,
+      "shape": true,
+      "reasons": {
+        "bothTcAt30": true,
+        "gather": {
+          "player": true,
+          "enemy": true
+        },
+        "producedMilitary": {
+          "player": true,
+          "enemy": true
+        },
+        "agedUp": {
+          "player": false,
+          "enemy": false
+        },
+        "militaryDeaths": {
+          "player": 1,
+          "enemy": 5
+        },
+        "firstMilitaryDeathSec": {
+          "player": 120.16666666666667,
+          "enemy": 114.55
+        },
+        "steamroll": false
+      },
+      "final": {
+        "t": 12304,
+        "sec": 205.06666666666666,
+        "player": {
+          "age": 1,
+          "tc": false,
+          "vills": 13,
+          "gathering": 12,
+          "military": 4,
+          "trained": 13,
+          "lost": 0,
+          "stock": {
+            "food": 92,
+            "wood": 11,
+            "crystal": 80,
+            "ore": 50
+          }
+        },
+        "enemy": {
+          "age": 1,
+          "tc": true,
+          "vills": 8,
+          "gathering": 6,
+          "military": 2,
+          "trained": 10,
+          "lost": 3,
+          "stock": {
+            "food": 0,
+            "wood": 23,
+            "crystal": 96,
+            "ore": 50
+          }
+        },
+        "winner": "enemy"
+      }
+    },
+    {
+      "playerFaction": "cogforged",
+      "enemyFaction": "ashvein",
+      "seed": 1397048644,
+      "durationSec": 223.05,
+      "ticks": 13383,
+      "winner": "player",
+      "winnerFromPlay": true,
+      "open": true,
+      "mid": true,
+      "fight": true,
+      "shape": true,
+      "reasons": {
+        "bothTcAt30": true,
+        "gather": {
+          "player": true,
+          "enemy": true
+        },
+        "producedMilitary": {
+          "player": true,
+          "enemy": true
+        },
+        "agedUp": {
+          "player": false,
+          "enemy": false
+        },
+        "militaryDeaths": {
+          "player": 3,
+          "enemy": 2
+        },
+        "firstMilitaryDeathSec": {
+          "player": 131.85,
+          "enemy": 104.01666666666667
+        },
+        "steamroll": false
+      },
+      "final": {
+        "t": 13383,
+        "sec": 223.05,
+        "player": {
+          "age": 1,
+          "tc": true,
+          "vills": 8,
+          "gathering": 6,
+          "military": 4,
+          "trained": 10,
+          "lost": 2,
+          "stock": {
+            "food": 0,
+            "wood": 23,
+            "crystal": 113,
+            "ore": 50
+          }
+        },
+        "enemy": {
+          "age": 1,
+          "tc": false,
+          "vills": 9,
+          "gathering": 7,
+          "military": 3,
+          "trained": 13,
+          "lost": 5,
+          "stock": {
+            "food": 9,
+            "wood": 43,
+            "crystal": 80,
+            "ore": 50
+          }
+        },
+        "winner": "player"
+      }
+    },
+    {
+      "playerFaction": "ashvein",
+      "enemyFaction": "cogforged",
+      "seed": 1397048644,
+      "durationSec": 205.07,
+      "ticks": 12304,
+      "winner": "enemy",
+      "winnerFromPlay": true,
+      "open": true,
+      "mid": true,
+      "fight": true,
+      "shape": true,
+      "reasons": {
+        "bothTcAt30": true,
+        "gather": {
+          "player": true,
+          "enemy": true
+        },
+        "producedMilitary": {
+          "player": true,
+          "enemy": true
+        },
+        "agedUp": {
+          "player": false,
+          "enemy": false
+        },
+        "militaryDeaths": {
+          "player": 1,
+          "enemy": 5
+        },
+        "firstMilitaryDeathSec": {
+          "player": 120.13333333333334,
+          "enemy": 114.55
+        },
+        "steamroll": false
+      },
+      "final": {
+        "t": 12304,
+        "sec": 205.06666666666666,
+        "player": {
+          "age": 1,
+          "tc": false,
+          "vills": 13,
+          "gathering": 12,
+          "military": 4,
+          "trained": 13,
+          "lost": 0,
+          "stock": {
+            "food": 92,
+            "wood": 11,
+            "crystal": 80,
+            "ore": 50
+          }
+        },
+        "enemy": {
+          "age": 1,
+          "tc": true,
+          "vills": 8,
+          "gathering": 6,
+          "military": 2,
+          "trained": 10,
+          "lost": 3,
+          "stock": {
+            "food": 0,
+            "wood": 23,
+            "crystal": 96,
+            "ore": 50
+          }
+        },
+        "winner": "enemy"
+      }
+    },
+    {
+      "playerFaction": "cogforged",
+      "enemyFaction": "ashvein",
+      "seed": 3735928559,
+      "durationSec": 413.1,
+      "ticks": 24786,
+      "winner": "enemy",
+      "winnerFromPlay": true,
+      "open": true,
+      "mid": true,
+      "fight": true,
+      "shape": true,
+      "reasons": {
+        "bothTcAt30": true,
+        "gather": {
+          "player": true,
+          "enemy": true
+        },
+        "producedMilitary": {
+          "player": true,
+          "enemy": true
+        },
+        "agedUp": {
+          "player": false,
+          "enemy": false
+        },
+        "militaryDeaths": {
+          "player": 6,
+          "enemy": 7
+        },
+        "firstMilitaryDeathSec": {
+          "player": 111.26666666666667,
+          "enemy": 142.93333333333334
+        },
+        "steamroll": false
+      },
+      "final": {
+        "t": 24786,
+        "sec": 413.1,
+        "player": {
+          "age": 1,
+          "tc": false,
+          "vills": 7,
+          "gathering": 4,
+          "military": 4,
+          "trained": 14,
+          "lost": 1,
+          "stock": {
+            "food": 0,
+            "wood": 10,
+            "crystal": 74,
+            "ore": 50
+          }
+        },
+        "enemy": {
+          "age": 1,
+          "tc": true,
+          "vills": 13,
+          "gathering": 13,
+          "military": 3,
+          "trained": 18,
+          "lost": 4,
+          "stock": {
+            "food": 69,
+            "wood": 13,
+            "crystal": 80,
+            "ore": 50
+          }
+        },
+        "winner": "enemy"
+      }
+    },
+    {
+      "playerFaction": "ashvein",
+      "enemyFaction": "cogforged",
+      "seed": 3735928559,
+      "durationSec": 207.4,
+      "ticks": 12444,
+      "winner": "enemy",
+      "winnerFromPlay": true,
+      "open": true,
+      "mid": true,
+      "fight": true,
+      "shape": true,
+      "reasons": {
+        "bothTcAt30": true,
+        "gather": {
+          "player": true,
+          "enemy": true
+        },
+        "producedMilitary": {
+          "player": true,
+          "enemy": true
+        },
+        "agedUp": {
+          "player": false,
+          "enemy": false
+        },
+        "militaryDeaths": {
+          "player": 2,
+          "enemy": 4
+        },
+        "firstMilitaryDeathSec": {
+          "player": 133.9,
+          "enemy": 103.53333333333333
+        },
+        "steamroll": false
+      },
+      "final": {
+        "t": 12444,
+        "sec": 207.4,
+        "player": {
+          "age": 1,
+          "tc": false,
+          "vills": 13,
+          "gathering": 12,
+          "military": 2,
+          "trained": 12,
+          "lost": 1,
+          "stock": {
+            "food": 255,
+            "wood": 15,
+            "crystal": 80,
+            "ore": 50
+          }
+        },
+        "enemy": {
+          "age": 1,
+          "tc": true,
+          "vills": 8,
+          "gathering": 4,
+          "military": 3,
+          "trained": 10,
+          "lost": 2,
+          "stock": {
+            "food": 0,
+            "wood": 4,
+            "crystal": 71,
+            "ore": 50
+          }
+        },
+        "winner": "enemy"
+      }
+    },
+    {
+      "playerFaction": "cogforged",
+      "enemyFaction": "ashvein",
+      "seed": 3405691582,
+      "durationSec": 184.02,
+      "ticks": 11041,
+      "winner": "player",
+      "winnerFromPlay": true,
+      "open": true,
+      "mid": true,
+      "fight": true,
+      "shape": true,
+      "reasons": {
+        "bothTcAt30": true,
+        "gather": {
+          "player": true,
+          "enemy": true
+        },
+        "producedMilitary": {
+          "player": true,
+          "enemy": true
+        },
+        "agedUp": {
+          "player": false,
+          "enemy": false
+        },
+        "militaryDeaths": {
+          "player": 1,
+          "enemy": 1
+        },
+        "firstMilitaryDeathSec": {
+          "player": 162.68333333333334,
+          "enemy": 104.01666666666667
+        },
+        "steamroll": false
+      },
+      "final": {
+        "t": 11041,
+        "sec": 184.01666666666668,
+        "player": {
+          "age": 1,
+          "tc": true,
+          "vills": 8,
+          "gathering": 4,
+          "military": 4,
+          "trained": 8,
+          "lost": 0,
+          "stock": {
+            "food": 0,
+            "wood": 3,
+            "crystal": 77,
+            "ore": 50
+          }
+        },
+        "enemy": {
+          "age": 1,
+          "tc": false,
+          "vills": 13,
+          "gathering": 11,
+          "military": 2,
+          "trained": 11,
+          "lost": 1,
+          "stock": {
+            "food": 26,
+            "wood": 63,
+            "crystal": 80,
+            "ore": 50
+          }
+        },
+        "winner": "player"
+      }
+    },
+    {
+      "playerFaction": "ashvein",
+      "enemyFaction": "cogforged",
+      "seed": 3405691582,
+      "durationSec": 202.8,
+      "ticks": 12168,
+      "winner": "enemy",
+      "winnerFromPlay": true,
+      "open": true,
+      "mid": true,
+      "fight": true,
+      "shape": true,
+      "reasons": {
+        "bothTcAt30": true,
+        "gather": {
+          "player": true,
+          "enemy": true
+        },
+        "producedMilitary": {
+          "player": true,
+          "enemy": true
+        },
+        "agedUp": {
+          "player": false,
+          "enemy": false
+        },
+        "militaryDeaths": {
+          "player": 1,
+          "enemy": 3
+        },
+        "firstMilitaryDeathSec": {
+          "player": 114.56666666666666,
+          "enemy": 160.33333333333334
+        },
+        "steamroll": false
+      },
+      "final": {
+        "t": 12168,
+        "sec": 202.8,
+        "player": {
+          "age": 1,
+          "tc": false,
+          "vills": 13,
+          "gathering": 12,
+          "military": 4,
+          "trained": 13,
+          "lost": 1,
+          "stock": {
+            "food": 92,
+            "wood": 11,
+            "crystal": 80,
+            "ore": 50
+          }
+        },
+        "enemy": {
+          "age": 1,
+          "tc": true,
+          "vills": 8,
+          "gathering": 5,
+          "military": 4,
+          "trained": 10,
+          "lost": 2,
+          "stock": {
+            "food": 0,
+            "wood": 2,
+            "crystal": 81,
+            "ore": 50
+          }
+        },
+        "winner": "enemy"
+      }
+    },
+    {
+      "playerFaction": "cogforged",
+      "enemyFaction": "ashvein",
+      "seed": 305419896,
+      "durationSec": 184.12,
+      "ticks": 11047,
+      "winner": "player",
+      "winnerFromPlay": true,
+      "open": true,
+      "mid": true,
+      "fight": true,
+      "shape": true,
+      "reasons": {
+        "bothTcAt30": true,
+        "gather": {
+          "player": true,
+          "enemy": true
+        },
+        "producedMilitary": {
+          "player": true,
+          "enemy": true
+        },
+        "agedUp": {
+          "player": false,
+          "enemy": false
+        },
+        "militaryDeaths": {
+          "player": 1,
+          "enemy": 1
+        },
+        "firstMilitaryDeathSec": {
+          "player": 162.85,
+          "enemy": 104.01666666666667
+        },
+        "steamroll": false
+      },
+      "final": {
+        "t": 11047,
+        "sec": 184.11666666666667,
+        "player": {
+          "age": 1,
+          "tc": true,
+          "vills": 8,
+          "gathering": 4,
+          "military": 4,
+          "trained": 8,
+          "lost": 0,
+          "stock": {
+            "food": 0,
+            "wood": 3,
+            "crystal": 77,
+            "ore": 50
+          }
+        },
+        "enemy": {
+          "age": 1,
+          "tc": false,
+          "vills": 13,
+          "gathering": 11,
+          "military": 2,
+          "trained": 11,
+          "lost": 1,
+          "stock": {
+            "food": 26,
+            "wood": 63,
+            "crystal": 80,
+            "ore": 50
+          }
+        },
+        "winner": "player"
+      }
+    },
+    {
+      "playerFaction": "ashvein",
+      "enemyFaction": "cogforged",
+      "seed": 305419896,
+      "durationSec": 205,
+      "ticks": 12300,
+      "winner": "enemy",
+      "winnerFromPlay": true,
+      "open": true,
+      "mid": true,
+      "fight": true,
+      "shape": true,
+      "reasons": {
+        "bothTcAt30": true,
+        "gather": {
+          "player": true,
+          "enemy": true
+        },
+        "producedMilitary": {
+          "player": true,
+          "enemy": true
+        },
+        "agedUp": {
+          "player": false,
+          "enemy": false
+        },
+        "militaryDeaths": {
+          "player": 1,
+          "enemy": 5
+        },
+        "firstMilitaryDeathSec": {
+          "player": 120.13333333333334,
+          "enemy": 114.55
+        },
+        "steamroll": false
+      },
+      "final": {
+        "t": 12300,
+        "sec": 205,
+        "player": {
+          "age": 1,
+          "tc": false,
+          "vills": 13,
+          "gathering": 12,
+          "military": 4,
+          "trained": 13,
+          "lost": 0,
+          "stock": {
+            "food": 92,
+            "wood": 11,
+            "crystal": 80,
+            "ore": 50
+          }
+        },
+        "enemy": {
+          "age": 1,
+          "tc": true,
+          "vills": 8,
+          "gathering": 6,
+          "military": 2,
+          "trained": 10,
+          "lost": 3,
+          "stock": {
+            "food": 0,
+            "wood": 23,
+            "crystal": 96,
+            "ore": 50
+          }
+        },
+        "winner": "enemy"
+      }
+    },
+    {
+      "playerFaction": "cogforged",
+      "enemyFaction": "stormveil",
+      "seed": 1296388681,
+      "durationSec": 386.17,
+      "ticks": 23170,
+      "winner": "enemy",
+      "winnerFromPlay": true,
+      "open": true,
+      "mid": true,
+      "fight": true,
+      "shape": true,
+      "reasons": {
+        "bothTcAt30": true,
+        "gather": {
+          "player": true,
+          "enemy": true
+        },
+        "producedMilitary": {
+          "player": true,
+          "enemy": true
+        },
+        "agedUp": {
+          "player": false,
+          "enemy": false
+        },
+        "militaryDeaths": {
+          "player": 7,
+          "enemy": 8
+        },
+        "firstMilitaryDeathSec": {
+          "player": 150.36666666666667,
+          "enemy": 107.95
+        },
+        "steamroll": false
+      },
+      "final": {
+        "t": 23170,
+        "sec": 386.1666666666667,
+        "player": {
+          "age": 1,
+          "tc": false,
+          "vills": 8,
+          "gathering": 0,
+          "military": 7,
+          "trained": 17,
+          "lost": 4,
+          "stock": {
+            "food": 0,
+            "wood": 8,
+            "crystal": 70,
+            "ore": 50
+          }
+        },
+        "enemy": {
+          "age": 1,
+          "tc": true,
+          "vills": 13,
+          "gathering": 6,
+          "military": 5,
+          "trained": 21,
+          "lost": 6,
+          "stock": {
+            "food": 21,
+            "wood": 111,
+            "crystal": 80,
+            "ore": 50
+          }
+        },
+        "winner": "enemy"
+      }
+    },
+    {
+      "playerFaction": "stormveil",
+      "enemyFaction": "cogforged",
+      "seed": 1296388681,
+      "durationSec": 207.38,
+      "ticks": 12443,
+      "winner": "enemy",
+      "winnerFromPlay": true,
+      "open": true,
+      "mid": true,
+      "fight": true,
+      "shape": true,
+      "reasons": {
+        "bothTcAt30": true,
+        "gather": {
+          "player": true,
+          "enemy": true
+        },
+        "producedMilitary": {
+          "player": true,
+          "enemy": true
+        },
+        "agedUp": {
+          "player": false,
+          "enemy": false
+        },
+        "militaryDeaths": {
+          "player": 2,
+          "enemy": 4
+        },
+        "firstMilitaryDeathSec": {
+          "player": 133.58333333333334,
+          "enemy": 98.08333333333333
+        },
+        "steamroll": false
+      },
+      "final": {
+        "t": 12443,
+        "sec": 207.38333333333333,
+        "player": {
+          "age": 1,
+          "tc": false,
+          "vills": 13,
+          "gathering": 12,
+          "military": 2,
+          "trained": 12,
+          "lost": 1,
+          "stock": {
+            "food": 140,
+            "wood": 7,
+            "crystal": 80,
+            "ore": 50
+          }
+        },
+        "enemy": {
+          "age": 1,
+          "tc": true,
+          "vills": 8,
+          "gathering": 4,
+          "military": 3,
+          "trained": 10,
+          "lost": 1,
+          "stock": {
+            "food": 0,
+            "wood": 4,
+            "crystal": 71,
+            "ore": 50
+          }
+        },
+        "winner": "enemy"
+      }
+    },
+    {
+      "playerFaction": "cogforged",
+      "enemyFaction": "stormveil",
+      "seed": 1364216132,
+      "durationSec": 229.87,
+      "ticks": 13792,
+      "winner": "player",
+      "winnerFromPlay": true,
+      "open": true,
+      "mid": true,
+      "fight": true,
+      "shape": true,
+      "reasons": {
+        "bothTcAt30": true,
+        "gather": {
+          "player": true,
+          "enemy": true
+        },
+        "producedMilitary": {
+          "player": true,
+          "enemy": true
+        },
+        "agedUp": {
+          "player": false,
+          "enemy": false
+        },
+        "militaryDeaths": {
+          "player": 4,
+          "enemy": 4
+        },
+        "firstMilitaryDeathSec": {
+          "player": 103.98333333333333,
+          "enemy": 122.25
+        },
+        "steamroll": false
+      },
+      "final": {
+        "t": 13792,
+        "sec": 229.86666666666667,
+        "player": {
+          "age": 1,
+          "tc": true,
+          "vills": 6,
+          "gathering": 1,
+          "military": 3,
+          "trained": 10,
+          "lost": 1,
+          "stock": {
+            "food": 0,
+            "wood": 33,
+            "crystal": 20,
+            "ore": 50
+          }
+        },
+        "enemy": {
+          "age": 1,
+          "tc": false,
+          "vills": 13,
+          "gathering": 13,
+          "military": 3,
+          "trained": 15,
+          "lost": 2,
+          "stock": {
+            "food": 84,
+            "wood": 19,
+            "crystal": 80,
+            "ore": 50
+          }
+        },
+        "winner": "player"
+      }
+    },
+    {
+      "playerFaction": "stormveil",
+      "enemyFaction": "cogforged",
+      "seed": 1364216132,
+      "durationSec": 205.07,
+      "ticks": 12304,
+      "winner": "enemy",
+      "winnerFromPlay": true,
+      "open": true,
+      "mid": true,
+      "fight": true,
+      "shape": true,
+      "reasons": {
+        "bothTcAt30": true,
+        "gather": {
+          "player": true,
+          "enemy": true
+        },
+        "producedMilitary": {
+          "player": true,
+          "enemy": true
+        },
+        "agedUp": {
+          "player": false,
+          "enemy": false
+        },
+        "militaryDeaths": {
+          "player": 2,
+          "enemy": 5
+        },
+        "firstMilitaryDeathSec": {
+          "player": 118.26666666666667,
+          "enemy": 113.56666666666666
+        },
+        "steamroll": false
+      },
+      "final": {
+        "t": 12304,
+        "sec": 205.06666666666666,
+        "player": {
+          "age": 1,
+          "tc": false,
+          "vills": 13,
+          "gathering": 13,
+          "military": 3,
+          "trained": 13,
+          "lost": 0,
+          "stock": {
+            "food": 55,
+            "wood": 42,
+            "crystal": 80,
+            "ore": 50
+          }
+        },
+        "enemy": {
+          "age": 1,
+          "tc": true,
+          "vills": 8,
+          "gathering": 6,
+          "military": 2,
+          "trained": 10,
+          "lost": 2,
+          "stock": {
+            "food": 0,
+            "wood": 23,
+            "crystal": 96,
+            "ore": 50
+          }
+        },
+        "winner": "enemy"
+      }
+    },
+    {
+      "playerFaction": "cogforged",
+      "enemyFaction": "stormveil",
+      "seed": 1111575601,
+      "durationSec": 347.65,
+      "ticks": 20859,
+      "winner": "player",
+      "winnerFromPlay": true,
+      "open": true,
+      "mid": true,
+      "fight": true,
+      "shape": true,
+      "reasons": {
+        "bothTcAt30": true,
+        "gather": {
+          "player": true,
+          "enemy": true
+        },
+        "producedMilitary": {
+          "player": true,
+          "enemy": true
+        },
+        "agedUp": {
+          "player": false,
+          "enemy": false
+        },
+        "militaryDeaths": {
+          "player": 4,
+          "enemy": 7
+        },
+        "firstMilitaryDeathSec": {
+          "player": 188.6,
+          "enemy": 151.35
+        },
+        "steamroll": false
+      },
+      "final": {
+        "t": 20859,
+        "sec": 347.65,
+        "player": {
+          "age": 1,
+          "tc": true,
+          "vills": 6,
+          "gathering": 0,
+          "military": 8,
+          "trained": 16,
+          "lost": 1,
+          "stock": {
+            "food": 0,
+            "wood": 11,
+            "crystal": 30,
+            "ore": 50
+          }
+        },
+        "enemy": {
+          "age": 1,
+          "tc": false,
+          "vills": 11,
+          "gathering": 10,
+          "military": 1,
+          "trained": 16,
+          "lost": 7,
+          "stock": {
+            "food": 127,
+            "wood": 2,
+            "crystal": 80,
+            "ore": 50
+          }
+        },
+        "winner": "player"
+      }
+    },
+    {
+      "playerFaction": "stormveil",
+      "enemyFaction": "cogforged",
+      "seed": 1111575601,
+      "durationSec": 220.92,
+      "ticks": 13255,
+      "winner": "enemy",
+      "winnerFromPlay": true,
+      "open": true,
+      "mid": true,
+      "fight": true,
+      "shape": true,
+      "reasons": {
+        "bothTcAt30": true,
+        "gather": {
+          "player": true,
+          "enemy": true
+        },
+        "producedMilitary": {
+          "player": true,
+          "enemy": true
+        },
+        "agedUp": {
+          "player": false,
+          "enemy": false
+        },
+        "militaryDeaths": {
+          "player": 3,
+          "enemy": 5
+        },
+        "firstMilitaryDeathSec": {
+          "player": 165.63333333333333,
+          "enemy": 97.68333333333334
+        },
+        "steamroll": false
+      },
+      "final": {
+        "t": 13255,
+        "sec": 220.91666666666666,
+        "player": {
+          "age": 1,
+          "tc": false,
+          "vills": 13,
+          "gathering": 12,
+          "military": 4,
+          "trained": 15,
+          "lost": 2,
+          "stock": {
+            "food": 74,
+            "wood": 7,
+            "crystal": 80,
+            "ore": 50
+          }
+        },
+        "enemy": {
+          "age": 1,
+          "tc": true,
+          "vills": 8,
+          "gathering": 4,
+          "military": 2,
+          "trained": 10,
+          "lost": 2,
+          "stock": {
+            "food": 0,
+            "wood": 4,
+            "crystal": 75,
+            "ore": 50
+          }
+        },
+        "winner": "enemy"
+      }
+    },
+    {
+      "playerFaction": "cogforged",
+      "enemyFaction": "stormveil",
+      "seed": 1111575602,
+      "durationSec": 185.58,
+      "ticks": 11135,
+      "winner": "player",
+      "winnerFromPlay": true,
+      "open": true,
+      "mid": true,
+      "fight": true,
+      "shape": true,
+      "reasons": {
+        "bothTcAt30": true,
+        "gather": {
+          "player": true,
+          "enemy": true
+        },
+        "producedMilitary": {
+          "player": true,
+          "enemy": true
+        },
+        "agedUp": {
+          "player": false,
+          "enemy": false
+        },
+        "militaryDeaths": {
+          "player": 1,
+          "enemy": 1
+        },
+        "firstMilitaryDeathSec": {
+          "player": 162.53333333333333,
+          "enemy": 104.11666666666666
+        },
+        "steamroll": false
+      },
+      "final": {
+        "t": 11135,
+        "sec": 185.58333333333334,
+        "player": {
+          "age": 1,
+          "tc": true,
+          "vills": 8,
+          "gathering": 4,
+          "military": 4,
+          "trained": 8,
+          "lost": 0,
+          "stock": {
+            "food": 0,
+            "wood": 3,
+            "crystal": 77,
+            "ore": 50
+          }
+        },
+        "enemy": {
+          "age": 1,
+          "tc": false,
+          "vills": 13,
+          "gathering": 11,
+          "military": 0,
+          "trained": 9,
+          "lost": 1,
+          "stock": {
+            "food": 292,
+            "wood": 9,
+            "crystal": 80,
+            "ore": 50
+          }
+        },
+        "winner": "player"
+      }
+    },
+    {
+      "playerFaction": "stormveil",
+      "enemyFaction": "cogforged",
+      "seed": 1111575602,
+      "durationSec": 207.83,
+      "ticks": 12470,
+      "winner": "enemy",
+      "winnerFromPlay": true,
+      "open": true,
+      "mid": true,
+      "fight": true,
+      "shape": true,
+      "reasons": {
+        "bothTcAt30": true,
+        "gather": {
+          "player": true,
+          "enemy": true
+        },
+        "producedMilitary": {
+          "player": true,
+          "enemy": true
+        },
+        "agedUp": {
+          "player": false,
+          "enemy": false
+        },
+        "militaryDeaths": {
+          "player": 2,
+          "enemy": 3
+        },
+        "firstMilitaryDeathSec": {
+          "player": 112.28333333333333,
+          "enemy": 160.16666666666666
+        },
+        "steamroll": false
+      },
+      "final": {
+        "t": 12470,
+        "sec": 207.83333333333334,
+        "player": {
+          "age": 1,
+          "tc": false,
+          "vills": 13,
+          "gathering": 11,
+          "military": 4,
+          "trained": 14,
+          "lost": 2,
+          "stock": {
+            "food": 171,
+            "wood": 5,
+            "crystal": 80,
+            "ore": 50
+          }
+        },
+        "enemy": {
+          "age": 1,
+          "tc": true,
+          "vills": 8,
+          "gathering": 5,
+          "military": 4,
+          "trained": 10,
+          "lost": 2,
+          "stock": {
+            "food": 0,
+            "wood": 2,
+            "crystal": 91,
+            "ore": 50
+          }
+        },
+        "winner": "enemy"
+      }
+    },
+    {
+      "playerFaction": "cogforged",
+      "enemyFaction": "stormveil",
+      "seed": 1397048644,
+      "durationSec": 182.13,
+      "ticks": 10928,
+      "winner": "player",
+      "winnerFromPlay": true,
+      "open": true,
+      "mid": true,
+      "fight": true,
+      "shape": true,
+      "reasons": {
+        "bothTcAt30": true,
+        "gather": {
+          "player": true,
+          "enemy": true
+        },
+        "producedMilitary": {
+          "player": true,
+          "enemy": true
+        },
+        "agedUp": {
+          "player": false,
+          "enemy": false
+        },
+        "militaryDeaths": {
+          "player": 1,
+          "enemy": 1
+        },
+        "firstMilitaryDeathSec": {
+          "player": 161.93333333333334,
+          "enemy": 104.01666666666667
+        },
+        "steamroll": false
+      },
+      "final": {
+        "t": 10928,
+        "sec": 182.13333333333333,
+        "player": {
+          "age": 1,
+          "tc": true,
+          "vills": 8,
+          "gathering": 4,
+          "military": 4,
+          "trained": 8,
+          "lost": 0,
+          "stock": {
+            "food": 0,
+            "wood": 3,
+            "crystal": 77,
+            "ore": 50
+          }
+        },
+        "enemy": {
+          "age": 1,
+          "tc": false,
+          "vills": 13,
+          "gathering": 13,
+          "military": 2,
+          "trained": 11,
+          "lost": 1,
+          "stock": {
+            "food": 92,
+            "wood": 25,
+            "crystal": 80,
+            "ore": 50
+          }
+        },
+        "winner": "player"
+      }
+    },
+    {
+      "playerFaction": "stormveil",
+      "enemyFaction": "cogforged",
+      "seed": 1397048644,
+      "durationSec": 208.83,
+      "ticks": 12530,
+      "winner": "enemy",
+      "winnerFromPlay": true,
+      "open": true,
+      "mid": true,
+      "fight": true,
+      "shape": true,
+      "reasons": {
+        "bothTcAt30": true,
+        "gather": {
+          "player": true,
+          "enemy": true
+        },
+        "producedMilitary": {
+          "player": true,
+          "enemy": true
+        },
+        "agedUp": {
+          "player": false,
+          "enemy": false
+        },
+        "militaryDeaths": {
+          "player": 2,
+          "enemy": 4
+        },
+        "firstMilitaryDeathSec": {
+          "player": 119.01666666666667,
+          "enemy": 113.85
+        },
+        "steamroll": false
+      },
+      "final": {
+        "t": 12530,
+        "sec": 208.83333333333334,
+        "player": {
+          "age": 1,
+          "tc": false,
+          "vills": 13,
+          "gathering": 12,
+          "military": 4,
+          "trained": 14,
+          "lost": 1,
+          "stock": {
+            "food": 9,
+            "wood": 30,
+            "crystal": 80,
+            "ore": 50
+          }
+        },
+        "enemy": {
+          "age": 1,
+          "tc": true,
+          "vills": 8,
+          "gathering": 4,
+          "military": 3,
+          "trained": 10,
+          "lost": 2,
+          "stock": {
+            "food": 0,
+            "wood": 8,
+            "crystal": 71,
+            "ore": 50
+          }
+        },
+        "winner": "enemy"
+      }
+    },
+    {
+      "playerFaction": "cogforged",
+      "enemyFaction": "stormveil",
+      "seed": 3735928559,
+      "durationSec": 296.23,
+      "ticks": 17774,
+      "winner": "player",
+      "winnerFromPlay": true,
+      "open": true,
+      "mid": true,
+      "fight": true,
+      "shape": true,
+      "reasons": {
+        "bothTcAt30": true,
+        "gather": {
+          "player": true,
+          "enemy": true
+        },
+        "producedMilitary": {
+          "player": true,
+          "enemy": true
+        },
+        "agedUp": {
+          "player": false,
+          "enemy": false
+        },
+        "militaryDeaths": {
+          "player": 3,
+          "enemy": 8
+        },
+        "firstMilitaryDeathSec": {
+          "player": 183.93333333333334,
+          "enemy": 124.71666666666667
+        },
+        "steamroll": false
+      },
+      "final": {
+        "t": 17774,
+        "sec": 296.23333333333335,
+        "player": {
+          "age": 1,
+          "tc": true,
+          "vills": 8,
+          "gathering": 6,
+          "military": 8,
+          "trained": 14,
+          "lost": 0,
+          "stock": {
+            "food": 0,
+            "wood": 34,
+            "crystal": 92,
+            "ore": 50
+          }
+        },
+        "enemy": {
+          "age": 1,
+          "tc": false,
+          "vills": 13,
+          "gathering": 4,
+          "military": 2,
+          "trained": 18,
+          "lost": 8,
+          "stock": {
+            "food": 123,
+            "wood": 50,
+            "crystal": 80,
+            "ore": 50
+          }
+        },
+        "winner": "player"
+      }
+    },
+    {
+      "playerFaction": "stormveil",
+      "enemyFaction": "cogforged",
+      "seed": 3735928559,
+      "durationSec": 259.12,
+      "ticks": 15547,
+      "winner": "enemy",
+      "winnerFromPlay": true,
+      "open": true,
+      "mid": true,
+      "fight": true,
+      "shape": true,
+      "reasons": {
+        "bothTcAt30": true,
+        "gather": {
+          "player": true,
+          "enemy": true
+        },
+        "producedMilitary": {
+          "player": true,
+          "enemy": true
+        },
+        "agedUp": {
+          "player": false,
+          "enemy": false
+        },
+        "militaryDeaths": {
+          "player": 1,
+          "enemy": 6
+        },
+        "firstMilitaryDeathSec": {
+          "player": 102.5,
+          "enemy": 132.11666666666667
+        },
+        "steamroll": false
+      },
+      "final": {
+        "t": 15547,
+        "sec": 259.1166666666667,
+        "player": {
+          "age": 1,
+          "tc": false,
+          "vills": 13,
+          "gathering": 11,
+          "military": 0,
+          "trained": 9,
+          "lost": 1,
+          "stock": {
+            "food": 183,
+            "wood": 9,
+            "crystal": 80,
+            "ore": 50
+          }
+        },
+        "enemy": {
+          "age": 1,
+          "tc": true,
+          "vills": 8,
+          "gathering": 6,
+          "military": 3,
+          "trained": 12,
+          "lost": 5,
+          "stock": {
+            "food": 0,
+            "wood": 18,
+            "crystal": 105,
+            "ore": 50
+          }
+        },
+        "winner": "enemy"
+      }
+    },
+    {
+      "playerFaction": "cogforged",
+      "enemyFaction": "stormveil",
+      "seed": 3405691582,
+      "durationSec": 215.98,
+      "ticks": 12959,
+      "winner": "player",
+      "winnerFromPlay": true,
+      "open": true,
+      "mid": true,
+      "fight": true,
+      "shape": true,
+      "reasons": {
+        "bothTcAt30": true,
+        "gather": {
+          "player": true,
+          "enemy": true
+        },
+        "producedMilitary": {
+          "player": true,
+          "enemy": true
+        },
+        "agedUp": {
+          "player": false,
+          "enemy": false
+        },
+        "militaryDeaths": {
+          "player": 3,
+          "enemy": 2
+        },
+        "firstMilitaryDeathSec": {
+          "player": 104.01666666666667,
+          "enemy": 143.68333333333334
+        },
+        "steamroll": false
+      },
+      "final": {
+        "t": 12959,
+        "sec": 215.98333333333332,
+        "player": {
+          "age": 1,
+          "tc": true,
+          "vills": 8,
+          "gathering": 5,
+          "military": 4,
+          "trained": 10,
+          "lost": 1,
+          "stock": {
+            "food": 0,
+            "wood": 3,
+            "crystal": 75,
+            "ore": 50
+          }
+        },
+        "enemy": {
+          "age": 1,
+          "tc": false,
+          "vills": 11,
+          "gathering": 11,
+          "military": 2,
+          "trained": 13,
+          "lost": 5,
+          "stock": {
+            "food": 120,
+            "wood": 7,
+            "crystal": 80,
+            "ore": 50
+          }
+        },
+        "winner": "player"
+      }
+    },
+    {
+      "playerFaction": "stormveil",
+      "enemyFaction": "cogforged",
+      "seed": 3405691582,
+      "durationSec": 205.07,
+      "ticks": 12304,
+      "winner": "enemy",
+      "winnerFromPlay": true,
+      "open": true,
+      "mid": true,
+      "fight": true,
+      "shape": true,
+      "reasons": {
+        "bothTcAt30": true,
+        "gather": {
+          "player": true,
+          "enemy": true
+        },
+        "producedMilitary": {
+          "player": true,
+          "enemy": true
+        },
+        "agedUp": {
+          "player": false,
+          "enemy": false
+        },
+        "militaryDeaths": {
+          "player": 1,
+          "enemy": 5
+        },
+        "firstMilitaryDeathSec": {
+          "player": 119.71666666666667,
+          "enemy": 114.23333333333333
+        },
+        "steamroll": false
+      },
+      "final": {
+        "t": 12304,
+        "sec": 205.06666666666666,
+        "player": {
+          "age": 1,
+          "tc": false,
+          "vills": 13,
+          "gathering": 12,
+          "military": 4,
+          "trained": 13,
+          "lost": 0,
+          "stock": {
+            "food": 138,
+            "wood": 9,
+            "crystal": 80,
+            "ore": 50
+          }
+        },
+        "enemy": {
+          "age": 1,
+          "tc": true,
+          "vills": 8,
+          "gathering": 6,
+          "military": 2,
+          "trained": 10,
+          "lost": 3,
+          "stock": {
+            "food": 0,
+            "wood": 23,
+            "crystal": 96,
+            "ore": 50
+          }
+        },
+        "winner": "enemy"
+      }
+    },
+    {
+      "playerFaction": "cogforged",
+      "enemyFaction": "stormveil",
+      "seed": 305419896,
+      "durationSec": 211.6,
+      "ticks": 12696,
+      "winner": "player",
+      "winnerFromPlay": true,
+      "open": true,
+      "mid": true,
+      "fight": true,
+      "shape": true,
+      "reasons": {
+        "bothTcAt30": true,
+        "gather": {
+          "player": true,
+          "enemy": true
+        },
+        "producedMilitary": {
+          "player": true,
+          "enemy": true
+        },
+        "agedUp": {
+          "player": false,
+          "enemy": false
+        },
+        "militaryDeaths": {
+          "player": 2,
+          "enemy": 1
+        },
+        "firstMilitaryDeathSec": {
+          "player": 104.1,
+          "enemy": 165.03333333333333
+        },
+        "steamroll": false
+      },
+      "final": {
+        "t": 12696,
+        "sec": 211.6,
+        "player": {
+          "age": 1,
+          "tc": true,
+          "vills": 7,
+          "gathering": 5,
+          "military": 5,
+          "trained": 10,
+          "lost": 0,
+          "stock": {
+            "food": 0,
+            "wood": 3,
+            "crystal": 75,
+            "ore": 50
+          }
+        },
+        "enemy": {
+          "age": 1,
+          "tc": false,
+          "vills": 11,
+          "gathering": 9,
+          "military": 1,
+          "trained": 10,
+          "lost": 3,
+          "stock": {
+            "food": 103,
+            "wood": 2,
+            "crystal": 80,
+            "ore": 50
+          }
+        },
+        "winner": "player"
+      }
+    },
+    {
+      "playerFaction": "stormveil",
+      "enemyFaction": "cogforged",
+      "seed": 305419896,
+      "durationSec": 205.07,
+      "ticks": 12304,
+      "winner": "enemy",
+      "winnerFromPlay": true,
+      "open": true,
+      "mid": true,
+      "fight": true,
+      "shape": true,
+      "reasons": {
+        "bothTcAt30": true,
+        "gather": {
+          "player": true,
+          "enemy": true
+        },
+        "producedMilitary": {
+          "player": true,
+          "enemy": true
+        },
+        "agedUp": {
+          "player": false,
+          "enemy": false
+        },
+        "militaryDeaths": {
+          "player": 1,
+          "enemy": 5
+        },
+        "firstMilitaryDeathSec": {
+          "player": 118.23333333333333,
+          "enemy": 112.91666666666667
+        },
+        "steamroll": false
+      },
+      "final": {
+        "t": 12304,
+        "sec": 205.06666666666666,
+        "player": {
+          "age": 1,
+          "tc": false,
+          "vills": 13,
+          "gathering": 11,
+          "military": 4,
+          "trained": 13,
+          "lost": 0,
+          "stock": {
+            "food": 138,
+            "wood": 9,
+            "crystal": 80,
+            "ore": 50
+          }
+        },
+        "enemy": {
+          "age": 1,
+          "tc": true,
+          "vills": 8,
+          "gathering": 6,
+          "military": 2,
+          "trained": 10,
+          "lost": 3,
+          "stock": {
+            "food": 0,
+            "wood": 23,
+            "crystal": 96,
+            "ore": 50
+          }
+        },
+        "winner": "enemy"
+      }
+    },
+    {
+      "playerFaction": "ashvein",
+      "enemyFaction": "stormveil",
+      "seed": 1296388681,
+      "durationSec": 283.33,
+      "ticks": 17000,
+      "winner": "enemy",
+      "winnerFromPlay": true,
+      "open": true,
+      "mid": true,
+      "fight": true,
+      "shape": true,
+      "reasons": {
+        "bothTcAt30": true,
+        "gather": {
+          "player": true,
+          "enemy": true
+        },
+        "producedMilitary": {
+          "player": true,
+          "enemy": true
+        },
+        "agedUp": {
+          "player": false,
+          "enemy": false
+        },
+        "militaryDeaths": {
+          "player": 1,
+          "enemy": 2
+        },
+        "firstMilitaryDeathSec": {
+          "player": 108.1,
+          "enemy": 161.76666666666668
+        },
+        "steamroll": false
+      },
+      "final": {
+        "t": 17000,
+        "sec": 283.3333333333333,
+        "player": {
+          "age": 1,
+          "tc": false,
+          "vills": 13,
+          "gathering": 12,
+          "military": 5,
+          "trained": 14,
+          "lost": 1,
+          "stock": {
+            "food": 208,
+            "wood": 8,
+            "crystal": 80,
+            "ore": 50
+          }
+        },
+        "enemy": {
+          "age": 1,
+          "tc": true,
+          "vills": 13,
+          "gathering": 13,
+          "military": 5,
+          "trained": 15,
+          "lost": 1,
+          "stock": {
+            "food": 82,
+            "wood": 43,
+            "crystal": 80,
+            "ore": 50
+          }
+        },
+        "winner": "enemy"
+      }
+    },
+    {
+      "playerFaction": "stormveil",
+      "enemyFaction": "ashvein",
+      "seed": 1296388681,
+      "durationSec": 311.35,
+      "ticks": 18681,
+      "winner": "enemy",
+      "winnerFromPlay": true,
+      "open": true,
+      "mid": true,
+      "fight": true,
+      "shape": true,
+      "reasons": {
+        "bothTcAt30": true,
+        "gather": {
+          "player": true,
+          "enemy": true
+        },
+        "producedMilitary": {
+          "player": true,
+          "enemy": true
+        },
+        "agedUp": {
+          "player": false,
+          "enemy": false
+        },
+        "militaryDeaths": {
+          "player": 3,
+          "enemy": 5
+        },
+        "firstMilitaryDeathSec": {
+          "player": 154.73333333333332,
+          "enemy": 110.98333333333333
+        },
+        "steamroll": false
+      },
+      "final": {
+        "t": 18681,
+        "sec": 311.35,
+        "player": {
+          "age": 1,
+          "tc": false,
+          "vills": 13,
+          "gathering": 12,
+          "military": 5,
+          "trained": 16,
+          "lost": 3,
+          "stock": {
+            "food": 53,
+            "wood": 57,
+            "crystal": 80,
+            "ore": 50
+          }
+        },
+        "enemy": {
+          "age": 1,
+          "tc": true,
+          "vills": 11,
+          "gathering": 11,
+          "military": 3,
+          "trained": 16,
+          "lost": 5,
+          "stock": {
+            "food": 38,
+            "wood": 3,
+            "crystal": 80,
+            "ore": 50
+          }
+        },
+        "winner": "enemy"
+      }
+    },
+    {
+      "playerFaction": "ashvein",
+      "enemyFaction": "stormveil",
+      "seed": 1364216132,
+      "durationSec": 279.05,
+      "ticks": 16743,
+      "winner": "enemy",
+      "winnerFromPlay": true,
+      "open": true,
+      "mid": true,
+      "fight": true,
+      "shape": true,
+      "reasons": {
+        "bothTcAt30": true,
+        "gather": {
+          "player": true,
+          "enemy": true
+        },
+        "producedMilitary": {
+          "player": true,
+          "enemy": true
+        },
+        "agedUp": {
+          "player": false,
+          "enemy": false
+        },
+        "militaryDeaths": {
+          "player": 4,
+          "enemy": 6
+        },
+        "firstMilitaryDeathSec": {
+          "player": 145.25,
+          "enemy": 113.66666666666667
+        },
+        "steamroll": false
+      },
+      "final": {
+        "t": 16743,
+        "sec": 279.05,
+        "player": {
+          "age": 1,
+          "tc": false,
+          "vills": 13,
+          "gathering": 12,
+          "military": 2,
+          "trained": 14,
+          "lost": 1,
+          "stock": {
+            "food": 42,
+            "wood": 1,
+            "crystal": 80,
+            "ore": 50
+          }
+        },
+        "enemy": {
+          "age": 1,
+          "tc": true,
+          "vills": 12,
+          "gathering": 12,
+          "military": 4,
+          "trained": 18,
+          "lost": 3,
+          "stock": {
+            "food": 118,
+            "wood": 26,
+            "crystal": 80,
+            "ore": 50
+          }
+        },
+        "winner": "enemy"
+      }
+    },
+    {
+      "playerFaction": "stormveil",
+      "enemyFaction": "ashvein",
+      "seed": 1364216132,
+      "durationSec": 341.37,
+      "ticks": 20482,
+      "winner": "enemy",
+      "winnerFromPlay": true,
+      "open": true,
+      "mid": true,
+      "fight": true,
+      "shape": true,
+      "reasons": {
+        "bothTcAt30": true,
+        "gather": {
+          "player": true,
+          "enemy": true
+        },
+        "producedMilitary": {
+          "player": true,
+          "enemy": true
+        },
+        "agedUp": {
+          "player": false,
+          "enemy": false
+        },
+        "militaryDeaths": {
+          "player": 5,
+          "enemy": 5
+        },
+        "firstMilitaryDeathSec": {
+          "player": 113.48333333333333,
+          "enemy": 152.3
+        },
+        "steamroll": false
+      },
+      "final": {
+        "t": 20482,
+        "sec": 341.3666666666667,
+        "player": {
+          "age": 1,
+          "tc": false,
+          "vills": 13,
+          "gathering": 13,
+          "military": 0,
+          "trained": 13,
+          "lost": 1,
+          "stock": {
+            "food": 55,
+            "wood": 42,
+            "crystal": 80,
+            "ore": 50
+          }
+        },
+        "enemy": {
+          "age": 1,
+          "tc": true,
+          "vills": 12,
+          "gathering": 11,
+          "military": 2,
+          "trained": 15,
+          "lost": 3,
+          "stock": {
+            "food": 183,
+            "wood": 7,
+            "crystal": 80,
+            "ore": 50
+          }
+        },
+        "winner": "enemy"
+      }
+    },
+    {
+      "playerFaction": "ashvein",
+      "enemyFaction": "stormveil",
+      "seed": 1111575601,
+      "durationSec": 274.15,
+      "ticks": 16449,
+      "winner": "enemy",
+      "winnerFromPlay": true,
+      "open": true,
+      "mid": true,
+      "fight": true,
+      "shape": true,
+      "reasons": {
+        "bothTcAt30": true,
+        "gather": {
+          "player": true,
+          "enemy": true
+        },
+        "producedMilitary": {
+          "player": true,
+          "enemy": true
+        },
+        "agedUp": {
+          "player": false,
+          "enemy": false
+        },
+        "militaryDeaths": {
+          "player": 4,
+          "enemy": 4
+        },
+        "firstMilitaryDeathSec": {
+          "player": 155.28333333333333,
+          "enemy": 166.96666666666667
+        },
+        "steamroll": false
+      },
+      "final": {
+        "t": 16449,
+        "sec": 274.15,
+        "player": {
+          "age": 1,
+          "tc": false,
+          "vills": 13,
+          "gathering": 13,
+          "military": 3,
+          "trained": 15,
+          "lost": 1,
+          "stock": {
+            "food": 34,
+            "wood": 13,
+            "crystal": 80,
+            "ore": 50
+          }
+        },
+        "enemy": {
+          "age": 1,
+          "tc": true,
+          "vills": 11,
+          "gathering": 9,
+          "military": 2,
+          "trained": 14,
+          "lost": 3,
+          "stock": {
+            "food": 42,
+            "wood": 2,
+            "crystal": 80,
+            "ore": 50
+          }
+        },
+        "winner": "enemy"
+      }
+    },
+    {
+      "playerFaction": "stormveil",
+      "enemyFaction": "ashvein",
+      "seed": 1111575601,
+      "durationSec": 256.77,
+      "ticks": 15406,
+      "winner": "enemy",
+      "winnerFromPlay": true,
+      "open": true,
+      "mid": true,
+      "fight": true,
+      "shape": true,
+      "reasons": {
+        "bothTcAt30": true,
+        "gather": {
+          "player": true,
+          "enemy": true
+        },
+        "producedMilitary": {
+          "player": true,
+          "enemy": true
+        },
+        "agedUp": {
+          "player": false,
+          "enemy": false
+        },
+        "militaryDeaths": {
+          "player": 3,
+          "enemy": 3
+        },
+        "firstMilitaryDeathSec": {
+          "player": 111.33333333333333,
+          "enemy": 169.71666666666667
+        },
+        "steamroll": false
+      },
+      "final": {
+        "t": 15406,
+        "sec": 256.76666666666665,
+        "player": {
+          "age": 1,
+          "tc": false,
+          "vills": 13,
+          "gathering": 12,
+          "military": 6,
+          "trained": 17,
+          "lost": 0,
+          "stock": {
+            "food": 37,
+            "wood": 35,
+            "crystal": 80,
+            "ore": 50
+          }
+        },
+        "enemy": {
+          "age": 1,
+          "tc": true,
+          "vills": 13,
+          "gathering": 11,
+          "military": 3,
+          "trained": 14,
+          "lost": 1,
+          "stock": {
+            "food": 46,
+            "wood": 14,
+            "crystal": 80,
+            "ore": 50
+          }
+        },
+        "winner": "enemy"
+      }
+    },
+    {
+      "playerFaction": "ashvein",
+      "enemyFaction": "stormveil",
+      "seed": 1111575602,
+      "durationSec": 300.3,
+      "ticks": 18018,
+      "winner": "player",
+      "winnerFromPlay": true,
+      "open": true,
+      "mid": true,
+      "fight": true,
+      "shape": true,
+      "reasons": {
+        "bothTcAt30": true,
+        "gather": {
+          "player": true,
+          "enemy": true
+        },
+        "producedMilitary": {
+          "player": true,
+          "enemy": true
+        },
+        "agedUp": {
+          "player": false,
+          "enemy": false
+        },
+        "militaryDeaths": {
+          "player": 3,
+          "enemy": 3
+        },
+        "firstMilitaryDeathSec": {
+          "player": 114.56666666666666,
+          "enemy": 178.05
+        },
+        "steamroll": false
+      },
+      "final": {
+        "t": 18018,
+        "sec": 300.3,
+        "player": {
+          "age": 1,
+          "tc": true,
+          "vills": 13,
+          "gathering": 12,
+          "military": 4,
+          "trained": 15,
+          "lost": 2,
+          "stock": {
+            "food": 42,
+            "wood": 11,
+            "crystal": 80,
+            "ore": 50
+          }
+        },
+        "enemy": {
+          "age": 1,
+          "tc": false,
+          "vills": 2,
+          "gathering": 0,
+          "military": 2,
+          "trained": 14,
+          "lost": 3,
+          "stock": {
+            "food": 52,
+            "wood": 49,
+            "crystal": 80,
+            "ore": 50
+          }
+        },
+        "winner": "player"
+      }
+    },
+    {
+      "playerFaction": "stormveil",
+      "enemyFaction": "ashvein",
+      "seed": 1111575602,
+      "durationSec": 332.82,
+      "ticks": 19969,
+      "winner": "player",
+      "winnerFromPlay": true,
+      "open": true,
+      "mid": true,
+      "fight": true,
+      "shape": true,
+      "reasons": {
+        "bothTcAt30": true,
+        "gather": {
+          "player": true,
+          "enemy": true
+        },
+        "producedMilitary": {
+          "player": true,
+          "enemy": true
+        },
+        "agedUp": {
+          "player": false,
+          "enemy": false
+        },
+        "militaryDeaths": {
+          "player": 7,
+          "enemy": 6
+        },
+        "firstMilitaryDeathSec": {
+          "player": 175.43333333333334,
+          "enemy": 112.2
+        },
+        "steamroll": false
+      },
+      "final": {
+        "t": 19969,
+        "sec": 332.81666666666666,
+        "player": {
+          "age": 1,
+          "tc": true,
+          "vills": 13,
+          "gathering": 3,
+          "military": 6,
+          "trained": 21,
+          "lost": 1,
+          "stock": {
+            "food": 37,
+            "wood": 112,
+            "crystal": 80,
+            "ore": 50
+          }
+        },
+        "enemy": {
+          "age": 1,
+          "tc": false,
+          "vills": 13,
+          "gathering": 11,
+          "military": 2,
+          "trained": 16,
+          "lost": 4,
+          "stock": {
+            "food": 33,
+            "wood": 23,
+            "crystal": 80,
+            "ore": 50
+          }
+        },
+        "winner": "player"
+      }
+    },
+    {
+      "playerFaction": "ashvein",
+      "enemyFaction": "stormveil",
+      "seed": 1397048644,
+      "durationSec": 313.4,
+      "ticks": 18804,
+      "winner": "enemy",
+      "winnerFromPlay": true,
+      "open": true,
+      "mid": true,
+      "fight": true,
+      "shape": true,
+      "reasons": {
+        "bothTcAt30": true,
+        "gather": {
+          "player": true,
+          "enemy": true
+        },
+        "producedMilitary": {
+          "player": true,
+          "enemy": true
+        },
+        "agedUp": {
+          "player": false,
+          "enemy": false
+        },
+        "militaryDeaths": {
+          "player": 5,
+          "enemy": 7
+        },
+        "firstMilitaryDeathSec": {
+          "player": 171.28333333333333,
+          "enemy": 170.33333333333334
+        },
+        "steamroll": false
+      },
+      "final": {
+        "t": 18804,
+        "sec": 313.4,
+        "player": {
+          "age": 1,
+          "tc": false,
+          "vills": 13,
+          "gathering": 12,
+          "military": 2,
+          "trained": 15,
+          "lost": 0,
+          "stock": {
+            "food": 42,
+            "wood": 21,
+            "crystal": 80,
+            "ore": 50
+          }
+        },
+        "enemy": {
+          "age": 1,
+          "tc": true,
+          "vills": 13,
+          "gathering": 13,
+          "military": 3,
+          "trained": 18,
+          "lost": 5,
+          "stock": {
+            "food": 166,
+            "wood": 9,
+            "crystal": 80,
+            "ore": 50
+          }
+        },
+        "winner": "enemy"
+      }
+    },
+    {
+      "playerFaction": "stormveil",
+      "enemyFaction": "ashvein",
+      "seed": 1397048644,
+      "durationSec": 280.27,
+      "ticks": 16816,
+      "winner": "player",
+      "winnerFromPlay": true,
+      "open": true,
+      "mid": true,
+      "fight": true,
+      "shape": true,
+      "reasons": {
+        "bothTcAt30": true,
+        "gather": {
+          "player": true,
+          "enemy": true
+        },
+        "producedMilitary": {
+          "player": true,
+          "enemy": true
+        },
+        "agedUp": {
+          "player": false,
+          "enemy": false
+        },
+        "militaryDeaths": {
+          "player": 5,
+          "enemy": 6
+        },
+        "firstMilitaryDeathSec": {
+          "player": 113.78333333333333,
+          "enemy": 180.05
+        },
+        "steamroll": false
+      },
+      "final": {
+        "t": 16816,
+        "sec": 280.26666666666665,
+        "player": {
+          "age": 1,
+          "tc": true,
+          "vills": 13,
+          "gathering": 12,
+          "military": 3,
+          "trained": 16,
+          "lost": 0,
+          "stock": {
+            "food": 9,
+            "wood": 4,
+            "crystal": 80,
+            "ore": 50
+          }
+        },
+        "enemy": {
+          "age": 1,
+          "tc": false,
+          "vills": 8,
+          "gathering": 6,
+          "military": 0,
+          "trained": 14,
+          "lost": 5,
+          "stock": {
+            "food": 86,
+            "wood": 13,
+            "crystal": 80,
+            "ore": 50
+          }
+        },
+        "winner": "player"
+      }
+    },
+    {
+      "playerFaction": "ashvein",
+      "enemyFaction": "stormveil",
+      "seed": 3735928559,
+      "durationSec": 283.3,
+      "ticks": 16998,
+      "winner": "enemy",
+      "winnerFromPlay": true,
+      "open": true,
+      "mid": true,
+      "fight": true,
+      "shape": true,
+      "reasons": {
+        "bothTcAt30": true,
+        "gather": {
+          "player": true,
+          "enemy": true
+        },
+        "producedMilitary": {
+          "player": true,
+          "enemy": true
+        },
+        "agedUp": {
+          "player": false,
+          "enemy": false
+        },
+        "militaryDeaths": {
+          "player": 4,
+          "enemy": 5
+        },
+        "firstMilitaryDeathSec": {
+          "player": 147.6,
+          "enemy": 174.1
+        },
+        "steamroll": false
+      },
+      "final": {
+        "t": 16998,
+        "sec": 283.3,
+        "player": {
+          "age": 1,
+          "tc": false,
+          "vills": 13,
+          "gathering": 13,
+          "military": 1,
+          "trained": 13,
+          "lost": 0,
+          "stock": {
+            "food": 144,
+            "wood": 7,
+            "crystal": 80,
+            "ore": 50
+          }
+        },
+        "enemy": {
+          "age": 1,
+          "tc": true,
+          "vills": 13,
+          "gathering": 12,
+          "military": 5,
+          "trained": 18,
+          "lost": 3,
+          "stock": {
+            "food": 81,
+            "wood": 36,
+            "crystal": 80,
+            "ore": 50
+          }
+        },
+        "winner": "enemy"
+      }
+    },
+    {
+      "playerFaction": "stormveil",
+      "enemyFaction": "ashvein",
+      "seed": 3735928559,
+      "durationSec": 313.28,
+      "ticks": 18797,
+      "winner": "enemy",
+      "winnerFromPlay": true,
+      "open": true,
+      "mid": true,
+      "fight": true,
+      "shape": true,
+      "reasons": {
+        "bothTcAt30": true,
+        "gather": {
+          "player": true,
+          "enemy": true
+        },
+        "producedMilitary": {
+          "player": true,
+          "enemy": true
+        },
+        "agedUp": {
+          "player": false,
+          "enemy": false
+        },
+        "militaryDeaths": {
+          "player": 1,
+          "enemy": 5
+        },
+        "firstMilitaryDeathSec": {
+          "player": 155,
+          "enemy": 111
+        },
+        "steamroll": false
+      },
+      "final": {
+        "t": 18797,
+        "sec": 313.28333333333336,
+        "player": {
+          "age": 1,
+          "tc": false,
+          "vills": 13,
+          "gathering": 11,
+          "military": 0,
+          "trained": 9,
+          "lost": 1,
+          "stock": {
+            "food": 183,
+            "wood": 23,
+            "crystal": 80,
+            "ore": 50
+          }
+        },
+        "enemy": {
+          "age": 1,
+          "tc": true,
+          "vills": 11,
+          "gathering": 11,
+          "military": 3,
+          "trained": 16,
+          "lost": 5,
+          "stock": {
+            "food": 48,
+            "wood": 3,
+            "crystal": 80,
+            "ore": 50
+          }
+        },
+        "winner": "enemy"
+      }
+    },
+    {
+      "playerFaction": "ashvein",
+      "enemyFaction": "stormveil",
+      "seed": 3405691582,
+      "durationSec": 318.1,
+      "ticks": 19086,
+      "winner": "enemy",
+      "winnerFromPlay": true,
+      "open": true,
+      "mid": true,
+      "fight": true,
+      "shape": true,
+      "reasons": {
+        "bothTcAt30": true,
+        "gather": {
+          "player": true,
+          "enemy": true
+        },
+        "producedMilitary": {
+          "player": true,
+          "enemy": true
+        },
+        "agedUp": {
+          "player": false,
+          "enemy": false
+        },
+        "militaryDeaths": {
+          "player": 5,
+          "enemy": 5
+        },
+        "firstMilitaryDeathSec": {
+          "player": 114.53333333333333,
+          "enemy": 178.05
+        },
+        "steamroll": false
+      },
+      "final": {
+        "t": 19086,
+        "sec": 318.1,
+        "player": {
+          "age": 1,
+          "tc": false,
+          "vills": 13,
+          "gathering": 12,
+          "military": 2,
+          "trained": 15,
+          "lost": 0,
+          "stock": {
+            "food": 42,
+            "wood": 31,
+            "crystal": 80,
+            "ore": 50
+          }
+        },
+        "enemy": {
+          "age": 1,
+          "tc": true,
+          "vills": 13,
+          "gathering": 7,
+          "military": 5,
+          "trained": 18,
+          "lost": 4,
+          "stock": {
+            "food": 112,
+            "wood": 50,
+            "crystal": 80,
+            "ore": 50
+          }
+        },
+        "winner": "enemy"
+      }
+    },
+    {
+      "playerFaction": "stormveil",
+      "enemyFaction": "ashvein",
+      "seed": 3405691582,
+      "durationSec": 346.53,
+      "ticks": 20792,
+      "winner": "player",
+      "winnerFromPlay": true,
+      "open": true,
+      "mid": true,
+      "fight": true,
+      "shape": true,
+      "reasons": {
+        "bothTcAt30": true,
+        "gather": {
+          "player": true,
+          "enemy": true
+        },
+        "producedMilitary": {
+          "player": true,
+          "enemy": true
+        },
+        "agedUp": {
+          "player": false,
+          "enemy": false
+        },
+        "militaryDeaths": {
+          "player": 5,
+          "enemy": 6
+        },
+        "firstMilitaryDeathSec": {
+          "player": 154.81666666666666,
+          "enemy": 114.15
+        },
+        "steamroll": false
+      },
+      "final": {
+        "t": 20792,
+        "sec": 346.53333333333336,
+        "player": {
+          "age": 1,
+          "tc": true,
+          "vills": 13,
+          "gathering": 12,
+          "military": 4,
+          "trained": 17,
+          "lost": 1,
+          "stock": {
+            "food": 75,
+            "wood": 19,
+            "crystal": 80,
+            "ore": 50
+          }
+        },
+        "enemy": {
+          "age": 1,
+          "tc": false,
+          "vills": 7,
+          "gathering": 6,
+          "military": 0,
+          "trained": 14,
+          "lost": 7,
+          "stock": {
+            "food": 39,
+            "wood": 53,
+            "crystal": 80,
+            "ore": 50
+          }
+        },
+        "winner": "player"
+      }
+    },
+    {
+      "playerFaction": "ashvein",
+      "enemyFaction": "stormveil",
+      "seed": 305419896,
+      "durationSec": 289.73,
+      "ticks": 17384,
+      "winner": "player",
+      "winnerFromPlay": true,
+      "open": true,
+      "mid": true,
+      "fight": true,
+      "shape": true,
+      "reasons": {
+        "bothTcAt30": true,
+        "gather": {
+          "player": true,
+          "enemy": true
+        },
+        "producedMilitary": {
+          "player": true,
+          "enemy": true
+        },
+        "agedUp": {
+          "player": false,
+          "enemy": false
+        },
+        "militaryDeaths": {
+          "player": 3,
+          "enemy": 1
+        },
+        "firstMilitaryDeathSec": {
+          "player": 114.55,
+          "enemy": 179.03333333333333
+        },
+        "steamroll": false
+      },
+      "final": {
+        "t": 17384,
+        "sec": 289.73333333333335,
+        "player": {
+          "age": 1,
+          "tc": true,
+          "vills": 13,
+          "gathering": 12,
+          "military": 3,
+          "trained": 14,
+          "lost": 1,
+          "stock": {
+            "food": 42,
+            "wood": 1,
+            "crystal": 80,
+            "ore": 50
+          }
+        },
+        "enemy": {
+          "age": 1,
+          "tc": false,
+          "vills": 8,
+          "gathering": 5,
+          "military": 4,
+          "trained": 15,
+          "lost": 0,
+          "stock": {
+            "food": 41,
+            "wood": 6,
+            "crystal": 80,
+            "ore": 50
+          }
+        },
+        "winner": "player"
+      }
+    },
+    {
+      "playerFaction": "stormveil",
+      "enemyFaction": "ashvein",
+      "seed": 305419896,
+      "durationSec": 282.4,
+      "ticks": 16944,
+      "winner": "enemy",
+      "winnerFromPlay": true,
+      "open": true,
+      "mid": true,
+      "fight": true,
+      "shape": true,
+      "reasons": {
+        "bothTcAt30": true,
+        "gather": {
+          "player": true,
+          "enemy": true
+        },
+        "producedMilitary": {
+          "player": true,
+          "enemy": true
+        },
+        "agedUp": {
+          "player": false,
+          "enemy": false
+        },
+        "militaryDeaths": {
+          "player": 5,
+          "enemy": 3
+        },
+        "firstMilitaryDeathSec": {
+          "player": 112.83333333333333,
+          "enemy": 179.8
+        },
+        "steamroll": false
+      },
+      "final": {
+        "t": 16944,
+        "sec": 282.4,
+        "player": {
+          "age": 1,
+          "tc": false,
+          "vills": 13,
+          "gathering": 12,
+          "military": 2,
+          "trained": 15,
+          "lost": 1,
+          "stock": {
+            "food": 24,
+            "wood": 9,
+            "crystal": 80,
+            "ore": 50
+          }
+        },
+        "enemy": {
+          "age": 1,
+          "tc": true,
+          "vills": 5,
+          "gathering": 3,
+          "military": 4,
+          "trained": 15,
+          "lost": 1,
+          "stock": {
+            "food": 26,
+            "wood": 3,
+            "crystal": 80,
+            "ore": 50
+          }
+        },
+        "winner": "enemy"
+      }
+    }
+  ]
+}

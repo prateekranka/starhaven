@@ -1,5 +1,5 @@
 import { AGES, UNITS, BUILDINGS, VILLAGER_BUILD_LIST } from "../data/catalog.js";
-import { civBuff, DEFAULT_CIV_ID, opponentCivId } from "../data/civ-schema.js";
+import { DEFAULT_CIV_ID, opponentCivId } from "../data/civ-schema.js";
 import "../data/civs.js";
 import {
   civMechanics,
@@ -10,7 +10,6 @@ import {
 import {
   initStormveil,
   tickStormveil,
-  effectiveInLight,
   windLaneSpeedPermille,
   getUnitSpec,
 } from "./civs/stormveil.js";
@@ -24,7 +23,7 @@ import {
   onUnitStep,
   isAshveinUnit,
 } from "./civs/ashvein.js";
-import { astar } from "./path.js";
+import { astar, astarVia } from "./path.js";
 import { runAI } from "./ai.js";
 import { MatchPrng } from "./prng.js";
 import { resetIds, allocateId } from "./ids.js";
@@ -48,7 +47,6 @@ import {
   accumulateMoveBudget,
   q10RangeSq,
   permilleMul,
-  brightQ10,
   terrainHashPermille,
   isBuilt,
   buildRatio,
@@ -100,10 +98,10 @@ export function payStock(stock, cost) {
   pay(stock, cost);
 }
 
-function effectiveBuff(world, unit) {
-  const mech = civMechanics(unit.faction);
-  if (mech.brightLineImmune) return { speed: 1000, dmg: 1000, armor: 1000 };
-  return civBuff(unit.faction, effectiveInLight(world, unit.xQ10, unit.zQ10));
+const NEUTRAL_BUFF = Object.freeze({ speed: 1000, dmg: 1000, armor: 1000 });
+
+function effectiveBuff(_world, _unit) {
+  return NEUTRAL_BUFF;
 }
 
 function refund(stock, cost) {
@@ -151,7 +149,6 @@ export function createMatch(opts = {}) {
     batchSim: Boolean(opts.batchSim || opts.aiVsAi),
     speed: 1,
     winner: null,
-    brightQ10: brightQ10(0),
     titanAwake: false,
     tip: tutorial
       ? "Select your weavers, then tap the glowing fruit."
@@ -216,7 +213,7 @@ function makePlayer(idKey, faction, campaign) {
     rates: { food: 0, wood: 0, crystal: 0, ore: 0 },
     gathered: { food: 0, wood: 0, crystal: 0, ore: 0 },
     stats: { unitsTrained: 0, unitsLost: 0, buildingsRazed: 0 },
-    attackWaveAtTick: secToTicks(90),
+    attackWaveAtTick: secToTicks(40),
   };
   civMechanics(faction).adjustStartingStock(player.stock);
   return player;
@@ -523,7 +520,6 @@ export function updateWorld(world, dt) {
 
 function simTick(world) {
   world.t += 1;
-  world.brightQ10 = brightQ10(world.t);
   for (const p of Object.values(world.players)) {
     p.rates = { food: 0, wood: 0, crystal: 0, ore: 0 };
   }
@@ -553,19 +549,6 @@ function simTick(world) {
   }
 }
 
-function lineXQ10(world) {
-  const mapWorld = world.N * world.CELL;
-  return q10FromWorld(4) + Math.trunc((world.brightQ10 * q10FromWorld(mapWorld - 8)) / Q10);
-}
-
-export function lineX(world) {
-  return worldFromQ10(lineXQ10(world));
-}
-
-export function inLight(world, xQ10) {
-  return xQ10 < lineXQ10(world);
-}
-
 export function emitVfx(world, kind, x, z, opts = {}) {
   (world.vfxEvents ||= []).push({ kind, x, z, ...opts });
 }
@@ -588,6 +571,7 @@ function finishAssemblies(world) {
     }
     const b = world.byId.get(site.buildingId);
     const u = spawnUnit(world, site.owner, site.type, site.xQ10, site.zQ10);
+    world.players[site.owner].stats.unitsTrained++;
     if (b) issueMove(world, u, b.rally.xQ10, b.rally.zQ10);
     for (const worker of world.units) {
       if (worker.assemble === site.id && (worker.state === "assemble" || worker.state === "assemblewalk")) {
@@ -617,7 +601,7 @@ function tickBuildings(world) {
     if (!isBuilt(b)) continue;
     if (!civMechanics(b.faction).isBuildingActive(world, b)) continue;
     const spec = BUILDINGS[b.type];
-    if (spec.attacks && b.hp > 0 && !world.batchSim) {
+    if (spec.attacks && b.hp > 0) {
       if (b.attackCdTicks > 0) b.attackCdTicks -= 1;
       if (b.attackCdTicks <= 0) {
         const foe = closestFoe(world, b, spec.attacks.range);
@@ -676,6 +660,12 @@ function tickUnits(world) {
       if (foe) {
         u.state = "attack";
         u.target = foe.id;
+      } else if ((world.aiVsAi || u.owner === "enemy") && u.type !== "scout" && world.t >= secToTicks(100)) {
+        const tc = world.buildings.find((b) => b.owner !== u.owner && b.type === "towncenter" && b.hp > 0);
+        if (tc) {
+          u.state = "attackmove";
+          pathToTownCenter(world, u, tc);
+        }
       }
     }
   }
@@ -717,7 +707,7 @@ function followPath(world, u, speed, speedPermille) {
     if (b && !u.path.length) {
       if (u.repathTicks > 0) u.repathTicks -= 1;
       if (u.repathTicks <= 0) {
-        setBuildApproachPath(world, u, b);
+        setBuildingApproachPath(world, u, b);
         u.repathTicks = REPATH_BUILD_TICKS;
       }
       return;
@@ -731,6 +721,14 @@ function followPath(world, u, speed, speedPermille) {
     else if (u.state === "attackmove") u.state = "attack";
     else u.state = "idle";
     return;
+  }
+  if (u.state === "attackmove" || u.state === "walk") {
+    const [hereX, hereZ] = cellOfQ10(u.xQ10, u.zQ10, world.CELL);
+    while (u.path.length && u.path[0][0] === hereX && u.path[0][1] === hereZ) u.path.shift();
+    if (!u.path.length) {
+      u.state = u.state === "attackmove" ? "attack" : "idle";
+      return;
+    }
   }
   const [cx, cz] = u.path[0];
   const [txQ10, tzQ10] = worldOfCellQ10(cx, cz, world.CELL);
@@ -887,23 +885,50 @@ function buildTick(world, u) {
 }
 
 function attackTick(world, u, spec, buff, speedMul) {
-  const foe = findById(world, u.target) || closestFoe(world, u, spec.range + 6);
+  const huntTc = (world.aiVsAi || u.owner === "enemy") && u.type !== "villager" && u.type !== "scout" && u.type !== "wagon" && world.t >= secToTicks(100);
+  let foe = findById(world, u.target);
+  if (foe && foe.hp <= 0) foe = null;
+  if (huntTc) {
+    const melee = closestFoe(world, u, spec.range + 1.25);
+    if (melee && melee.kind === "unit") foe = melee;
+    else if (!foe || foe.kind !== "building") {
+      const tc = world.buildings.find((b) => b.owner !== u.owner && b.type === "towncenter" && b.hp > 0);
+      if (tc) foe = tc;
+    }
+  } else {
+    foe = foe || closestFoe(world, u, spec.range + 6);
+  }
   if (!foe || foe.hp <= 0) {
     u.target = null;
+    const tc = huntTc ? world.buildings.find((b) => b.owner !== u.owner && b.type === "towncenter" && b.hp > 0) : null;
+    if (tc) {
+      u.state = "attackmove";
+      if (u.repathTicks > 0) u.repathTicks -= 1;
+      if (u.repathTicks <= 0 || (u.path?.length || 0) > 90) {
+        pathToTownCenter(world, u, tc);
+        u.repathTicks = REPATH_ATTACK_TICKS;
+      }
+      followPath(world, u, spec.speed, speedMul);
+      return;
+    }
     if (u.path?.length) {
       u.state = "attackmove";
       followPath(world, u, spec.speed, speedMul);
-    } else {
-      u.state = "idle";
+      return;
     }
+    u.state = "idle";
     return;
   }
   u.target = foe.id;
+  const reach = foe.kind === "building" ? Math.max(spec.range, 3.4) : spec.range;
   const gapSq = edgeDistSq(u, foe);
-  if (gapSq > q10RangeSq(spec.range)) {
+  if (gapSq > q10RangeSq(reach)) {
     if (u.repathTicks > 0) u.repathTicks -= 1;
-    if (u.repathTicks <= 0) {
-      setPath(world, u, foe.xQ10, foe.zQ10);
+    if (u.repathTicks <= 0 || (foe.type === "towncenter" && (u.path?.length || 0) > 90)) {
+      if (foe.kind === "building") {
+        if (foe.type === "towncenter") pathToTownCenter(world, u, foe);
+        else setBuildingApproachPath(world, u, foe);
+      } else setPath(world, u, foe.xQ10, foe.zQ10);
       u.repathTicks = REPATH_ATTACK_TICKS;
     }
     u.state = "attackmove";
@@ -921,7 +946,9 @@ function attackTick(world, u, spec, buff, speedMul) {
 }
 
 function edgeDistSq(a, b) {
-  const extra = b.kind === "building" ? q10FromWorld(((b.size || 2) * CELL) / 2) : UNIT_EDGE_Q10;
+  const extra = b.kind === "building"
+    ? q10FromWorld(((b.size || 2) * CELL) / 2 + 2.2)
+    : UNIT_EDGE_Q10;
   const d = distanceSquaredQ10(a, b);
   const max = Math.max(0, distanceQ10FromSq(d) - extra);
   return max * max;
@@ -969,6 +996,7 @@ function tickProjectiles(world) {
 }
 
 function hit(world, t, dmg, src) {
+  const prev = t.hp;
   const buff = t.kind === "unit" ? effectiveBuff(world, t) : { armor: 1000 };
   t.hp -= permilleMul(dmg, buff.armor || 1000);
   emitVfx(world, "hit", worldFromQ10(t.xQ10), worldFromQ10(t.zQ10), { dmg });
@@ -978,6 +1006,13 @@ function hit(world, t, dmg, src) {
   if (t.kind === "unit" && t.type !== "villager" && t.state === "idle") {
     t.state = "attack";
     t.target = src.id;
+  }
+  if (t.kind === "building" && t.type === "towncenter" && src?.kind === "unit" && src.hp > 0 && src.type !== "villager" && src.type !== "scout" && src.type !== "wagon") {
+    const cap = t.maxHp || BUILDINGS.towncenter.hp;
+    if (!t.garrisonShot && prev > cap / 2 && t.hp <= cap / 2) {
+      t.garrisonShot = true;
+      hit(world, src, 55, t);
+    }
   }
   if (t.hp <= 0) {
     if (t.kind === "building") {
@@ -993,10 +1028,8 @@ function hit(world, t, dmg, src) {
 function closestFoe(world, e, range) {
   let best = null;
   let bdSq = q10RangeSq(range);
-  const foes = [...world.units, ...world.buildings].filter((o) => o.owner !== e.owner && o.hp > 0 && o.owner !== "gaia");
-  if (e.owner === "gaia") {
-    /* titan */
-  }
+  let bestTc = null;
+  let bestTcSq = q10RangeSq(range);
   for (const f of [...world.units, ...world.buildings]) {
     if (f.hp <= 0) continue;
     if (e.owner === "gaia") {
@@ -1004,18 +1037,28 @@ function closestFoe(world, e, range) {
     } else if (f.owner === e.owner || f.owner === "gaia") continue;
     if (f.kind === "building" && f.buildTicks * 10 < f.buildTotalTicks * 4) continue;
     const dSq = edgeDistSq(e, f);
+    if (f.kind === "building" && f.type === "towncenter" && dSq < bestTcSq) {
+      bestTcSq = dSq;
+      bestTc = f;
+    }
     if (dSq < bdSq) {
       bdSq = dSq;
       best = f;
     }
   }
-  return best;
+  return bestTc || best;
 }
 
 function findById(world, fid) {
   if (!fid) return null;
   const e = world.byId.get(fid);
   return e && (e.kind === "unit" || e.kind === "building") ? e : null;
+}
+
+function highlandChokeCell(world) {
+  if ((world.mapId || world.map?.id) !== "highland-chokes") return null;
+  const chokeZ = (world.seed >>> 0) % 2 === 0 ? 32 : 64;
+  return [48, chokeZ];
 }
 
 function setPath(world, u, xQ10, zQ10) {
@@ -1026,6 +1069,23 @@ function setPath(world, u, xQ10, zQ10) {
       ? ashveinResolvePath(world, u, xQ10, zQ10) || []
       : ashveinPlanSurfacePath(world, u, xQ10, zQ10) || astar(world.walk, world.N, sx, sz, gx, gz);
     return;
+  }
+  u.path = astar(world.walk, world.N, sx, sz, gx, gz);
+}
+
+function pathToTownCenter(world, u, tc) {
+  const choke = highlandChokeCell(world);
+  const [sx, sz] = cellOfQ10(u.xQ10, u.zQ10, world.CELL);
+  const [gx, gz] = cellOfQ10(tc.xQ10, tc.zQ10, world.CELL);
+  if (choke) {
+    const [cx, cz] = choke;
+    const crossed = (gx >= cx && sx >= cx - 2) || (gx <= cx && sx <= cx + 2);
+    if (crossed) {
+      u.path = astar(world.walk, world.N, sx, sz, gx, gz);
+    } else {
+      u.path = astarVia(world.walk, world.N, sx, sz, cx, cz, gx, gz);
+    }
+    if (u.path.length) return;
   }
   u.path = astar(world.walk, world.N, sx, sz, gx, gz);
 }
@@ -1079,17 +1139,17 @@ export function issueBuild(world, u, building) {
   u.resource = null;
   u.assemble = null;
   u.state = "buildwalk";
-  if (!setBuildApproachPath(world, u, building)) setPath(world, u, building.xQ10, building.zQ10);
+  if (!setBuildingApproachPath(world, u, building)) setPath(world, u, building.xQ10, building.zQ10);
 }
 
-/** Path a builder to the nearest passable cell just outside a building footprint
- * (the building's center cell is blocked, so a direct path there always fails). */
-function setBuildApproachPath(world, u, b) {
+function setBuildingApproachPath(world, u, b) {
   const [px, pz] = cellOfQ10(b.xQ10, b.zQ10, world.CELL);
-  const r = Math.ceil(b.size / 2);
+  const r = Math.ceil(b.size / 2) + 1;
   const steps = [
     [r, 0], [-r, 0], [0, r], [0, -r],
     [r, r], [-r, r], [r, -r], [-r, -r],
+    [r + 1, 0], [-r - 1, 0], [0, r + 1], [0, -r - 1],
+    [r + 2, 1], [1, r + 2], [-r - 2, 1], [1, -r - 2],
   ];
   for (const [dx, dz] of steps) {
     const tx = px + dx;
@@ -1100,7 +1160,8 @@ function setBuildApproachPath(world, u, b) {
     setPath(world, u, wx, wz);
     if (u.path.length) return true;
   }
-  return false;
+  setPath(world, u, b.xQ10, b.zQ10);
+  return u.path.length > 0;
 }
 
 export function issueAssemble(world, u, site) {
@@ -1183,8 +1244,9 @@ export function queueAssembly(world, building, type) {
     buildTotalTicks: secToTicks(spec.time),
   };
   world.assemblies.push(site);
-  const idle = world.units.filter((u) => u.owner === building.owner && u.type === "villager" && u.state === "idle");
-  for (const v of idle.slice(0, 2)) issueAssemble(world, v, site);
+  const pullStates = new Set(["idle", "gather", "gatherwalk", "return"]);
+  const workers = world.units.filter((u) => u.owner === building.owner && u.type === "villager" && pullStates.has(u.state) && !u.assemble);
+  for (const v of workers.slice(0, 2)) issueAssemble(world, v, site);
   return { ok: true, site };
 }
 
@@ -1265,7 +1327,7 @@ function checkVictory(world) {
     const vills = world.units.filter((u) => u.owner === "player" && u.type === "villager").length;
     if (house && vills >= 7) {
       world.winner = "player";
-      world.tip = "Lesson complete. Take a skirmish onto the Bright Line.";
+      world.tip = "Lesson complete. Take a skirmish across the Bright Mesa.";
     }
     return;
   }

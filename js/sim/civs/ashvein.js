@@ -163,7 +163,7 @@ function seedLavaVents(world) {
   for (let z = 6; z < n - 6; z += 3) {
     for (let x = 6; x < n - 6; x += 3) {
       if (!world.walk[cellIdx(world, x, z)]) continue;
-      if (nearAnyStart(world, x, z, 10)) continue;
+      if (nearAnyStart(world, x, z, 18)) continue;
       const h = ashveinCellHash(seed, x, z, 0x56454e54);
       if (h % 11 !== 0) continue;
       candidates.push([x, z, h]);

@@ -1,20 +1,6 @@
-import { N, CELL, lineX } from "../sim/engine.js";
 import { audio } from "./engine.js";
+import { getAudioConfig } from "../config/audio-config.js";
 import { loadSave } from "../boot.js";
-
-const MAP = N * CELL;
-const BRIGHT_BLEND = 11;
-
-function brightLineX(world) {
-  return lineX(world);
-}
-
-/** 0 = full night bed, 1 = full day bed — smooth across the Bright Line. */
-export function dayMixAt(world, x) {
-  const dist = brightLineX(world) - x;
-  const t = Math.max(0, Math.min(1, (dist + BRIGHT_BLEND * 0.5) / BRIGHT_BLEND));
-  return t * t * (3 - 2 * t);
-}
 
 function combatFromWorld(world) {
   let n = 0;
@@ -28,7 +14,7 @@ function combatFromWorld(world) {
 
 export function createScoreDirector() {
   let mode = "idle";
-  let combatPulse = 0;
+  let combatLevel = 0;
 
   function musicEnabled() {
     return (loadSave().settings.music ?? 0) > 0;
@@ -43,7 +29,6 @@ export function createScoreDirector() {
   function ensureMatchLayers() {
     if (!musicEnabled()) return;
     audio.startLayer("day", "music_day");
-    audio.startLayer("night", "music_night");
     audio.startLayer("combat", "music_combat");
   }
 
@@ -60,43 +45,39 @@ export function createScoreDirector() {
 
     startMatch() {
       mode = "match";
-      combatPulse = 0;
+      combatLevel = 0;
       audio.stopAllLayers(0.5);
       ensureMatchLayers();
       audio.setLayerGain("day", 0.85, 0.01);
-      audio.setLayerGain("night", 0, 0.01);
       audio.setLayerGain("combat", 0, 0.01);
     },
 
     stop() {
       mode = "idle";
-      combatPulse = 0;
+      combatLevel = 0;
       audio.stopAllLayers(0.45);
     },
 
     noteCombat(amount = 0.22) {
-      combatPulse = Math.min(1, combatPulse + amount);
+      combatLevel = Math.min(1, combatLevel + amount);
     },
 
     tick(world, view) {
       if (!musicEnabled() || mode !== "match" || !world || world.winner) return;
 
-      const cam = view?.cameraInfo?.() || { x: MAP / 2 };
-      const dayMix = dayMixAt(world, cam.x);
       const worldCombat = combatFromWorld(world);
-      combatPulse = Math.max(combatPulse, worldCombat);
-      combatPulse *= 0.965;
+      combatLevel = Math.max(combatLevel, worldCombat);
+      combatLevel *= 0.965;
 
-      const explore = 1 - combatPulse * 0.62;
-      audio.setLayerGain("day", dayMix * explore * 0.88, 1.6);
-      audio.setLayerGain("night", (1 - dayMix) * explore * 0.88, 1.6);
-      audio.setLayerGain("combat", combatPulse * 0.9, 0.75);
+      const explore = 1 - combatLevel * 0.62;
+      const crossfade = getAudioConfig().matchCrossfadeSeconds;
+      audio.setLayerGain("day", explore * 0.88, crossfade);
+      audio.setLayerGain("combat", combatLevel * 0.9, crossfade);
     },
 
     playEnd(won) {
       mode = "end";
       audio.stopLayer("day", 0.6);
-      audio.stopLayer("night", 0.6);
       audio.stopLayer("combat", 0.45);
       if (!musicEnabled()) return;
       const bed = won ? "music_victory" : "music_defeat";

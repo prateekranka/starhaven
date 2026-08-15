@@ -5,7 +5,7 @@
       "id": "bright-mesa",
       "name": "Bright Mesa",
       "file": "maps/bright-mesa.json",
-      "blurb": "Classic 48×48 duel arena with a solar Bright Line and balanced mesa starts.",
+      "blurb": "Classic 48×48 duel arena in fixed daylight with balanced mesa starts.",
       "preview": "media/maps/bright-mesa.svg",
       "default": true
     },

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Starhaven — AoE2 1v1 bar</title>
+  <style>
+    :root { color-scheme: dark; --ink:#e8dcc8; --muted:#9a8b74; --fail:#c45c4a; --pass:#7cb389; --bg:#14110e; --card:#1e1a16; }
+    body { margin: 0; font: 15px/1.45 ui-sans-serif, system-ui; background: var(--bg); color: var(--ink); }
+    header { padding: 20px 28px; border-bottom: 1px solid #3a3228; }
+    h1 { margin: 0 0 6px; font-size: 22px; letter-spacing: .04em; }
+    .meta { color: var(--muted); font-size: 13px; }
+    main { display: grid; gap: 20px; padding: 20px 28px 48px; max-width: 1200px; }
+    section { background: var(--card); border: 1px solid #3a3228; border-radius: 10px; padding: 16px 18px; }
+    h2 { margin: 0 0 10px; font-size: 15px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+    img, video { width: 100%; border-radius: 6px; background: #0b0908; }
+    .pill { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 12px; font-weight: 700; }
+    .pass { background: #1e3a2c; color: var(--pass); }
+    .fail { background: #3a1c18; color: var(--fail); }
+    pre { overflow: auto; font-size: 12px; background: #0b0908; padding: 12px; border-radius: 6px; }
+    a { color: #d4b483; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Starhaven skirmish bar</h1>
+    <p class="meta">
+      Live pack: <a href="https://dev.starhaven.contenthelper.in/">dev.starhaven.contenthelper.in</a>
+      · Map: Highland Chokes
+      · <span id="done-pill" class="pill fail">done=false</span>
+    </p>
+    <p class="meta" id="ship">Last ship SHA: (none yet)</p>
+  </header>
+  <main>
+    <section>
+      <h2>Gameplay bar (≥90% AoE2 1v1 shape)</h2>
+      <p id="shape-rate">Batch not run yet. <code>node scripts/sim-shape-batch.mjs</code></p>
+      <pre id="shape-json">waiting for docs/evidence/skirmish-bar/shape-batch.summary.json</pre>
+    </section>
+    <section>
+      <h2>Frozen AoE2 DE north star (do not change)</h2>
+      <div class="grid">
+        <figure>
+          <figcaption>Boom — Xbox official DE X019 launch trailer</figcaption>
+          <video controls src="refs/aoe2-boom.mp4"></video>
+        </figure>
+        <figure>
+          <figcaption>Choke fight — T90Official Black Forest 1v1 (18:00–19:30)</figcaption>
+          <video controls src="refs/aoe2-choke-fight.mp4"></video>
+        </figure>
+      </div>
+      <p class="meta">Pixel-mesa is the visual language. AoE2 is play-shape only. See refs/SOURCE.json.</p>
+    </section>
+    <section>
+      <h2>Look floor — generated Sunwoven / Gravemark images (not in-game)</h2>
+      <div class="grid" id="refs"></div>
+    </section>
+    <section>
+      <h2>Candidate stills (WebGL canvas)</h2>
+      <div class="grid">
+        <figure><figcaption>Cog vs Ash — town</figcaption><img src="stills/cog-ash-town.png" alt="cog ash town" /></figure>
+        <figure><figcaption>Cog vs Ash — choke</figcaption><img src="stills/cog-ash-fight.png" alt="cog ash fight" /></figure>
+        <figure><figcaption>Cog vs Storm — town</figcaption><img src="stills/cog-storm-town.png" alt="cog storm town" /></figure>
+        <figure><figcaption>Cog vs Storm — choke</figcaption><img src="stills/cog-storm-fight.png" alt="cog storm fight" /></figure>
+        <figure><figcaption>Ash vs Storm — town</figcaption><img src="stills/ash-storm-town.png" alt="ash storm town" /></figure>
+        <figure><figcaption>Ash vs Storm — choke</figcaption><img src="stills/ash-storm-fight.png" alt="ash storm fight" /></figure>
+      </div>
+    </section>
+    <section>
+      <h2>Log</h2>
+      <pre id="log">Round 0: freeze clips, shape batch, stills, then fan out builders/critics.</pre>
+    </section>
+  </main>
+  <script>
+    const refs = [
+      ["sheet-sunwoven-walk", "../../../assets/sheets/sheet-sunwoven-walk.png"],
+      ["sheet-sun-guard", "../../../assets/sheets/sheet-sun-guard.png"],
+      ["sheet-gravemark-walk", "../../../assets/sheets/sheet-gravemark-walk.png"],
+      ["sheet-grave-guard", "../../../assets/sheets/sheet-grave-guard.png"],
+      ["bldg-sun-tc", "../../../media/sprites/bldg-sun-tc.png"],
+      ["bldg-sun-house", "../../../media/sprites/bldg-sun-house.png"],
+      ["bldg-sun-wonder", "../../../media/sprites/bldg-sun-wonder.png"],
+      ["bldg-grave-tc", "../../../media/sprites/bldg-grave-tc.png"],
+      ["bldg-grave-house", "../../../media/sprites/bldg-grave-house.png"],
+      ["bldg-grave-wonder", "../../../media/sprites/bldg-grave-wonder.png"],
+      ["portrait-sunwoven", "../../../media/sprites/portrait-sunwoven.png"],
+      ["portrait-gravemark", "../../../media/sprites/portrait-gravemark.png"],
+    ];
+    const box = document.getElementById("refs");
+    for (const [name, src] of refs) {
+      const f = document.createElement("figure");
+      f.innerHTML = `<figcaption>${name}</figcaption><img src="${src}" alt="${name}" />`;
+      box.appendChild(f);
+    }
+    fetch("./shape-batch.summary.json").then((r) => r.ok ? r.json() : null).then((j) => {
+      if (!j) return;
+      const pct = Math.round((j.rate || 0) * 1000) / 10;
+      document.getElementById("shape-rate").textContent = `${j.passed}/${j.games} games have the AoE2 shape (${pct}%). Bar is 90%.`;
+      document.getElementById("shape-json").textContent = JSON.stringify(j, null, 2);
+    }).catch(() => {});
+    fetch("./STATUS.json").then((r) => r.ok ? r.json() : null).then((j) => {
+      if (!j) return;
+      document.getElementById("ship").textContent = `Last ship SHA: ${j.displaySha || j.sourceSha || "unknown"} · ${j.livePack || ""}`;
+      const pill = document.getElementById("done-pill");
+      pill.textContent = j.done ? "done=true" : "done=false";
+      pill.className = "pill " + (j.done ? "pass" : "fail");
+      if (j.log) document.getElementById("log").textContent = j.log;
+    }).catch(() => {});
+  </script>
+</body>
+</html>

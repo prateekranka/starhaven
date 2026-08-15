@@ -9,10 +9,10 @@ import "../sim/civs/cogforged.js";
 
 export const SHARED_AI = {
   villagers: { settler: 8, chieftain: 11, emperor: 14 },
-  waveTickSec: { settler: 120, chieftain: 82, emperor: 60 },
+  waveTickSec: { settler: 90, chieftain: 48, emperor: 36 },
   emperorExtraStock: 80,
   buildPriority: ["house", "barracks", "spire", "mill", "workshop"],
-  waveArmyMin: { settler: 8, chieftain: 5, emperor: 4 },
+  waveArmyMin: { settler: 6, chieftain: 1, emperor: 1 },
   ageThresholds: [
     { age: 2, food: 420, crystal: 180 },
     { age: 3, food: 680, crystal: 360 },
@@ -24,10 +24,10 @@ export const SHARED_AI = {
 
 export const STORMVEIL_AI = {
   villagers: { settler: 8, chieftain: 11, emperor: 14 },
-  waveTickSec: { settler: 115, chieftain: 78, emperor: 58 },
+  waveTickSec: { settler: 88, chieftain: 48, emperor: 36 },
   emperorExtraStock: 85,
   buildPriority: ["house", "barracks", "mill", "spire", "workshop"],
-  waveArmyMin: { settler: 7, chieftain: 4, emperor: 4 },
+  waveArmyMin: { settler: 5, chieftain: 1, emperor: 1 },
   ageThresholds: [
     { age: 2, food: 400, crystal: 170 },
     { age: 3, food: 660, crystal: 340 },
@@ -40,10 +40,10 @@ export const STORMVEIL_AI = {
 
 export const ASHVEIN_AI = {
   villagers: { settler: 8, chieftain: 11, emperor: 14 },
-  waveTickSec: { settler: 118, chieftain: 80, emperor: 58 },
+  waveTickSec: { settler: 88, chieftain: 48, emperor: 36 },
   emperorExtraStock: 85,
   buildPriority: ["house", "barracks", "spire", "mill", "workshop"],
-  waveArmyMin: { settler: 7, chieftain: 4, emperor: 4 },
+  waveArmyMin: { settler: 5, chieftain: 1, emperor: 1 },
   ageThresholds: [
     { age: 2, food: 410, crystal: 175 },
     { age: 3, food: 670, crystal: 350 },
@@ -115,12 +115,12 @@ export const SUNWOVEN = {
   id: "sunwoven",
   identity: {
     name: "Sunwoven",
-    tagline: "Solar sails, beam infantry, faster in daylight",
+    tagline: "Solar sails, beam infantry, disciplined formations",
     portrait: "media/sprites/portrait-sunwoven.png",
     banner: "media/textures/sunwoven-banner.jpg",
     lore: {
       blurb:
-        "Weavers of light who stitch cities from brass, calcite, and solar crystal. Villagers unfold golden arms to raise palaces. In the Bright Line's day-side their skiffs and lumen guards surge.",
+        "Weavers of light who stitch cities from brass, calcite, and solar crystal. Villagers unfold golden arms to raise palaces, while skiffs and lumen guards hold the frontier.",
       ages: [
         "Age I — Weaver, Pathfinder, Lumen Guard, Solar Strider",
         "Age II — Threadwright backpacks, Sunrunners, Radiant Phalanx",
@@ -130,10 +130,6 @@ export const SUNWOVEN = {
   },
   roster: sharedRoster(),
   techs: sharedTechs(),
-  buffs: {
-    inLight: { speed: 1140, dmg: 1100, armor: 1000 },
-    inDark: { speed: 980, dmg: 960, armor: 1000 },
-  },
   names: {
     units: {
       villager: "Weaver",
@@ -180,12 +176,12 @@ export const GRAVEMARK = {
   id: "gravemark",
   identity: {
     name: "Gravemark",
-    tagline: "Stonebound walkers, tougher in shadow",
+    tagline: "Stonebound walkers, resilient phalanxes",
     portrait: "media/sprites/portrait-gravemark.png",
     banner: "media/textures/gravemark-banner.jpg",
     lore: {
       blurb:
-        "Necrolith masons who bind basalt to void crystal. Their gravesmiths raise crypt-fortresses. Night on the Bright Line hardens their phalanxes and wakes rift-cutter barges.",
+        "Necrolith masons who bind basalt to void crystal. Their gravesmiths raise crypt-fortresses and wake rift-cutter barges.",
       ages: [
         "Age I — Stonemason, Faultseer, Basalt Guard, Tomb Strider",
         "Age II — Gravesmith rigs, Dustrunners, Crypt Phalanx",
@@ -195,10 +191,6 @@ export const GRAVEMARK = {
   },
   roster: sharedRoster(),
   techs: sharedTechs(),
-  buffs: {
-    inLight: { speed: 980, dmg: 960, armor: 1000 },
-    inDark: { speed: 1060, dmg: 1080, armor: 820 },
-  },
   names: {
     units: {
       villager: "Stonemason",
@@ -250,7 +242,7 @@ export const COGFORGED = {
     banner: "media/textures/cogforged-banner.jpg",
     lore: {
       blurb:
-        "Brass automatons who weld legions in the field and feed cities through copper relay grids. They ignore the Bright Line entirely — neither boosted nor blunted — and never ration lumenfruit.",
+        "Brass automatons who weld legions in the field and feed cities through copper relay grids. They never ration lumenfruit.",
       ages: [
         "Age I — Assembler, Surveyor, Plate Guard, Gear Strider",
         "Age II — Relay rigs, Cogrunners, Assembly Phalanx",
@@ -264,10 +256,6 @@ export const COGFORGED = {
     villagerBuild: VILLAGER_BUILD_LIST.filter((t) => t !== "mill"),
   },
   techs: sharedTechs(),
-  buffs: {
-    inLight: { speed: 1020, dmg: 1030, armor: 1000 },
-    inDark: { speed: 1020, dmg: 1030, armor: 1000 },
-  },
   names: {
     units: {
       villager: "Assembler",
@@ -343,10 +331,6 @@ export const ASHVEIN = {
   },
   roster: sharedRoster(),
   techs: sharedTechs(),
-  buffs: {
-    inLight: { speed: 980, dmg: 1020, armor: 1000 },
-    inDark: { speed: 1040, dmg: 1060, armor: 940 },
-  },
   names: {
     units: {
       villager: "Delver",
@@ -401,16 +385,12 @@ export const QA_STUB = {
     portrait: "media/sprites/portrait-sunwoven.png",
     banner: "media/textures/sunwoven-banner.jpg",
     lore: {
-      blurb: "Synthetic civilization registered from data. Uses placeholder sprites and neutral buffs to prove new civs need no code forks.",
+      blurb: "Synthetic civilization registered from data. Uses placeholder sprites to prove new civs need no code forks.",
       ages: ["Age I — Stub Mason, Stub Scout", "Age II — Placeholder rigs", "Age III — Test Engine wonder"],
     },
   },
   roster: sharedRoster(),
   techs: sharedTechs(),
-  buffs: {
-    inLight: { speed: 1000, dmg: 1000, armor: 1000 },
-    inDark: { speed: 1000, dmg: 1000, armor: 1000 },
-  },
   names: {
     units: {
       villager: "Stub Mason",
@@ -475,17 +455,16 @@ export const STORMVEIL = {
   id: "stormveil",
   identity: {
     name: "Stormveil Nomads",
-    tagline: "Packable camps, wind-lane marches, summoned gloom",
+    tagline: "Packable camps, wind-lane marches",
     portrait: "media/sprites/portrait-stormveil.png",
     banner: "media/textures/stormveil-banner.jpg",
     lore: {
-      blurb: "Caravan lords who lash canvas keeps to storm wagons and ride the mesa's wind lanes. Their veil-shamans summon local night to flip the Bright Line's favor mid-fight.",
+      blurb: "Caravan lords who lash canvas keeps to storm wagons and ride the mesa's wind lanes.",
       ages: ["Age I — Wayfarer, Gale Scout, Veil Guard, Lane Strider", "Age II — Packmasters, Windrunners, Canvas Phalanx", "Age III — Storm Manta, Nomad Ark wonder"],
     },
   },
   roster: sharedRoster(),
   techs: sharedTechs(),
-  buffs: { inLight: { speed: 1000, dmg: 1000, armor: 1000 }, inDark: { speed: 1080, dmg: 1050, armor: 960 } },
   names: {
     units: { villager: "Wayfarer", scout: "Gale Scout", guard: "Veil Guard", archer: "Storm Bow", strider: "Lane Strider", siege: "Gale Projector", titan: "Mesa Titan", wagon: "Pack Wagon" },
     buildings: { towncenter: "Caravan Heart", house: "Canvas Tent", mill: "Wind Mill", lumber: "Timber Wagon", mine: "Shard Pit", barracks: "March Hall", spire: "Veil Spire", den: "Strider Pen", workshop: "Siege Yard", wonder: "Nomad Ark" },

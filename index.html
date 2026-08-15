@@ -31,7 +31,7 @@
       if (!("serviceWorker" in navigator)) return;
       const host = location.hostname;
       const ok = location.protocol === "https:" || host === "localhost" || host === "127.0.0.1" || host === "[::1]";
-      if (ok) navigator.serviceWorker.register("./sw.js", { updateViaCache: "none" });
+      if (ok) navigator.serviceWorker.register("./sw.js", { type: "module", updateViaCache: "none" });
     })();
   </script>
 </head>
@@ -43,7 +43,6 @@
       <div class="title-vista__sky" style="background-image:url('media/textures/title-sky.jpg')"></div>
       <div class="title-vista__mesa"></div>
       <canvas class="title-vista__motes" width="1366" height="768"></canvas>
-      <div class="title-vista__bright-line"></div>
       <div class="title-vista__scrim"></div>
     </div>
     <button class="title-settings ui-icon-btn" data-action="settings" aria-label="Settings" title="Settings">
@@ -253,7 +252,7 @@
         <button class="back-btn" data-action="title">←</button>
         <h2>TUTORIAL</h2>
       </header>
-      <p class="hint big">A quiet mesa. No rival army — only your first Town Center, a patch of lumenfruit, and the Bright Line sliding across the stone.</p>
+      <p class="hint big">A quiet, sunlit mesa. No rival army — only your first Town Center, a patch of lumenfruit, and your first command.</p>
       <ol class="steps">
         <li>Drag-select your weavers (villagers).</li>
         <li>Tap a glowing fruit cluster to gather food.</li>

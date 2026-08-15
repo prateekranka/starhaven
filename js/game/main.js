@@ -1,5 +1,5 @@
 import { createMatch, updateWorld, commandGround, tryPlace, queueUnit, tryAgeUp, idleVillager, selectedEntities, villagerBuildOptions, matchStats, formatDuration, BUILDINGS, UNITS, worldFromQ10, q10FromWorld, isBuilt } from "../sim/engine.js";
-import { canPackBuilding, isStormveilFaction, tryPackBuilding, trySummonDarkness } from "../sim/civs/stormveil.js";
+import { canPackBuilding, isStormveilFaction, tryPackBuilding } from "../sim/civs/stormveil.js";
 import { distanceSquaredQ10, q10RangeSq, ticksToSec } from "../sim/fixed.js";
 import { civDisplayName, civSelectionPortrait, civBuildThumb, civUsesFood } from "../data/civ-schema.js";
 import { civMechanics } from "../sim/civs/index.js";
@@ -15,6 +15,9 @@ import { loadMap } from "../data/maps.js";
 import { biomeRgb } from "../data/map-biomes.js";
 import { minimapCellColor } from "../sim/civs/ashvein.js";
 import { checksumWorld, mapLayoutFingerprint } from "../sim/checksum.js";
+import { getRenderConfig, applyRenderConfigPatch, resetRenderConfig } from "../config/render-config.js";
+import { getAudioConfig, applyAudioConfigPatch, resetAudioConfig } from "../config/audio-config.js";
+import { getMapConfig, applyMapConfigPatch, resetMapConfig } from "../config/map-config.js";
 import {
   beginMatchSnapshot,
   buildBridgeSnapshot,
@@ -22,7 +25,7 @@ import {
   recordMatchCommand,
   restoreFromSnapshotRequest,
   resumeMatchSnapshot,
-  loadPersistedMatchSnapshot,
+  classifyPersistedMatchSnapshot,
 } from "../sim/match-snapshot.js";
 
 const wx = (e) => worldFromQ10(e.xQ10);
@@ -63,8 +66,391 @@ let lastMatchOpts = null;
 let resultsShown = false;
 let combatHapticAt = 0;
 const hpWatch = new Map();
+let tuningSession = null;
+let tuningCaptureSeq = 0;
+let tuningTarget = null;
+const restoreConfig = (reset, apply, state) => {
+  reset();
+  if (state && typeof state === "object") apply(state);
+};
+const tuningHooks = {
+  render: {
+    get: getRenderConfig,
+    apply: (key, value) => applyRenderConfigPatch({ [key]: value }),
+    reset: (keys = null) => resetRenderConfig(keys),
+    restore: (state) => restoreConfig(resetRenderConfig, applyRenderConfigPatch, state),
+  },
+  audio: {
+    get: getAudioConfig,
+    apply: (key, value) => applyAudioConfigPatch({ [key]: value }),
+    reset: (keys = null) => resetAudioConfig(keys),
+    restore: (state) => restoreConfig(resetAudioConfig, applyAudioConfigPatch, state),
+  },
+  map: {
+    get: getMapConfig,
+    apply: (key, value) => applyMapConfigPatch({ [key]: value }),
+    reset: (keys = null) => resetMapConfig(keys),
+    restore: (state) => restoreConfig(resetMapConfig, applyMapConfigPatch, state),
+  },
+};
+const TUNING_DOM_IDS = [
+  "selection",
+  "commands",
+  "queue",
+  "pause-modal",
+  "pause-menu",
+  "pause-settings-panel",
+  "pause-abandon-panel",
+  "results-modal",
+  "end-banner",
+  "tip",
+];
+
+function tuningClone(value, fallback = null) {
+  try {
+    if (value === undefined) return fallback;
+    return JSON.parse(JSON.stringify(value));
+  } catch {
+    return fallback;
+  }
+}
+
+function tuningDomSnapshot() {
+  const out = {};
+  for (const id of TUNING_DOM_IDS) {
+    const el = document.getElementById(id);
+    if (!el) continue;
+    out[id] = {
+      className: el.className,
+      hidden: !!el.hidden,
+      ariaHidden: el.getAttribute("aria-hidden"),
+      style: el.getAttribute("style"),
+    };
+  }
+  return out;
+}
+
+function restoreTuningDom(snapshot) {
+  for (const [id, state] of Object.entries(snapshot || {})) {
+    const el = document.getElementById(id);
+    if (!el) continue;
+    el.className = state.className;
+    el.hidden = !!state.hidden;
+    if (state.ariaHidden == null) el.removeAttribute("aria-hidden");
+    else el.setAttribute("aria-hidden", state.ariaHidden);
+    if (state.style == null) el.removeAttribute("style");
+    else el.setAttribute("style", state.style);
+  }
+}
+
+function cameraTuningSnapshot() {
+  try {
+    const info = view?.cameraInfo?.();
+    if (!info) return null;
+    return {
+      x: Number(info.x),
+      z: Number(info.z),
+      frustum: Number(info.frustum),
+      frustumDesired: Number(info.frustumDesired ?? info.frustum),
+    };
+  } catch {
+    return null;
+  }
+}
+
+function tuningEntityDescriptor(entity) {
+  if (!entity) return null;
+  const kind = entity.kind || null;
+  const type = entity.type || entity.kind || null;
+  const faction = entity.faction || null;
+  const spec = kind === "building" ? BUILDINGS[type] : UNITS[type];
+  return {
+    id: entity.id ?? null,
+    kind,
+    type,
+    name: spec?.name || type,
+    owner: entity.owner || null,
+    faction,
+    family: [faction, type].filter(Boolean).join(".") || kind,
+    sourceUrl: faction ? civSelectionPortrait(faction, entity) : null,
+  };
+}
+
+function tuningSelectionDescriptors() {
+  if (!world) return [];
+  const byId = world.byId;
+  return world.selection.map((id) => tuningEntityDescriptor(byId?.get(id))).filter(Boolean);
+}
+
+function safeTuningValue(value) {
+  if (value === undefined) return true;
+  try {
+    return JSON.stringify(value) !== undefined;
+  } catch {
+    return false;
+  }
+}
+
+export function getTuningContext() {
+  const camera = cameraTuningSnapshot();
+  const context = {
+    active: !!tuningSession,
+    mode: tuningSession ? (paused ? "paused" : "running") : null,
+    paused: !!paused,
+    frozen: !!tuningSession && !paused,
+    tick: world?.t ?? null,
+    mapId: world?.mapId || null,
+    selection: tuningSelectionDescriptors(),
+    target: tuningClone(tuningTarget),
+    camera,
+    hooks: {},
+  };
+  for (const [route, hook] of Object.entries(tuningHooks)) {
+    if (typeof hook?.get !== "function") continue;
+    try {
+      const value = hook.get();
+      if (safeTuningValue(value)) context.hooks[route] = tuningClone(value);
+    } catch {
+      context.hooks[route] = null;
+    }
+  }
+  return tuningClone(context, {
+    active: false,
+    mode: null,
+    paused: !!paused,
+    frozen: false,
+    tick: null,
+    mapId: null,
+    selection: [],
+    target: null,
+    camera: null,
+    hooks: {},
+  });
+}
+
+/** Register the three config routes used by the desktop tuning editor. */
+export function registerTuningHooks(hooks = {}) {
+  if (!hooks || typeof hooks !== "object" || Array.isArray(hooks)) return { ok: false, why: "invalid-hooks" };
+  for (const route of ["render", "audio", "map"]) {
+    if (hooks[route] == null) continue;
+    const hook = hooks[route];
+    if (typeof hook !== "object" || Array.isArray(hook)) return { ok: false, why: `invalid-${route}-hook` };
+    for (const key of ["apply", "reset", "get", "restore"]) {
+      if (hook[key] != null && typeof hook[key] !== "function") return { ok: false, why: `invalid-${route}.${key}` };
+    }
+  }
+  for (const route of ["render", "audio", "map"]) if (hooks[route] != null) tuningHooks[route] = hooks[route];
+  return { ok: true, routes: Object.keys(tuningHooks).filter((route) => tuningHooks[route]) };
+}
+
+export function beginTuningSession(_options = {}) {
+  if (tuningSession) return getTuningContext();
+  if (!world || !view) return { active: false, why: "no-match-in-progress" };
+  const hookState = {};
+  for (const [route, hook] of Object.entries(tuningHooks)) {
+    if (typeof hook?.get !== "function") continue;
+    try {
+      const value = hook.get();
+      if (safeTuningValue(value)) hookState[route] = tuningClone(value);
+    } catch {
+      hookState[route] = null;
+    }
+  }
+  const body = typeof document !== "undefined" ? document.body : null;
+  tuningSession = {
+    paused,
+    bodyTuningActive: !!body?.classList?.contains("tuning-active"),
+    bodyMatchPaused: !!body?.classList?.contains("match-paused"),
+    camera: cameraTuningSnapshot(),
+    selection: world.selection.slice(),
+    placement: tuningClone(world.placement),
+    speed: world.speed,
+    attackMove,
+    dom: typeof document !== "undefined" ? tuningDomSnapshot() : {},
+    hookState,
+  };
+  body?.classList?.add("tuning-active");
+  tuningTarget = null;
+  if (paused && typeof document !== "undefined") document.getElementById("pause-modal")?.classList.add("hidden");
+  window.dispatchEvent?.(new CustomEvent("starhaven:tuning-session-changed", { detail: { active: true } }));
+  return getTuningContext();
+}
+
+export function isTuningSession() {
+  return !!tuningSession;
+}
+
+export function endTuningSession() {
+  const session = tuningSession;
+  if (!session) return getTuningContext();
+  tuningSession = null;
+  tuningTarget = null;
+  if (world) {
+    world.selection = session.selection.slice();
+    world.placement = tuningClone(session.placement);
+    world.speed = session.speed;
+  }
+  attackMove = session.attackMove;
+  paused = session.paused;
+  if (view && session.camera) {
+    try {
+      if (typeof view.restoreCameraState === "function") view.restoreCameraState(session.camera);
+      else {
+        view.lookAt(session.camera.x, session.camera.z, true);
+        const current = view.cameraInfo?.();
+        if (current && Number.isFinite(session.camera.frustumDesired)) view.zoom(session.camera.frustumDesired - current.frustumDesired);
+      }
+    } catch {
+      // A disposed renderer cannot restore camera state.
+    }
+  }
+  for (const [route, state] of Object.entries(session.hookState || {})) {
+    const hook = tuningHooks[route];
+    if (typeof hook?.restore !== "function") continue;
+    try {
+      hook.restore(tuningClone(state));
+    } catch {
+      // Config hooks are optional and must not make session teardown unsafe.
+    }
+  }
+  if (typeof document !== "undefined") {
+    restoreTuningDom(session.dom);
+    document.body?.classList?.toggle("match-paused", session.bodyMatchPaused);
+    document.body?.classList?.toggle("tuning-active", session.bodyTuningActive);
+  }
+  window.dispatchEvent?.(new CustomEvent("starhaven:tuning-session-changed", { detail: { active: false } }));
+  return getTuningContext();
+}
+
+function tuningRouteForKey(key) {
+  if (typeof key !== "string") return null;
+  for (const route of ["render", "audio", "map"]) {
+    const prefix = `${route}.`;
+    if (key.startsWith(prefix) && key.length > prefix.length) {
+      const path = key.slice(prefix.length);
+      if (["__proto__", "prototype", "constructor"].includes(path)) return null;
+      return { route, key: path };
+    }
+  }
+  return null;
+}
+
+function tuningPick(clientX, clientY) {
+  if (!world || !view) return { ok: false, why: "no-match-in-progress" };
+  let picked = null;
+  try {
+    picked = view.pickTuningTarget?.(clientX, clientY) || null;
+  } catch {
+    picked = null;
+  }
+  if (picked && typeof picked === "object" && safeTuningValue(picked)) {
+    const target = tuningClone(picked);
+    const descriptor = target.id != null ? tuningEntityDescriptor(world.byId?.get(target.id)) : null;
+    return { ok: true, target: { ...descriptor, ...target } };
+  }
+  let ground;
+  try {
+    ground = view.groundPick(clientX, clientY);
+  } catch {
+    ground = null;
+  }
+  if (!ground) return { ok: false, why: "no-ground-target" };
+  const hit = pickEntity(world, ground.x, ground.z);
+  if (hit) return { ok: true, target: { ...tuningEntityDescriptor(hit), x: ground.x, z: ground.z } };
+  const point = { xQ10: q10FromWorld(ground.x), zQ10: q10FromWorld(ground.z) };
+  const resource = world.resources
+    .filter((entry) => entry.kind !== "rockblock" && entry.amount > 0)
+    .map((entry) => ({ entry, d: distanceSquaredQ10(point, entry) }))
+    .sort((a, b) => a.d - b.d)[0];
+  if (resource && resource.d <= q10RangeSq(1.8)) {
+    const type = resource.entry.kind;
+    return { ok: true, target: { kind: "resource", id: resource.entry.id, type, name: `${type} resource`, family: `resource.${type}`, sourceUrl: `media/sprites/node-${type}.png`, resourceKind: type, x: ground.x, z: ground.z } };
+  }
+  const relic = (world.relics || [])
+    .map((entry) => ({ entry, d: distanceSquaredQ10(point, entry) }))
+    .sort((a, b) => a.d - b.d)[0];
+  if (relic && relic.d <= q10RangeSq(1.8)) return { ok: true, target: { kind: "relic", id: relic.entry.id, type: "relic", name: "Void relic", family: "relic.void", sourceUrl: "media/sprites/node-void.png", x: ground.x, z: ground.z } };
+  if (world.placement?.kind === "building") {
+    const type = world.placement.type;
+    const faction = world.players?.player?.faction;
+    return { ok: true, target: { kind: "ghost", type, name: `${BUILDINGS[type]?.name || type} ghost`, family: `ghost.${faction}.${type}`, sourceUrl: civBuildThumb(faction, type), x: ground.x, z: ground.z } };
+  }
+  return { ok: true, target: { kind: "void", type: "void", name: "Void surface", family: "terrain.void", sourceUrl: "media/sprites/node-void.png", x: ground.x, z: ground.z } };
+}
+
+function scheduleTuningCapture() {
+  tuningCaptureSeq += 1;
+  const token = `tuning-${Date.now()}-${tuningCaptureSeq}`;
+  const context = getTuningContext();
+  const emit = () => {
+    let dataUrl = null;
+    try {
+      dataUrl = view?.renderer?.domElement?.toDataURL?.("image/png") || null;
+    } catch {
+      dataUrl = null;
+    }
+    const detail = { token, dataUrl, target: tuningClone(tuningTarget), context };
+    if (typeof window !== "undefined" && typeof window.dispatchEvent === "function" && typeof window.CustomEvent === "function") {
+      window.dispatchEvent(new window.CustomEvent("starhaven:tuning-capture-ready", { detail }));
+    }
+  };
+  if (typeof requestAnimationFrame === "function") requestAnimationFrame(emit);
+  else queueMicrotask(emit);
+  return { ok: true, token, scheduled: true };
+}
+
+export function dispatchTuningAction(action = {}) {
+  if (!tuningSession) return { ok: false, why: "tuning-session-required" };
+  if (!action || typeof action !== "object" || Array.isArray(action) || typeof action.type !== "string") {
+    return { ok: false, why: "invalid-action" };
+  }
+  if (action.type === "apply") {
+    const target = tuningRouteForKey(action.key);
+    if (!target || !Object.prototype.hasOwnProperty.call(action, "value") || !safeTuningValue(action.value)) return { ok: false, why: "invalid-apply-request" };
+    const hook = tuningHooks[target.route];
+    if (typeof hook?.apply !== "function") return { ok: false, why: `route-unavailable:${target.route}` };
+    try {
+      const value = hook.apply(target.key, tuningClone(action.value));
+      return { ok: true, key: action.key, value: safeTuningValue(value) ? tuningClone(value) : null };
+    } catch (error) {
+      return { ok: false, why: String(error?.message || error) };
+    }
+  }
+  if (action.type === "reset") {
+    const keys = action.keys == null ? null : action.keys;
+    if (keys != null && (!Array.isArray(keys) || keys.some((key) => !tuningRouteForKey(key)))) {
+      return { ok: false, why: "invalid-reset-request" };
+    }
+    const grouped = { render: [], audio: [], map: [] };
+    for (const key of keys || []) {
+      const target = tuningRouteForKey(key);
+      grouped[target.route].push(target.key);
+    }
+    const routes = keys == null ? ["render", "audio", "map"] : [...new Set(keys.map((key) => tuningRouteForKey(key).route))];
+    const reset = {};
+    try {
+      for (const route of routes) {
+        const hook = tuningHooks[route];
+        if (typeof hook?.reset !== "function") return { ok: false, why: `route-unavailable:${route}` };
+        reset[route] = tuningClone(keys == null ? hook.reset() : hook.reset(grouped[route]));
+      }
+      return { ok: true, reset };
+    } catch (error) {
+      return { ok: false, why: String(error?.message || error) };
+    }
+  }
+  if (action.type === "pick") {
+    if (!Number.isFinite(action.clientX) || !Number.isFinite(action.clientY)) return { ok: false, why: "invalid-pick-request" };
+    const result = tuningPick(action.clientX, action.clientY);
+    if (result.ok) tuningTarget = tuningClone(result.target);
+    return result;
+  }
+  if (action.type === "capture") return scheduleTuningCapture();
+  return { ok: false, why: "unknown-action" };
+}
 
 export async function startMatch(opts = {}) {
+  endTuningSession();
   await ensureMatchAssets(undefined, {
     playerFaction: opts.playerFaction,
     enemyFaction: opts.enemyFaction,
@@ -91,6 +477,7 @@ function bootMatchView(opts, world) {
   document.getElementById("end-banner")?.classList.add("hidden");
   document.getElementById("results-modal")?.classList.add("hidden");
   document.getElementById("pause-modal")?.classList.add("hidden");
+  document.body.classList.remove("match-paused", "tuning-active");
   paused = false;
   lastSelKey = "";
   attackMove = false;
@@ -122,6 +509,7 @@ function bootMatchView(opts, world) {
 }
 
 export function stopMatch() {
+  endTuningSession();
   cancelAnimationFrame(raf);
   score.stop();
   matchAudio = null;
@@ -149,6 +537,7 @@ export function stopMatch() {
 }
 
 export function togglePause(on) {
+  if (tuningSession) return paused;
   paused = on ?? !paused;
   document.getElementById("pause-modal")?.classList.toggle("hidden", !paused);
   document.body.classList.toggle("match-paused", paused);
@@ -172,7 +561,7 @@ export async function restartMatch() {
 }
 
 export function sendMatchSnapshot(pausedFlag = false) {
-  if (!world) return null;
+  if (!world || tuningSession) return null;
   const payload = buildBridgeSnapshot(world, pausedFlag);
   if (payload) bridgeSend("match.snapshot", payload);
   return payload;
@@ -180,12 +569,17 @@ export function sendMatchSnapshot(pausedFlag = false) {
 
 /** @param {{ tick?: number, checksum?: string, seed?: number, paused?: boolean }} request */
 export async function restoreMatch(request = {}) {
+  const classification = classifyPersistedMatchSnapshot();
+  if (classification.status === "incompatible-version") {
+    recoverIncompatibleRestore();
+    return;
+  }
   try {
-    const persisted = loadPersistedMatchSnapshot();
-    if (!persisted) throw new Error("No persisted match snapshot");
+    if (classification.status === "missing") throw new Error("No persisted match snapshot");
+    const persisted = classification.data;
     const mapId = persisted.matchOpts?.mapId || request.mapId || "bright-mesa";
     const map = await loadMap(mapId, request.seed ?? persisted.seed);
-    const restored = restoreFromSnapshotRequest(request, { map, mapId });
+    const restored = restoreFromSnapshotRequest(request, { map, mapId, persistedRecord: persisted });
     if (!restored) return;
     await resumeWorld(restored.world, restored.matchOpts, restored.paused, persisted?.commands || []);
     bridgeSend("restore.completed", {
@@ -194,9 +588,20 @@ export async function restoreMatch(request = {}) {
       checksum: restored.checksum,
     });
   } catch (err) {
+    if (String(err?.message || err) === "incompatible-version") {
+      recoverIncompatibleRestore();
+      return;
+    }
     console.error("[match-restore]", err);
     bridgeSend("restore.completed", { restored: false, reason: String(err?.message || err) });
   }
+}
+
+function recoverIncompatibleRestore() {
+  stopMatch();
+  showScreen("title");
+  score.startTitle();
+  bridgeSend("restore.completed", { restored: false, reason: "incompatible-version" });
 }
 
 async function resumeWorld(restoredWorld, opts, shouldPause, commands = []) {
@@ -209,13 +614,15 @@ async function resumeWorld(restoredWorld, opts, shouldPause, commands = []) {
 }
 
 function recordCommand(command) {
-  if (!world) return;
+  if (!world || tuningSession) return;
   recordMatchCommand({ ...command, tick: world.t | 0 });
 }
 
 function issueRecordedMove(x, z, attackMoveFlag = false) {
+  if (tuningSession) return false;
   recordCommand({ type: "move", unitIds: world.selection.slice(), x, z, attackMove: !!attackMoveFlag });
   commandGround(world, x, z, attackMoveFlag);
+  return true;
 }
 
 function perfChipEnabled() {
@@ -226,6 +633,7 @@ function perfChipEnabled() {
 if (isQaMode()) {
   window.__starhavenMove = function (unitIds, x, z, attackMove) {
     if (!world) return { ok: false, why: "no-match-in-progress" };
+    if (tuningSession) return { ok: false, why: "tuning-session-active" };
     const ids = Array.isArray(unitIds) ? unitIds : unitIds == null ? null : [unitIds];
     let sel;
     if (ids && ids.length) {
@@ -253,11 +661,106 @@ if (isQaMode()) {
 
   window.__starhavenTrain = function (buildingId, type) {
     if (!world) return { ok: false, why: "no-match-in-progress" };
+    if (tuningSession) return { ok: false, why: "tuning-session-active" };
     const b = world.buildings.find((x) => x.id === buildingId);
     if (!b) return { ok: false, why: "no-building", buildingId };
     const res = queueUnit(world, b, type);
     if (res?.ok) recordCommand({ type: "train", buildingId, unitType: type });
     return { ok: !!res?.ok, why: res?.why, buildingId, type };
+  };
+
+  window.__starhavenLook = function (opts = {}) {
+    if (!world || !view) return { ok: false, why: "no-match-in-progress" };
+    if (opts.speed != null) world.speed = Math.max(1, Number(opts.speed) || 1);
+    const look = opts.look;
+    if (isQaMode() && look) {
+      const n = world.N;
+      const vis = world.visible?.player;
+      const exp = world.explored?.player;
+      if (vis && exp) {
+        for (let i = 0; i < n * n; i++) {
+          vis[i] = 1;
+          exp[i] = 1;
+        }
+        world.fogDirty = true;
+      }
+    }
+    const mil = (owner) =>
+      world.units.filter((u) => u.hp > 0 && u.owner === owner && u.type !== "villager" && u.type !== "scout");
+    const playerMil = mil("player");
+    const enemyMil = mil("enemy");
+    let fightX = null;
+    let fightZ = null;
+    let fightDist = null;
+    let bestD = Infinity;
+    for (const a of playerMil) {
+      for (const b of enemyMil) {
+        const dx = wx(a) - wx(b);
+        const dz = wz(a) - wz(b);
+        const d = dx * dx + dz * dz;
+        if (d < bestD) {
+          bestD = d;
+          fightX = (wx(a) + wx(b)) / 2;
+          fightZ = (wz(a) + wz(b)) / 2;
+          fightDist = Math.sqrt(d);
+        }
+      }
+    }
+    if (look === "player-tc" || look === "town") {
+      const tc = world.buildings.find((b) => b.owner === "player" && b.type === "towncenter");
+      if (tc) view.lookAt(wx(tc), wz(tc), true);
+      view.setFrustum?.(20, true);
+    } else if (look === "enemy-tc") {
+      const tc = world.buildings.find((b) => b.owner === "enemy" && b.type === "towncenter");
+      if (tc) view.lookAt(wx(tc), wz(tc), true);
+      view.setFrustum?.(22, true);
+    } else if (look === "choke" || look === "fight") {
+      if (fightX != null && fightDist != null && fightDist < 24) {
+        view.lookAt(fightX + 1.2, fightZ - 1.2, true);
+      } else if (playerMil.length) {
+        const x = playerMil.reduce((s, u) => s + wx(u), 0) / playerMil.length;
+        const z = playerMil.reduce((s, u) => s + wz(u), 0) / playerMil.length;
+        view.lookAt(x, z, true);
+      } else if (enemyMil.length) {
+        const x = enemyMil.reduce((s, u) => s + wx(u), 0) / enemyMil.length;
+        const z = enemyMil.reduce((s, u) => s + wz(u), 0) / enemyMil.length;
+        view.lookAt(x, z, true);
+      } else {
+        const tc = world.buildings.find((b) => b.owner === "player" && b.type === "towncenter");
+        if (tc) view.lookAt(wx(tc), wz(tc), true);
+      }
+      view.setFrustum?.(20, true);
+    } else if (Number.isFinite(opts.x) && Number.isFinite(opts.z)) {
+      view.lookAt(opts.x, opts.z, true);
+    }
+    const side = (owner) => ({
+      faction: world.players[owner].faction,
+      age: world.players[owner].age,
+      tc: world.buildings.some((b) => b.owner === owner && b.type === "towncenter" && b.hp > 0),
+      vills: world.units.filter((u) => u.owner === owner && u.type === "villager" && u.hp > 0).length,
+      military: world.units.filter((u) => u.owner === owner && u.hp > 0 && u.type !== "villager" && u.type !== "scout").length,
+    });
+    return {
+      ok: true,
+      t: world.t,
+      sec: world.t / 60,
+      speed: world.speed,
+      winner: world.winner,
+      player: side("player"),
+      enemy: side("enemy"),
+      fightDist,
+      fightX,
+      fightZ,
+    };
+  };
+
+  window.__starhavenCaptureCanvas = function () {
+    try {
+      if (world && view?.sync) view.sync(world, 0);
+      return view?.renderer?.domElement?.toDataURL?.("image/png") || null;
+    } catch {
+      return null;
+    }
   };
 }
 
@@ -285,11 +788,13 @@ function loop(now) {
   const scale = pacer.sample(dt * 1000, lastSimMs + lastDrawMs);
   if (pacer.shouldApply(now) && view.setAdaptiveScale) view.setAdaptiveScale(scale);
 
-  if (!paused) {
-    simAcc += dt;
+  if (!paused && !tuningSession) {
+    const speed = isQaMode() ? Math.max(1, world.speed || 1) : 1;
+    simAcc += dt * speed;
     let steps = 0;
+    const maxSteps = isQaMode() ? 48 : 4;
     const simT0 = performance.now();
-    while (simAcc >= SIM_DT && steps < 4) {
+    while (simAcc >= SIM_DT && steps < maxSteps) {
       updateWorld(world, SIM_DT);
       simAcc -= SIM_DT;
       steps++;
@@ -301,7 +806,7 @@ function loop(now) {
   const drawT0 = performance.now();
   view.sync(world, dt);
   lastDrawMs = performance.now() - drawT0;
-  if (!paused) applyCameraRig(dt);
+  if (!paused && !tuningSession) applyCameraRig(dt);
 
   hudAcc += dt;
   if (hudAcc >= 0.05) {
@@ -338,12 +843,13 @@ function loop(now) {
   matchAudio?.tick(world, view);
 }
 function showResults(world) {
+  if (tuningSession) endTuningSession();
   const modal = document.getElementById("results-modal");
   if (!modal) return;
   const won = world.winner === "player";
   const stats = matchStats(world, "player");
   setText("results-title", won ? "VICTORY" : "DEFEAT");
-  setText("results-sub", won ? "The mesa is yours. The Bright Line keeps moving." : "Your Town Center is ash.");
+  setText("results-sub", won ? "The Bright Mesa is yours." : "Your Town Center is ash.");
   setText("stat-duration", formatDuration(stats.duration));
   setText("stat-gathered", String(stats.totalGathered));
   setText("stat-trained", String(stats.unitsTrained));
@@ -500,6 +1006,7 @@ function bindInput(viewport) {
     "contextmenu",
     (e) => {
       e.preventDefault();
+      if (tuningSession) return;
       const g = view.groundPick(e.clientX, e.clientY);
       if (g) {
         issueRecordedMove(g.x, g.z, true);
@@ -519,6 +1026,7 @@ function bindInput(viewport) {
   );
 
   document.getElementById("btn-idle").onclick = () => {
+    if (tuningSession) return;
     clearEmptyTap(false);
     const u = idleVillager(world);
     if (u) {
@@ -530,19 +1038,22 @@ function bindInput(viewport) {
   const atkBtn = document.getElementById("btn-atk");
   if (atkBtn) {
     atkBtn.onclick = () => {
+      if (tuningSession) return;
       attackMove = !attackMove;
       atkBtn.classList.toggle("active", attackMove);
       world.tip = attackMove ? "Attack-move: double-tap the ground." : "Move: double-tap the ground.";
     };
   }
   document.getElementById("btn-speed").onclick = (e) => {
+    if (tuningSession) return;
     world.speed = world.speed === 1 ? 2 : 1;
     e.currentTarget.textContent = world.speed + "x";
   };
-  document.getElementById("btn-menu").onclick = () => togglePause(true);
-  document.getElementById("resume-btn").onclick = () => togglePause(false);
-  document.getElementById("pause-restart-btn")?.addEventListener("click", () => { togglePause(false); restartMatch(); });
+  document.getElementById("btn-menu").onclick = () => { if (!tuningSession) togglePause(true); };
+  document.getElementById("resume-btn").onclick = () => { if (!tuningSession) togglePause(false); };
+  document.getElementById("pause-restart-btn")?.addEventListener("click", () => { if (!tuningSession) { togglePause(false); restartMatch(); } });
   document.getElementById("results-rematch")?.addEventListener("click", () => {
+    if (tuningSession) return;
     document.getElementById("results-modal")?.classList.add("hidden");
     document.body.classList.remove("match-paused");
     restartMatch();
@@ -557,6 +1068,7 @@ function bindInput(viewport) {
     "keydown",
     (e) => {
       if (!view || !world) return;
+      if (tuningSession) return;
       heldKeys.add(e.key.toLowerCase());
       if (e.key === ".") document.getElementById("btn-idle")?.click();
       if (e.key === "a" && e.ctrlKey) {
@@ -624,7 +1136,7 @@ function panFromScreen(dx, dy) {
 }
 
 function onDown(e) {
-  if (paused) return;
+  if (paused || tuningSession) return;
   if (e.button === 2) return;
   pointers.set(e.pointerId, {
     x: e.clientX,
@@ -661,7 +1173,7 @@ function onDown(e) {
 }
 
 function onMove(e) {
-  if (paused) return;
+  if (paused || tuningSession) return;
   const p = pointers.get(e.pointerId);
   if (!p) return;
   const dx = e.clientX - p.x;
@@ -712,7 +1224,7 @@ function onMove(e) {
 }
 
 function onUp(e) {
-  if (paused) return;
+  if (paused || tuningSession) return;
   cancelLongPress();
   const p = pointers.get(e.pointerId);
   pointers.delete(e.pointerId);
@@ -746,15 +1258,6 @@ function onUp(e) {
     renderSelection();
     return;
   }
-  if (placement?.kind === "darkness" && g && dist < 12) {
-    const res = trySummonDarkness(world, "player", g.x, g.z);
-    world.tip = res.ok ? "Dark veil summoned." : res.why;
-    beep(res.ok ? 220 : 140, res.ok ? 0.12 : 0.06);
-    world.placement = null;
-    hideBox();
-    renderSelection();
-    return;
-  }
   if (dist < 14 && g) {
     const hit = pickEntity(world, g.x, g.z);
     if (hit && hit.owner === "player") {
@@ -781,6 +1284,7 @@ function onUp(e) {
 }
 
 function onEmptyGround(e, g) {
+  if (tuningSession) return;
   const now = performance.now();
   const prior = emptyTap;
   const pair =
@@ -906,9 +1410,11 @@ function renderSelection() {
 
   if (e.kind === "unit" && e.owner === "player") {
     cmds.appendChild(iconBtn("MOVE", "media/sprites/icon-move.png", () => {
+      if (tuningSession) return;
       world.tip = "Move: double-tap the ground.";
     }));
     cmds.appendChild(iconBtn("STOP", "media/sprites/icon-hold.png", () => {
+      if (tuningSession) return;
       for (const u of sel) {
         if (u.kind === "unit") {
           u.state = "idle";
@@ -922,6 +1428,7 @@ function renderSelection() {
     for (const t of villagerBuildOptions(world)) {
       cmds.appendChild(
         iconBtn(BUILDINGS[t].name, buildIcon(t, faction), () => {
+          if (tuningSession) return;
           world.placement = { kind: "building", type: t };
           world.tip = `Place ${BUILDINGS[t].name}. Tap the mesa.`;
           audio.play("build");
@@ -930,23 +1437,21 @@ function renderSelection() {
     }
   }
   if (e.kind === "unit" && e.type === "wagon" && e.owner === "player") {
-    cmds.appendChild(btn("Deploy", () => { world.tip = "Tap ground to deploy packed structure (20 wood)."; }));
-  }
-  if (isStormveilFaction(world.players.player.faction) && e.owner === "player") {
-    cmds.appendChild(btn("Dark Veil", () => { world.placement = { kind: "darkness" }; world.tip = "Tap ground to summon darkness (60 crystal)."; beep(220, 0.08); }));
+    cmds.appendChild(btn("Deploy", () => { if (!tuningSession) world.tip = "Tap ground to deploy packed structure (20 wood)."; }));
   }
   if (e.kind === "building" && e.owner === "player" && isBuilt(e) && isStormveilFaction(faction) && canPackBuilding(world, "player", e).ok) {
-    cmds.appendChild(btn("Pack", () => { const r = tryPackBuilding(world, "player", e.id); world.tip = r.ok ? `Packing ${BUILDINGS[e.type].name}… (4s, 30 wood).` : r.why; beep(r.ok ? 360 : 140); renderSelection(); }));
+    cmds.appendChild(btn("Pack", () => { if (tuningSession) return; const r = tryPackBuilding(world, "player", e.id); world.tip = r.ok ? `Packing ${BUILDINGS[e.type].name}… (4s, 30 wood).` : r.why; beep(r.ok ? 360 : 140); renderSelection(); }));
   }
   if (e.kind === "building" && e.owner === "player" && isBuilt(e)) {
     const mech = civMechanics(faction);
-    if (e.powered === false) cmds.appendChild(btn("UNPOWERED", () => { world.tip = "Relay this structure to your Foundry Core grid."; }));
+    if (e.powered === false) cmds.appendChild(btn("UNPOWERED", () => { if (!tuningSession) world.tip = "Relay this structure to your Foundry Core grid."; }));
     const produces = BUILDINGS[e.type].produces || [];
     const verb = mech.usesTrainingQueue ? "Training" : "Assembling";
     for (const t of produces) {
       const label = civDisplayName(faction, t, "unit");
       cmds.appendChild(
         iconBtn(label, trainIcon(t, faction), () => {
+          if (tuningSession) return;
           const r = queueUnit(world, e, t);
           if (r.ok) recordCommand({ type: "train", buildingId: e.id, unitType: t });
           world.tip = r.ok ? `${verb} ${label}` : r.why;
@@ -958,6 +1463,7 @@ function renderSelection() {
     if (e.type === "towncenter") {
       cmds.appendChild(
         iconBtn("Age Up", ageIcon(faction), () => {
+          if (tuningSession) return;
           const r = tryAgeUp(world, "player");
           if (r.ok) recordCommand({ type: "ageUp", owner: "player" });
           world.tip = r.ok ? "The Town Center chants. Age up begun." : r.why;

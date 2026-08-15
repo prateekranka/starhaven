@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "done": false,
+  "round": 1,
+  "displaySha": null,
+  "sourceSha": null,
+  "livePack": "https://dev.starhaven.contenthelper.in/",
+  "gameplay": {
+    "rate": 1,
+    "meetsRate": true,
+    "sample": "48 games, 3 pairings × 8 seeds × both directions, SIM_TICKS=36000, no stalemate resolver",
+    "open": "48/48",
+    "mid": "48/48 (live military, not unitsTrained)",
+    "fight": "48/48",
+    "winnerFromPlay": "48/48"
+  },
+  "look": {
+    "pass": false,
+    "biggestGap": "Fight stills still under-show the second painted civ (Storm clipped / Ash reads as brass next to Cog); Ash studio plates knocked out. Town stills now show Cog brass, Ash volcanic TC, Storm canvas keep."
+  },
+  "log": "Round 1: shape bar 48/48 on Highland Chokes (choke path, hunt-TC, garrison shot, Cog barracks-first). Look: knockout Ash building plates; fight camera aims at closest opposing pair; QA stills reveal fog. Next: recapture fights so both painted civs fill the frame, then independent look critic."
+}

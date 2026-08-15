@@ -29,6 +29,21 @@ function loadGame() {
   if (!gameMod) gameMod = import("../game/main.js");
   return gameMod;
 }
+
+function tuningFlagsEnabled(params = new URLSearchParams(location.search)) {
+  return params.get("qa") === "1" && params.get("tune") === "1";
+}
+
+async function initDesktopTuningEditor(params) {
+  if (!tuningFlagsEnabled(params)) return;
+  if (!matchMedia("(min-width: 900px) and (pointer: fine)").matches) return;
+  try {
+    const { mountTuningEditor } = await import("../debug/tuning-editor.js");
+    await mountTuningEditor({ loadGame });
+  } catch (error) {
+    console.error("visual tuning editor failed to load", error);
+  }
+}
 function dropdownValue(id) {
   const root = document.getElementById(id);
   return root?.querySelector('input[type="hidden"]')?.value || root?.dataset.value || "";
@@ -193,12 +208,16 @@ export function initUi() {
   };
 
   const params = new URLSearchParams(location.search);
+  void initDesktopTuningEditor(params);
   initKitGallery();
   if (params.get("kit") === "1") showScreen("kit");
   if (params.get("play") === "1") {
     playMatch({
       playerFaction: params.get("faction") || save.faction || DEFAULT_CIV_ID,
+      enemyFaction: params.get("enemy") || undefined,
       difficulty: params.get("diff") || save.difficulty || "chieftain",
+      mapId: params.get("map") || save.mapId || "highland-chokes",
+      aiVsAi: params.get("aivsai") === "1",
       tutorial: params.get("tutorial") === "1",
     });
   }

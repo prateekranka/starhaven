@@ -29,8 +29,6 @@ export const FACING_MILLIRAD = [
   0, 402, 785, 1152, 1571, 1995, 2410, 2827, 3142, 3559, 3974, 4398, 4712, 5129, 5544, 5968,
 ];
 
-const BRIGHT_PERIOD = 38 * TICKS_PER_SEC;
-
 export const secToTicks = (seconds) => Math.round(seconds * TICKS_PER_SEC);
 export const ticksToSec = (ticks) => ticks / TICKS_PER_SEC;
 export const q10FromWorld = (world) => Math.round(world * Q10);
@@ -60,13 +58,6 @@ export function isqrt(n) {
 
 export function distanceQ10FromSq(distSq) {
   return isqrt(distSq);
-}
-
-export function brightQ10(tick) {
-  const t = tick % BRIGHT_PERIOD;
-  const half = BRIGHT_PERIOD >> 1;
-  if (t < half) return Math.trunc((t * Q10) / half);
-  return Math.trunc(((BRIGHT_PERIOD - t) * Q10) / half);
 }
 
 export function terrainHashPermille(x, z) {
@@ -175,7 +166,6 @@ export function assertSimIntegerInvariant(world) {
     if (!Number.isInteger(value)) throw new Error(`${label} is not an integer: ${value}`);
   };
   requireInt("world.t", world.t);
-  requireInt("world.brightQ10", world.brightQ10);
   for (const p of Object.values(world.players)) {
     requireInt(`player ${p.id} agingTicks`, p.agingTicks);
     requireInt(`player ${p.id} attackWaveAtTick`, p.attackWaveAtTick);

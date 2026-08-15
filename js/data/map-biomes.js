@@ -1,5 +1,11 @@
 /** Terrain/biome palette for declarative maps (void = space rim, not ocean). */
 
+import { getBiomeRgb } from "../config/map-config.js";
+
+// Keep the historical exports stable while the presentation palette lives in
+// the config module. The index, character, and parser contracts remain local.
+export { BIOME_RGB, BIOME_HEX } from "../config/map-config.js";
+
 export const BIOME = {
   sand: 0,
   dirt: 1,
@@ -12,24 +18,6 @@ export const BIOME = {
 export const BIOME_CHAR = ["s", "d", "g", "r", "c", "v"];
 
 export const BIOME_FROM_CHAR = Object.fromEntries(BIOME_CHAR.map((ch, i) => [ch, i]));
-
-export const BIOME_RGB = {
-  sand: [243, 215, 160],
-  dirt: [212, 164, 92],
-  grass: [122, 154, 74],
-  rock: [165, 106, 66],
-  cliff: [106, 64, 48],
-  void: [18, 24, 40],
-};
-
-export const BIOME_HEX = {
-  sand: "#f3d7a0",
-  dirt: "#d4a45c",
-  grass: "#7a9a4a",
-  rock: "#a56a42",
-  cliff: "#6a4030",
-  void: "#121828",
-};
 
 export function biomeIndexFromChar(ch) {
   const idx = BIOME_FROM_CHAR[ch];
@@ -46,7 +34,7 @@ export function biomeNameFromChar(ch) {
 }
 
 export function biomeRgb(idx) {
-  return BIOME_RGB[biomeNameFromChar(BIOME_CHAR[idx] ?? "s")];
+  return getBiomeRgb(biomeNameFromChar(BIOME_CHAR[idx] ?? "s"));
 }
 
 export function parseTerrainLayer(raw, size) {
@@ -75,7 +63,7 @@ export function terrainSvg(terrainStr, size, px, fillOverrides = {}) {
     for (let x = 0; x < size; x += 1) {
       const ch = terrainStr[z * size + x];
       const override = fillOverrides[ch];
-      const fill = override ?? `rgb(${BIOME_RGB[biomeNameFromChar(ch)].join(",")})`;
+      const fill = override ?? `rgb(${biomeRgb(BIOME_FROM_CHAR[ch]).join(",")})`;
       rects += `<rect x="${x * px}" y="${z * px}" width="${px}" height="${px}" fill="${fill}"/>`;
     }
   }

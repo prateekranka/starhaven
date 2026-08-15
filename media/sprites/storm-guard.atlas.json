@@ -42,8 +42,8 @@
       "loop": false
     }
   ],
-  "sha256": "ba81f0c7298a36158333d8cc46c4083f97b15275159ddff953a0dfb82e1adde8",
-  "bytes": 2132863,
+  "sha256": "ee6357df17f33ca6cb31116d3a5fbd84ba8f131046e0d4245fe8198f28ba8ba6",
+  "bytes": 1883897,
   "frames": [
     {
       "id": "storm-guard.walk.N.0",

@@ -29,8 +29,15 @@
         },
         "B": {
           "col": 4
+        },
+        "C": {
+          "col": 2
+        },
+        "D": {
+          "col": 6
         }
-      }
+      },
+      "note": "8-col gait; pipeline A/B keyframes at 0/4; atlas samples 0,2,4,6"
     },
     "attack": {
       "poses": {
@@ -72,5 +79,18 @@
         }
       }
     }
-  }
+  },
+  "occupancy": "8x8-dense",
+  "atlasSampleCols": [
+    0,
+    2,
+    4,
+    6
+  ],
+  "inbetweenCols": [
+    1,
+    3,
+    5,
+    7
+  ]
 }

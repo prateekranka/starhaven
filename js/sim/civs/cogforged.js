@@ -1,5 +1,5 @@
 /**
- * Cogforged Assembly — no food, on-site assembly, power grid, Bright Line immune.
+ * Cogforged Assembly — no food, on-site assembly, power grid.
  */
 
 import { UNITS } from "../../data/catalog.js";
@@ -12,16 +12,18 @@ export const COGFORGED_AGE_COSTS = {
 };
 
 export const COGFORGED_AI = {
-  villagers: { settler: 8, chieftain: 11, emperor: 14 },
-  waveTickSec: { settler: 118, chieftain: 76, emperor: 56 },
+  villagers: { settler: 6, chieftain: 7, emperor: 9 },
+  waveTickSec: { settler: 90, chieftain: 48, emperor: 36 },
   emperorExtraStock: 75,
-  buildPriority: ["house", "barracks", "lumber", "mine", "workshop", "spire", "den"],
-  waveArmyMin: { settler: 7, chieftain: 4, emperor: 4 },
+  buildPriority: ["house", "barracks", "mine", "lumber", "workshop", "spire", "den"],
+  waveArmyMin: { settler: 5, chieftain: 1, emperor: 1 },
   ageCosts: COGFORGED_AGE_COSTS,
-  gatherPriority: ["wood", "crystal", "ore"],
+  gatherPriority: ["crystal", "wood", "ore"],
   usesAssembly: true,
   barracksAtVillagers: 5,
   minFoodToQueueVillager: 0,
+  minCrystalToQueueVillager: 50,
+  minFoodForBarracks: 0,
 };
 
 const UNIT_COSTS = {
@@ -40,10 +42,13 @@ function stripFood(cost) {
 }
 
 function buildingsTouch(a, b) {
-  const ax2 = a.cx + a.size;
-  const az2 = a.cz + a.size;
-  const bx2 = b.cx + b.size;
-  const bz2 = b.cz + b.size;
+  // AI placeIfMissing uses world offsets of 6 around a size-4 TC. Allow a
+  // 2-cell gap so production buildings still join the foundry grid.
+  const slack = 2;
+  const ax2 = a.cx + a.size + slack;
+  const az2 = a.cz + a.size + slack;
+  const bx2 = b.cx + b.size + slack;
+  const bz2 = b.cz + b.size + slack;
   return a.cx <= bx2 && ax2 >= b.cx && a.cz <= bz2 && az2 >= b.cz;
 }
 
@@ -69,7 +74,6 @@ function recomputePowerGrid(world, owner) {
 
 export const COGFORGED_MECHANICS = {
   usesFood: false,
-  brightLineImmune: true,
   usesTrainingQueue: false,
   usesPowerGrid: true,
 
@@ -79,7 +83,7 @@ export const COGFORGED_MECHANICS = {
 
   adjustStartingStock(stock) {
     stock.food = 0;
-    stock.crystal = Math.max(stock.crystal, 120);
+    stock.crystal = Math.max(stock.crystal, 240);
     stock.wood = Math.max(stock.wood, 220);
     return stock;
   },

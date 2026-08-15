@@ -1,9 +1,10 @@
 {
-  "version": "weaver-frame-0814b",
+  "version": "fixed-day-tuner-0815",
   "shell": [
     "css/app.css",
     "css/tokens.css",
     "index.html",
+    "js/config/audio-config.js",
     "js/audio/engine.js",
     "js/audio/score.js",
     "js/boot.js",
@@ -71,6 +72,8 @@
     "js/audio/match-audio.js",
     "js/audio/score.js",
     "js/bridge.js",
+    "js/config/map-config.js",
+    "js/config/render-config.js",
     "js/data/catalog.js",
     "js/data/civ-schema.js",
     "js/data/civ-ui.js",

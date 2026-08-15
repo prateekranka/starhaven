@@ -13,7 +13,6 @@ export function initTitleVista() {
   const canvas = screen.querySelector(".title-vista__motes");
   const sky = screen.querySelector(".title-vista__sky");
   const mesa = screen.querySelector(".title-vista__mesa");
-  const line = screen.querySelector(".title-vista__bright-line");
   if (!vista || !canvas || !sky) return;
 
   reduceMotion = !!loadSave().settings.reduceMotion;
@@ -66,18 +65,11 @@ export function initTitleVista() {
       return;
     }
 
-    const t = now * 0.001;
-    const bright = (Math.sin(t / 12) + 1) / 2;
     const px = reduceMotion ? 0 : (pointer.x - 0.5) * 18;
     const py = reduceMotion ? 0 : (pointer.y - 0.5) * 10;
 
     sky.style.transform = `translate3d(${px * 0.35}px, ${py * 0.2}px, 0) scale(1.06)`;
     if (mesa) mesa.style.transform = `translate3d(${px * 0.65}px, ${py * 0.45}px, 0)`;
-    if (line) {
-      const sweep = 8 + bright * (vista.clientWidth - 16);
-      line.style.transform = `translate3d(${sweep}px, 0, 0)`;
-      line.style.opacity = String(0.18 + Math.sin(t * 2.2) * 0.08);
-    }
 
     const w = vista.clientWidth;
     const h = vista.clientHeight;

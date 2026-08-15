@@ -2,10 +2,10 @@
   "artifactSchema": 1,
   "bridgeVersion": 1,
   "balanceVersion": 1,
-  "sourceSha": "ac69734bba9e3fd0d6a0c07875604da46f69e004",
-  "displaySha": "ac69734bb",
-  "clean": true,
-  "generatedAt": "2026-08-15T02:48:47Z",
-  "distManifestSha256": "62605a53fd2f6c1a19d50d92681e748a9a968a695de78bc6422a738dceecd426",
+  "sourceSha": "ef2689c3758e4fd84425417e721bfddd3677e51c",
+  "displaySha": "ef2689c37-dirty",
+  "clean": false,
+  "generatedAt": "2026-08-15T17:24:40Z",
+  "distManifestSha256": "f2d1e6113f684209d2dafe37427e3226ec5c48929f2d4cfc6f97f86086d3139d",
   "pack": "pixel-mesa"
 }

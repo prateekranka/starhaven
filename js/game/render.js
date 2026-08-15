@@ -1,18 +1,17 @@
 import * as THREE from "three";
-import { N, CELL, inLight, q10FromWorld, buildRatio } from "../sim/engine.js";
-import { worldFromQ10, Q10, FACING_MILLIRAD, TICKS_PER_SEC, secToTicks } from "../sim/fixed.js";
+import { N, CELL, buildRatio } from "../sim/engine.js";
+import { worldFromQ10, FACING_MILLIRAD, TICKS_PER_SEC, secToTicks } from "../sim/fixed.js";
 import { pixelRatioFor, resolveQuality, backingLabel, isSoftwareGL, glRendererName, isQaMode } from "../perf.js";
 import { cachedImage } from "../cache/assets.js";
-import { BIOME_HEX } from "../data/map-biomes.js";
+import { getMapConfig, subscribeMapConfig } from "../config/map-config.js";
+import { getRenderConfig, subscribeRenderConfig } from "../config/render-config.js";
 import { effectiveBiome, unitInTunnelLayer } from "../sim/civs/ashvein.js";
 import { listPlayableCivs, DEFAULT_CIV_ID, civUnitStillSprite } from "../data/civ-schema.js";
 import "../data/civs.js";
 import { windLaneCells } from "../sim/civs/stormveil.js";
 import {
   createLitBillboard,
-  syncBrightLineUniforms,
   setLitTint,
-
   disposeLitBillboard,
   litMap,
   setLitMap,
@@ -223,8 +222,9 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
   const reduceMotion = !!(opts.reduceMotion || (typeof window !== "undefined" && window.matchMedia?.("(prefers-reduced-motion: reduce)").matches));
 
   const scene = new THREE.Scene();
-  scene.background = new THREE.Color("#5aa0d8");
-  scene.fog = new THREE.Fog("#7eb6e8", 110, 240);
+  const renderConfig = getRenderConfig();
+  scene.background = new THREE.Color(renderConfig.background);
+  scene.fog = new THREE.Fog(renderConfig.fogColor, renderConfig.fogNear, renderConfig.fogFar);
 
   const aspect = container.clientWidth / Math.max(1, container.clientHeight);
   const frustum = 22;
@@ -252,15 +252,15 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
     stencil: false,
     powerPreference: "high-performance",
     failIfMajorPerformanceCaveat: false,
-    preserveDrawingBuffer: false,
+    preserveDrawingBuffer: true,
   });
   const software = isSoftwareGL(renderer);
   const gpuName = glRendererName(renderer);
   let adaptiveScale = software ? 0.55 : 1;
   let appliedRatio = 0;
   renderer.outputColorSpace = THREE.SRGBColorSpace;
-  renderer.toneMapping = software ? THREE.NoToneMapping : THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = software ? 1 : 1.04;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = renderConfig.exposure;
   renderer.sortObjects = true;
   container.appendChild(renderer.domElement);
   renderer.domElement.style.display = "block";
@@ -269,11 +269,28 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
   renderer.domElement.style.imageRendering = "auto";
   renderer.domElement.style.touchAction = "none";
 
-  const hemi = new THREE.HemisphereLight(0xd8ecff, 0x6a4a28, 0.95);
+  const hemi = new THREE.HemisphereLight(renderConfig.hemiSkyColor, renderConfig.hemiGroundColor, renderConfig.hemiIntensity);
   scene.add(hemi);
-  const sun = new THREE.DirectionalLight(0xfff3d0, 1.05);
-  sun.position.set(40, 55, 10);
+  const sun = new THREE.DirectionalLight(renderConfig.sunColor, renderConfig.sunIntensity);
+  sun.position.set(renderConfig.sunPosition.x, renderConfig.sunPosition.y, renderConfig.sunPosition.z);
   scene.add(sun);
+
+  const applyRenderConfig = (config) => {
+    renderer.toneMappingExposure = config.exposure;
+    scene.background.set(config.background);
+    scene.fog.color.set(config.fogColor);
+    scene.fog.near = config.fogNear;
+    scene.fog.far = config.fogFar;
+    sun.color.set(config.sunColor);
+    sun.intensity = config.sunIntensity;
+    sun.position.set(config.sunPosition.x, config.sunPosition.y, config.sunPosition.z);
+    hemi.color.set(config.hemiSkyColor);
+    hemi.groundColor.set(config.hemiGroundColor);
+    hemi.intensity = config.hemiIntensity;
+  };
+  const unsubscribeRenderConfig = subscribeRenderConfig(applyRenderConfig);
+  let mapPaletteDirty = false;
+  const unsubscribeMapConfig = subscribeMapConfig(() => { mapPaletteDirty = true; });
 
   const sandMap = pix("media/textures/pixel-mesa.png", 16);
   const waterMap = pix("media/textures/pixel-water.png", 18);
@@ -322,7 +339,6 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
   const windLaneGroup = new THREE.Group();
   scene.add(windLaneGroup);
   let windLanesDrawn = false;
-  const darknessFx = [];
   function ensureWindLanes(world) {
     if (windLanesDrawn || !world.stormveil?.windLanes) return;
     windLanesDrawn = true;
@@ -332,22 +348,6 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
       lane.rotation.x = -Math.PI / 2;
       lane.position.set(cx * cell + cell * 0.5, 0.14, cz * cell + cell * 0.5);
       windLaneGroup.add(lane);
-    }
-  }
-  function syncDarkness(world) {
-    const zones = world.stormveil?.darkness || [];
-    while (darknessFx.length < zones.length) {
-      const disc = new THREE.Mesh(new THREE.CircleGeometry(1, 28), new THREE.MeshBasicMaterial({ color: 0x1a1038, transparent: true, opacity: 0.42, depthWrite: false, toneMapped: false }));
-      disc.rotation.x = -Math.PI / 2; scene.add(disc); darknessFx.push(disc);
-    }
-    for (let i = 0; i < darknessFx.length; i += 1) {
-      const disc = darknessFx[i]; const zone = zones[i];
-      if (!zone) { disc.visible = false; continue; }
-      disc.visible = true;
-      const r = worldFromQ10(zone.radiusQ10);
-      disc.scale.set(r, r, 1);
-      disc.position.set(worldFromQ10(zone.xQ10), 0.22, worldFromQ10(zone.zQ10));
-      disc.material.opacity = 0.28 + 0.22 * Math.min(1, zone.leftTicks / secToTicks(12));
     }
   }
 
@@ -426,15 +426,21 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
   }
 
   function setZoom(delta) {
-    frustumDesired = THREE.MathUtils.clamp(frustumDesired + delta, FRUSTUM_MIN, FRUSTUM_MAX);
-    if (reduceMotion) {
+    setFrustum(frustumDesired + delta, reduceMotion);
+  }
+
+  function setFrustum(value, immediate) {
+    frustumDesired = THREE.MathUtils.clamp(value, FRUSTUM_MIN, FRUSTUM_MAX);
+    if (immediate || reduceMotion) {
       frustumLive = frustumDesired;
-      resize();
+      applyBacking(false);
     }
   }
 
   function lookAt(x, z, immediate) {
-    camDesired.set(x, sampleH(x, z), z);
+    const cx = THREE.MathUtils.clamp(x, 8, MAP - 8);
+    const cz = THREE.MathUtils.clamp(z, 8, MAP - 8);
+    camDesired.set(cx, sampleH(cx, cz), cz);
     if (immediate || reduceMotion) settleCam(true);
   }
 
@@ -498,10 +504,7 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
       m.scale.set(base * a, base, 1);
       const powered = b.powered !== false;
       m.userData.opacity = powered ? 0.55 + 0.45 * built : 0.22 + 0.18 * built;
-      const painted = b.faction === "ashvein" || b.faction === "stormveil" || b.faction === "cogforged";
-      m.userData.glow = powered && built >= 0.35
-        ? (painted ? 0.12 + built * 0.1 : 0.55 + built * 0.45)
-        : 0;
+      m.userData.glow = 0;
       m.visible = seen(world, wx(b), wz(b)) || b.owner === "player";
     }
     for (const u of world.units) {
@@ -612,7 +615,6 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
       ...world.units.filter((u) => selSet.has(u.id)),
       ...world.buildings.filter((b) => selSet.has(b.id)),
     ];
-    const pulse = 0.82 + Math.sin((world.t / TICKS_PER_SEC) * 6) * 0.12;
     rings.forEach((ring, i) => {
       const sel = selected[i];
       if (!sel) {
@@ -622,23 +624,17 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
       ring.visible = true;
       const s = sel.kind === "building" ? (sel.size || 2) * 0.75 : 0.95;
       ring.scale.set(s, s, s);
-      ring.material.opacity = pulse;
+      ring.material.opacity = 0.95;
       ring.position.set(wx(sel), sampleH(wx(sel), wz(sel)) + 0.08, wz(sel));
     });
 
     ensureWindLanes(world);
-    syncDarkness(world);
-    const brightNorm = world.brightQ10 / Q10;
-    sun.position.set(20 + brightNorm * 50, 50, 20);
-    sun.color.set(inLight(world, q10FromWorld(camTarget.x)) ? 0xfff3d0 : 0xb8c8ff);
-    hemi.color.set(inLight(world, q10FromWorld(camTarget.x)) ? 0xd8ecff : 0x9aa8d8);
-    scene.background.set(inLight(world, q10FromWorld(camTarget.x)) ? "#6eb4e8" : "#3a4a78");
     if (!rockProps) rockProps = addRockProps(scene, world);
-    syncBrightLineUniforms(scene, world, MAP);
     paintFog(fogCtx, fogTex, fogImg, world, terrainFogLut);
-    if (world.ashvein?.terrainDirty && world.map?.terrain) {
+    if ((mapPaletteDirty || world.ashvein?.terrainDirty) && world.map?.terrain) {
       patchTerrainColors(terrain, world, mapWorld);
-      world.ashvein.terrainDirty = false;
+      mapPaletteDirty = false;
+      if (world.ashvein) world.ashvein.terrainDirty = false;
     }
     vfx.tick(world, dt);
 
@@ -679,6 +675,7 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
     ground: terrain,
     pan,
     zoom: setZoom,
+    setFrustum,
     lookAt,
     groundPick,
     sync,
@@ -695,6 +692,8 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
     dispose() {
       ro.disconnect();
       window.removeEventListener("resize", resize);
+      unsubscribeRenderConfig();
+      unsubscribeMapConfig();
       renderer.dispose();
       renderer.domElement.remove();
     },
@@ -746,47 +745,28 @@ function buildRendererAssets(pix) {
   return { bldg, stills };
 }
 
-/** Per-civ identity lighting: a subtle tint cast on units and buildings plus
- * the glow color their windows/cores emit. Kept in render space (not sim) so
- * checksums and replays are untouched. */
-const CIV_LIGHTING = {
-  sunwoven: { tint: [1.1, 1.03, 0.92], glowColor: [1, 0.82, 0.38] },
-  gravemark: { tint: [0.97, 0.95, 1.1], glowColor: [0.48, 0.62, 1] },
-  cogforged: { tint: [1.09, 1.0, 0.87], glowColor: [1, 0.68, 0.3] },
-  stormveil: { tint: [0.93, 0.99, 1.12], glowColor: [0.6, 0.82, 1] },
-  ashvein: { tint: [1.1, 0.95, 0.9], glowColor: [1, 0.42, 0.26] },
-};
-
-function civLighting(faction) {
-  return CIV_LIGHTING[faction] || CIV_LIGHTING.sunwoven;
-}
-
 function makeBuildingSprite(b, bldg) {
   const bucket = bldg[b.faction] || bldg[DEFAULT_CIV_ID];
   const map = bucket[b.type] || bucket.house;
-  const painted = b.faction === "ashvein" || b.faction === "stormveil" || b.faction === "cogforged";
-  const light = civLighting(b.faction);
-  const s = createLitBillboard(map, { pivotY: 0.07, glow: painted ? 0.45 : 0.85, glowColor: light.glowColor });
-  setLitTint(s, ...light.tint);
+  const s = createLitBillboard(map, { pivotY: 0.07, glow: 0 });
   fitWhenReady(s, map, buildingScale(b.type));
   return s;
 }
 
 function makeNode(r, nodes) {
   const map = nodes[r.kind] || nodes.crystal;
-  const s = createLitBillboard(map, { pivotY: 0.02, glow: r.kind === "crystal" ? 0.25 : 0 });
+  const glow = r.kind === "void" ? 0.35 : r.kind === "crystal" ? 0.25 : 0;
+  const s = createLitBillboard(map, { pivotY: 0.02, glow });
   fitWhenReady(s, map, r.kind === "wood" ? 5.1 : r.kind === "food" ? 4.4 : r.kind === "ore" ? 4.3 : 4.0);
   return s;
 }
 
 function makeUnitSprite(u, atlasTex, stills) {
-  const light = civLighting(u.faction);
   const stillPath = civUnitStillSprite(u.faction, u.type);
   const stillKey = u.type === "titan" ? "strider" : u.type === "wagon" ? "wagon" : u.type;
   const stillMap = stillPath && stills?.[u.faction]?.[stillKey];
   if (stillMap) {
-    const s = createLitBillboard(stillMap, { pivotY: 0.06, glow: 0.16, glowColor: light.glowColor });
-    setLitTint(s, ...light.tint);
+    const s = createLitBillboard(stillMap, { pivotY: 0.06, glow: 0 });
     fitWhenReady(s, stillMap, unitDisplayScale(u.type));
     s.userData.still = true;
     s.userData.baseScale = unitDisplayScale(u.type);
@@ -796,10 +776,7 @@ function makeUnitSprite(u, atlasTex, stills) {
   const meta = atlasMetaFor(atlasId);
   const base = atlasTex[atlasId];
   const map = cloneAtlasTex(base, meta);
-  const dark = u.faction === "cogforged" || u.faction === "stormveil";
-  const liftDark = u.faction === "cogforged" ? 0.22 : 0.18;
-  const s = createLitBillboard(map, { pivotY: 0.05, glow: 0.1, glowColor: light.glowColor, lift: dark ? liftDark : 0.1 });
-  setLitTint(s, ...light.tint);
+  const s = createLitBillboard(map, { pivotY: 0.05, glow: 0 });
   s.userData.atlasId = atlasId;
   s.userData.pipelineAtlas = meta;
   s.userData.southFirst = unitSouthFirst(u);
@@ -972,6 +949,13 @@ function paintFog(ctx, tex, img, world, terrainFogLut) {
   world._fogPainted = true;
 }
 
+const BIOME_KEYS = ["sand", "dirt", "grass", "rock", "cliff", "void"];
+
+function biomePalette() {
+  const config = getMapConfig().biome;
+  return Object.fromEntries(BIOME_KEYS.map((id) => [id, new THREE.Color(config[id].color)]));
+}
+
 function patchTerrainColors(mesh, world, mapWorld) {
   const geo = mesh.geometry;
   const pos = geo.attributes.position;
@@ -979,15 +963,7 @@ function patchTerrainColors(mesh, world, mapWorld) {
   if (!colors || !world.map?.terrain) return;
   const map = world.map;
   const cell = world.CELL || 2;
-  const palette = {
-    sand: new THREE.Color(BIOME_HEX.sand),
-    dirt: new THREE.Color(BIOME_HEX.dirt),
-    grass: new THREE.Color(BIOME_HEX.grass),
-    rock: new THREE.Color(BIOME_HEX.rock),
-    cliff: new THREE.Color(BIOME_HEX.cliff),
-    void: new THREE.Color(BIOME_HEX.void),
-  };
-  const biomeKeys = ["sand", "dirt", "grass", "rock", "cliff", "void"];
+  const palette = biomePalette();
   const lava = new THREE.Color("#dc4018");
   const cool = new THREE.Color("#783020");
   for (let i = 0; i < pos.count; i++) {
@@ -1000,7 +976,7 @@ function patchTerrainColors(mesh, world, mapWorld) {
     let c;
     if (mut === 1) c = lava.clone();
     else if (mut === 2) c = cool.clone();
-    else c = palette[biomeKeys[effectiveBiome(world, idx)] || "sand"].clone();
+    else c = palette[BIOME_KEYS[effectiveBiome(world, idx)] || "sand"].clone();
     colors.setXYZ(i, c.r, c.g, c.b);
   }
   colors.needsUpdate = true;
@@ -1011,15 +987,7 @@ function buildMesa(sandMap, seg = 64, lit = true, map = null, mapWorld = N * CEL
   geo.rotateX(-Math.PI / 2);
   const pos = geo.attributes.position;
   const colors = new Float32Array(pos.count * 3);
-  const palette = {
-    sand: new THREE.Color(BIOME_HEX.sand),
-    dirt: new THREE.Color(BIOME_HEX.dirt),
-    grass: new THREE.Color(BIOME_HEX.grass),
-    rock: new THREE.Color(BIOME_HEX.rock),
-    cliff: new THREE.Color(BIOME_HEX.cliff),
-    void: new THREE.Color(BIOME_HEX.void),
-  };
-  const biomeKeys = ["sand", "dirt", "grass", "rock", "cliff", "void"];
+  const palette = biomePalette();
   const c = new THREE.Color();
   for (let i = 0; i < pos.count; i++) {
     const x = pos.getX(i) + mapWorld / 2;
@@ -1033,7 +1001,7 @@ function buildMesa(sandMap, seg = 64, lit = true, map = null, mapWorld = N * CEL
       const cx = Math.max(0, Math.min(map.size - 1, (x / CELL) | 0));
       const cz = Math.max(0, Math.min(map.size - 1, (z / CELL) | 0));
       const biome = map.terrain[cz * map.size + cx];
-      c.copy(palette[biomeKeys[biome] || "sand"]);
+      c.copy(palette[BIOME_KEYS[biome] || "sand"]);
     } else {
       mesaMaterialAt(x, z, c);
     }

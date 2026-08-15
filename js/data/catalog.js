@@ -46,10 +46,11 @@ export const UNITS = {
     hp: 55,
     dmg: 7,
     range: 1.35,
-    speed: 2.7,
+    speed: 3.15,
     los: 6,
     age: 1,
     cd: 1.1,
+    bonusBuilding: 1.65,
     from: "barracks",
   },
   archer: {
@@ -115,7 +116,7 @@ export const BUILDINGS = {
   towncenter: {
     name: "Town Center",
     size: 4,
-    hp: 1400,
+    hp: 620,
     los: 10,
     pop: 15,
     cost: { wood: 300, ore: 100 },
@@ -123,7 +124,7 @@ export const BUILDINGS = {
     age: 1,
     produces: ["villager", "scout"],
     drop: true,
-    attacks: { dmg: 8, range: 7, cd: 1.4 },
+    attacks: { dmg: 8, range: 9, cd: 1.4 },
   },
   house: {
     name: "House",

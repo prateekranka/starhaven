@@ -1,0 +1,33 @@
+{
+  "games": 48,
+  "passed": 48,
+  "rate": 1,
+  "meetsRate": true,
+  "byPair": {
+    "ashvein vs cogforged": {
+      "samples": 16,
+      "passed": 16,
+      "open": 16,
+      "mid": 16,
+      "fight": 16,
+      "winnerFromPlay": 16
+    },
+    "cogforged vs stormveil": {
+      "samples": 16,
+      "passed": 16,
+      "open": 16,
+      "mid": 16,
+      "fight": 16,
+      "winnerFromPlay": 16
+    },
+    "ashvein vs stormveil": {
+      "samples": 16,
+      "passed": 16,
+      "open": 16,
+      "mid": 16,
+      "fight": 16,
+      "winnerFromPlay": 16
+    }
+  },
+  "elapsedMs": 92856
+}

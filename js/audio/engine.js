@@ -1,4 +1,9 @@
 import { loadSave } from "../boot.js";
+import {
+  AUDIO_DEFAULTS,
+  getAudioConfig,
+  subscribeAudioConfig,
+} from "../config/audio-config.js";
 
 export const AUDIO_FILES = {
   ui: "media/audio/ui.wav",
@@ -19,7 +24,6 @@ export const AUDIO_FILES = {
   age_up: "media/audio/age_up.wav",
   music_title: "media/audio/music_title.wav",
   music_day: "media/audio/music_day.wav",
-  music_night: "media/audio/music_night.wav",
   music_combat: "media/audio/music_combat.wav",
   music_victory: "media/audio/music_victory.wav",
   music_defeat: "media/audio/music_defeat.wav",
@@ -61,7 +65,13 @@ class StarhavenAudio {
 
   volumes() {
     const s = loadSave().settings;
-    return { music: s.music ?? 0.35, sfx: s.sfx ?? 0.7 };
+    const config = getAudioConfig();
+    const savedMusic = s.music ?? AUDIO_DEFAULTS.musicVolumeScale;
+    const savedSfx = s.sfx ?? AUDIO_DEFAULTS.sfxVolumeScale;
+    return {
+      music: Math.max(0, Math.min(1, savedMusic * (config.musicVolumeScale / AUDIO_DEFAULTS.musicVolumeScale))),
+      sfx: Math.max(0, Math.min(1, savedSfx * (config.sfxVolumeScale / AUDIO_DEFAULTS.sfxVolumeScale))),
+    };
   }
 
   applyVolumes() {
@@ -280,6 +290,7 @@ class StarhavenAudio {
 }
 
 export const audio = new StarhavenAudio();
+subscribeAudioConfig(() => audio.applyVolumes());
 
 if (typeof window !== "undefined") {
   const unlock = () => {

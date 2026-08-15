@@ -2,7 +2,6 @@
 
 import { stormveilChecksum } from "./civs/stormveil.js";
 
-
 export function checksumSnapshot(snapshot) {
   let hash = 0x811c9dc5;
   const source = JSON.stringify(snapshot);
@@ -76,7 +75,7 @@ function playerSnap(p) {
 
 export function snapshotWorld(world) {
   return {
-    simulationVersion: "pixel-sim.v4-act",
+    simulationVersion: "pixel-sim.v5-neutral",
     seed: world.seed >>> 0,
     t: world.t | 0,
     winner: world.winner,

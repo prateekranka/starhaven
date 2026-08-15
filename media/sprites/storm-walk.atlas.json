@@ -42,8 +42,8 @@
       "loop": false
     }
   ],
-  "sha256": "e5465afa2adf8489bc1e6933392df09cf598c83d62020f2c9f85252470fc8571",
-  "bytes": 2406312,
+  "sha256": "6e5d7a220357ec65dc2ef4767410f97288e64325ab4290bcd2c604933483fe76",
+  "bytes": 2298301,
   "frames": [
     {
       "id": "storm-walk.walk.N.0",

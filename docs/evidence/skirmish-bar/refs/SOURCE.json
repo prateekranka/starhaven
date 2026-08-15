@@ -1,0 +1,31 @@
+{
+  "schema": 1,
+  "frozenAt": "2026-08-15T12:56:00Z",
+  "note": "Do not replace these files. AoE2 is a play-shape north star, not a visual one. Pixel-mesa stays.",
+  "clips": [
+    {
+      "id": "boom",
+      "file": "aoe2-boom.mp4",
+      "role": "eco / town boom",
+      "source": "Xbox official — Age of Empires II Definitive Edition X019 Launch Trailer",
+      "url": "https://www.youtube.com/watch?v=N6kd1SYHW5k",
+      "youtubeId": "N6kd1SYHW5k",
+      "channel": "Xbox",
+      "published": "2019-11-14",
+      "durationSec": 57,
+      "why": "Official DE footage of Town Centers, villagers, and early-game economy in the same product generation as tournament play."
+    },
+    {
+      "id": "choke-fight",
+      "file": "aoe2-choke-fight.mp4",
+      "role": "choke / army fight",
+      "source": "T90Official cast — Age of Empires II Definitive Edition Black Forest 1v1 (slice 18:00–19:30)",
+      "url": "https://www.youtube.com/watch?v=hQ-z5XBHwdo",
+      "youtubeId": "hQ-z5XBHwdo",
+      "title": "This Black Forest Game is AMAZING!",
+      "channel": "T90Official - Age Of Empires 2",
+      "slice": "18:00-19:30",
+      "why": "Tournament-cast DE 1v1 on a choke map. Black Forest fights are the play-shape analogue to Highland Chokes — armies meet at a narrow, not an open steamroll."
+    }
+  ]
+}

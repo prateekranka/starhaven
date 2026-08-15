@@ -87,8 +87,13 @@ UNITS = [
 
 
 def is_void(r: int, g: int, b: int) -> bool:
-    # Studio void only — keep painted dark stone / armor.
-    return max(r, g, b) < 12
+    # Studio void / gray plate only — keep painted dark stone / armor / cloth.
+    mx, mn = max(r, g, b), min(r, g, b)
+    if mx < 12:
+        return True
+    if mx < 110 and (mx - mn) <= 8:
+        return True
+    return False
 
 
 def knockout_void(img: Image.Image) -> Image.Image:
