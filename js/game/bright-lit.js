@@ -45,6 +45,7 @@ uniform float uOpacity;
 uniform float uGlow;
 uniform float uTime;
 uniform vec3 uTint;
+uniform float uLift;
 uniform vec3 uGlowColor;
 
 varying vec2 vUv;
@@ -56,8 +57,9 @@ void main() {
 
   float day = 1.0 - smoothstep(uLineX - uBlend, uLineX + uBlend, vWorldPos.x);
   vec3 dayLight = vec3(1.12, 1.04, 0.9);
-  vec3 nightLight = vec3(0.38, 0.46, 0.68);
+  vec3 nightLight = vec3(0.5, 0.57, 0.76);
   vec3 lit = mix(nightLight, dayLight, day) * tex.rgb * uTint;
+  lit += uLift * tex.rgb * uTint;
 
   float night = 1.0 - day;
   if (uGlow > 0.01) {
@@ -81,6 +83,7 @@ const template = new THREE.ShaderMaterial({
     uGlow: { value: 0 },
     uTime: { value: 0 },
     uTint: { value: new THREE.Vector3(1, 1, 1) },
+    uLift: { value: 0.1 },
     uGlowColor: { value: new THREE.Vector3(1, 0.82, 0.38) },
     uScale: { value: new THREE.Vector2(1, 1) },
     uPivotY: { value: 0.1 },
@@ -115,8 +118,9 @@ export function syncLitMapUv(mesh) {
   mat.uniforms.uMapOffset.value.copy(tex.offset);
 }
 
-export function createLitBillboard(map, { glow = 0, pivotY = 0.1, opacity = 1, glowColor = [1, 0.82, 0.38] } = {}) {
+export function createLitBillboard(map, { glow = 0, pivotY = 0.1, opacity = 1, glowColor = [1, 0.82, 0.38], lift = 0.1 } = {}) {
   const mat = cloneLitMaterial(map);
+  mat.uniforms.uLift.value = lift;
   mat.uniforms.uGlow.value = glow;
   mat.uniforms.uOpacity.value = opacity;
   mat.uniforms.uPivotY.value = pivotY;
@@ -128,12 +132,14 @@ export function createLitBillboard(map, { glow = 0, pivotY = 0.1, opacity = 1, g
 
   const mesh = new THREE.Mesh(BILLBOARD_GEO, mat);
   mesh.userData.lit = true;
+  mesh.userData.lift = lift;
   mesh.userData.pivotY = pivotY;
   mesh.userData.glow = glow;
   mesh.userData.opacity = opacity;
   mesh.frustumCulled = false;
 
   mesh.onBeforeRender = () => {
+    mat.uniforms.uLift.value = mesh.userData.lift ?? lift;
     mat.uniforms.uScale.value.set(mesh.scale.x, mesh.scale.y);
     mat.uniforms.uPivotY.value = mesh.userData.pivotY ?? pivotY;
     mat.uniforms.uGlow.value = mesh.userData.glow ?? glow;

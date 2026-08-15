@@ -12,6 +12,7 @@ import {
   createLitBillboard,
   syncBrightLineUniforms,
   setLitTint,
+
   disposeLitBillboard,
   litMap,
   setLitMap,
@@ -745,12 +746,28 @@ function buildRendererAssets(pix) {
   return { bldg, stills };
 }
 
+/** Per-civ identity lighting: a subtle tint cast on units and buildings plus
+ * the glow color their windows/cores emit. Kept in render space (not sim) so
+ * checksums and replays are untouched. */
+const CIV_LIGHTING = {
+  sunwoven: { tint: [1.1, 1.03, 0.92], glowColor: [1, 0.82, 0.38] },
+  gravemark: { tint: [0.97, 0.95, 1.1], glowColor: [0.48, 0.62, 1] },
+  cogforged: { tint: [1.09, 1.0, 0.87], glowColor: [1, 0.68, 0.3] },
+  stormveil: { tint: [0.93, 0.99, 1.12], glowColor: [0.6, 0.82, 1] },
+  ashvein: { tint: [1.1, 0.95, 0.9], glowColor: [1, 0.42, 0.26] },
+};
+
+function civLighting(faction) {
+  return CIV_LIGHTING[faction] || CIV_LIGHTING.sunwoven;
+}
+
 function makeBuildingSprite(b, bldg) {
   const bucket = bldg[b.faction] || bldg[DEFAULT_CIV_ID];
   const map = bucket[b.type] || bucket.house;
   const painted = b.faction === "ashvein" || b.faction === "stormveil" || b.faction === "cogforged";
-  const glowColor = b.faction === "gravemark" ? [0.48, 0.62, 1] : [1, 0.82, 0.38];
-  const s = createLitBillboard(map, { pivotY: 0.07, glow: painted ? 0.18 : 0.85, glowColor });
+  const light = civLighting(b.faction);
+  const s = createLitBillboard(map, { pivotY: 0.07, glow: painted ? 0.45 : 0.85, glowColor: light.glowColor });
+  setLitTint(s, ...light.tint);
   fitWhenReady(s, map, buildingScale(b.type));
   return s;
 }
@@ -763,11 +780,13 @@ function makeNode(r, nodes) {
 }
 
 function makeUnitSprite(u, atlasTex, stills) {
+  const light = civLighting(u.faction);
   const stillPath = civUnitStillSprite(u.faction, u.type);
   const stillKey = u.type === "titan" ? "strider" : u.type === "wagon" ? "wagon" : u.type;
   const stillMap = stillPath && stills?.[u.faction]?.[stillKey];
   if (stillMap) {
-    const s = createLitBillboard(stillMap, { pivotY: 0.06, glow: 0.16 });
+    const s = createLitBillboard(stillMap, { pivotY: 0.06, glow: 0.16, glowColor: light.glowColor });
+    setLitTint(s, ...light.tint);
     fitWhenReady(s, stillMap, unitDisplayScale(u.type));
     s.userData.still = true;
     s.userData.baseScale = unitDisplayScale(u.type);
@@ -777,7 +796,10 @@ function makeUnitSprite(u, atlasTex, stills) {
   const meta = atlasMetaFor(atlasId);
   const base = atlasTex[atlasId];
   const map = cloneAtlasTex(base, meta);
-  const s = createLitBillboard(map, { pivotY: 0.05 });
+  const dark = u.faction === "cogforged" || u.faction === "stormveil";
+  const liftDark = u.faction === "cogforged" ? 0.22 : 0.18;
+  const s = createLitBillboard(map, { pivotY: 0.05, glow: 0.1, glowColor: light.glowColor, lift: dark ? liftDark : 0.1 });
+  setLitTint(s, ...light.tint);
   s.userData.atlasId = atlasId;
   s.userData.pipelineAtlas = meta;
   s.userData.southFirst = unitSouthFirst(u);

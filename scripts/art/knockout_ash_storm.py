@@ -227,6 +227,22 @@ def main() -> None:
     update_atlas_json(atlas_path)
     print(f"  {atlas_path.name:28} {stats(atlas)} {atlas_path.stat().st_size // 1024}KB")
 
+    print("Unit atlas sheets…")
+    for sheet in [
+        "cog-guard.atlas.png",
+        "cog-walk.atlas.png",
+        "ash-guard.atlas.png",
+        "ash-walk.atlas.png",
+        "storm-guard.atlas.png",
+        "storm-walk.atlas.png",
+    ]:
+        path = SPR / sheet
+        img = Image.open(path).convert("RGBA")
+        out = knockout_atlas_cells(img, ash="ash-" in sheet)
+        save_png(out, path)
+        update_atlas_json(path)
+        print(f"  {sheet:28} {stats(out)} {path.stat().st_size // 1024}KB")
+
 
 if __name__ == "__main__":
     main()
