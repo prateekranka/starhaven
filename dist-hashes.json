@@ -118,8 +118,8 @@
     },
     {
       "path": "js/game/main.js",
-      "bytes": 55860,
-      "sha256": "ea9ca1a3db17486f06bb1f8299e46c56e8212f652ce7650f9f3d769c602b9eda"
+      "bytes": 56613,
+      "sha256": "2308cb6cbbe709d14cfc310ffb064a5b4036d31661e424205e5559f641c16f9b"
     },
     {
       "path": "js/game/particles.js",
@@ -128,8 +128,8 @@
     },
     {
       "path": "js/game/render.js",
-      "bytes": 38056,
-      "sha256": "8e7f6b734fedf254490e39cde1612c15eef8018d1b662a9a6b5670a240c93314"
+      "bytes": 38720,
+      "sha256": "280bcbe3efdfb77dc2585780a9ca9d39dd9c05b454893dd5986f438f2de5f2a5"
     },
     {
       "path": "js/game/unit-atlas.js",
@@ -1813,5 +1813,5 @@
     }
   ],
   "fileCount": 362,
-  "totalBytes": 123689673
+  "totalBytes": 123691090
 }
