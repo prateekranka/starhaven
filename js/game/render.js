@@ -627,6 +627,7 @@ export function createRenderer(container, quality = "ultra", opts = {}) {
 
     ensureWindLanes(world);
     syncDarkness(world);
+    const brightNorm = world.brightQ10 / Q10;
     sun.position.set(20 + brightNorm * 50, 50, 20);
     sun.color.set(inLight(world, q10FromWorld(camTarget.x)) ? 0xfff3d0 : 0xb8c8ff);
     hemi.color.set(inLight(world, q10FromWorld(camTarget.x)) ? 0xd8ecff : 0x9aa8d8);
