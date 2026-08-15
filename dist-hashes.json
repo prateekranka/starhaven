@@ -22,11 +22,6 @@
       "sha256": "e0d989868aa1a6f38e2a1b31955461b3677a1f1c077dfd83ba20ab5e992a0089"
     },
     {
-      "path": "css/tuning-editor.css",
-      "bytes": 10188,
-      "sha256": "56f47d390e4893c4c65bd3cc4a12816105325c1e83b23801324be829e7f62120"
-    },
-    {
       "path": "index.html",
       "bytes": 23791,
       "sha256": "c7b3fa2d6666952c7ab3316d7f3ffab663976cba6711e1d3fc55c41df20438c8"
@@ -82,11 +77,6 @@
       "sha256": "65954d7fb1cdb9bb12220433afb34df9c049d86d48b285c5ec9ca4f266cfe1f8"
     },
     {
-      "path": "js/config/tuning-spec.js",
-      "bytes": 6530,
-      "sha256": "15d4729a828d94e07ad829609aa7b7db5dfc3caaa541612721f1f3e13f796e6d"
-    },
-    {
       "path": "js/data/catalog.js",
       "bytes": 3863,
       "sha256": "493095ea3a30651597502903592dabd461c0a41bed717c15a90201b57c30b91d"
@@ -120,16 +110,6 @@
       "path": "js/data/maps.js",
       "bytes": 4835,
       "sha256": "b5ed36adb7d65d8cb96f7c29276f5feeb49429e8cbc06d04e3e4f502d259146b"
-    },
-    {
-      "path": "js/debug/tuning-editor.js",
-      "bytes": 22694,
-      "sha256": "608452898a18e439e0ddab189e57e017f93e946399703986b2af2dfcbec33056"
-    },
-    {
-      "path": "js/debug/tuning-store.js",
-      "bytes": 12122,
-      "sha256": "27ff0ab3a0ed83c7916a5628b7d4e6c434250d5e0012da211f37e9361b5da0e7"
     },
     {
       "path": "js/game/bright-lit.js",
@@ -1832,6 +1812,6 @@
       "sha256": "ce1fa418de16a19495a9f72495580e3015d7745c296d3ce0485897f902ddedfb"
     }
   ],
-  "fileCount": 366,
-  "totalBytes": 123741207
+  "fileCount": 362,
+  "totalBytes": 123689673
 }
